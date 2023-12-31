@@ -1,0 +1,65 @@
+.radio-group {
+  display: flex;
+  gap: 10px; /* Adjust the gap between radio buttons */
+}
+.radio-label {
+  position: relative;
+  cursor: pointer;
+  line-height: 30px;
+  color: var(--bet-text-color);
+  user-select: none;
+}
+
+.custom-radio {
+  height: 30px;
+  width: 56px;
+  background-color: var(--bet-option-button);
+  border-radius: 14px;
+  margin-right: 10px;
+  vertical-align: middle;
+  transition: background-color 0.3s ease;
+}
+.real-radio:checked + .custom-radio {
+  background-color: var(--button-background); /* Green color when checked */
+}
+/* Style the custom radio button when checked */
+.custom-radio:checked {
+  background-color: var(--cta-button-bg-color); /* Green color when checked */
+}
+
+/* Hide the default radio button */
+.real-radio {
+  position: absolute;
+  margin: 0;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
+.option-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.custom-radio.option {
+  width: 225px;
+  margin: 5px 0px 5px 0px;
+  padding: 5px 0px 5px 0px;
+  height: fit-content;
+  border-radius: 19px;
+}
+.custom-radio.option label {
+  padding: 5px;
+}
+.real-radio:checked + .custom-radio.option {
+  background-color: var(--cta-button-bg-color);
+}
+
+.custom-radio.option:checked {
+  background-color: var(--cta-button-bg-color);
+}
+
+.option-list label {
+  cursor: pointer;
+}

@@ -1,0 +1,53 @@
+.create-group {
+  font-size: xx-large;
+}
+.create-group td {
+  font-size: medium;
+  width: 100%;
+  text-align: justify;
+  align-items: center;
+}
+.create-group button {
+  width: 178px;
+  margin-top: 10px;
+  font-size: large;
+  background-color: var(--cta-button-bg-color);
+  color: var(--button-text);
+  padding: 5px 25px 5px 25px;
+  border-radius: 18px;
+}
+
+.create-group button.add-user-button {
+  background-color: var(--bet-option-button);
+}
+
+.create-group button.create-group-button {
+  background-color: var(--cta-button-bg-color);
+}
+.create-group input {
+  background-color: var(--input-background);
+  color: var(--input-text);
+  border-color: var(--input-border);
+  width: 240px;
+  padding: 3px;
+  border-radius: 6px;
+}
+
+.add0 {
+  font-size: small;
+  text-align: center;
+}
+
+button.remove {
+  width: 23px;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  padding-left: 10px;
+}
+
+button.remove img {
+  opacity: 1;
+  height: 20px;
+  aspect-ratio: 1;
+}

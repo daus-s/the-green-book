@@ -1,0 +1,11 @@
+.wallet img {
+  width: 150px;
+  aspect-ratio: original;
+  overflow: hidden;
+  margin: 10px;
+}
+
+.wallet .amount {
+  font-size: xx-large;
+  margin-bottom: 10px;
+}

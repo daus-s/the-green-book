@@ -1,0 +1,6 @@
+supabase/
+node_modules/
+notes
+create\ tables
+# DO NO UPLOAD ENV FIILES
+*.env

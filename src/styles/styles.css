@@ -1,0 +1,58 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: var(--background-color);
+  padding: 0px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
+}
+
+body {
+  margin: 0px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font-family: "Arial", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensure the body takes at least the full viewport height */
+}
+
+:root {
+  --background-color: #121212; /* Dark background color */
+  --bet-background-color: #333;
+  --text-color: #ffffff; /* Light text color */
+  --header-color: #4caf50; /* Dark green header text color */
+  --button-background: #4caf50; /* Dark green button background color */
+  --button-text: #ffffff; /* Light text color for buttons */
+  --button-hover: #45a049; /* Slightly darker green on hover */
+  --list-item-background: #333; /* Dark background color for list items */
+  --link-color: #4caf50; /* Dark green link color */
+  --link-hover: #45a049; /* Slightly darker green on hover */
+  --logo-size: 50px;
+  --nav-link-color: #fff;
+  --nav-link-hover-color: #45a049;
+  --cta-button-bg-color: #4caf50;
+  --cta-button-hover-bg-color: #45a049;
+  --bet-text-color: #ccc;
+  --bet-option-button: #555d50;
+  --darker-text: #158469;
+  --input-background: #333; /* Darker gray background color */
+  --input-text: #fff; /* White text color */
+  --input-border: #555; /* Border color */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  margin-top: 96px;
+}

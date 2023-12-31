@@ -1,0 +1,58 @@
+.bet {
+  background-color: var(--bet-background-color);
+  width: 565px;
+  border-radius: 30px;
+  margin: 20px;
+  padding: 10px;
+  position: relative;
+  color: var(--text-color);
+  box-shadow: "0 0 10px rgba(255, 255, 255, 0.3)";
+  position: relative;
+}
+
+.bet img#status {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  margin: 10px;
+  height: 24px;
+  width: 24px;
+}
+
+.bet p {
+  text-align: left;
+  left: 15%;
+  width: 70%;
+  padding-right: 10px;
+  position: relative;
+}
+
+.bet .odds {
+  color: var(--bet-text-color);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.line,
+.it-hits {
+  color: var(--cta-button-hover-bg-color);
+  font-size: 32px;
+}
+
+.ou {
+  font-size: smaller;
+}
+.odds {
+  text-align: right;
+}
+
+.options-winnings {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.value-form {
+  display: flex;
+  flex-direction: row;
+}

@@ -1,0 +1,85 @@
+.auth-login {
+  max-width: 768px;
+  font-size: large;
+}
+
+.auth-login form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: large;
+}
+
+.auth-login form label {
+  text-align: left;
+  padding-bottom: 3px;
+  font-size: large;
+}
+
+.auth-login form input {
+  font-size: large;
+  padding: 3px;
+  border-radius: 6px;
+  background-color: var(--input-background);
+  color: var(--input-text);
+  border-color: var(--input-border);
+}
+
+.email .password {
+  display: flex;
+  flex-direction: column;
+  font-size: large;
+}
+
+.auth-login form button.signin,
+.new-user form button.create {
+  width: 178px;
+  margin-top: 10px;
+  font-size: large;
+  background-color: var(--cta-button-bg-color);
+  color: var(--button-text);
+  padding: 5px 25px 5px 25px;
+  border-radius: 18px;
+}
+
+.auth-login form button:hover {
+  background-color: var(--cta-button-hover-bg-color);
+}
+.auth-login a,
+.new-user a {
+  color: var(--link-color);
+  margin: 2px;
+  font-size: 12px;
+}
+/*NEW USER*/
+.new-user {
+  font-size: large;
+  max-width: 768px;
+}
+
+.new-user form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: large;
+}
+
+.new-user form label {
+  text-align: left;
+  padding-bottom: 3px;
+  font-size: large;
+}
+
+.new-user form input {
+  background-color: var(--input-background);
+  color: var(--input-text);
+  border-color: var(--input-border);
+  width: 400px;
+  padding: 3px;
+  border-radius: 6px;
+}
+
+span.note-span {
+  font-size: small;
+  color: var(--bet-text-color);
+}
