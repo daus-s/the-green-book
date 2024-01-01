@@ -4,3 +4,4 @@ notes
 create\ tables
 # DO NO UPLOAD ENV FIILES
 *.env
+.DS_STORE

@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: "DigitizedMontserrat";
-  src: url("MontserratSubrayada-Regular.ttf") format("truetype"); /* Adjust the path and format */
+  src: url("../../public/MontserratSubrayada-Regular.ttf") format("truetype"); /* Adjust the path and format */
   font-weight: normal;
   font-style: normal;
 }

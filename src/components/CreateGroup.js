@@ -26,13 +26,13 @@ export default function CreateGroup(props) {
   return (
     <div className="create-group">
       <div className="creategroup-header">Create Group</div>
-      <p className="add0">*Add user emails to the list.*</p>
+      <p className="add0">*Add user emails or usernames to the list.*</p>
       <table>
         <thead></thead>
         <tbody>
           {users.map((user, index) => (
             <tr key={index}>
-              <td>Email</td>
+              <td>Email or username</td>
               <td>
                 <input
                   type="text"
