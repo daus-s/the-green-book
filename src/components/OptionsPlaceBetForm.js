@@ -23,9 +23,9 @@ export default function OptionsPlaceBetForm(props) {
     <form>
       <div className="option-list">
         {options.map((option, index) => (
-          <label class="radio-label">
+          <label className="radio-label" key={index}>
             <input
-              class="real-radio"
+              className="real-radio"
               type="radio"
               name="options"
               value={option.name}

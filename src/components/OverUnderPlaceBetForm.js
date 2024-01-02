@@ -74,25 +74,25 @@ const OverUnderPlaceBetForm = ({ onSubmit, odds }) => {
           flexDirection: "row",
         }}
       >
-        <div class="radio-group">
-          <label class="radio-label">
+        <div className="radio-group">
+          <label className="radio-label">
             <input
               type="radio"
-              class="real-radio"
+              className="real-radio"
               name="overUnder"
               value="over"
             />
-            <div class="custom-radio">Over</div>
+            <div className="custom-radio">Over</div>
           </label>
 
-          <label class="radio-label">
+          <label className="radio-label">
             <input
               type="radio"
-              class="real-radio"
+              className="real-radio"
               name="overUnder"
               value="under"
             />
-            <div class="custom-radio">Under</div>
+            <div className="custom-radio">Under</div>
           </label>
         </div>
         <input

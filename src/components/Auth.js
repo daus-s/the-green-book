@@ -26,6 +26,7 @@ export default function Auth() {
   //supabase cnx
   return (
     <div className="auth-login">
+      <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
       <form onSubmit={handleLogin}>
         <div
           style={{ margin: "10px", display: "flex", flexDirection: "column" }}
@@ -55,7 +56,7 @@ export default function Auth() {
           Log-in
         </button>
       </form>
-      <a href="/NewUser">Create an Account</a>
+      <a href="/sign-up">Create an Account</a>
     </div>
   );
 }

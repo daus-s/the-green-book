@@ -37,6 +37,7 @@ body {
   --link-color: #4caf50; /* Dark green link color */
   --link-hover: #45a049; /* Slightly darker green on hover */
   --logo-size: 50px;
+  --big-logo-size: 200px;
   --nav-link-color: #fff;
   --nav-link-hover-color: #45a049;
   --cta-button-bg-color: #4caf50;
@@ -47,6 +48,7 @@ body {
   --input-background: #333; /* Darker gray background color */
   --input-text: #fff; /* White text color */
   --input-border: #555; /* Border color */
+  --error-color: #8e1717;
 }
 
 * {

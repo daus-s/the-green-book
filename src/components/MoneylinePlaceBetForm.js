@@ -74,25 +74,25 @@ const MoneylinePlaceBetForm = ({ onSubmit, odds }) => {
           flexDirection: "row",
         }}
       >
-        <div class="radio-group">
-          <label class="radio-label">
+        <div className="radio-group">
+          <label className="radio-label">
             <input
               type="radio"
-              class="real-radio"
+              className="real-radio"
               name="overUnder"
               value="over"
             />
-            <div class="custom-radio">Hits</div>
+            <div className="custom-radio">Hits</div>
           </label>
 
-          <label class="radio-label">
+          <label className="radio-label">
             <input
               type="radio"
-              class="real-radio"
+              className="real-radio"
               name="overUnder"
               value="under"
             />
-            <div class="custom-radio">Misses</div>
+            <div className="custom-radio">Misses</div>
           </label>
         </div>
         <input

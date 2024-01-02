@@ -1,6 +1,7 @@
 .auth-login {
   max-width: 768px;
   font-size: large;
+  transform: translateY(-50%);
 }
 
 .auth-login form {
@@ -55,6 +56,7 @@
 .new-user {
   font-size: large;
   max-width: 768px;
+  transform: translateY(-36%);
 }
 
 .new-user form {
@@ -82,4 +84,15 @@
 span.note-span {
   font-size: small;
   color: var(--bet-text-color);
+}
+
+.biglogo {
+  width: var(--big-logo-size);
+}
+
+.error {
+  color: var(--error-color); 
+  font-size:smaller; 
+  font-style:italic; 
+  margin-top:5px 
 }

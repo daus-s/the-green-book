@@ -11,12 +11,12 @@ export default function Header() {
         </div>
       </div>
       <nav>
-        <a href="#">Your Bets</a>
+        <a href="/bets">Your Bets</a>
         <a href="#">Bets Placed</a>
-        <a href="#">Balance</a>
+        <a href="/wallet">Balance</a>
         <a href="#">Security</a>
       </nav>
-      <button class="cta-button">Sign In</button>
+      <button className="cta-button" onClick={()=>window.location.href='/login'}>Sign In</button>
     </header>
   );
 }
