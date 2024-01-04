@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../styles/radio.css";
 import "../styles/bets.css";
 
-import american from "../functions/CalculateWinnings.js";
+import { american } from "../functions/CalculateWinnings.js";
 
 export default function OptionsPlaceBetForm(props) {
   const [selectedOption, setSelectedOption] = useState(null);

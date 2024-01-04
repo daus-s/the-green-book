@@ -4,14 +4,17 @@ import App from "./components/App";
 import WalletPage from "./components/routes/WalletPage";
 import BetPage from "./components/routes/BetPage";
 import ErrorPage from "./components/routes/ErrorPage";
+import AuthPage from "./components/routes/AuthPage";
+import SignupPage from "./components/routes/SignupPage";
+import NewGroupPage from "./components/routes/NewGroupPage";
 
 import { AuthProvider } from "./components/AuthContext";
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import AuthPage from "./components/routes/AuthPage";
-import SignupPage from "./components/routes/SignupPage";
+import CreateBetPage from "./components/routes/CreateBetPage";
+
 
 
 const router = createBrowserRouter([
@@ -38,6 +41,16 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignupPage />,
+    /*todo make authorized error page*/
+  },
+  {
+    path: "/create-group",
+    element: <NewGroupPage />,
+    /*todo make authorized error page*/
+  },
+  {
+    path: "/create-bet",
+    element: <CreateBetPage />,
     /*todo make authorized error page*/
   }
 ]);

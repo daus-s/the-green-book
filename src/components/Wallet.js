@@ -1,15 +1,35 @@
 import "../styles/wallet.css";
 
+import { supabase } from '../functions/SupabaseClient'; // Import your Supabase client configuration
+import { useAuth } from './AuthContext'; // Path to your AuthProvider
+import { useEffect, useState } from "react";
+
+
 export default function Wallet(props) {
-  const fetchWallet = async () => {
-    //await supabase
-  };
+  const { user, session } = useAuth();
+
+
+  const [balance, setBalance] = useState(0);
+
+  useEffect( () => {
+    async function fetchWallet() {
+      console.log('BalancePage user:', user);
+      console.log('BalancePage session:', session);
+      const {data, error} = await supabase.from("user_balances").select("balance").eq("userID", user.id);
+      if (data) {
+        setBalance(data[0].balance);
+      }
+    };
+    fetchWallet();
+  },[user, session]);
+
+  
   const amount = 100;
   return (
     <div className="wallet">
       <img src="money.png" alt="wallet" />
       <div>
-        <div className="amount">${amount}</div>
+        <div className="amount">${balance}</div>
         {/*add "add money" feature here to monetize*/}
       </div>
     </div>

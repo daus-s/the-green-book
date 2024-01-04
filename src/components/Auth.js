@@ -1,27 +1,32 @@
 import { useState } from "react";
 import "../styles/auth.css";
 
-export default function Auth() {
-  const [email, setEmail] = useState("");
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "./AuthContext";
+
+export default function Auth(props) {
+  const {user, session, login, logout} = useAuth();
+  const [usr, setUsr] = useState("");
   const [password, setPassword] = useState("");
+  const [invalid, setInvalid] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    // e.preventDefault();
-    // try {
-    //   const { user, error } = await supabase.auth.signIn({
-    //     email,
-    //     password,
-    //   });
-    //   if (error) {
-    //     console.error(error.message);
-    //     // Handle error (e.g., show error message to the user)
-    //   } else {
-    //     console.log("User signed in:", user);
-    //     // Redirect or perform other actions after successful login
-    //   }
-    // } catch (error) {
-    //   console.error("Error during sign in:", error.message);
-    // }
+    e.preventDefault();
+    try {
+      await login(usr, password);
+      if (props.src){
+        navigate("/"+props.src);
+      } else {
+        navigate("/bets")
+      }
+    } catch (error) {
+      //console.error(error);
+      setInvalid(true);
+      setPassword("");
+    }
   };
   //supabase cnx
   return (
@@ -35,9 +40,10 @@ export default function Auth() {
           <input
             className="email"
             type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={usr}
+            onChange={(e) => setUsr(e.target.value)}
             style={{ width: "400px" }}
+            required
           />
         </div>
         <div
@@ -50,8 +56,10 @@ export default function Auth() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             style={{ width: "400px" }}
+            required
           />
         </div>
+        {invalid?<span className="error"><b>Error: </b>Incorrect username or password</span>:<br/>}
         <button className="signin" type="submit">
           Log-in
         </button>

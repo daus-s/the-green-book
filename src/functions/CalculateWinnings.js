@@ -11,4 +11,4 @@ function american(odds, wager) {
   }
 }
 
-module.exports = american;
+module.exports = {american};

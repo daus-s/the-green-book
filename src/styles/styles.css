@@ -43,11 +43,12 @@ body {
   --cta-button-bg-color: #4caf50;
   --cta-button-hover-bg-color: #45a049;
   --bet-text-color: #ccc;
+  --grayed-out-text: #ddd;
   --bet-option-button: #555d50;
   --darker-text: #158469;
   --input-background: #333; /* Darker gray background color */
   --input-text: #fff; /* White text color */
-  --input-border: #555; /* Border color */
+  --form-input: #555; /* Border color */
   --error-color: #8e1717;
 }
 
@@ -57,4 +58,9 @@ body {
 
 #root {
   margin-top: 96px;
+}
+
+#root {
+  position: absolute;
+  top: 0px;
 }

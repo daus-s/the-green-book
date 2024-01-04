@@ -20,8 +20,9 @@ export default function NewUser() {
 
 
   const insertUser = async () => {
-    const usernameExists = await supabase.from("users").select().eq("username", username.toLowerCase());
-    console.log(usernameExists);
+    const usernameExists = await supabase.from("public_users").select().eq("username", username.toLowerCase());
+    const pwd = password;
+    setPassword("");
     if (usernameExists.data.length > 0) {
       //error do not proceed
       setUsernameError(true);
@@ -30,21 +31,21 @@ export default function NewUser() {
     else {
       setUsernameError(false);
     }
-    const emailExists = await supabase.from("users").select().eq("email", email.toLowerCase());
-    console.log(emailExists);
+    const emailExists = await supabase.from("public_users").select().eq("email", email.toLowerCase());
     if (emailExists.data.length > 0) {
       setEmailError(true);
-      console.log("email exists");
       return;
     } 
     else {
       setEmailError(false);  
     }
+    console.log("continuing");
     const signupResponse = await supabase.auth.signUp(
       {
       email: email.toLowerCase(),
-      password: password,
+      password: pwd,
     });
+    console.log(signupResponse);
     if (signupResponse.error)
     {
       if (signupResponse.error.message=="User already registered") {
@@ -55,6 +56,7 @@ export default function NewUser() {
     else {
       const insertResponse = await supabase.from("users").insert(
         {
+          userID: signupResponse.data.user.id,
           name: name,
           email: email.toLowerCase(),
           username: username.toLowerCase(),

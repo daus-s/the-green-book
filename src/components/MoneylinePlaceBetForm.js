@@ -1,7 +1,7 @@
 // PlaceBetForm.js
 
 import { useState } from "react";
-import american from "../functions/CalculateWinnings.js";
+import { american } from "../functions/CalculateWinnings.js";
 import "../styles/radio.css";
 
 const MoneylinePlaceBetForm = ({ onSubmit, odds }) => {

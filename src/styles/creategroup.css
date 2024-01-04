@@ -1,5 +1,9 @@
 .create-group {
   font-size: xx-large;
+  max-width: 768px;
+  background-color: var(--bet-background-color);
+  padding: 20px;
+  border-radius: 20px;
 }
 .create-group td {
   font-size: medium;
@@ -36,6 +40,7 @@
 .add0 {
   font-size: small;
   text-align: center;
+  margin-bottom: 0px;
 }
 
 button.remove {
@@ -50,4 +55,45 @@ button.remove img {
   opacity: 1;
   height: 20px;
   aspect-ratio: 1;
+}
+
+.create-group table {
+  max-width: 768px;
+  width: auto;
+}
+
+.create-group table td{
+  width: auto;
+  padding: 5px;
+}
+
+.create-group form table tbody tr td, .create-group form table tbody tr td input  {
+  font-size: 20px;
+}
+
+.error {
+  color: var(--error-color); 
+  font-size:smaller; 
+  font-style:italic; 
+  margin-top:5px;
+}
+
+
+.create-group form table {
+  border-spacing: 5px;
+}
+
+.table-message {
+  position: absolute;
+  width: 100%;
+  text-align: right;
+  right: 10px;
+  height: 19px;
+  padding: 0px 10px 0px 0px;
+}
+
+.btn-ctnr {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 }

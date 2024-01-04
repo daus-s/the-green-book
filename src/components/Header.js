@@ -1,5 +1,8 @@
 import "../styles/header.css";
 
+import { Link } from 'react-router-dom';
+
+
 export default function Header() {
   return (
     <header>
@@ -11,11 +14,14 @@ export default function Header() {
         </div>
       </div>
       <nav>
-        <a href="/bets">Your Bets</a>
-        <a href="#">Bets Placed</a>
-        <a href="/wallet">Balance</a>
-        <a href="#">Security</a>
+        <Link to="/bets">Your Bets</Link>
+        <Link to="/bets-placed">Bets Placed</Link>
+        <Link to="/wallet">Balance</Link>
+        <Link to="/security">Security</Link>
+        <Link to="/create-group">Create Group</Link>
+        <Link to="/create-bet">Create Bet</Link>
       </nav>
+
       <button className="cta-button" onClick={()=>window.location.href='/login'}>Sign In</button>
     </header>
   );

@@ -11,14 +11,21 @@
     "@mui/icons-material": "5.8.4",
     "@mui/material": "5.8.4",
     "@supabase/supabase-js": "^2.39.1",
+    "dompurify": "^3.0.6",
+    "localforage": "^1.10.0",
+    "marked": "^11.1.1",
+    "match-sorter": "^6.3.1",
     "mui": "0.0.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "react-scripts": "^5.0.1"
+    "react-router-dom": "^6.21.1",
+    "react-scripts": "^5.0.1",
+    "sort-by": "^0.0.2"
   },
   "devDependencies": {
     "@types/react": "18.2.38",
     "@types/react-dom": "18.0.9",
+    "jest": "^27.5.1",
     "loader-utils": "3.2.1",
     "typescript": "4.4.2"
   },
