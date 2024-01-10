@@ -113,6 +113,7 @@ const OverUnderPlaceBetForm = ({ onSubmit, odds }) => {
             backgroundColor: "var(--input-background)",
             color: "var(--input-text)",
             borderColor: "var(--input-border)",
+            backgroundColor: "var(--form-input)",
           }} // Set the width to 3 characters, center the text, and add right margin
         />
         <button

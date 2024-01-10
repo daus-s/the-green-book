@@ -4,20 +4,13 @@ import "../styles/bets.css";
 import { useState } from "react";
 import MoneylinePlaceBetForm from "./MoneylinePlaceBetForm"; // Assuming you have a component for the Place Bet form
 
-const MoneyLineBet = ({ id }) => {
-  const getBet = async () => {
-    //const data = await supabase(); //do in dev mode
-  };
-  //get using id
-  const result = "Open";
-  const odds = { hits: -100, misses: 100 };
-  const currentUser = "User1"; // Replace with actual user data
+const MoneyLineBet = ({ data }) => {
+
+  const result = data?"Open":"Closed";
+  const odds = data.odds;
+
   const [userBet, setUserBet] = useState(null);
-  const placeholder /**sample data */ = {
-    title: "Over-Under on the Number of Breakups in 2024",
-    description:
-      "Predict the future! Will the year 2024 see a surge or decline in romantic relationships? Dive into the unpredictable world of human connections and place your bet on whether there will be more or fewer breakups. The fate of love is in your hands!",
-  };
+
   const handlePlaceBet = (amount) => {
     // Placeholder logic for placing a bet
     console.log(`Placing a bet of ${amount} on the bet.`);
@@ -35,9 +28,9 @@ const MoneyLineBet = ({ id }) => {
           textAlign: "left",
         }}
       >
-        {placeholder.title}
+        {data.title}
       </h3>
-      <p>{placeholder.description}</p>
+      <p>{data.description}</p>
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (
@@ -53,18 +46,11 @@ const MoneyLineBet = ({ id }) => {
         }}
       >
         <div className="it-hits">
-          {odds.hits
-            ? odds.hits < 0
-              ? "Hits -" + -1 * odds.hits
-              : "Hits +" + odds.hits
-            : NaN}
+          Hits{" "}{odds.hits?odds.hits:NaN}
         </div>
         <div className="f-ck">
-          {odds.misses
-            ? odds.misses < 0
-              ? "Misses -" + -1 * odds.misses
-              : "Misses +" + odds.misses
-            : NaN}
+          Misses{" "}{odds.misses?odds.misses:NaN}
+
         </div>
       </div>
 
@@ -72,12 +58,6 @@ const MoneyLineBet = ({ id }) => {
         <MoneylinePlaceBetForm onSubmit={handlePlaceBet} odds={odds} />
       )}
 
-      {userBet && (
-        <div>
-          <p>Your Bet: {userBet.amount}</p>
-          {/* Additional UI for displaying user bets, commissioner actions, etc. */}
-        </div>
-      )}
     </div>
   );
 };

@@ -49,7 +49,9 @@ function imp2american(p) {
      * 
      */
     if (!(p>0&&p<1)) {
-        throw new Error("Probability Exception. Probability of event is eiher too low (less than 0) or too high (greatter than one)")
+        throw new Error("Probability Exception. Probability of event is either too low (less than 0) or too high (greatter than one)")
     }
     return p>.5?-100/((1/p)-1):100*((1/p)-1);
 }
+
+module.exports = { getComplementary, imp2american, american2imp }

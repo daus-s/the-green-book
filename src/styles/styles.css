@@ -50,6 +50,8 @@ body {
   --input-text: #fff; /* White text color */
   --form-input: #555; /* Border color */
   --error-color: #8e1717;
+  --soft-highlight:#666;
+  --table-header-background: #222;
 }
 
 * {

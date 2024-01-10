@@ -9,6 +9,33 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
 
+  useEffect(() => {
+    const getSession = async () => {
+      return await supabase.auth.getSession();
+    };
+
+    const checkUserAuthentication = async () => {
+      try {
+        const {data, error} = await getSession();
+        
+        if (data.session.user) {
+          setUser(data.session.user);
+        } else {
+          setUser(null);
+        }
+        if (data.session) {
+          setSession(data.session);
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.error('Error fetching session:', error.message);
+      }
+    };
+    // console.log(user, session)
+    checkUserAuthentication();
+  }, []);
+
   const login = async (usr, password) => {
     try {
       let email = "";
@@ -43,8 +70,6 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data.user);
         setSession(res.data.session);
       }
-      console.log(user);
-      console.log(session);
     }
     catch (error) {
       throw error;
@@ -66,10 +91,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    console.log("Effect triggered with user:", user, "session:", session);
 
-  }, [user, session]);
 
   return (
     <AuthContext.Provider value={{ user, session, login, logout }}>

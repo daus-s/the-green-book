@@ -10,14 +10,23 @@ export default function Wallet(props) {
 
 
   const [balance, setBalance] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect( () => {
     async function fetchWallet() {
-      console.log('BalancePage user:', user);
-      console.log('BalancePage session:', session);
-      const {data, error} = await supabase.from("user_balances").select("balance").eq("userID", user.id);
-      if (data) {
-        setBalance(data[0].balance);
+      // console.log("wallet", user);
+      // console.log("wallet", session);
+      if (user && session) {
+        try {
+          const {data, error} = await supabase.from("user_balances").select("balance").eq("userID", user.id);
+          if (data) {
+            setBalance(data[0].balance);
+            setLoading(false);
+          }
+        } catch (error) {
+          setLoading(true);
+          console.error("Error fetching wallet");
+        }
       }
     };
     fetchWallet();
@@ -29,7 +38,7 @@ export default function Wallet(props) {
     <div className="wallet">
       <img src="money.png" alt="wallet" />
       <div>
-        <div className="amount">${balance}</div>
+        <div className="amount">${loading?<span className="null">&#8212;</span>:balance}</div>
         {/*add "add money" feature here to monetize*/}
       </div>
     </div>

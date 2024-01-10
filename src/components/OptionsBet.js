@@ -1,8 +1,9 @@
 import "../styles/bets.css";
 import OptionsPlaceBetForm from "./OptionsPlaceBetForm";
 
-const OptionsBet = ({ id }) => {
-  const result = "Open";
+const OptionsBet = ({ data }) => {
+  console.log(data);
+  const result = data.result?"Open":"Closed";
   const placeholder /**sample data */ = {
     title: "Most Likely to Become Force Sensitive in 2024",
     description:
@@ -30,9 +31,9 @@ const OptionsBet = ({ id }) => {
           textAlign: "left",
         }}
       >
-        {placeholder.title}
+        {data.title}
       </h3>
-      <p>{placeholder.description}</p>
+      <p>{data.description}</p>
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (

@@ -29,12 +29,12 @@
   background-color: var(--cta-button-bg-color);
 }
 .create-group input {
-  background-color: var(--input-background);
+  background-color: var(--form-input);
   color: var(--input-text);
-  border-color: var(--input-border);
   width: 240px;
   padding: 3px;
   border-radius: 6px;
+  border: none;
 }
 
 .add0 {

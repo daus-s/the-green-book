@@ -9,3 +9,8 @@
   font-size: 64px;
   margin: 20px 0px 10px 0px;
 }
+
+.null {
+  color: var(--grayed-out-text);
+  padding: 0px 10px 0px 10px;
+}

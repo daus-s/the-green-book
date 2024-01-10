@@ -4,21 +4,13 @@ import "../styles/bets.css";
 import { useState } from "react";
 import OverUnderPlaceBetForm from "./OverUnderPlaceBetForm"; // Assuming you have a component for the Place Bet form
 
-const OverUnderBet = ({ id }) => {
-  const getBet = async () => {
-    //const data = await supabase(); //do in dev mode
-  };
+const OverUnderBet = ({ data }) => {
   //get using id
-  const result = "Open";
-  const line = 7.5;
-  const odds = { over: 100, under: -100 };
-  const currentUser = "User1"; // Replace with actual user data
+  const result = data.open?"Open":"Closed";
+  const line = data.line;
+  const odds = data.odds;
   const [userBet, setUserBet] = useState(null);
-  const placeholder /**sample data */ = {
-    title: "Over-Under on the Number of Breakups in 2024",
-    description:
-      "Predict the future! Will the year 2024 see a surge or decline in romantic relationships? Dive into the unpredictable world of human connections and place your bet on whether there will be more or fewer breakups. The fate of love is in your hands!",
-  };
+
   const handlePlaceBet = (amount) => {
     // Placeholder logic for placing a bet
     console.log(`Placing a bet of ${amount} on the bet.`);
@@ -36,9 +28,9 @@ const OverUnderBet = ({ id }) => {
           textAlign: "left",
         }}
       >
-        {placeholder.title}
+        {data.title}
       </h3>
-      <p>{placeholder.description}</p>
+      <p>{data.description}</p>
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (
@@ -55,8 +47,8 @@ const OverUnderBet = ({ id }) => {
       >
         <div className="line"> OU {line}</div>
         <div className="ou">
-          Over {odds.over < 0 ? "-" + -1 * odds.over : "+" + odds.over} <br />
-          Under {odds.under < 0 ? "-" + -1 * odds.under : "+" + odds.under}
+          Over {odds.over} <br />
+          Under {odds.under}
         </div>
       </div>
 

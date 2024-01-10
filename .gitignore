@@ -5,3 +5,8 @@ create\ tables
 # DO NO UPLOAD ENV FIILES
 *.env
 .DS_STORE
+
+# Supabase
+supabase.branches
+supabase.temp
+supabase.env
