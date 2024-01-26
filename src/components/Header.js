@@ -1,9 +1,14 @@
 import "../styles/header.css";
 
 import { Link } from 'react-router-dom';
+import { useAuth } from "./AuthContext";
+import AccountControl from "./AccountControl";
 
 
 export default function Header() {
+  const handleLogout = async () => {
+    
+  }
   return (
     <header>
       <div className="logo">
@@ -21,8 +26,7 @@ export default function Header() {
         <Link to="/create-group">Create Group</Link>
         <Link to="/create-bet">Create Bet</Link>
       </nav>
-
-      <button className="cta-button" onClick={()=>window.location.href='/login'}>Sign In</button>
+      <AccountControl />
     </header>
   );
 }

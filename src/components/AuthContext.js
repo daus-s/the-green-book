@@ -8,6 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
+  const [isCommish, setIsCommish] = useState(false);
 
   useEffect(() => {
     const getSession = async () => {
@@ -18,23 +19,37 @@ export const AuthProvider = ({ children }) => {
       try {
         const {data, error} = await getSession();
         
-        if (data.session.user) {
-          setUser(data.session.user);
-        } else {
-          setUser(null);
-        }
         if (data.session) {
-          setSession(data.session);
-        } else {
+          var ts = Math.round((new Date()).getTime() / 1000);
+          if (data.session.expires_at>ts) { 
+            setSession(data.session);
+            if (data.session.user) {
+              setUser(data.session.user);
+            } else {
+              setUser(null);
+            }
+          } else {
+            setUser(null);
+          } 
+        } 
+        else {
           setUser(null);
+          setSession(null);
+          await logout();
         }
+        
+       
       } catch (error) {
         console.error('Error fetching session:', error.message);
       }
     };
+
+    const getUserMetaData = async () => {};
     // console.log(user, session)
     checkUserAuthentication();
   }, []);
+
+
 
   const login = async (usr, password) => {
     try {
@@ -66,7 +81,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error("Database error: "+ error.message)
       } 
       else {
-        console.log("user:", res.data.user, "session:", res.data.session)
+        // console.log("user:", res.data.user, "session:", res.data.session);
         setUser(res.data.user);
         setSession(res.data.session);
       }

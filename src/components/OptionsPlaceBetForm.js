@@ -7,6 +7,10 @@ import { american } from "../functions/CalculateWinnings.js";
 export default function OptionsPlaceBetForm(props) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [betAmount, setBetAmount] = useState("");
+
+  
+
+
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
 

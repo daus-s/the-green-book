@@ -10,8 +10,6 @@ import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./AuthContext";
 
 
-
-
 export default function CreateBet(props) {
   // type of bet
   const [type, setType] = useState("ou");
@@ -256,9 +254,7 @@ export default function CreateBet(props) {
           biggerJson = null;
         }
       }
-      console.log(biggerJson);
       let c = await getCommissioner();
-      console.log(c);
       //insert into bets
       /**
        * type=="ou"?(line?true:false):true
@@ -280,7 +276,6 @@ export default function CreateBet(props) {
           groupID: group,
           creationtime: new Date().toISOString()
         };
-        console.log(bet);
         const {error} = await supabase
                                 .from('bets')
                                 .insert(bet); //ß i want hieroglyphics in my comments

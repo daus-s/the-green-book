@@ -1,6 +1,9 @@
 .auth-login {
   max-width: 768px;
   font-size: large;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .auth-login form {
@@ -93,4 +96,12 @@ span.note-span {
   font-size:smaller; 
   font-style:italic; 
   margin-top:5px 
+}
+
+.link-box a {
+  margin: 20px;
+}
+
+.link-box {
+  padding-top: 15px;
 }

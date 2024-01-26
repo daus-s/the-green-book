@@ -19,8 +19,10 @@ export default function Bets() {
 
     useEffect(()=>{
         const getBets = async () => {
+            //public id
+            const pid = await supabase.from("users").select("publicID").eq("userID", user.id); 
             //get user groups
-            const groups = await supabase.from("user_groups").select("groupID").eq("userID", user.id);
+            const groups = await supabase.from("user_groups").select("groupID").eq("userID", pid.data[0].publicID);
             let groupIDs = [];
             groups.data.forEach((group)=>{groupIDs.push(group.groupID)})
             const betList = [];
@@ -32,7 +34,7 @@ export default function Bets() {
                     });
                 }
             }
-            console.log(betList);
+            //console.log(betList);
             setBets(betList);
             
         }

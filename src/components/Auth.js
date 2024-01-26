@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 export default function Auth(props) {
-  const {user, session, login, logout} = useAuth();
-  const [usr, setUsr] = useState("");
+  const { login } = useAuth();
+  const [usr, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [invalid, setInvalid] = useState(false);
 
   const navigate = useNavigate();
+
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -41,7 +43,7 @@ export default function Auth(props) {
             className="email"
             type="text"
             value={usr}
-            onChange={(e) => setUsr(e.target.value)}
+            onChange={(e) => setUser(e.target.value)}
             style={{ width: "400px" }}
             required
           />
@@ -64,7 +66,10 @@ export default function Auth(props) {
           Log-in
         </button>
       </form>
-      <a href="/sign-up">Create an Account</a>
+      <div className="link-box">
+        <a href="/sign-up">Create an Account</a>
+        <a className="forgot-password" href="/forgot-password">Forgot your password?</a>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,86 @@
+.profile-nav img {
+    height: 32px;
+    padding-right: 14px;
+    cursor: pointer;
+}
+
+.profile-signout-div {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-data > * {
+    display: flex;
+    flex-direction: row;
+    font-size: 24px;
+    align-items: flex-end;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.user-data {
+    display: flex; 
+    flex-direction: column;
+    color: var(--bet-text-color);
+}
+
+.edit {
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.edit:hover {
+    background-color: var(--soft-highlight);
+}
+
+.edit img {
+    margin: 5px;
+}
+
+.forgot-pwd a {
+    padding: 15px;
+    color: var(--link-color);
+}
+.forgot-pwd a:hover {
+    color: var(--link-hover);
+}
+
+.profile {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-change {
+    background-color: transparent;
+    border: none;
+}
+
+.submit-change img {
+    height: 24px;
+}
+
+.submit-change img {
+    margin: 5px 0px 5px 0px;
+}
+
+.submit-change, .edit {
+    vertical-align: middle;
+}
+
+.edit-name input, .edit-username input {
+    width: 100%;
+    margin-right: 15px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--form-input);
+    border: none;
+    color: var(--input-text);
+    font-size: 24px;
+}
+
+.submit-change:hover {
+    background-color: var(--soft-highlight);
+}

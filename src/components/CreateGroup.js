@@ -3,11 +3,15 @@ import "../styles/creategroup.css";
 
 import { useState } from "react";
 
+import { useAuth } from "./AuthContext";
+import { random } from "../functions/RandomBigInt";
+
 export default function CreateGroup(props) {
   const [users, setUsers] = useState(["",""]);
   const [errors, setErrors] = useState([false, false]);
   const [name, setName] = useState("");
 
+  const { user, session } = useAuth();
   const addUser = () => {
     setUsers([...users, ""]);
     setErrors([...errors, false]);
@@ -32,12 +36,19 @@ export default function CreateGroup(props) {
       setUsers([...userCopy]);
       setErrors([...errCopy]);
     }
-
   };
 
+  const getCommissioner = async () => {
+    let commish = await supabase.from("commissioners").select('commissionerID').eq('userID', user.id);
+    if (commish.data && commish.data.length > 0) {
+      const commissionerID = commish.data[0].commissionerID;
+      return commissionerID;
+    }
+  }
+
   const validate = async (entry) => {
-    const {data, error} = await supabase.from("users").select("userID").or(`username.eq.${entry},email.eq.${entry}`);
-    console.log(data?data:error)
+    const {data, error} = await supabase.from("public_users").select("id").or(`username.eq.${entry},email.eq.${entry}`);
+    //console.log(data?data:error)
     if (data)
       return !data.length>0
     return true;
@@ -45,8 +56,8 @@ export default function CreateGroup(props) {
 
   const validateAll = async () => {
     const truths = await Promise.all(users.map(validate));
-    console.log(users)
-    console.log(truths);
+    // console.log(users)
+    // console.log(truths);
     setErrors(truths);
     return truths.some((element) => element);
   };
@@ -54,8 +65,47 @@ export default function CreateGroup(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!(await validateAll())) {
-      console.log(users);
-      setUsers(["",""]);
+      let ids = [];
+      for (const u of users) {
+        const { data, error } = await supabase.from("public_users").select("id").or(`username.eq.${u},email.eq.${u}`);
+        if (data) {
+          ids.push(data[0].id);
+        }
+      }
+
+      //insert into group
+      let commish = await getCommissioner(); 
+      let groupID = random(); // if this ever collides on 'groups' 
+                              // insert i am going to become a hermit 
+                              // and prove there are finite numbers
+                              // in the entire universe
+
+      let groupData = {
+        groupID: groupID.toString(),
+        commissionerID: commish,
+        groupName: name
+      };
+      const { error } = await supabase.from("groups").insert(groupData);
+      console.log(groupData);
+
+
+
+      for (const id of ids) {
+        let user_group = {
+          userID: id,
+          groupID: groupID.toString(),
+        };
+        const {error} = await supabase.from('user_groups').insert(user_group)
+      }
+
+      
+
+
+      //insert relations into user_group
+      // console.log(ids);
+      // console.log("good", users);
+      // setUsers(["",""]);
+      // setName("");
     }
   };
 

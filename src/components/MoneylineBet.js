@@ -1,20 +1,44 @@
-// Bet.js
 import "../styles/bets.css";
 
 import { useState } from "react";
-import MoneylinePlaceBetForm from "./MoneylinePlaceBetForm"; // Assuming you have a component for the Place Bet form
+import MoneylinePlaceBetForm from "./MoneylinePlaceBetForm"; 
 
-const MoneyLineBet = ({ data }) => {
+import { supabase } from "../functions/SupabaseClient";
+import { useAuth } from "./AuthContext";
 
-  const result = data?"Open":"Closed";
-  const odds = data.odds;
+
+const MoneyLineBet = ({ data : bet }) => {
+
+  const { user } = useAuth();
+
+  const result = bet.open?"Open":"Closed";
+  const odds = bet.odds;
 
   const [userBet, setUserBet] = useState(null);
 
-  const handlePlaceBet = (amount) => {
+  const handlePlaceBet = async (bet_amount, outcome) => {
     // Placeholder logic for placing a bet
-    console.log(`Placing a bet of ${amount} on the bet.`);
-    setUserBet({ amount });
+    console.log(`Placing a bet of ${bet_amount} on the bet to ${outcome}.\nuserID: ${user.id}\nbetID: ${bet.betID}`);
+
+    //renaming for supabase api
+    const bet_id = bet.betID;
+    const user_id = user.id;
+    // const betData = {
+    //                     betID: bet.betID,
+    //                     userID: user.id,
+    //                     amount: amount,
+    //                     outcome: outcome
+    // };
+    const { data, error } = await supabase.rpc("increase_bet", {
+      bet_amount,
+      user_id,
+      bet_id,
+      outcome
+    });
+    console.log(data?data:error);
+    //setUserBet({ amount });
+
+
   };
 
   return (
@@ -28,9 +52,9 @@ const MoneyLineBet = ({ data }) => {
           textAlign: "left",
         }}
       >
-        {data.title}
+        {bet.title}
       </h3>
-      <p>{data.description}</p>
+      <p>{bet.description}</p>
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (
@@ -55,7 +79,7 @@ const MoneyLineBet = ({ data }) => {
       </div>
 
       {result !== "Closed" && (
-        <MoneylinePlaceBetForm onSubmit={handlePlaceBet} odds={odds} />
+        <MoneylinePlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
       )}
 
     </div>

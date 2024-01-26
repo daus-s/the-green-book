@@ -1,15 +1,59 @@
 // PlaceBetForm.js
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { american } from "../functions/CalculateWinnings.js";
 import "../styles/radio.css";
+import { supabase } from "../functions/SupabaseClient.js";
+import { useAuth } from "./AuthContext.js";
+import { getNumber } from "../functions/ParseOdds.js";
 
-const MoneylinePlaceBetForm = ({ onSubmit, odds }) => {
+const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
   const [betAmount, setBetAmount] = useState("");
-  odds = 500;
-  const wager = 100;
-  const toWin = 600;
-  const handleInputChange = (e) => {
+  const [outcome, setOutcome] = useState(null);
+  const [wager, setWager] = useState(0);
+  const [choice, setChoice] = useState("");
+  const [locked, setLocked] = useState(false);
+  const { user } = useAuth();
+
+  console.log(bet);
+
+  useEffect(()=>{
+    //get user bet
+    const getUserBet = async () => {
+      const { data, error } = await supabase.from("user_bets").select("amount, outcome").eq("userID", user.id).eq("betID", bet.betID);
+      console.log(data?data:error);
+      if (data) {
+        if (data.length==0)
+        {
+          setWager(0);
+          setChoice(null);
+        }
+        else if (data.length==1)
+        {
+          setLocked(true);
+          const bet = data[0]
+          setWager(bet.amount);
+          setChoice(bet.outcome);
+          if (['hits', 'misses'].includes(bet.outcome)) {
+            setOutcome(bet.outcome);
+          }
+        }
+        else {
+          setWager(0);
+          setChoice(null);
+        }
+      } 
+      else {
+        setWager(0);
+        setChoice(null);
+      }
+    };
+
+    getUserBet();
+  },[wager]);
+
+
+    const handleInputChange = (e) => {
     const inputValue = e.target.value;
 
     // Validate that only numeric values are entered
@@ -20,16 +64,26 @@ const MoneylinePlaceBetForm = ({ onSubmit, odds }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!betAmount || isNaN(parseFloat(betAmount)) || betAmount > 0) {
+    console.log(betAmount);
+    if (!outcome) {
+      alert("Please select a valid bet option.");
+      return;
+    } 
+    else
+    if (!betAmount  || isNaN(parseInt(betAmount)) || betAmount < 0) {
       alert("Please enter a valid bet amount.");
       return;
+    } else {
+      onSubmit(Math.max(0, parseInt(betAmount)), outcome);
+      setBetAmount(""); // Reset the form after submitting
+      setOutcome(outcome);
+      setWager(parseInt(betAmount));
     }
-
-    onSubmit(Math.max(0, parseFloat(betAmount)));
-    setBetAmount(""); // Reset the form after submitting
   };
-
+  console.log("bet:", bet)
+  console.log("odds:", bet.odds)
+  console.log("choice:", outcome)
+  console.log("selected data", bet.odds[choice])
   return (
     <div
       className="bet-form"
@@ -50,7 +104,7 @@ const MoneylinePlaceBetForm = ({ onSubmit, odds }) => {
         }}
       >
         {"To win: "}
-        {american(odds, wager)}
+        {outcome?wager+Math.floor(american(getNumber(bet.odds[outcome]), wager)):"-"}
       </div>
       <div
         className="your-wager"
@@ -80,7 +134,10 @@ const MoneylinePlaceBetForm = ({ onSubmit, odds }) => {
               type="radio"
               className="real-radio"
               name="overUnder"
-              value="over"
+              value="hits"
+              checked={outcome === 'hits'}
+              onChange={(e)=>{setOutcome(e.target.value)}}
+              disabled={locked}
             />
             <div className="custom-radio">Hits</div>
           </label>
@@ -90,7 +147,10 @@ const MoneylinePlaceBetForm = ({ onSubmit, odds }) => {
               type="radio"
               className="real-radio"
               name="overUnder"
-              value="under"
+              value="misses"
+              checked={outcome === 'misses'}
+              onChange={(e)=>{setOutcome(e.target.value)}}
+              disabled={locked}
             />
             <div className="custom-radio">Misses</div>
           </label>

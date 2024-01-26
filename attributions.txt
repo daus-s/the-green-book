@@ -6,3 +6,6 @@ star.png   -  <a href="https://www.flaticon.com/free-icons/recommend" title="rec
 money.png  -  <a href="https://www.flaticon.com/free-icons/coin" title="coin icons">Coin icons created by Gregor Cresnar - Flaticon</a>
 remove.png -  <a href="https://www.flaticon.com/free-icons/remove" title="remove icons">Remove icons created by Royyan Wijaya - Flaticon</a>
 lock.png   -  <a href="https://www.flaticon.com/free-icons/password" title="password icons">Password icons created by Pixel perfect - Flaticon</a>
+submit.png -  <a href="https://www.flaticon.com/free-icons/submit" title="submit icons">Submit icons created by Depot Visual - Flaticon</a>
+user.png   -  <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Becris - Flaticon</a>
+write.png  -  <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Kiranshastry - Flaticon</a>
