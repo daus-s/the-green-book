@@ -1,44 +1,49 @@
 import "../styles/bets.css";
 
-import { useState } from "react";
 import MoneylinePlaceBetForm from "./MoneylinePlaceBetForm"; 
 
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./AuthContext";
 
+import ReactMarkdown from 'react-markdown';
+import DOMPurify from 'dompurify';
 
-const MoneyLineBet = ({ data : bet }) => {
+const MoneyLineBet = ({ bet }) => {
+  const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
+
 
   const { user } = useAuth();
 
   const result = bet.open?"Open":"Closed";
   const odds = bet.odds;
 
-  const [userBet, setUserBet] = useState(null);
-
   const handlePlaceBet = async (bet_amount, outcome) => {
-    // Placeholder logic for placing a bet
-    //console.log(`Placing a bet of ${bet_amount} on the bet to ${outcome}.\nuserID: ${user.id}\nbetID: ${bet.betID}`);
-
     //renaming for supabase api
-    const bet_id = bet.betID;
-    const user_id = user.id;
+    const _amount = bet_amount;
+    const _bet = bet.betID;
+    const _user = user.id;
+    const _outcome = outcome;
     // const betData = {
     //                     betID: bet.betID,
     //                     userID: user.id,
     //                     amount: amount,
     //                     outcome: outcome
     // };
-    const { data, error } = await supabase.rpc("increase_bet", {
-      bet_amount,
-      user_id,
-      bet_id,
-      outcome
+
+    console.log(typeof(_amount), typeof(_user), typeof(_bet), typeof(_outcome));
+    console.log({
+      _amount,
+      _user,
+      _bet,
+      _outcome
     });
-    //console.log(data?data:error);
-    //setUserBet({ amount });
-
-
+    const { data, error } = await supabase.rpc("place_bet", {
+      _amount,
+      _user,
+      _bet,
+      _outcome
+    });
+    console.log(data?data:error);
   };
 
   return (
@@ -54,7 +59,9 @@ const MoneyLineBet = ({ data : bet }) => {
       >
         {bet.title}
       </h3>
-      <p>{bet.description}</p>
+      <div className="description" style={{marginTop:"30px"}}>
+        <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
+      </div>
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (

@@ -1,11 +1,41 @@
 import "../styles/bets.css";
 import OptionsPlaceBetForm from "./OptionsPlaceBetForm";
 
-const OptionsBet = ({ data: bet }) => {
+import ReactMarkdown from 'react-markdown';
+import DOMPurify from 'dompurify';
+
+import { supabase } from "../functions/SupabaseClient";
+import { useAuth } from "./AuthContext";
+
+const OptionsBet = ({ bet }) => {
   //console.log(data);
+  const { user } = useAuth();
+
+  const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
+
+
   const result = bet.open?"Open":"Closed";
 
-  
+  const handlePlaceBet = async (bet_amount, outcome) => {
+    //renaming for supabase api
+    const _amount = bet_amount;
+    const _bet = bet.betID;
+    const _user = user.id;
+    const _outcome = outcome;
+    // const betData = {
+    //                     betID: bet.betID,
+    //                     userID: user.id,
+    //                     amount: amount,
+    //                     outcome: outcome
+    // };
+    const { data, error } = await supabase.rpc("place_bet", {
+      _amount,
+      _user,
+      _bet,
+      _outcome
+    });
+    console.log(data?data:error);
+  };
 
   return (
     <div className="options bet">
@@ -20,13 +50,15 @@ const OptionsBet = ({ data: bet }) => {
       >
         {bet.title}
       </h3>
-      <p>{bet.description}</p>
+      <div className="description">
+        <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
+      </div>
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (
         <img id="status" src="mark.png" />
       )}
-      <OptionsPlaceBetForm bet={bet} />
+      <OptionsPlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
     </div>
   );
 };

@@ -83,7 +83,7 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
   
   return (
     <div
-      className="bet-form"
+      className="moneyline-place-bet-form"
       style={{
         display: "flex",
         flexDirection: "row",

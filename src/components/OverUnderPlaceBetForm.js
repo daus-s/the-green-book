@@ -1,14 +1,21 @@
-// PlaceBetForm.js
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { american } from "../functions/CalculateWinnings.js";
-import "../styles/radio.css";
 
-const OverUnderPlaceBetForm = ({ onSubmit, odds }) => {
+import "../styles/radio.css";
+import { supabase } from "../functions/SupabaseClient.js";
+import { useAuth } from "./AuthContext.js";
+import { getNumber } from "../functions/ParseOdds.js";
+
+const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
+  let odds = bet.odds;
   const [betAmount, setBetAmount] = useState("");
-  odds = 500;
-  const wager = 100;
-  const toWin = 600;
+  const [wager, setWager] = useState(0);
+  const [locked, setLocked] = useState(false);
+  const [choice, setChoice] = useState("");
+
+
+  const { user } = useAuth();
+
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
 
@@ -18,21 +25,58 @@ const OverUnderPlaceBetForm = ({ onSubmit, odds }) => {
     }
   };
 
+  useEffect(()=>{
+    //get user bet
+    const getUserBet = async () => {
+      const { data, error } = await supabase.from("user_bets").select("amount, outcome").eq("userID", user.id).eq("betID", bet.betID);
+      if (data) {
+        if (data.length==0)
+        {
+          setWager(0);
+          setChoice(null);
+        }
+        else if (data.length==1)
+        {
+          setLocked(true);
+          const bet = data[0];
+          setWager(bet.amount);
+          if (['over', 'under'].includes(bet.outcome)) {
+            setChoice(bet.outcome);
+          }
+        }
+        else {
+          setWager(0);
+          setChoice(null);
+        }
+      } 
+      else {
+        setWager(0);
+        setChoice(null);
+      }
+    };
+
+    getUserBet();
+  },[wager]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!betAmount || isNaN(parseFloat(betAmount)) || betAmount > 0) {
+    if (!betAmount || isNaN(parseInt(betAmount)) || parseInt(betAmount) < 0) {
       alert("Please enter a valid bet amount.");
       return;
     }
 
-    onSubmit(Math.max(0, parseFloat(betAmount)));
+    onSubmit(Math.max(0, parseInt(betAmount)), choice);
     setBetAmount(""); // Reset the form after submitting
+    setChoice(choice);
+    setWager(parseInt(betAmount));
   };
 
+  console.log(odds);
+  console.log('odds[choice] ==', odds[choice]);
   return (
     <div
-      className="bet-form"
+      className="over-under-place-bet-form"
       style={{
         display: "flex",
         flexDirection: "row",
@@ -50,7 +94,7 @@ const OverUnderPlaceBetForm = ({ onSubmit, odds }) => {
         }}
       >
         {"To win: "}
-        {american(odds, wager)}
+        {(bet.odds&&wager)?american(getNumber(odds[choice]), wager):'-'}
       </div>
       <div
         className="your-wager"
@@ -81,6 +125,10 @@ const OverUnderPlaceBetForm = ({ onSubmit, odds }) => {
               className="real-radio"
               name="overUnder"
               value="over"
+              checked={choice==="over"}
+              disabled={locked}
+              onChange={(e)=>setChoice(e.target.value)}
+              onBlur={(e) => e.preventDefault()}
             />
             <div className="custom-radio">Over</div>
           </label>
@@ -91,6 +139,10 @@ const OverUnderPlaceBetForm = ({ onSubmit, odds }) => {
               className="real-radio"
               name="overUnder"
               value="under"
+              checked={choice==="under"}
+              disabled={locked}
+              onChange={(e)=>setChoice(e.target.value)}
+              onBlur={(e) => e.preventDefault()} //this is to suppress some warning
             />
             <div className="custom-radio">Under</div>
           </label>

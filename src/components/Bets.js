@@ -6,9 +6,9 @@ import OverUnderBet from "./OverUnderBet";
 import { supabase } from "../functions/SupabaseClient";
 
 function bet(b) {
-    if (b.mode == 'ou') return <OverUnderBet data={b} key={b.betID}/> 
-    if (b.mode == 'ml') return <MoneyLineBet data={b} key={b.betID}/> 
-    if (b.mode == 'op') return <OptionsBet data={b}   key={b.betID}/> 
+    if (b.mode == 'ou') return <OverUnderBet bet={b} key={b.betID}/> 
+    if (b.mode == 'ml') return <MoneyLineBet bet={b} key={b.betID}/> 
+    if (b.mode == 'op') return <OptionsBet bet={b}   key={b.betID}/> 
 }
 
 export default function Bets() {

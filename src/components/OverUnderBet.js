@@ -1,20 +1,42 @@
 // Bet.js
 import "../styles/bets.css";
+import OverUnderPlaceBetForm from "./OverUnderPlaceBetForm";
 
-import { useState } from "react";
-import OverUnderPlaceBetForm from "./OverUnderPlaceBetForm"; // Assuming you have a component for the Place Bet form
+import ReactMarkdown from 'react-markdown';
+import DOMPurify from 'dompurify';
 
-const OverUnderBet = ({ data }) => {
-  //get using id
-  const result = data.open?"Open":"Closed";
-  const line = data.line;
-  const odds = data.odds;
-  const [userBet, setUserBet] = useState(null);
+import { useAuth } from "./AuthContext";
+import { supabase } from "../functions/SupabaseClient";
 
-  const handlePlaceBet = (amount) => {
-    // Placeholder logic for placing a bet
-    console.log(`Placing a bet of ${amount} on the bet.`);
-    setUserBet({ amount });
+
+const OverUnderBet = ({ bet }) => {
+
+  const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
+
+  const { user } = useAuth();
+
+  const result = bet.open?"Open":"Closed";
+  const line = bet.line;
+
+  const handlePlaceBet = async (bet_amount, outcome) => {
+    //renaming for supabase api
+    const _amount = bet_amount;
+    const _bet = bet.betID;
+    const _user = user.id;
+    const _outcome = outcome;
+    // const betData = {
+    //                     betID: bet.betID,
+    //                     userID: user.id,
+    //                     amount: amount,
+    //                     outcome: outcome
+    // };
+    const { data, error } = await supabase.rpc("place_bet", {
+      _amount,
+      _user,
+      _bet,
+      _outcome
+    });
+    console.log(data?data:error);
   };
 
   return (
@@ -28,9 +50,11 @@ const OverUnderBet = ({ data }) => {
           textAlign: "left",
         }}
       >
-        {data.title}
+        {bet.title}
       </h3>
-      <p>{data.description}</p>
+      <div className="description" style={{marginTop:"30px"}}>
+        <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
+      </div>
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (
@@ -47,20 +71,13 @@ const OverUnderBet = ({ data }) => {
       >
         <div className="line"> OU {line}</div>
         <div className="ou">
-          Over {odds.over} <br />
-          Under {odds.under}
+          Over {bet.odds.over} <br />
+          Under {bet.odds.under}
         </div>
       </div>
 
       {result !== "Closed" && (
-        <OverUnderPlaceBetForm onSubmit={handlePlaceBet} odds={odds} />
-      )}
-
-      {userBet && (
-        <div>
-          <p>Your Bet: {userBet.amount}</p>
-          {/* Additional UI for displaying user bets, commissioner actions, etc. */}
-        </div>
+        <OverUnderPlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
       )}
     </div>
   );

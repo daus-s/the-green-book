@@ -5,15 +5,14 @@ import "../styles/bets.css";
 import { american } from "../functions/CalculateWinnings.js";
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./AuthContext.js";
+import { getNumber } from "../functions/ParseOdds.js";
 
 
 export default function OptionsPlaceBetForm({ onSubmit, bet }) {
-  const [selectedOption, setSelectedOption] = useState(null);
   const [betAmount, setBetAmount] = useState("");
   const [wager, setWager] = useState(0);
   const [locked, setLocked] = useState(false);
   const [choice, setChoice] = useState("");
-  const [odds, setOdds] = useState(NaN); // this is only the odds of the chosen option
 
   const { user } = useAuth();
 
@@ -21,6 +20,12 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
     name,
     value,
   }));
+
+  //tracking choice
+  // useEffect(()=>{
+  //   console.log(choice);
+  // },[choice]);
+  console.log(typeof(bet.odds[choice]),"odds =", bet.odds[choice]);
 
 
   useEffect(()=>{
@@ -40,7 +45,7 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
           setWager(bet.amount);
           setChoice(bet.outcome);
           if (options.includes(bet.outcome)) {
-            setSelectedOption(bet.outcome);
+            setChoice(bet.outcome);
           }
         }
         else {
@@ -69,7 +74,7 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     //console.log(betAmount);
-    if (!outcome) {
+    if (!choice) {
       alert("Please select a valid bet option.");
       return;
     } 
@@ -78,14 +83,20 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
       alert("Please enter a valid bet amount.");
       return;
     } else {
-      onSubmit(Math.max(0, parseInt(betAmount)), outcome);
+      onSubmit(Math.max(0, parseInt(betAmount)), choice);
       setBetAmount(""); // Reset the form after submitting
-      setOutcome(outcome);
+      setLocked(true);
       setWager(parseInt(betAmount));
     }
   };
+
+  if ((bet.odds&&wager)) {
+    console.log(bet.odds[choice]);
+    console.log(bet.odds[wager]);
+    console.log(american(getNumber(bet.odds[choice]), wager));
+  }
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="options-place-bet-form" onSubmit={handleSubmit}>
       <div className="option-list">
         {options.map((option, index) => (
           <label className="radio-label" key={index}>
@@ -94,14 +105,14 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
               type="radio"
               name="options"
               value={option.name}
-              onChange={() => setSelectedOption(option.name)}
+              onChange={() => setChoice(option.name)}
               disabled={locked}
-              checked={selectedOption === option.name}
+              checked={choice === option.name}
 
             />
             <div className="custom-radio option">
               {`${option.name} (${
-                option.value > 0 ? "+" + option.value : option.value
+                option.value
               })`}
             </div>
           </label>
@@ -119,7 +130,7 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
           }}
         >
           {"To win: "}
-          {odds&&wager?american(odds, wager):"-"}
+          {(bet.odds&&wager)?Math.floor(american(getNumber(bet.odds[choice]), wager)):"-"}
         </div>
         <div
           className="your-wager"
