@@ -19,13 +19,13 @@
   width: 24px;
 }
 
-.bet p {
+/* .bet p {
   text-align: left;
   left: 15%;
   width: 70%;
   padding-right: 10px;
   position: relative;
-}
+} */
 
 .bet .odds {
   color: var(--bet-text-color);

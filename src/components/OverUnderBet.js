@@ -52,7 +52,7 @@ const OverUnderBet = ({ bet }) => {
       >
         {bet.title}
       </h3>
-      <div className="description" style={{marginTop:"30px"}}>
+      <div className="description" style={{marginTop:"40px"}}>
         <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
       </div>
       {result === "Closed" ? (
