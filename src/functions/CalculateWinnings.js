@@ -4,7 +4,7 @@ function american(odds, wager) {
     throw new Error("Both odds and wager must be numbers.");
   }
   if (odds < 0) {
-    return (wager / (-1 * odds)) * 100;
+    return wager + (wager / (-1 * odds)) * 100;
   }
   if (odds > 0) {
     return (wager / 100) * (100 + odds);
