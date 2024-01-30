@@ -1,0 +1,84 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+
+ .profile-selection img {
+    max-width: 100%;
+    max-height: 100px; 
+    border-radius: 50%;
+  }
+
+
+  /* Custom styling for radio buttons */
+
+.selector-radio {
+    margin-top: 10px;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.selector-radio {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+  
+.selector-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+  
+.selector-radio span {
+    position: relative;
+    display: inline-block;
+    width: 18px; /* Adjust as needed */
+    height: 18px; /* Adjust as needed */
+    background-color: var(--list-item-background);
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+  
+.selector-radio input:checked + span {
+    background-color: var(--grayed-out-text);
+    border-color: var(--bet-text-color);
+}
+
+.confirm-button {
+    background-color: var(--cta-button-bg-color);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 122px;
+    margin-top: auto;
+}
+
+.confirm-button:hover {
+    background-color: var(--cta-button-hover-bg-color);
+    
+}
+
+.full-width-element {
+    grid-column: 1 / span 3; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

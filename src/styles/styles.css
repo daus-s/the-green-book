@@ -49,6 +49,7 @@ body {
   --input-background: #333; /* Darker gray background color */
   --input-text: #fff; /* White text color */
   --form-input: #555; /* Border color */
+  --highlighted-dark: #444;
   --error-color: #8e1717;
   --soft-highlight:#666;
   --table-header-background: #222;

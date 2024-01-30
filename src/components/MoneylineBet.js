@@ -18,7 +18,7 @@ const MoneyLineBet = ({ data : bet }) => {
 
   const handlePlaceBet = async (bet_amount, outcome) => {
     // Placeholder logic for placing a bet
-    console.log(`Placing a bet of ${bet_amount} on the bet to ${outcome}.\nuserID: ${user.id}\nbetID: ${bet.betID}`);
+    //console.log(`Placing a bet of ${bet_amount} on the bet to ${outcome}.\nuserID: ${user.id}\nbetID: ${bet.betID}`);
 
     //renaming for supabase api
     const bet_id = bet.betID;
@@ -35,7 +35,7 @@ const MoneyLineBet = ({ data : bet }) => {
       bet_id,
       outcome
     });
-    console.log(data?data:error);
+    //console.log(data?data:error);
     //setUserBet({ amount });
 
 

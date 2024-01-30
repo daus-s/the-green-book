@@ -6,9 +6,9 @@ import OverUnderBet from "./OverUnderBet";
 import { supabase } from "../functions/SupabaseClient";
 
 function bet(b) {
-    if (b.mode == 'ou') return <OverUnderBet data={b}/> 
-    if (b.mode == 'ml') return <MoneyLineBet data={b}/> 
-    if (b.mode == 'op') return <OptionsBet data={b}/> 
+    if (b.mode == 'ou') return <OverUnderBet data={b} key={b.betID}/> 
+    if (b.mode == 'ml') return <MoneyLineBet data={b} key={b.betID}/> 
+    if (b.mode == 'op') return <OptionsBet data={b}   key={b.betID}/> 
 }
 
 export default function Bets() {
@@ -24,7 +24,7 @@ export default function Bets() {
             //get user groups
             const groups = await supabase.from("user_groups").select("groupID").eq("userID", pid.data[0].publicID);
             let groupIDs = [];
-            groups.data.forEach((group)=>{groupIDs.push(group.groupID)})
+            groups.data.forEach((group)=>{groupIDs.push(group.groupID)});
             const betList = [];
             for (const id of groupIDs) {
                 const { data, error } = await supabase.from('bets').select().eq("groupID", id);

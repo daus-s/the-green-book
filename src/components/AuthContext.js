@@ -2,19 +2,69 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../functions/SupabaseClient'; 
 import { validEmail, validUsername } from "../functions/isEmail";
 
-
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
-  const [isCommish, setIsCommish] = useState(false);
+  const [meta, setMeta] = useState({});
 
-  useEffect(() => {
-    const getSession = async () => {
-      return await supabase.auth.getSession();
+  const getSession = async () => {
+    return await supabase.auth.getSession();
+  };
+
+  useEffect(()=>{
+    const getCommissionerStatus = async () => {
+      const id = (await getSession()).data?.session.user.id;
+      const { data, error } = await supabase.from('commissioners').select('commissionerID').eq('userID', id);
+      let val = 0;
+      if (data && data.length > 0) {
+        val = data[0]?.commissionerID || 0;
+      }
+  
+      setMeta((prevMeta) => ({
+        ...prevMeta,
+        commish: val,
+      }));
+      
     };
 
+    const getProfilePictureUrl = async () => {
+      try {
+        const email = (await getSession()).data?.session.user.email;
+
+        const { data, error } = await supabase
+          .from("public_users")
+          .select('pfp_url')
+          .eq('email', email)
+          .limit(1)
+          .single();
+  
+        if (data) {
+          setMeta((prevMeta) => ({
+            ...prevMeta,
+            pfp: data.pfp_url,
+          }));
+        } 
+        else {
+          setMeta((prevMeta) => ({
+            ...prevMeta,
+            pfp: 'user.png',
+          }));
+        }
+      } catch (error) {
+        // Handle error
+        console.error('Error fetching profile picture:', error);
+      }
+    };
+
+    if (user&&session) {
+      getCommissionerStatus();
+      getProfilePictureUrl();
+    }
+  },[user,session]);
+
+  useEffect(() => {
     const checkUserAuthentication = async () => {
       try {
         const {data, error} = await getSession();
@@ -27,25 +77,26 @@ export const AuthProvider = ({ children }) => {
               setUser(data.session.user);
             } else {
               setUser(null);
+              return false;
             }
           } else {
+            setSession(null);
             setUser(null);
+            return false;
           } 
         } 
         else {
           setUser(null);
           setSession(null);
-          await logout();
+          return false;
         }
-        
-       
+        return true;
       } catch (error) {
-        console.error('Error fetching session:', error.message);
+        //console.error('Error fetching session:', error.message);
+        return false;
       }
     };
 
-    const getUserMetaData = async () => {};
-    // console.log(user, session)
     checkUserAuthentication();
   }, []);
 
@@ -91,25 +142,43 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
+  //OLD VERION KEEP IN CASE I CAN HACK IT WITH STATE VARS
+  // const logout = async () => {
+  //   const base = "localhost:3000"
+  //   try {
+  //     const { error } = await supabase.auth.signOut();
+  //     window.location.href = base + "/login";
+  //     if (error) {
+  //       console.error('Logout error:', error.message);
+  //     } else {
+  //       setUser(null);
+  //       setSession(null);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during logout:', error.message);
+  //   }
+  // };
 
-      if (error) {
-        console.error('Logout error:', error.message);
-      } else {
-        setUser(null);
-        setSession(null);
-      }
-    } catch (error) {
-      console.error('Error during logout:', error.message);
+  const logout = async () => {
+    const base = "http://localhost:3000"; // Make sure to include the protocol (http/https)
+  
+    // Sign out from Supabase
+    const { error } = await supabase.auth.signOut();
+  
+    // Redirect to the login page
+    window.location.replace(base + "/login");
+  
+    // Log error if any
+    if (error) {
+      console.error('Logout error:', error.message);
     }
   };
+  
 
 
 
   return (
-    <AuthContext.Provider value={{ user, session, login, logout }}>
+    <AuthContext.Provider value={{ user, session, meta, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

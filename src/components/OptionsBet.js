@@ -1,14 +1,11 @@
 import "../styles/bets.css";
 import OptionsPlaceBetForm from "./OptionsPlaceBetForm";
 
-const OptionsBet = ({ data }) => {
+const OptionsBet = ({ data: bet }) => {
   //console.log(data);
-  const result = data.open?"Open":"Closed";
+  const result = bet.open?"Open":"Closed";
 
-  const mappedOptions = Object.entries(data.odds).map(([name, value]) => ({
-    name,
-    value,
-  }));
+  
 
   return (
     <div className="options bet">
@@ -21,15 +18,15 @@ const OptionsBet = ({ data }) => {
           textAlign: "left",
         }}
       >
-        {data.title}
+        {bet.title}
       </h3>
-      <p>{data.description}</p>
+      <p>{bet.description}</p>
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (
         <img id="status" src="mark.png" />
       )}
-      <OptionsPlaceBetForm options={mappedOptions} />
+      <OptionsPlaceBetForm bet={bet} />
     </div>
   );
 };

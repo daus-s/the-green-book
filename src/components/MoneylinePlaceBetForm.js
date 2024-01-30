@@ -15,13 +15,13 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
   const [locked, setLocked] = useState(false);
   const { user } = useAuth();
 
-  console.log(bet);
+  //console.log(bet);
 
   useEffect(()=>{
     //get user bet
     const getUserBet = async () => {
       const { data, error } = await supabase.from("user_bets").select("amount, outcome").eq("userID", user.id).eq("betID", bet.betID);
-      console.log(data?data:error);
+      //console.log(data?data:error);
       if (data) {
         if (data.length==0)
         {
@@ -64,7 +64,7 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(betAmount);
+    //console.log(betAmount);
     if (!outcome) {
       alert("Please select a valid bet option.");
       return;
@@ -80,10 +80,7 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
       setWager(parseInt(betAmount));
     }
   };
-  console.log("bet:", bet)
-  console.log("odds:", bet.odds)
-  console.log("choice:", outcome)
-  console.log("selected data", bet.odds[choice])
+  
   return (
     <div
       className="bet-form"
