@@ -11,6 +11,8 @@ import ProfilePage from "./components/routes/ProfilePage";
 import CreateBetPage from "./components/routes/CreateBetPage";
 import ForgotPasswordPage from "./components/routes/ForgotPasswordPage";
 import ResetPasswordPage from "./components/routes/ResetPasswordPage";
+import BetManagerPage from "./components/routes/BetManagerPage";
+
 
 import { AuthProvider } from "./components/AuthContext";
 import {
@@ -59,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/reset-password",
     element: <ResetPasswordPage />,
+  },
+  {
+    path: "/manage-bets",
+    element: <BetManagerPage />,
   }
 ]);
 

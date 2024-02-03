@@ -72,8 +72,6 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
     setWager(parseInt(betAmount));
   };
 
-  console.log(odds);
-  console.log('odds[choice] ==', odds[choice]);
   return (
     <div
       className="over-under-place-bet-form"

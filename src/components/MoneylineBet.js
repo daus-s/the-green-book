@@ -12,7 +12,7 @@ const MoneyLineBet = ({ bet }) => {
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 
 
-  const { user } = useAuth();
+  const { user, meta } = useAuth();
 
   const result = bet.open?"Open":"Closed";
   const odds = bet.odds;
@@ -22,6 +22,7 @@ const MoneyLineBet = ({ bet }) => {
     const _amount = bet_amount;
     const _bet = bet.betID;
     const _user = user.id;
+    const _public = meta.publicID
     const _outcome = outcome;
     // const betData = {
     //                     betID: bet.betID,
@@ -35,13 +36,15 @@ const MoneyLineBet = ({ bet }) => {
       _amount,
       _user,
       _bet,
-      _outcome
+      _outcome,
+      _public
     });
     const { data, error } = await supabase.rpc("place_bet", {
       _amount,
       _user,
       _bet,
-      _outcome
+      _outcome,
+      _public
     });
     console.log(data?data:error);
   };

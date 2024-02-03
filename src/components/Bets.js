@@ -20,23 +20,27 @@ export default function Bets() {
     useEffect(()=>{
         const getBets = async () => {
             //public id
-            const pid = await supabase.from("users").select("publicID").eq("userID", user.id); 
-            //get user groups
-            const groups = await supabase.from("user_groups").select("groupID").eq("userID", pid.data[0].publicID);
-            let groupIDs = [];
-            groups.data.forEach((group)=>{groupIDs.push(group.groupID)});
-            const betList = [];
-            for (const id of groupIDs) {
-                const { data, error } = await supabase.from('bets').select().eq("groupID", id);
-                if (data) {
-                    data.forEach((bet) => {
-                        betList.push(bet);
-                    });
+            if (user&&user.id) {
+                const pid = await supabase.from("users").select("publicID").eq("userID", user.id); 
+                //get user groups
+                const groups = await supabase.from("user_groups").select("groupID").eq("userID", pid.data[0].publicID);
+                let groupIDs = [];
+                groups.data.forEach((group)=>{groupIDs.push(group.groupID)});
+                const betList = [];
+                for (const id of groupIDs) {
+                    const { data, error } = await supabase.from('bets').select().eq("groupID", id);
+                    if (data) {
+                        data.forEach((bet) => {
+                            betList.push(bet);
+                        });
+                    }
                 }
+                //console.log(betList);
+                setBets(betList);
             }
-            //console.log(betList);
-            setBets(betList);
-            
+            else {
+
+            }
         }
 
         getBets();

@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
         commish: val,
       }));
       
-    };
+    }
 
     const getProfilePictureUrl = async () => {
       try {
@@ -56,11 +56,26 @@ export const AuthProvider = ({ children }) => {
         // Handle error
         console.error('Error fetching profile picture:', error);
       }
-    };
+    }
+
+    const getPublicID = async () => {
+      const email = (await getSession()).data?.session.user.email || "";
+      if (email) {
+        const {data,error} = await supabase.from("users").select("publicID").eq("email", user.email)
+        if (data[0]?.publicID) {
+          setMeta((prevMeta) => ({
+            ...prevMeta,
+            publicID: data[0]?.publicID,
+          }));        
+        }
+      }
+
+    }
 
     if (user&&session) {
       getCommissionerStatus();
       getProfilePictureUrl();
+      getPublicID();
     }
   },[user,session]);
 

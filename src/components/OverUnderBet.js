@@ -23,6 +23,7 @@ const OverUnderBet = ({ bet }) => {
     const _amount = bet_amount;
     const _bet = bet.betID;
     const _user = user.id;
+    const _public = meta.publicID
     const _outcome = outcome;
     // const betData = {
     //                     betID: bet.betID,
@@ -34,7 +35,8 @@ const OverUnderBet = ({ bet }) => {
       _amount,
       _user,
       _bet,
-      _outcome
+      _outcome,
+      _public
     });
     console.log(data?data:error);
   };

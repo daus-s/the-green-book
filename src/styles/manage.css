@@ -1,0 +1,9 @@
+.bet-header {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.user-bet-row img  {
+    height: 30px;
+    border-radius: 50%;
+}
