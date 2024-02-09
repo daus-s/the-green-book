@@ -11,3 +11,4 @@ user.png   -  <a href="https://www.flaticon.com/free-icons/user" title="user ico
 write.png  -  <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Kiranshastry - Flaticon</a>
 trash.png  -  <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Kiranshastry - Flaticon</a>
 x.png      -  <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by ariefstudio - Flaticon</a>
+verify.png -  <a href="https://www.flaticon.com/free-icons/verified" title="verified icons">Verified icons created by Rizki Ahmad Fauzi - Flaticon</a>
