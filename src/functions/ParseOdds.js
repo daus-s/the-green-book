@@ -1,5 +1,6 @@
 //american odds checker
 function validOdds (intstr) {
+    if (intstr=='+NaN'||intstr=='-NaN') return true;
     if (intstr.length==0) return true;
     if (intstr.length==1) return (intstr.charAt(0) === '+' || intstr.charAt(0) === '-');
     if (typeof intstr == 'string') {
@@ -23,6 +24,7 @@ function formatOdds(int) {
 }
 
 function getNumber(str) {
+    console.log(str)
     if (validOdds(str)) {
         let m = str.charAt(0)=='-'?-1:1; //multiplier ident negative or positive
         return m*parseInt(str.substring(1));

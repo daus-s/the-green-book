@@ -7,7 +7,6 @@ import { useAuth } from "./AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
 
 const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
-  let odds = bet.odds;
   const [betAmount, setBetAmount] = useState("");
   const [wager, setWager] = useState(0);
   const [locked, setLocked] = useState(false);
@@ -60,17 +59,23 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    if (!choice) {
+      alert("Please select a valid bet option.");
+      return;
+    } else
     if (!betAmount || isNaN(parseInt(betAmount)) || parseInt(betAmount) < 0) {
       alert("Please enter a valid bet amount.");
       return;
     }
-
-    onSubmit(Math.max(0, parseInt(betAmount)), choice);
-    setBetAmount(""); // Reset the form after submitting
-    setChoice(choice);
-    setWager(parseInt(betAmount));
+    else {
+      onSubmit(Math.max(0, parseInt(betAmount)), choice);
+      setBetAmount(""); // Reset the form after submitting
+      setChoice(choice);
+      setWager(parseInt(betAmount));
+    }
   };
+
+  let odds = bet.odds;
 
   return (
     <div
@@ -92,7 +97,7 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
         }}
       >
         {"To win: "}
-        {(bet.odds&&wager)?american(getNumber(odds[choice]), wager):'-'}
+        {(choice&&bet.odds&&wager&&odds[choice])?american(getNumber(odds[choice]), wager):'-'}
       </div>
       <div
         className="your-wager"

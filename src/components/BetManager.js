@@ -6,9 +6,127 @@ import { useAuth } from "./AuthContext";
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 
+import ConfirmModal from "../modals/ConfirmModal.js";
+import DeleteModal from "../modals/DeleteModal.js";
+
+
 import "../styles/manage.css";
 import "../styles/menu.css";
 
+
+function OptionRadio({bet, setParentChoice}) {
+    const [choice, setChoice] = useState({name:undefined,value:null});
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+    console.log(bet)
+
+    const options = Object.entries(bet.odds).map(([name, value]) => ({
+        name,
+        value,
+    }));
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (choice&&choice.name&&choice.value) {
+            setConfirmModalVisible(true);
+        } else {
+            alert("Pick a valid outcome.")
+        }
+    }
+
+    const cashBet = async () => {
+        const _bet = bet.betID;
+        if (!choice) {
+            alert ("Please select a valid option");
+            return;
+        }
+        const _outcome = choice.name;
+        console.log(_outcome);
+        console.log(_bet);
+
+        const { data, error } = await supabase.rpc('cash_bet', { _bet, _outcome});
+
+        setDeleteModalVisible(false);
+
+        if (data == 0) {
+            //success
+            window.location.reload(false);
+        } else if (data) {
+            //failure in function
+            console.log(data);
+        }
+        else if (error) {
+            // set failure modal visible
+            console.log("fucc");
+        } else {
+            console.log("wtf");
+            //  set success modal visible
+        }
+
+    }
+
+    const handleDelete = (e) => {
+        e.preventDefault();
+        setDeleteModalVisible(true);
+    }
+
+    const closeBet = async () => {
+        const _bet = bet.betID;
+        const { data, error } = await supabase.rpc('cancel_bet', { _bet});
+
+        setDeleteModalVisible(false);
+
+        if (data == 0) {
+            //success
+            window.location.reload(false);
+        } else if (data) {
+            //failure in function
+            console.log(data);
+        }
+        else if (error) {
+            // set failure modal visible
+            console.log("fucc");
+        } else {
+            console.log("wtf");
+            //  set success modal visible
+        }
+
+    }
+
+    return (
+        <div className="bet-options">
+            <div className="section-title">Options</div>
+            <form className="bet-options-confirm" onSubmit={handleSubmit}>
+                {options.map((option, index) => (
+                    <label className="radio-label" key={index}>
+                        <input
+                            className="real-radio"
+                            type="radio"
+                            name="options"
+                            value={option.name}
+                            onChange={() => setChoice({name:option.name,value:option.value})}
+                            checked={choice.name === option.name}
+                        />
+                        <div className="custom-radio option">
+                            <div className="name">
+                            {option.name}
+                            </div>
+                            <div className="value">
+                            ({option.value})
+                            </div>
+                        </div>
+                    </label>
+                ))}
+                <div className="button-container">
+                    <button onClick={handleDelete} className="delete-button"><img src="trash.png" alt="Delete" style={{height: "24px"}}/></button>
+                    <button className="cash-out-button" type="submit">Confirm</button>
+                </div>
+            </form>
+            <ConfirmModal isOpen={confirmModalVisible} onCancel={()=>{setConfirmModalVisible(false)}} onConfirm={cashBet} title={bet.title} option={choice}/>
+            <DeleteModal isOpen={deleteModalVisible} onCancel={()=>{setDeleteModalVisible(false)}} onDelete={closeBet} betName={bet.title}/>
+        </div>
+    );
+}
 //placed user bets
 function BetRow({userBet}) {    
     return (
@@ -40,7 +158,6 @@ function BetMenu({bets, bet}) {
     // TODO: highlght green and red when selecting option
     const sanitizedMarkdown = DOMPurify.sanitize(bet?.description);
 
-    // console.log(bets?bets.map(bet => JSON.stringify(bet)):undefined);
     return (
         <div className="bet-menu-div">
             <div className="description">
@@ -48,7 +165,8 @@ function BetMenu({bets, bet}) {
             </div>
             <PlacedBets placedBets={bets}/>
             <div className="bet-options">
-                <div>what the fuck is a kilometer</div>
+                {bet.open?<OptionRadio bet={bet} />:<></>}
+                {/* <div>what the fuck is a kilometer</div> */}
             </div>
         </div>
     );
@@ -56,7 +174,7 @@ function BetMenu({bets, bet}) {
 
 function BetHeader({bet, toggle}) {
     return (
-        <div className="bet-header" onClick={()=>toggle()}> 
+        <div className="bet-header" onClick={()=>toggle()}>
             <div className="bet-title">{bet.title}</div>
             <div className="status-icon"> {bet.open?<img src="mark.png" style={{height: '24px'}}/>:<img src="close.png" style={{height: '24px'}}/>} </div>
         </div>

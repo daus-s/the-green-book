@@ -9,3 +9,5 @@ lock.png   -  <a href="https://www.flaticon.com/free-icons/password" title="pass
 submit.png -  <a href="https://www.flaticon.com/free-icons/submit" title="submit icons">Submit icons created by Depot Visual - Flaticon</a>
 user.png   -  <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Becris - Flaticon</a>
 write.png  -  <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Kiranshastry - Flaticon</a>
+trash.png  -  <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Kiranshastry - Flaticon</a>
+x.png      -  <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by ariefstudio - Flaticon</a>

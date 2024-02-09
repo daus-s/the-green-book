@@ -44,7 +44,9 @@ body {
   --cta-button-hover-bg-color: #45a049;
   --bet-text-color: #ccc;
   --grayed-out-text: #ddd;
+  --bright-text: #f0fff0;
   --bet-option-button: #555d50;
+  --bet-option-highlight: #737870;
   --darker-text: #158469;
   --input-background: #333; /* Darker gray background color */
   --input-text: #fff; /* White text color */
@@ -55,10 +57,18 @@ body {
   --table-header-background: #222;
   --alt1-table-rows-bg: #525252;
   --alt2-table-rows-bg: #353535;
-  --table-bg: #0d1117;
+  --table-bg: #0d1108;
+  /*  Bet Manager Table  */
   --table-bg-green: ;
   --table-bg-red: ;
+  --dark-red-highlight: ;
+  --dark-green-highlight: ;
   --table-border: #C3C9CF;  /*inv(48, 54, 61)*/
+  --overlay: rgba(12,12,12,.5);
+  --danger: #ba1d24;
+  --danger-input: #2f2626;
+  --delete-button: #cd0e31;
+  --delete-button-hover: #dd1035;
 }
 
 * {

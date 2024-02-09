@@ -73,10 +73,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: -20px -20px 0px -20px;
+    padding: 20px 20px 0px 20px;
+    width: 565px;
 }
 
 
-.menu {
+.bet.menu {
     padding: 20px;
 }
 
@@ -103,3 +106,62 @@
     align-self: flex-start;
     flex-direction: column;
   }
+
+.delete-button {
+    padding: 0px;
+    height: 35px;
+    background-color: transparent;
+}
+
+.delete-button:hover {
+    background-color: var(--soft-highlight);
+}
+
+.cash-out-button {
+    padding: 10px 20px;
+    background-color: var(--cta-button-bg-color);
+}
+
+.bet-options-confirm button {
+    color: white;
+    border: none;
+    border-radius: 17px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.bet-options {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bet-options .button-container {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: row;
+    margin: 15px 0px 10px 0px;
+}
+
+.bet-options .button-container button {
+    margin: 0px 0px 0px 10px;
+}
+
+.section-title {
+    font-weight: 700;
+    text-align: left;
+    position: relative;
+    left: 65px;
+    font-size: 24px;
+    width: 100%;
+}
+
+.delete-button img {
+    position: relative;
+    margin: 5px 8px 5px 8px;
+}

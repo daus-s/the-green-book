@@ -13,7 +13,7 @@ const OverUnderBet = ({ bet }) => {
 
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 
-  const { user } = useAuth();
+  const { user, meta } = useAuth();
 
   const result = bet.open?"Open":"Closed";
   const line = bet.line;

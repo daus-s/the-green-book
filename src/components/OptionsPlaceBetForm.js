@@ -121,7 +121,7 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
           }}
         >
           {"To win: "}
-          {(bet.odds&&wager)?Math.floor(american(getNumber(bet.odds[choice]), wager)):"-"}
+          {(choice&&bet.odds&&wager&&bet.odds[choice])?Math.floor(american(getNumber(bet.odds[choice]), wager)):'-'}
         </div>
         <div
           className="your-wager"

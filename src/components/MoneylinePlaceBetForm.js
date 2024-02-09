@@ -11,7 +11,6 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
   const [betAmount, setBetAmount] = useState("");
   const [outcome, setOutcome] = useState(null);
   const [wager, setWager] = useState(0);
-  const [choice, setChoice] = useState("");
   const [locked, setLocked] = useState(false);
   const { user } = useAuth();
 
@@ -26,26 +25,22 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
         if (data.length==0)
         {
           setWager(0);
-          setChoice(null);
         }
         else if (data.length==1)
         {
           setLocked(true);
           const bet = data[0]
           setWager(bet.amount);
-          setChoice(bet.outcome);
           if (['hits', 'misses'].includes(bet.outcome)) {
             setOutcome(bet.outcome);
           }
         }
         else {
           setWager(0);
-          setChoice(null);
         }
       } 
       else {
         setWager(0);
-        setChoice(null);
       }
     };
 
