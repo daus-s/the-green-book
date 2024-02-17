@@ -10,3 +10,4 @@ submit.png -  <a href="https://www.flaticon.com/free-icons/submit" title="submit
 user.png   -  <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Becris - Flaticon</a>
 write.png  -  <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Kiranshastry - Flaticon</a>
 verify.png -  <a href="https://www.flaticon.com/free-icons/verified" title="verified icons">Verified icons created by Rizki Ahmad Fauzi - Flaticon</a>
+search.png -  <a href="https://www.flaticon.com/free-icons/search" title="search icons">Search icons created by Catalin Fertu - Flaticon</a>
