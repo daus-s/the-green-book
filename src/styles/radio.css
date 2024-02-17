@@ -55,9 +55,7 @@
 .custom-radio.option label {
   padding: 5px;
 }
-.real-radio:checked + .custom-radio.option {
-  background-color: var(--cta-button-bg-color);
-}
+
 
 .custom-radio.option:checked {
   background-color: var(--cta-button-bg-color);

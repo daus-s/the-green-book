@@ -19,6 +19,7 @@ export default function ForgotPassword() {
         if (validEmail(email)) {
             await supabase.auth.resetPasswordForEmail(email);
             setEmail("");
+            setError(false);
             setSuccess(true);
         } else {
             setError(true);

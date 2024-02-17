@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 
 import { supabase } from "../functions/SupabaseClient";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 
 const OptionsBet = ({ bet }) => {
   //console.log(data);
@@ -33,7 +33,18 @@ const OptionsBet = ({ bet }) => {
                       _public
     };
     console.log(betData);
-    const { error } = await supabase.rpc("place_bet", betData);
+    const { data, error } = await supabase.rpc("place_bet", betData);
+    if (data&&data==0) {
+      succeed();
+    } 
+    else if (data) {
+      failed({code: 100_000 + data});
+    } 
+    else if (error) {
+      failed(error);
+    } else {
+      failed({message: 'Something unexpected occurred.'})
+    }
   };
 
   return (
@@ -55,9 +66,11 @@ const OptionsBet = ({ bet }) => {
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (
-        <img id="status" src="mark.png" />
+        <>
+          <img id="status" src="mark.png" />
+          <OptionsPlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
+        </>
       )}
-      <OptionsPlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
     </div>
   );
 };

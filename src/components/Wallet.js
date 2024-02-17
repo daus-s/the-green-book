@@ -1,7 +1,7 @@
 import "../styles/wallet.css";
 
 import { supabase } from '../functions/SupabaseClient'; // Import your Supabase client configuration
-import { useAuth } from './AuthContext'; // Path to your AuthProvider
+import { useAuth } from './providers/AuthContext'; // Path to your AuthProvider
 import { useEffect, useState } from "react";
 
 

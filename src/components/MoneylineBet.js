@@ -3,16 +3,18 @@ import "../styles/bets.css";
 import MoneylinePlaceBetForm from "./MoneylinePlaceBetForm"; 
 
 import { supabase } from "../functions/SupabaseClient";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
+import { useModal } from "./providers/ModalContext";
 
 const MoneyLineBet = ({ bet }) => {
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 
 
   const { user, meta } = useAuth();
+  const { failed, succeed } = useModal();
 
   const result = bet.open?"Open":"Closed";
   const odds = bet.odds;
@@ -24,29 +26,33 @@ const MoneyLineBet = ({ bet }) => {
     const _user = user.id;
     const _public = meta.publicID
     const _outcome = outcome;
-    // const betData = {
-    //                     betID: bet.betID,
-    //                     userID: user.id,
-    //                     amount: amount,
-    //                     outcome: outcome
-    // };
 
-    console.log(typeof(_amount), typeof(_user), typeof(_bet), typeof(_outcome));
-    console.log({
+    const { data, error } = await supabase.rpc("place_bet", { // python has the neww featurre like this wwhere is justt 
+                                                              // def fun(_amount: int):
+                                                              //     ...
+                                                              // 
+                                                              // usage:
+                                                              //   _amount = 10
+                                                              //   fun(_amount=)
+                                                              // 
+                                                              // means _amount is the variable. this is already bad enough
       _amount,
       _user,
       _bet,
       _outcome,
       _public
     });
-    const { data, error } = await supabase.rpc("place_bet", {
-      _amount,
-      _user,
-      _bet,
-      _outcome,
-      _public
-    });
-    console.log(data?data:error);
+    if (data&&data==0) {
+      succeed();
+    } 
+    else if (data) {
+      failed({code: 100_000 + data});
+    } 
+    else if (error) {
+      failed(error);
+    } else {
+      failed({message: 'Something unexpected occurred.'});
+    }
   };
 
   return (
@@ -84,14 +90,11 @@ const MoneyLineBet = ({ bet }) => {
         </div>
         <div className="f-ck">
           Misses{" "}{odds.misses?odds.misses:NaN}
-
         </div>
       </div>
-
       {result !== "Closed" && (
         <MoneylinePlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
       )}
-
     </div>
   );
 };

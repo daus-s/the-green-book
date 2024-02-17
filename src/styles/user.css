@@ -1,0 +1,50 @@
+.user-element {
+    height:  40px;
+    border-radius: 20px;
+    min-width: 180px;
+    width: fit-content;
+    background-color: var(--bet-background-color);
+    padding: 4px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: var(--bright-text);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    border: 2px solid var(--bet-background-color);
+    align-items: flex-end;
+    margin: 2px 5px 2px 5px;
+}
+
+.user-element:hover {
+    background-color: var(--highlighted-dark);
+    border: 2px solid var(--bet-option-highlight);
+
+}
+
+.user-element img {
+    height:30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.user-element button {
+    background-color: transparent;
+    border: 0;
+    height: auto;
+}
+
+
+.user-element button img {
+    height: 16px;
+    width: 16px;
+}
+
+.grayed-out {
+    color: var(--grayed-out-text);
+}
+
+.username {
+    margin-bottom: 2px;
+}

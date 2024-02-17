@@ -13,18 +13,23 @@ import ForgotPasswordPage from "./components/routes/ForgotPasswordPage";
 import ResetPasswordPage from "./components/routes/ResetPasswordPage";
 import BetManagerPage from "./components/routes/BetManagerPage";
 import ManageGroupPage from "./components/routes/ManageGroupPage";
+import UserBetsPage from "./components/routes/UserBetsPage";
+import HomePage from "./components/routes/HomePage";
 
+import ".//styles/styles.css";
 
-import { AuthProvider } from "./components/AuthContext";
+import { AuthProvider } from "./components/providers/AuthContext";
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { ModalProvider } from "./components/providers/ModalContext";
+
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <BetPage />,
+    element: <HomePage />,
     errorElement: <ErrorPage />,
   },
   {
@@ -50,6 +55,11 @@ const router = createBrowserRouter([
   {
     path: "/create-group",
     element: <NewGroupPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/bets-placed",
+    element: <UserBetsPage />,
     errorElement: <ErrorPage />,
   },
   {
@@ -87,7 +97,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <ModalProvider>
+        <RouterProvider router={router} />
+      </ModalProvider>
     </AuthProvider>
   </React.StrictMode>
 );

@@ -3,7 +3,7 @@ import { american } from "../functions/CalculateWinnings.js";
 
 import "../styles/radio.css";
 import { supabase } from "../functions/SupabaseClient.js";
-import { useAuth } from "./AuthContext.js";
+import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
 
 const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {

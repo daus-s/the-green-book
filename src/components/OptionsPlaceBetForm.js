@@ -4,7 +4,7 @@ import "../styles/bets.css";
 
 import { american } from "../functions/CalculateWinnings.js";
 import { supabase } from "../functions/SupabaseClient";
-import { useAuth } from "./AuthContext.js";
+import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
 
 

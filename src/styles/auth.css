@@ -89,6 +89,7 @@ span.note-span {
 
 .biglogo {
   width: var(--big-logo-size);
+  border-radius: 50%;
 }
 
 .error {
@@ -100,8 +101,12 @@ span.note-span {
 
 .link-box a {
   margin: 20px;
+  width: fit-content;
 }
 
 .link-box {
   padding-top: 15px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }

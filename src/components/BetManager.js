@@ -1,24 +1,26 @@
 import Header from "./Header";
 import { useState, useEffect } from "react";
 import { supabase } from "../functions/SupabaseClient";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext.js";
 
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 
-import ConfirmModal from "../modals/ConfirmModal.js";
-import DeleteModal from "../modals/DeleteModal.js";
+import ConfirmModal from "./modals/ConfirmModal.js";
+import DeleteModal from "./modals/DeleteModal.js";
 
 
 import "../styles/manage.css";
 import "../styles/menu.css";
+import { useModal } from "./providers/ModalContext.js";
 
 
 function OptionRadio({bet, setParentChoice}) {
     const [choice, setChoice] = useState({name:undefined,value:null});
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-    console.log(bet)
+    
+    const { succeed, failed } = useModal();
 
     const options = Object.entries(bet.odds).map(([name, value]) => ({
         name,
@@ -41,8 +43,8 @@ function OptionRadio({bet, setParentChoice}) {
             return;
         }
         const _outcome = choice.name;
-        console.log(_outcome);
-        console.log(_bet);
+        // console.log(_outcome);
+        // console.log(_bet);
 
         const { data, error } = await supabase.rpc('cash_bet', { _bet, _outcome});
 
@@ -50,17 +52,17 @@ function OptionRadio({bet, setParentChoice}) {
 
         if (data == 0) {
             //success
+            succeed();
             window.location.reload(false);
         } else if (data) {
             //failure in function
-            console.log(data);
+            failed({code: 100_000+data}); //100_000 + code is the defined rpc error codes
         }
         else if (error) {
             // set failure modal visible
-            console.log("fucc");
+            failed(error);
         } else {
-            console.log("wtf");
-            //  set success modal visible
+            failed({message: 'Something unexpected failed'});
         }
 
     }
@@ -78,17 +80,17 @@ function OptionRadio({bet, setParentChoice}) {
 
         if (data == 0) {
             //success
+            succeed();
             window.location.reload(false);
         } else if (data) {
             //failure in function
-            console.log(data);
+            failed({code: 100_000+data});
         }
         else if (error) {
             // set failure modal visible
-            console.log("fucc");
+            failed(error);
         } else {
-            console.log("wtf");
-            //  set success modal visible
+            failed({message: 'Something unexpected failed'});
         }
 
     }
@@ -166,7 +168,6 @@ function BetMenu({bets, bet}) {
             <PlacedBets placedBets={bets}/>
             <div className="bet-options">
                 {bet.open?<OptionRadio bet={bet} />:<></>}
-                {/* <div>what the fuck is a kilometer</div> */}
             </div>
         </div>
     );
@@ -227,11 +228,12 @@ function BetTool ({ bet, id }) {
 export default function BetManager() {
     const [bets, setBets] = useState([]);
 
-    const { meta } = useAuth();
+    const { user, meta } = useAuth();
+
     //get bets that ur the owner (commish of)
     useEffect(()=>{
         const getYourBets = async () => {
-            const { data, error } = await supabase.from('bets').select().eq('commissionerID', meta.commish);
+            const { data, error } = await supabase.from('bets').select().eq('commissionerID', meta.commish).order('open', {ascending: false});
             if (data) {
                 setBets(data);
             }

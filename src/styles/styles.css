@@ -26,6 +26,11 @@ body {
 }
 
 :root {
+  --logo-size: 50px;
+  --big-logo-size: 200px;
+
+  /* COLORS */ 
+  --big-O-color: #aeaeae;
   --background-color: #121212; /* Dark background color */
   --bet-background-color: #333;
   --text-color: #ffffff; /* Light text color */
@@ -36,8 +41,6 @@ body {
   --list-item-background: #333; /* Dark background color for list items */
   --link-color: #4caf50; /* Dark green link color */
   --link-hover: #45a049; /* Slightly darker green on hover */
-  --logo-size: 50px;
-  --big-logo-size: 200px;
   --nav-link-color: #fff;
   --nav-link-hover-color: #45a049;
   --cta-button-bg-color: #4caf50;
@@ -58,9 +61,8 @@ body {
   --alt1-table-rows-bg: #525252;
   --alt2-table-rows-bg: #353535;
   --table-bg: #0d1108;
-  /*  Bet Manager Table  */
-  --table-bg-green: ;
-  --table-bg-red: ;
+  --table-bg-green: #142814;
+  --table-bg-red: #281414;
   --dark-red-highlight: ;
   --dark-green-highlight: ;
   --table-border: #C3C9CF;  /*inv(48, 54, 61)*/
@@ -69,6 +71,8 @@ body {
   --danger-input: #2f2626;
   --delete-button: #cd0e31;
   --delete-button-hover: #dd1035;
+
+  
 }
 
 * {

@@ -7,7 +7,8 @@ import { validOdds, validLine, formatOdds, getNumber } from "../functions/ParseO
 import { getComplementary } from "../functions/CalculateProbabilities";
 import { supabase } from "../functions/SupabaseClient";
 
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
+import { useModal } from "./providers/ModalContext";
 
 
 export default function CreateBet(props) {
@@ -30,7 +31,9 @@ export default function CreateBet(props) {
   const [groups, setGroups] = useState([]);
   const [group, setGroup] = useState(-1);
 
+  //custom hooks
   const { user, session } = useAuth();
+  const {succeed, failed} = useModal();
 
 
   const getCommissioner = async () => {
@@ -287,6 +290,9 @@ export default function CreateBet(props) {
           setHit("");
           setMiss("");
           setGroup("");
+          succeed();
+        } else {
+          failed(error);
         }
       }
     }

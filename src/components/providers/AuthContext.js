@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../functions/SupabaseClient'; 
-import { validEmail, validUsername } from "../functions/isEmail";
+import { supabase } from '../../functions/SupabaseClient'; 
+import { validEmail, validUsername } from "../../functions/isEmail";
+import { doReload } from '../../functions/Astar';
+
 
 const AuthContext = createContext();
 
@@ -12,6 +14,14 @@ export const AuthProvider = ({ children }) => {
   const getSession = async () => {
     return await supabase.auth.getSession();
   };
+   
+  //DO LATER
+  // const handleLoginRedirect = () => {
+  //   if (!user && doReload(window.location.href)) { //replaces with ends with and change to endings because all the auth suite stuff
+  //     sessionStorage.setItem('authRedirectPath', window.location.href);
+  //     window.location.href = '/login';
+  //   }
+  // };
 
   useEffect(()=>{
     const getCommissionerStatus = async () => {
@@ -65,7 +75,7 @@ export const AuthProvider = ({ children }) => {
         if (data[0]?.publicID) {
           setMeta((prevMeta) => ({
             ...prevMeta,
-            publicID: data[0]?.publicID,
+            publicID: data[0].publicID,
           }));        
         }
       }
@@ -81,6 +91,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const checkUserAuthentication = async () => {
+      let auth = true;
       try {
         const {data, error} = await getSession();
         
@@ -92,27 +103,28 @@ export const AuthProvider = ({ children }) => {
               setUser(data.session.user);
             } else {
               setUser(null);
-              return false;
+              auth = false;
             }
           } else {
             setSession(null);
             setUser(null);
-            return false;
+            auth = false;
           } 
         } 
         else {
           setUser(null);
           setSession(null);
-          return false;
+          auth = false;
         }
         return true;
       } catch (error) {
         //console.error('Error fetching session:', error.message);
-        return false;
+        auth = false;
       }
     };
 
     checkUserAuthentication();
+    // handleLoginRedirect(); // DO LATER
   }, []);
 
 

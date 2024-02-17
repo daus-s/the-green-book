@@ -28,14 +28,14 @@
 } */
 
 .bet .odds {
-  color: var(--bet-text-color);
+  color: var(--big-O-color);
   font-weight: 700;
   font-size: 20px;
 }
 
 .line,
 .it-hits {
-  color: var(--cta-button-hover-bg-color);
+  color: var(--bet-text-color);
   font-size: 32px;
 }
 

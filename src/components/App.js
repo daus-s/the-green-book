@@ -1,4 +1,3 @@
-import "../styles/styles.css";
 import OverUnderBet from "./OverUnderBet";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "./Header";

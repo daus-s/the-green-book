@@ -24,7 +24,6 @@ function formatOdds(int) {
 }
 
 function getNumber(str) {
-    console.log(str)
     if (validOdds(str)) {
         let m = str.charAt(0)=='-'?-1:1; //multiplier ident negative or positive
         return m*parseInt(str.substring(1));

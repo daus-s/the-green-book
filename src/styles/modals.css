@@ -136,3 +136,118 @@ p.modal-data {
     font-size: 40px;
     color: var(--text-color);
 }
+
+.confirm-remove {
+    padding: 5px 20px 5px 20px;
+    background-color: var(--delete-button);
+    color: var(--bet-text-color);
+    border-radius: 20px;
+    vertical-align: middle;
+    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: none;
+}
+
+.confirm-remove:hover {
+    background-color: var(--delete-button-hover);
+}
+
+.modal input.search-bar {
+    outline: none;
+    border: 2px solid var(--highlighted-dark);
+    font-size: 48px;
+    color: var(--bet-text-color);
+    margin: 0px 10px 0px 10px;
+}
+
+.search-bar:hover, .search-bar:focus {
+    border: 2px solid var(--soft-highlight) !important;
+}
+
+.modal .user {
+    display: flex; 
+    flex-direction: row;
+
+}
+.modal .name {
+    width: 465px; 
+    font-size: 45px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-left: 10px;
+}
+.usi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    transform: translateX(18px);
+}
+
+.search-container  img {
+    margin: 2px;
+}
+
+.result .username {
+    font-size: 34px;
+}
+
+.result .email {
+    font-size: 12px;
+}
+
+.text-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+.result {
+    display: flex;
+    flex-direction: row;
+    width: 413px;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 2px solid var(--highlighted-dark);
+    background-color: var(--form-input);
+    padding: 4px;
+}
+
+.result-pfp {
+    width: 20%;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.usi .add { 
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.usi .add:hover {
+    background-color: var(--highlighted-dark);
+}
+
+.modal .success-title {
+    font-style: oblique;
+    font-weight: 500;
+    height: 100%;
+    /* top: 50%;
+    transform: translateY(25%);
+    align-items: center; */
+}
+
+.failure-modal, .success-modal {
+    z-index: 100000;
+}

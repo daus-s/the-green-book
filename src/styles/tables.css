@@ -1,0 +1,30 @@
+.placed-bets-table table {
+    border-collapse: collapse;
+    gap: 0;
+}
+
+.placed-bets-header {
+    font-weight: bold;
+    width: 100%;
+    background-color: var(--bet-option-button);
+}
+
+.placed-bet-row {
+    align-items: center; 
+    padding: 5px; 
+}
+
+
+.placed-bets-table .winner {
+    background-color: var(--table-bg-green); 
+    
+}
+
+.placed-bets-table .loser {
+    background-color: var(--table-bg-red);
+}
+
+.status, .outcome, .wager, .to-win, .profits {
+    text-align: center; 
+    padding: 5px 10px 5px 10px; /* Adjust padding for consistency */
+}

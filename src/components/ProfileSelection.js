@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import "../styles/selector.css"
 import { supabase } from "../functions/SupabaseClient";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 
 function PictureSelector({src, selected, setSelected}) {
     let a = selected === src;
@@ -44,16 +44,15 @@ export default function ProfileSelection({close}) {
     },[]);
 
     const updateURL = async () => {
-        console.log(selected);
-        console.log({pfp_url:selected})
-        console.log("email", user.email)
-
         const { error } = await supabase.from('public_users').update({pfp_url:selected}).eq("email", user.email);
-        if (!error) {
-            //hide this element
+        if (error) {
+            failed(error);
+          }
+          else if (!error) {
+            succeed();
             close(false);
             window.location.reload();
-        }
+          }
     };
 
     return (
