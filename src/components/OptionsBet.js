@@ -6,9 +6,12 @@ import DOMPurify from 'dompurify';
 
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext";
+import { useModal } from "./providers/ModalContext";
 
 const OptionsBet = ({ bet }) => {
   const { user, meta } = useAuth();
+  const { failed, succeed } = useModal();
+
 
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 

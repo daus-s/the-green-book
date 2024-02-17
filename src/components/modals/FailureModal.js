@@ -55,6 +55,11 @@ const FailureModal = ({ isOpen, onClose, error }) => {
         <h2>Failure</h2>
         <i style={{paddingTop: '20px'}}>{code&&codes[code]?codes[code]:'Something unexpected occured.'}</i> {/* banger line of code tbh */}
         <span onClick={onClose} style={{/*hover style here?*/borderRadius: '50%', position: 'absolute', top: '5px', right: '10px'}}>&times;</span> 
+        {code&&codes[code]?"":
+        <div className='report'>
+          <a href='https://github.com/daus-s/the-green-book/issues'>Report</a>
+        </div>
+        }
       </div>
     </Modal>
   );

@@ -251,3 +251,10 @@ p.modal-data {
 .failure-modal, .success-modal {
     z-index: 100000;
 }
+
+.report {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 10;
+}

@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 
 import { useAuth } from "./providers/AuthContext";
+import { useModal } from "./providers/ModalContext";
 import { supabase } from "../functions/SupabaseClient";
 
 
@@ -14,6 +15,7 @@ const OverUnderBet = ({ bet }) => {
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 
   const { user, meta } = useAuth();
+  const { failed, succeed } = useModal();
 
   const result = bet.open?"Open":"Closed";
   const line = bet.line;
