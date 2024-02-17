@@ -11,7 +11,6 @@ export default function UserElement({ public_uid, groupID }) {
     const [user, setUser] = useState(null);
 
     const handleRemove = async () => {
-        console.log(public_uid, groupID);
         const { error } = await supabase.from('user_groups').delete().match({userID: public_uid, groupID: groupID});
         if (error) {
             //set error modal true 

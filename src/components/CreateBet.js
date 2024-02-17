@@ -50,7 +50,6 @@ export default function CreateBet(props) {
         let c = await getCommissioner();
         if (c) {
           const groupData = await supabase.from("groups").select().eq('commissionerID', c);
-          //console.log(groupData.data);
           setGroups(groupData.data);
         }
         else {
@@ -133,11 +132,9 @@ export default function CreateBet(props) {
 
     const handleBlur = (e) => {
       if (e.target.name=="miss") {
-        // console.log("hits->" + getComplementary(formatOdds(getNumber(e.target.value))))
         setHit(formatOdds(getComplementary(formatOdds(getNumber(e.target.value)))));
       }
       if (e.target.name=="hits") {
-        // console.log("miss->" + getComplementary(formatOdds(getNumber(e.target.value))))
         setMiss(formatOdds(getComplementary(formatOdds(getNumber(e.target.value)))));
       }    
     }

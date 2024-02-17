@@ -51,7 +51,6 @@ export default function CreateGroup(props) {
 
   const validate = async (entry) => {
     const {data, error} = await supabase.from("public_users").select("id").or(`username.eq.${entry},email.eq.${entry}`);
-    //console.log(data?data:error)
     if (data)
       return !data.length>0
     return true;
@@ -59,8 +58,6 @@ export default function CreateGroup(props) {
 
   const validateAll = async () => {
     const truths = await Promise.all(users.map(validate));
-    // console.log(users)
-    // console.log(truths);
     setErrors(truths);
     return truths.some((element) => element);
   };

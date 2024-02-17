@@ -66,7 +66,6 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log(betAmount);
     if (!choice) {
       alert("Please select a valid bet option.");
       return;

@@ -18,9 +18,7 @@ function GroupElement({name, id}) {
         const { error } = await supabase.from('user_groups').insert({userID: userID, groupID: id})
         if (error) {
             //set failure modal true with message check?
-            console.log(error)
             failed(error);
-            // console.log(error);
         } else {
             succeed();
             setUSIModalVisible(false);
@@ -32,7 +30,6 @@ function GroupElement({name, id}) {
         const getUsers = async () => {
             if (id) {
                 const {data, error} = await supabase.from('user_groups').select('userID').eq("groupID", id)
-                //console.log(id, data?data:error);
                 if (data) {
                     setUsers(data);
                 } else if (error) {
@@ -73,12 +70,7 @@ export default function GroupManager() {
             if (meta.commish) {
                 const {data, error} = await supabase.from('groups').select().eq('commissionerID', meta.commish);
                 if (data) {
-                    console.log(data);
                     setGroupList(data);
-                } else if (error) {
-                    //set error modal true
-                } else {
-
                 }
             }
         }

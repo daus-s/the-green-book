@@ -43,9 +43,6 @@ function OptionRadio({bet, setParentChoice}) {
             return;
         }
         const _outcome = choice.name;
-        // console.log(_outcome);
-        // console.log(_bet);
-
         const { data, error } = await supabase.rpc('cash_bet', { _bet, _outcome});
 
         setDeleteModalVisible(false);

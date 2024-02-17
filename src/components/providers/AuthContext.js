@@ -159,7 +159,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error("Database error: "+ error.message)
       } 
       else {
-        // console.log("user:", res.data.user, "session:", res.data.session);
         setUser(res.data.user);
         setSession(res.data.session);
       }

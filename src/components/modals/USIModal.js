@@ -22,7 +22,6 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
     const [results, setResults] = useState([]);
 
     const handleClick = () => {
-        //console.log(user);
         onConfirm(user&&user.id&&user.id)
     }
 
@@ -36,7 +35,6 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
             // if (query.length > 1) { //ONLY IF SCALNG ISSUES
             if (!pretendCache[query]) {
                 const { data, error } = await supabase.from('public_users').select().ilike('username',  `${query}%`).order('username');
-                //console.log('queried')
                 if (data) {
                     let s  = {...pretendCache};
                     s[query] = data;
@@ -114,7 +112,6 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
 
 
 const SearchResult = ({r, select}) => {
-    //console.log('creating search rseult for ', r);
     return (
         <div className='result' onClick={()=>select(r)}>
             <div className='result-pfp'>

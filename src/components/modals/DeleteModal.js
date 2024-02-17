@@ -7,7 +7,6 @@ const DeleteModal = ({ isOpen, onDelete, onCancel, betName }) => {
   const [confirmation, setConfirmation] = useState('');
 
   const handleDelete = () => {
-    console.log('try to delete')
     if (confirmation === betName) {
       setConfirmation(''); // reset confirmation field
       onDelete();

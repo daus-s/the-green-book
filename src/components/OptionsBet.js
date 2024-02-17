@@ -8,7 +8,6 @@ import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext";
 
 const OptionsBet = ({ bet }) => {
-  //console.log(data);
   const { user, meta } = useAuth();
 
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
@@ -22,7 +21,6 @@ const OptionsBet = ({ bet }) => {
     const _bet = bet.betID;
     const _user = user.id;
     const _public = meta.publicID;
-    // console.log(`{public_uid,  ${_public}}`)
     const _outcome = outcome;
 
     const betData = {
@@ -32,7 +30,6 @@ const OptionsBet = ({ bet }) => {
                       _outcome,
                       _public
     };
-    console.log(betData);
     const { data, error } = await supabase.rpc("place_bet", betData);
     if (data&&data==0) {
       succeed();

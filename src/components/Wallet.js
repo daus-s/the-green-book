@@ -14,8 +14,6 @@ export default function Wallet(props) {
 
   useEffect( () => {
     async function fetchWallet() {
-      // console.log("wallet", user);
-      // console.log("wallet", session);
       if (user && session) {
         try {
           const {data, error} = await supabase.from("user_balances").select("balance").eq("userID", user.id);
