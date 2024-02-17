@@ -5,11 +5,10 @@ import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 
 import { supabase } from "../functions/SupabaseClient";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 
 const OptionsBet = ({ bet }) => {
-  //console.log(data);
-  const { user } = useAuth();
+  const { user, meta } = useAuth();
 
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 
@@ -21,20 +20,28 @@ const OptionsBet = ({ bet }) => {
     const _amount = bet_amount;
     const _bet = bet.betID;
     const _user = user.id;
+    const _public = meta.publicID;
     const _outcome = outcome;
-    // const betData = {
-    //                     betID: bet.betID,
-    //                     userID: user.id,
-    //                     amount: amount,
-    //                     outcome: outcome
-    // };
-    const { data, error } = await supabase.rpc("place_bet", {
-      _amount,
-      _user,
-      _bet,
-      _outcome
-    });
-    console.log(data?data:error);
+
+    const betData = {
+                      _amount,
+                      _user,
+                      _bet,
+                      _outcome,
+                      _public
+    };
+    const { data, error } = await supabase.rpc("place_bet", betData);
+    if (data&&data==0) {
+      succeed();
+    } 
+    else if (data) {
+      failed({code: 100_000 + data});
+    } 
+    else if (error) {
+      failed(error);
+    } else {
+      failed({message: 'Something unexpected occurred.'})
+    }
   };
 
   return (
@@ -56,9 +63,11 @@ const OptionsBet = ({ bet }) => {
       {result === "Closed" ? (
         <img id="status" src="close.png" />
       ) : (
-        <img id="status" src="mark.png" />
+        <>
+          <img id="status" src="mark.png" />
+          <OptionsPlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
+        </>
       )}
-      <OptionsPlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
     </div>
   );
 };

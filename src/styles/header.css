@@ -2,27 +2,29 @@
 
 #wordtitles {
   text-align: center;
+  width: 224px;
+  text-align: left;
 }
 
 #wordtitles h1 {
-  font-size: 2em; /* Adjust the font size as needed */
-  margin-bottom: 0; /* Remove default bottom margin */
-  color: #4caf50; /* Green color */
-  min-width: 235px;
+  font-size: 2em; 
+  margin-bottom: 0;
+  color: var(--header-color);
+  min-width: 173px;
 }
 
 @font-face {
   font-family: "DigitizedMontserrat";
-  src: url("../../public/MontserratSubrayada-Regular.ttf") format("truetype"); /* Adjust the path and format */
+  src: url("../../public/MontserratSubrayada-Regular.ttf") format("truetype"); 
   font-weight: normal;
   font-style: normal;
 }
 
 #wordtitles h6 {
   font-family: "DigitizedMontserrat";
-  font-size: 1em; /* Adjust the font size as needed */
-  margin-top: 0; /* Remove default top margin */
-  color: #333; /* Dark color */
+  font-size: .78em; 
+  margin-top: 0; 
+  color: var(--highlighted-dark); 
   text-align: left;
   padding-left: 7px;
 }

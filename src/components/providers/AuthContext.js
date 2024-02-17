@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../functions/SupabaseClient'; 
-import { validEmail, validUsername } from "../functions/isEmail";
+import { supabase } from '../../functions/SupabaseClient'; 
+import { validEmail, validUsername } from "../../functions/isEmail";
+import { doReload } from '../../functions/Astar';
+
 
 const AuthContext = createContext();
 
@@ -12,6 +14,14 @@ export const AuthProvider = ({ children }) => {
   const getSession = async () => {
     return await supabase.auth.getSession();
   };
+   
+  //DO LATER
+  // const handleLoginRedirect = () => {
+  //   if (!user && doReload(window.location.href)) { //replaces with ends with and change to endings because all the auth suite stuff
+  //     sessionStorage.setItem('authRedirectPath', window.location.href);
+  //     window.location.href = '/login';
+  //   }
+  // };
 
   useEffect(()=>{
     const getCommissionerStatus = async () => {
@@ -27,7 +37,7 @@ export const AuthProvider = ({ children }) => {
         commish: val,
       }));
       
-    };
+    }
 
     const getProfilePictureUrl = async () => {
       try {
@@ -56,16 +66,32 @@ export const AuthProvider = ({ children }) => {
         // Handle error
         console.error('Error fetching profile picture:', error);
       }
-    };
+    }
+
+    const getPublicID = async () => {
+      const email = (await getSession()).data?.session.user.email || "";
+      if (email) {
+        const {data,error} = await supabase.from("users").select("publicID").eq("email", user.email)
+        if (data[0]?.publicID) {
+          setMeta((prevMeta) => ({
+            ...prevMeta,
+            publicID: data[0].publicID,
+          }));        
+        }
+      }
+
+    }
 
     if (user&&session) {
       getCommissionerStatus();
       getProfilePictureUrl();
+      getPublicID();
     }
   },[user,session]);
 
   useEffect(() => {
     const checkUserAuthentication = async () => {
+      let auth = true;
       try {
         const {data, error} = await getSession();
         
@@ -77,27 +103,28 @@ export const AuthProvider = ({ children }) => {
               setUser(data.session.user);
             } else {
               setUser(null);
-              return false;
+              auth = false;
             }
           } else {
             setSession(null);
             setUser(null);
-            return false;
+            auth = false;
           } 
         } 
         else {
           setUser(null);
           setSession(null);
-          return false;
+          auth = false;
         }
         return true;
       } catch (error) {
         //console.error('Error fetching session:', error.message);
-        return false;
+        auth = false;
       }
     };
 
     checkUserAuthentication();
+    // handleLoginRedirect(); // DO LATER
   }, []);
 
 
@@ -132,7 +159,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error("Database error: "+ error.message)
       } 
       else {
-        // console.log("user:", res.data.user, "session:", res.data.session);
         setUser(res.data.user);
         setSession(res.data.session);
       }

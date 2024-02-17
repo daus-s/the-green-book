@@ -1,5 +1,6 @@
 //american odds checker
 function validOdds (intstr) {
+    if (intstr=='+NaN'||intstr=='-NaN') return true;
     if (intstr.length==0) return true;
     if (intstr.length==1) return (intstr.charAt(0) === '+' || intstr.charAt(0) === '-');
     if (typeof intstr == 'string') {

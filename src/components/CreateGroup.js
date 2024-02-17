@@ -3,8 +3,9 @@ import "../styles/creategroup.css";
 
 import { useState } from "react";
 
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 import { random } from "../functions/RandomBigInt";
+import { useModal } from "./providers/ModalContext";
 
 export default function CreateGroup(props) {
   const [users, setUsers] = useState(["",""]);
@@ -12,6 +13,8 @@ export default function CreateGroup(props) {
   const [name, setName] = useState("");
 
   const { user, session } = useAuth();
+  const { failed, succeed } = useModal();
+
   const addUser = () => {
     setUsers([...users, ""]);
     setErrors([...errors, false]);
@@ -48,7 +51,6 @@ export default function CreateGroup(props) {
 
   const validate = async (entry) => {
     const {data, error} = await supabase.from("public_users").select("id").or(`username.eq.${entry},email.eq.${entry}`);
-    //console.log(data?data:error)
     if (data)
       return !data.length>0
     return true;
@@ -56,8 +58,6 @@ export default function CreateGroup(props) {
 
   const validateAll = async () => {
     const truths = await Promise.all(users.map(validate));
-    // console.log(users)
-    // console.log(truths);
     setErrors(truths);
     return truths.some((element) => element);
   };
@@ -75,7 +75,9 @@ export default function CreateGroup(props) {
 
       //insert into group
       let commish = await getCommissioner(); 
-      let groupID = random(); // if this ever collides on 'groups' 
+      let groupID = (Math.pow(2, 31)-1) * Math.random(); 
+                              // PREVIOUS VERSION WITH BIGINT
+                              // if this ever collides on 'groups' 
                               // insert i am going to become a hermit 
                               // and prove there are finite numbers
                               // in the entire universe
@@ -86,26 +88,27 @@ export default function CreateGroup(props) {
         groupName: name
       };
       const { error } = await supabase.from("groups").insert(groupData);
-      console.log(groupData);
+      let a  = true
+      if (error) {
+        failed(error);
+        a = false;
+      }
 
-
-
+      //insert relations into user_group
       for (const id of ids) {
         let user_group = {
           userID: id,
           groupID: groupID.toString(),
         };
         const {error} = await supabase.from('user_groups').insert(user_group)
+        if (error) {
+          failed(error);
+          a = false;
+        }
+        if (a) {
+          succeed();
+        }
       }
-
-      
-
-
-      //insert relations into user_group
-      // console.log(ids);
-      // console.log("good", users);
-      // setUsers(["",""]);
-      // setName("");
     }
   };
 

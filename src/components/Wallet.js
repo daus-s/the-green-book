@@ -1,7 +1,7 @@
 import "../styles/wallet.css";
 
 import { supabase } from '../functions/SupabaseClient'; // Import your Supabase client configuration
-import { useAuth } from './AuthContext'; // Path to your AuthProvider
+import { useAuth } from './providers/AuthContext'; // Path to your AuthProvider
 import { useEffect, useState } from "react";
 
 
@@ -14,8 +14,6 @@ export default function Wallet(props) {
 
   useEffect( () => {
     async function fetchWallet() {
-      // console.log("wallet", user);
-      // console.log("wallet", session);
       if (user && session) {
         try {
           const {data, error} = await supabase.from("user_balances").select("balance").eq("userID", user.id);

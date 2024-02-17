@@ -4,48 +4,40 @@ import { useEffect, useState } from "react";
 import { american } from "../functions/CalculateWinnings.js";
 import "../styles/radio.css";
 import { supabase } from "../functions/SupabaseClient.js";
-import { useAuth } from "./AuthContext.js";
+import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
 
 const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
   const [betAmount, setBetAmount] = useState("");
   const [outcome, setOutcome] = useState(null);
   const [wager, setWager] = useState(0);
-  const [choice, setChoice] = useState("");
   const [locked, setLocked] = useState(false);
   const { user } = useAuth();
-
-  //console.log(bet);
 
   useEffect(()=>{
     //get user bet
     const getUserBet = async () => {
       const { data, error } = await supabase.from("user_bets").select("amount, outcome").eq("userID", user.id).eq("betID", bet.betID);
-      //console.log(data?data:error);
       if (data) {
         if (data.length==0)
         {
           setWager(0);
-          setChoice(null);
         }
         else if (data.length==1)
         {
           setLocked(true);
           const bet = data[0]
           setWager(bet.amount);
-          setChoice(bet.outcome);
           if (['hits', 'misses'].includes(bet.outcome)) {
             setOutcome(bet.outcome);
           }
         }
         else {
           setWager(0);
-          setChoice(null);
         }
       } 
       else {
         setWager(0);
-        setChoice(null);
       }
     };
 
@@ -64,7 +56,6 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log(betAmount);
     if (!outcome) {
       alert("Please select a valid bet option.");
       return;

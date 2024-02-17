@@ -3,11 +3,10 @@ import { american } from "../functions/CalculateWinnings.js";
 
 import "../styles/radio.css";
 import { supabase } from "../functions/SupabaseClient.js";
-import { useAuth } from "./AuthContext.js";
+import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
 
 const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
-  let odds = bet.odds;
   const [betAmount, setBetAmount] = useState("");
   const [wager, setWager] = useState(0);
   const [locked, setLocked] = useState(false);
@@ -60,20 +59,24 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    if (!choice) {
+      alert("Please select a valid bet option.");
+      return;
+    } else
     if (!betAmount || isNaN(parseInt(betAmount)) || parseInt(betAmount) < 0) {
       alert("Please enter a valid bet amount.");
       return;
     }
-
-    onSubmit(Math.max(0, parseInt(betAmount)), choice);
-    setBetAmount(""); // Reset the form after submitting
-    setChoice(choice);
-    setWager(parseInt(betAmount));
+    else {
+      onSubmit(Math.max(0, parseInt(betAmount)), choice);
+      setBetAmount(""); // Reset the form after submitting
+      setChoice(choice);
+      setWager(parseInt(betAmount));
+    }
   };
 
-  console.log(odds);
-  console.log('odds[choice] ==', odds[choice]);
+  let odds = bet.odds;
+
   return (
     <div
       className="over-under-place-bet-form"
@@ -94,7 +97,7 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
         }}
       >
         {"To win: "}
-        {(bet.odds&&wager)?american(getNumber(odds[choice]), wager):'-'}
+        {(choice&&bet.odds&&wager&&odds[choice])?american(getNumber(odds[choice]), wager):'-'}
       </div>
       <div
         className="your-wager"

@@ -3,7 +3,7 @@ import "../styles/auth.css";
 
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 
 export default function Auth(props) {
   const { login } = useAuth();
@@ -19,11 +19,12 @@ export default function Auth(props) {
     e.preventDefault();
     try {
       await login(usr, password);
-      if (props.src){
-        navigate("/"+props.src);
-      } else {
-        navigate("/bets")
-      }
+      // const path = sessionStorage.get('authRedirectPath'); //this is erroring
+      // if (path) {
+      //   navigate(path);
+      // } else {
+      navigate("/bets")
+      // }
     } catch (error) {
       //console.error(error);
       setInvalid(true);

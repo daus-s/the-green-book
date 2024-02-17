@@ -5,7 +5,7 @@ import OverUnderPlaceBetForm from "./OverUnderPlaceBetForm";
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 import { supabase } from "../functions/SupabaseClient";
 
 
@@ -13,7 +13,7 @@ const OverUnderBet = ({ bet }) => {
 
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 
-  const { user } = useAuth();
+  const { user, meta } = useAuth();
 
   const result = bet.open?"Open":"Closed";
   const line = bet.line;
@@ -23,6 +23,7 @@ const OverUnderBet = ({ bet }) => {
     const _amount = bet_amount;
     const _bet = bet.betID;
     const _user = user.id;
+    const _public = meta.publicID
     const _outcome = outcome;
     // const betData = {
     //                     betID: bet.betID,
@@ -34,9 +35,20 @@ const OverUnderBet = ({ bet }) => {
       _amount,
       _user,
       _bet,
-      _outcome
+      _outcome,
+      _public
     });
-    console.log(data?data:error);
+    if (data&&data==0) {
+      succeed();
+    } 
+    else if (data) {
+      failed({code: 100_000 + data});
+    } 
+    else if (error) {
+      failed(error);
+    } else {
+      failed({message: 'Something unexpected occurred.'});
+    }
   };
 
   return (
@@ -52,7 +64,7 @@ const OverUnderBet = ({ bet }) => {
       >
         {bet.title}
       </h3>
-      <div className="description" style={{marginTop:"40px"}}>
+      <div className="description" style={{marginTop:"45px"}}>
         <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
       </div>
       {result === "Closed" ? (

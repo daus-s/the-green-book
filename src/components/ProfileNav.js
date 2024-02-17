@@ -1,4 +1,4 @@
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 
 import "../styles/profile.css";
 export default function ProfileNav() {

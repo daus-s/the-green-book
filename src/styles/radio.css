@@ -43,18 +43,19 @@
   justify-content: center;
 }
 .custom-radio.option {
-  width: 225px;
+  width: 275px;
   margin: 5px 0px 5px 0px;
   padding: 5px 0px 5px 0px;
   height: fit-content;
   border-radius: 19px;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
 }
 .custom-radio.option label {
   padding: 5px;
 }
-.real-radio:checked + .custom-radio.option {
-  background-color: var(--cta-button-bg-color);
-}
+
 
 .custom-radio.option:checked {
   background-color: var(--cta-button-bg-color);
@@ -62,4 +63,22 @@
 
 .option-list label {
   cursor: pointer;
+}
+
+.custom-radio.option .name {
+  position: relative;
+  width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  left: 15px;
+  text-align: left;
+}
+
+.custom-radio.option .value {
+  position: relative;
+  right: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 70px;
+  text-align: right;
 }

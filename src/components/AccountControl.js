@@ -1,6 +1,6 @@
 import ProfileNav from "./ProfileNav";
 import { useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
 
 export default function AccountControl() {
     const {user, session, logout} = useAuth();

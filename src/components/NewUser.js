@@ -39,13 +39,11 @@ export default function NewUser() {
     else {
       setEmailError(false);  
     }
-    console.log("continuing");
     const signupResponse = await supabase.auth.signUp(
       {
       email: email.toLowerCase(),
       password: pwd,
     });
-    console.log(signupResponse);
     if (signupResponse.error)
     {
       if (signupResponse.error.message=="User already registered") {

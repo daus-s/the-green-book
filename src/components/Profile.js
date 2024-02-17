@@ -1,6 +1,7 @@
 import ProfileSelection from "./ProfileSelection";
 
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./providers/AuthContext";
+import { useModal } from "./providers/ModalContext";
 import { useEffect, useState } from "react";
 
 import { supabase } from "../functions/SupabaseClient";
@@ -8,18 +9,18 @@ import { alpha, validUsername } from "../functions/isEmail";
 
 import "../styles/profile.css";
 
-export default function Profile(props) {
+export default function Profile() {
   const [editName, setEditName] = useState(false);
   const [editUsername, setEditUsername] = useState(false);
   const [choosePFP, setChoosePFP] = useState(false);
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
-  const [pfp, setPFP] = useState("");
 
   const [email, setEmail] = useState("");
 
  
   const { user, meta, session } = useAuth();
+  const { failed, succeed } = useModal();
 
 
 
@@ -39,17 +40,24 @@ export default function Profile(props) {
     e.preventDefault();
     
     const { error } = await supabase.from("users").update({ name: name }).eq("userID", user.id);
-    if (!error) {
-      setEditName(false);
+    if (error) {
+      failed(error);
     }
-
+    else if (!error) {
+      succeed();
+      setEditName(false); //todo keep foreign key op on public _users
+    }
   };
 
   const callUpdateUsername = async (e) => {
     e.preventDefault();
 
     const { error } = await supabase.from("users").update({ username: username }).eq("userID", user.id);
-    if (!error) {
+    if (error) {
+      failed(error);
+    }
+    else if (!error) {
+      succeed();
       setEditUsername(false); //todo keep foreign key op on public _users
     }
   }

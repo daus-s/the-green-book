@@ -4,7 +4,7 @@ import "../styles/bets.css";
 
 import { american } from "../functions/CalculateWinnings.js";
 import { supabase } from "../functions/SupabaseClient";
-import { useAuth } from "./AuthContext.js";
+import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
 
 
@@ -20,13 +20,6 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
     name,
     value,
   }));
-
-  //tracking choice
-  // useEffect(()=>{
-  //   console.log(choice);
-  // },[choice]);
-  console.log(typeof(bet.odds[choice]),"odds =", bet.odds[choice]);
-
 
   useEffect(()=>{
     //get user bet
@@ -73,7 +66,6 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log(betAmount);
     if (!choice) {
       alert("Please select a valid bet option.");
       return;
@@ -85,16 +77,11 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
     } else {
       onSubmit(Math.max(0, parseInt(betAmount)), choice);
       setBetAmount(""); // Reset the form after submitting
-      setLocked(true);
+      // setLocked(true); //but dont lock the form   <------------------------------------ WALL OF SHAME
       setWager(parseInt(betAmount));
     }
   };
 
-  if ((bet.odds&&wager)) {
-    console.log(bet.odds[choice]);
-    console.log(bet.odds[wager]);
-    console.log(american(getNumber(bet.odds[choice]), wager));
-  }
   return (
     <form className="options-place-bet-form" onSubmit={handleSubmit}>
       <div className="option-list">
@@ -111,9 +98,12 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
 
             />
             <div className="custom-radio option">
-              {`${option.name} (${
-                option.value
-              })`}
+              <div className="name">
+                {option.name}
+              </div>
+              <div className="value">
+                ({option.value})
+              </div>
             </div>
           </label>
         ))}
@@ -130,7 +120,7 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
           }}
         >
           {"To win: "}
-          {(bet.odds&&wager)?Math.floor(american(getNumber(bet.odds[choice]), wager)):"-"}
+          {(choice&&bet.odds&&wager&&bet.odds[choice])?Math.floor(american(getNumber(bet.odds[choice]), wager)):'-'}
         </div>
         <div
           className="your-wager"

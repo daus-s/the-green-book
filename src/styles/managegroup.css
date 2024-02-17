@@ -1,0 +1,33 @@
+.users-container {
+    /* styling to make the bubbles look cool */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    padding: 5px 0px 5px 0px;
+    width: 480px;
+    /* now make the actual element*/
+    border-radius: 10px;
+    background-color: var(--highlighted-dark);
+}
+
+.group-manager {
+    display: flex;
+    margin: 20px;
+    flex-direction: column;
+}
+
+.group-element {
+    background-color: var(--bet-background-color);
+    width: 768px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
+    border-radius: 20px;
+    padding: 10px 10px 40px 10px;
+}
+
+.add {
+    padding: 3px;
+}
