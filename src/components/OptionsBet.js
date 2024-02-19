@@ -34,8 +34,9 @@ const OptionsBet = ({ bet }) => {
                       _public
     };
     const { data, error } = await supabase.rpc("place_bet", betData);
-    if (data&&data==0) {
-      succeed();
+    console.log(data);   // idk what blame is but im blaming this
+    if (data&&data==0) { // https://open.spotify.com/track/0V3wPSX9ygBnCm8psDIegu?si=2647a06ca663449a
+      succeed();         
     } 
     else if (data) {
       failed({code: 100_000 + data});

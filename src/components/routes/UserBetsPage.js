@@ -5,7 +5,7 @@ export default function UserBetsPage() {
     return (
         <div className="App">
             <Header />
-            <UserBets />
+            {sessionStorage.getItem("logged-in")?<UserBets />:<Navigate to="/login"/>}        
         </div>
     );
 }

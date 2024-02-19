@@ -256,5 +256,10 @@ p.modal-data {
     position: absolute;
     bottom: 5px;
     right: 10px;
+}
+
+.report a {
     font-size: 10;
+    color: var(--bet-option-highlight);
+    font-weight: 300;
 }

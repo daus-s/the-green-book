@@ -5,7 +5,7 @@ export default function BetManagerPage() {
     return (
         <div className="App">
             <Header/>
-            <BetManager />
+            {sessionStorage.getItem("logged-in")?<BetManager />:<Navigate to="/login"/>}
         </div>
     )
 }

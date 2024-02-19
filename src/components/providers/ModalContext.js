@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from 'react';
-import Modal from 'react-modal';
 import SuccessModal from '../modals/SuccessModal';
 import FailureModal from '../modals/FailureModal';
 

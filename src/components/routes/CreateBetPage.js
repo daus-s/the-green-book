@@ -5,7 +5,7 @@ export default function CreateBetPage() {
     return (
         <div className="App">
             <Header />
-            <CreateBet />
+            {sessionStorage.getItem("logged-in")?<CreateBet />:<Navigate to="/login"/>}
         </div>
     )
 }
