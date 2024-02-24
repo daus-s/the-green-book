@@ -1,8 +1,9 @@
 import "../styles/auth.css";
 import { supabase } from "../functions/SupabaseClient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validEmail, validUsername } from "../functions/isEmail";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./providers/AuthContext";
 
 export default function NewUser() {
   const [username, setUsername] = useState("");
@@ -16,8 +17,12 @@ export default function NewUser() {
   const[emailSyntaxError, setEmailSyntaxError] = useState(false);
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-
+  useEffect(()=> {
+    setEmailSyntaxError(!validEmail(email)&&email!=='');
+    setUsernameSyntaxError(!validUsername(username)&&username!=='');
+  }, [username, email]);
 
   const insertUser = async () => {
     const usernameExists = await supabase.from("public_users").select().eq("username", username.toLowerCase());
@@ -61,17 +66,17 @@ export default function NewUser() {
         }
       );
       if (!insertResponse.error&&signupResponse.data) {
-          //set auth and stuff 
-          navigate("/bets");
+        await login(username?username:email?email:undefined, pwd);
+        navigate("/bets");
       }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setEmailSyntaxError(validEmail(email));
-    setUsernameSyntaxError(validUsername(username));
-    if (!emailSyntaxError && !usernameSyntaxError) {
+    setEmailSyntaxError(!validEmail(email));
+    setUsernameSyntaxError(!validUsername(username));
+    if ((!emailSyntaxError || validEmail(email)) && (!usernameSyntaxError || validUsername(username))) {
       insertUser();
     }
   }
