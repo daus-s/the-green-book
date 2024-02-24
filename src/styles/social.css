@@ -101,3 +101,9 @@
     margin: 10px;
     align-self: flex-end;
 }
+
+.message {
+    width: 100%;
+    color: var(--bet-option-highlight);
+    font-size: 40px;
+}

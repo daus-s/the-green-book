@@ -18,7 +18,7 @@ const FailureModal = ({ isOpen, onClose, error }) => {
     const timeoutId = setTimeout(() => {
       unfailed();
       onClose();
-    }, 3000000); // WAIT 3 SECONDS
+    }, 3000); // WAIT 3 SECONDS
 
     return () => {
       clearTimeout(timeoutId);

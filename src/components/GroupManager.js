@@ -8,61 +8,126 @@ import "../styles/managegroup.css"
 import USIModal from "./modals/USIModal";
 import { useModal } from "./providers/ModalContext";
 import { trnslt } from "../functions/translateMode";
+import ADModal from "./modals/ADModal";
 
-function Requests({groupID}) {
-    const [found, setFound] = useState({})
+function Requests({groupID, groupName}) {
+    // const [found, setFound] = useState({})
     const [rs, setRS] = useState([]);
     const [x, setX] = useState(0);
     const [face, setFace] = useState({})
 
+    const [adVis, setADVis] = useState(false);
+    const [approve, setApprove] = useState(undefined);
+
+    const { succeed, failed } = useModal();
+
     useEffect(()=>{
         const getRequests = async() => {
             const {data, error} = await supabase.from('requests').select('user_id').eq('group_id', groupID);
+            console.log('requests',data?data:error)
             if (data&&data.length>0) {
                 setRS(data);
-                setFound(x<data.length&&x>0?data[x]:data[0]);
+                // setFound(x<data.length&&x>0?data[x]:data[0]);
             }
         }
         getRequests();
     }, []);
 
     useEffect(()=>{
-        const setFace  =  async () => {
+        const getUserData  =  async () => {
+            if (rs.length > x) {
+                const { data, error } = await supabase.from('public_users').select().eq('id', rs[x]?.user_id).single()
+                    if (data) {
+                        console.log(data)
+                        setFace(data);
+                    } else {
+                        
+                    }
+            }
+            /*
             if (found[rs[x]]) {
                 setFace(rs[x])
             } else {
-                const { data, error } = await supabase.from('public_users').select().eq('id', rs[x]?.user_id).single()
-                if (data) {
-                    setFace(data);
-                } else {
-                    
-                }
+                
             }
+            */
         }
 
-        setFace();
-    }, [x]);
+        getUserData();
+    }, [x, rs]);
+
+    const accept = async () => {
+        const { data, error } = await supabase.rpc('accept_request', {_user: face.id, _group: groupID});
+        if (data==0) {
+            succeed();
+        }
+        else {
+            failed(data?data:error?error:null);
+        }
+        setADVis(false);
+    }
+
+    const reject = async () => {
+        const { error } = await supabase.from('requests').delete().eq('user_id', face.id).eq('group_id', groupID);
+        if (error) {
+            failed(error);
+        }
+        else {
+            succeed();
+        }
+        setADVis(false);
+    }
+
+    const handleAxion = (type) => {
+        if (type==='accept') {
+            setApprove(true);
+        } 
+        else if (type==='reject') {
+            setApprove(false);
+        }
+        setADVis(true)
+    }
+
 
     return (
-        <div className="request">
-            <div className="user">
-                <div className="pfp">
-                    {face&&face.pfp_url?<img src={face.pfp_url}/>:<></>}
-                </div>
-                <div className="top-down">
-                    <div className="username">
-                        {face.username}
+        <>
+            <div className="req-nav-div">
+                <div className="left" onClick={()=>setX(prv=>(prv-1)%rs.length)}><img src="left.png"/></div>
+                <div className="request">
+                    {rs.length?
+                        <div className="user">
+                            <div className="pfp">
+                                {face&&face.pfp_url?<img src={face.pfp_url}/>:<></>}
+                            </div>
+                            <div className="top-down">
+                                <div className="username">
+                                    {face.username?face.username:"Uh-oh :("}
+                                </div>
+                                <div className="email">
+                                    {face.email?face.email:"Something went wrong..."}
+                                </div>
+                            </div>
+                        </div>
+                    :
+                    <div className="no-results">
+                        No Requests
                     </div>
-                    <div className="email">
-                        {face.email}
-                    </div>
+                    }
                 </div>
+                <div className="right" onClick={()=>setX(prv=>(prv+1)%rs.length)}><img src="right.png"/></div>
             </div>
-            <div className="left" onClick={()=>setX(prv=>(prv-1)%rs.length)}>{"<"}</div>
-            <div className="right" onClick={()=>setX(prv=>(prv-1)%rs.length)}>{">"}</div>
-            <div className="accept"><img src="insert.png"/></div>
-            <div className="reject"><img src="remove.png"/></div>
-        </div>
+            {
+            rs.length
+            ?
+            <div className="decision-box">
+                <div className="accept" onClick={()=>handleAxion('accept')}><img src="accept.png"  title="Accept"/><div className="text">Accept</div></div>
+                <div className="reject" onClick={()=>handleAxion('reject')}><img src="remove.png" title="Reject"/><div className="text">Reject</div></div>
+            </div>
+            :
+            <></>
+            }
+            <ADModal isOpen={adVis} onClose={()=>setADVis(false)} onConfirm={approve?accept:reject} approve={approve?approve:false} guest={face} groupName={groupName}/>
+        </>
     )
 }
 
@@ -172,7 +237,7 @@ function GroupElement({name, id}) {
                     <div className="requests-container-title">
                         Join Requests
                     </div>
-                    <Requests groupID={id}/>
+                    <Requests groupID={id} groupName={name}/>
                 </div>
             <USIModal isOpen={USIModalVisible}  onCancel={()=>setUSIModalVisible(false)} onConfirm={addUser}/>
         </div>

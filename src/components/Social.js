@@ -47,6 +47,9 @@ function GroupElement({group, message}) {
     }
     if (message)
     { 
+        if (message==='begin'){
+            return (<div className="result"><div className="message"></div></div>);
+        }
         return (<div className="result"><div className="message">{message}</div></div>);
     }
 
@@ -60,16 +63,16 @@ function GroupElement({group, message}) {
 
         const getStatus = async () => {
             const { data: member,  error: memError } = await supabase.from('user_groups').select().eq('groupID', group.groupID).eq('userID', meta.publicID);
-            const { data: request, error: reqError } = await supabase.from('request').select().eq('groupID', group.groupID).eq('userID', meta.publicID);
+            const { data: request, error: reqError } = await supabase.from('requests').select().eq('group_id', group.groupID).eq('user_id', meta.publicID);
 
-            console.log(member?member:memError);
-            console.log(request?request:reqError);
-            // if (member&&member.length===1) {
-            //     setJoined("Already a member");
-            // }
-            // if (request&&request.length===1) {
-            //     setJoined("Requested");
-            // }
+            // console.log(member?member:memError);
+            // console.log(request?request:reqError);
+            if (request&&request.length) {
+                setJoined("Requested");
+            }
+            if (member&&member.length===1) {
+                setJoined("Already a member");
+            }
         }
         
 
@@ -112,9 +115,13 @@ export default function Social() {
 
     useEffect(()=>{
         const getGroupsByQuery = async () => {
-            const { data } = await supabase.from('groups').select().ilike('groupName', `${query}*`);
-            if (data) {
-                setResults(data);
+            if (query) {
+                const { data } = await supabase.from('groups').select().ilike('groupName', `${query}*`);
+                if (data) {
+                    setResults(data);
+                }
+            } else {
+                setResults([]);
             }
         }
         getGroupsByQuery();
@@ -129,7 +136,8 @@ export default function Social() {
                     <input className="search-bar" placeholder="search groups..." value={query} onChange={(e)=>setQuery(e.target.value)}/><img style={{height: '32px'}} src="search.png"/>
             </div>
             <div className="social-results">
-                {results&&results.length?results.map((group, index)=>{ return <GroupElement group={group} key={index}/>;}):<GroupElement message='No groups found. :('/>}
+                {results&&results.length?results.map((group, index)=>{ return <GroupElement group={group} key={index}/>;}):
+                !query.length?<GroupElement message='begin'/>:<GroupElement message='No groups found. :('/>}
             </div>
         </div>
     );

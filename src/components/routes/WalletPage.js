@@ -2,11 +2,12 @@ import Header from "../Header";
 import Wallet from "../Wallet";
 
 import { Navigate } from 'react-router-dom';
+import { isLoggedIn } from "../../functions/LoginBool";
 
 export default function WalletPage() {
     return (
     <div className="App">
         <Header />
-        {sessionStorage.getItem("logged-in")?<Wallet />:<Navigate to="/login"/>}        
+        {isLoggedIn()?<Wallet />:<Navigate to="/login"/>}        
     </div>);
 }

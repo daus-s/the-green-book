@@ -45,6 +45,7 @@ body {
   --nav-link-hover-color: #45a049;
   --cta-button-bg-color: #4caf50;
   --cta-button-hover-bg-color: #45a049;
+  --deactive-gray: #aaa;
   --bet-text-color: #ccc;
   --grayed-out-text: #ddd;
   --bright-text: #e0e0ea;
@@ -73,8 +74,7 @@ body {
   --delete-button-hover: #dd1035;
   --fancy: #c0de31;
   --satan-minus-one: #555;
-  --cool-dark: #28262b;
-  
+  --cool-dark: #28262b; 
 }
 
 * {

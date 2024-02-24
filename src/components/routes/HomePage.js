@@ -33,7 +33,7 @@ export default function HomePage() {
                         </div>
                     </div>
                 </Link>
-                <Link to="/bets" className="option">
+                <Link to="/social" className="option">
                     <div className="card">
                         <div className="card-content">
                             <div className="card-title">Find Your Squad</div>

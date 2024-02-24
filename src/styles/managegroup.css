@@ -13,7 +13,7 @@
 
 .group-manager {
     display: flex;
-    margin: 20px;
+    margin: 96px 20px 20px 20px;
     flex-direction: column;
 }
 
@@ -105,5 +105,121 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    flex-direction: column;
 }
 
+.requests img {
+    height: 24px;
+}
+
+.request .user, .request .no-results {
+    width: 350px;
+    height: 84px;
+}
+
+.pfp {
+    margin-right: 12px;
+}
+
+.pfp img {
+    border-radius: 50%;
+    height: 64px;
+}
+
+.top-down {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.request .user {
+    display: flex;
+    background-color: var(--form-input);
+    padding: 10px 4px 10px 4px;
+    border-radius: 16px;
+}
+
+.request .username {
+    font-size: 32px;
+    margin-bottom: 0;
+    color: var(--bright-text);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.request .email {
+    font-size: 20px;
+    color: var(--grayed-out-text);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.requests .left:hover, .requests .right:hover {
+    background-color: var(--soft-highlight);
+    
+}
+
+.requests .left, .requests .right {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;  
+    padding: 3px;  
+}
+
+.left img {
+    transform: translateX(-2px);
+}
+
+.right img {
+    transform: translateX(2px);
+}
+
+.request .accept, .request .reject {
+
+}
+
+.req-nav-div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 420px;
+    justify-content: space-between;
+}
+
+.no-results {
+    background-color: var(--form-input);
+    padding: 24px 4px 10px 4px;
+    border-radius: 16px;
+    color: var(--deactive-gray);
+    text-align: center;
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.decision-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 420px;
+    padding: 10px 65px 2px 65px;
+}
+
+.accept .text, .reject .text {
+    padding-top: 5px;
+    color: var(--bet-text-color);
+    position: absolute;
+    transform: translateX(-25%);
+}
+
+.accept, .reject {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.accept img, .reject img {
+    transform: translateY(4px);
+}
+.accept:hover, .reject:hover {
+    background-color: var(--soft-highlight);
+}
