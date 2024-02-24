@@ -1,6 +1,8 @@
 import BetManager from "../BetManager";
 import Header from "../Header";
 
+import { Navigate } from 'react-router-dom';
+
 export default function BetManagerPage() {
     return (
         <div className="App">

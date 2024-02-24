@@ -33,7 +33,7 @@ export default function Auth(props) {
   };
   //supabase cnx
   return (
-    <div className="auth-login">
+    <div className="auth-login page">
       <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
       <form onSubmit={handleLogin}>
         <div

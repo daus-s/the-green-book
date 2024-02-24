@@ -298,7 +298,7 @@ export default function CreateBet(props) {
 
 
   return (
-    <div className="create-bet">
+    <div className="create-bet page">
       <h1 style={{fontSize:"2.5em"}}>Create Bet</h1>
       <form onSubmit={handleSubmit}>
         <div className="box">

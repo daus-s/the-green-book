@@ -28,7 +28,7 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div className="forgot-password">
+        <div className="forgot-password page">
             <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
             <form className="forgot-password-form" onSubmit={(e)=>{sendResetEmail(e)}}>
                 <div className="input">

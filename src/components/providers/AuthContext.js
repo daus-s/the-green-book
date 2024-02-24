@@ -15,13 +15,7 @@ export const AuthProvider = ({ children }) => {
     return await supabase.auth.getSession();
   };
    
-  //DO LATER
-  // const handleLoginRedirect = () => {
-  //   if (!user && doReload(window.location.href)) { //replaces with ends with and change to endings because all the auth suite stuff
-  //     sessionStorage.setItem('authRedirectPath', window.location.href);
-  //     window.location.href = '/login';
-  //   }
-  // };
+
 
   useEffect(()=>{
     const getCommissionerStatus = async () => {
@@ -125,7 +119,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkUserAuthentication();
-    // handleLoginRedirect(); // DO LATER
   }, []);
 
 

@@ -77,7 +77,7 @@ export default function NewUser() {
   }
 
   return (
-    <div className="new-user">
+    <div className="new-user page">
       <img src="greenbook.jpg" alt="The Green Book logo." className="biglogo"/>
       <form onSubmit={handleSubmit}>
         <div

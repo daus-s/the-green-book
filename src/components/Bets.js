@@ -45,7 +45,7 @@ export default function Bets() {
         getBets();
     },[user, session])
     return (
-        <div className="bets">
+        <div className="bets page">
             {bets.map((b)=>{return bet(b)})
             }
         </div>)

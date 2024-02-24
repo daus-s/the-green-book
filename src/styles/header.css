@@ -62,6 +62,14 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: auto;
+  max-width: calc(100% - 480px );
+  padding-bottom: 16px;
+  transform: translateY(8px);
+  padding-left: 40px;
+  /* box-shadow: inset 10px 0px 10px blue; var(--background-color) */
+  /*   ;
+ */
 }
 
 nav a {
@@ -69,7 +77,9 @@ nav a {
   text-decoration: none;
   margin: 0 15px;
   font-size: 18px;
-  min-width: 110px;
+  width: fit-content;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 nav a:hover {

@@ -32,7 +32,7 @@
     padding: 3px;
 }
 
-.bets-container-title, .user-container-title {
+.bets-container-title, .user-container-title, .requests-container-title {
     font-weight: 400;
     font-size: 28px;
     color: var(--bet-text-color);
@@ -64,6 +64,14 @@
     width: calc(100% - 40px);
 }
 
+.bet-container {
+    height: calc(100% - 36px);
+}
+
+.scroll {
+    overflow-y: auto; 
+}
+
 .bet-view-row {
     display: flex;
     flex-direction: row;
@@ -90,3 +98,12 @@
 .bet-view-row:nth-child(odd) {
     background-color: var(--alt2-table-rows-bg);
 }
+
+.requests {
+    margin-top: 20px;
+    width: calc(100% - 60px);
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+

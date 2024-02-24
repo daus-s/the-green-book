@@ -118,6 +118,7 @@ input.delete::placeholder {
 
 .modal .confirm-button {
     padding: 5px 20px 5px 20px;
+    margin-top: 0; /* cancels out styling of selector.css confirm button that clashes with modal confirm button*/
     border-radius: 16px;
 }
 
@@ -183,6 +184,7 @@ p.modal-data {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    z-index: 1;
 }
 
 .search-container {
@@ -263,3 +265,23 @@ p.modal-data {
     color: var(--bet-option-highlight);
     font-weight: 300;
 }
+
+.scroll-container  {
+    z-index: 10;
+    position: absolute;
+    top: 154px;
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.normal-overflow {
+    overflow: visible;
+}
+
+
+.skinny {
+    width: fit-content !important;
+    min-width: 0 !important;
+    padding: 5px 30px 5px 30px !important;
+}
+

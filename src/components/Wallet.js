@@ -33,7 +33,7 @@ export default function Wallet(props) {
   
   const amount = 100;
   return (
-    <div className="wallet">
+    <div className="wallet page">
       <img src="money.png" alt="wallet" />
       <div>
         <div className="amount">${loading?<span className="null">&#8212;</span>:balance}</div>

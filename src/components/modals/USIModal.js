@@ -11,7 +11,7 @@ import { useModal } from '../providers/ModalContext';
 
 const USIModal = ({ isOpen, onCancel, onConfirm}) => {
 
-    const { succeed, failed } = useModal();
+    const { failed } = useModal();
 
     const [query, setQuery] =  useState("");
     const [user, setUser] = useState({});
@@ -78,8 +78,10 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
+            overflow: 'visible',
           },
         }}
+        portalClassName='normal-overflow'
       >
         <div className="modal usi" >
             <form className='user' onSubmit={handleSubmit}>

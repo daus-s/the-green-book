@@ -18,14 +18,21 @@ const FailureModal = ({ isOpen, onClose, error }) => {
     const timeoutId = setTimeout(() => {
       unfailed();
       onClose();
-    }, 3000); // WAIT 3 SECONDS
+    }, 3000000); // WAIT 3 SECONDS
 
     return () => {
       clearTimeout(timeoutId);
     };
   }, [failure]);
 
-  
+  /*  this has a portalClassName because it goes over the Request Modal by setting the z-index of this class over the creating modal
+      could change to creating the new modal in a modal 
+        returning
+        condition ?  
+          <SuccessModal some={bullshit}/>
+        :
+        <none>
+   */
   return (
     <Modal 
       portalClassName='failure-modal'
@@ -39,8 +46,10 @@ const FailureModal = ({ isOpen, onClose, error }) => {
         content: {        
           backgroundColor: 'var(--bet-background-color)',
           borderColor: 'var(--bet-option-highlight)',
-          minWidth: '200px',
-          minHeight: '100px',
+          minWidth: '400px',
+          minHeight: '200px',
+          width: '400px',
+          height: '200px',
           aspectRatio: '2',
           position: 'absolute',
           top: '50%',

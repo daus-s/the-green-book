@@ -1,6 +1,8 @@
 import Header from "../Header";
 import Wallet from "../Wallet";
 
+import { Navigate } from 'react-router-dom';
+
 export default function WalletPage() {
     return (
     <div className="App">

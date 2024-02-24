@@ -240,8 +240,7 @@ export default function BetManager() {
     },[meta]);
 
     return (
-        <div>
-            <Header/>
+        <div className="page">
             {bets.map((bet)=>(<BetTool bet={bet} id={bet.betID}/>))}
         </div>
     )

@@ -79,7 +79,7 @@ export default function Profile() {
   }, [user, session]);
 
   return (
-    <div className="profile">
+    <div className="profile page">
       <div className="profile-data">
         <div className="profile-pic">
           <div className="pfp-img">

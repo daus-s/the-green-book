@@ -1,0 +1,103 @@
+.social .search-bar {
+    font-size: 30px;
+    padding: 3px;
+    border-radius: 6px;
+    background-color: var(--input-background);
+    color: var(--input-text);
+    width: 413px;
+    outline: none;
+    border: none;
+}
+
+.social .search-container {
+    transform: translateX(0px);
+}
+
+.social .search-bar:focus, .social .search-bar:hover {
+    padding: 1px;
+}
+
+.social-results {
+    margin-top: 64px;
+}
+
+.social .top-down {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.social .commish {
+    display: flex;
+    flex-direction: row;
+    padding: 4px 20px 2px 20px;
+    width: 100%;
+}
+
+.commish-email {
+    font-weight: 200;
+    color: var(--bet-text-color);
+}
+
+.commish-name {
+    color: var(--grayed-out-text);
+    font-weight: 600;
+    font-size: 28px;
+}
+
+.social .result {
+    background-color: transparent;
+    border: 0;
+}
+
+.social .group-name {
+    font-size: 56px;
+    font-weight: 400;
+    text-align: left;
+    width: fit-content;
+    color: var(--bright-text);
+}
+
+.social .group {
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: 2px solid var(--table-border) ;
+    border-radius: 0;
+}
+
+.comm-container {
+    font-size: 20px;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.comm-container span {
+    width: fit-content;
+}
+
+
+.social button {
+    background-color: var(--cta-button-hover-bg-color);
+
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 17px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.social button:hover {
+    background-color: var(--cta-button-bg-color);
+
+}
+
+.social .insert-button {
+    margin: 10px;
+    align-self: flex-end;
+}

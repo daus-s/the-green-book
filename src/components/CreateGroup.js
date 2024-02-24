@@ -113,7 +113,7 @@ export default function CreateGroup(props) {
   };
 
   return (
-    <div className="create-group">
+    <div className="create-group page">
       <div className="creategroup-header"><h3>Create Group</h3><br/></div>
       <form onSubmit={handleSubmit}>
         <table>

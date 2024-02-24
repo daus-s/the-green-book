@@ -82,12 +82,14 @@ body {
 }
 
 #root {
-  
+  height: 100vh;
 }
 
 #root {
   position: absolute;
   top: 0px;
+}
+
+.page {
   margin-top: 96px;
-  min-height: calc(100% - 96px);
 }

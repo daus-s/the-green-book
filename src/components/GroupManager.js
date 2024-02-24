@@ -9,6 +9,63 @@ import USIModal from "./modals/USIModal";
 import { useModal } from "./providers/ModalContext";
 import { trnslt } from "../functions/translateMode";
 
+function Requests({groupID}) {
+    const [found, setFound] = useState({})
+    const [rs, setRS] = useState([]);
+    const [x, setX] = useState(0);
+    const [face, setFace] = useState({})
+
+    useEffect(()=>{
+        const getRequests = async() => {
+            const {data, error} = await supabase.from('requests').select('user_id').eq('group_id', groupID);
+            if (data&&data.length>0) {
+                setRS(data);
+                setFound(x<data.length&&x>0?data[x]:data[0]);
+            }
+        }
+        getRequests();
+    }, []);
+
+    useEffect(()=>{
+        const setFace  =  async () => {
+            if (found[rs[x]]) {
+                setFace(rs[x])
+            } else {
+                const { data, error } = await supabase.from('public_users').select().eq('id', rs[x]?.user_id).single()
+                if (data) {
+                    setFace(data);
+                } else {
+                    
+                }
+            }
+        }
+
+        setFace();
+    }, [x]);
+
+    return (
+        <div className="request">
+            <div className="user">
+                <div className="pfp">
+                    {face&&face.pfp_url?<img src={face.pfp_url}/>:<></>}
+                </div>
+                <div className="top-down">
+                    <div className="username">
+                        {face.username}
+                    </div>
+                    <div className="email">
+                        {face.email}
+                    </div>
+                </div>
+            </div>
+            <div className="left" onClick={()=>setX(prv=>(prv-1)%rs.length)}>{"<"}</div>
+            <div className="right" onClick={()=>setX(prv=>(prv-1)%rs.length)}>{">"}</div>
+            <div className="accept"><img src="insert.png"/></div>
+            <div className="reject"><img src="remove.png"/></div>
+        </div>
+    )
+}
+
 function BetElement({bet, groupSize}) {
     const [count, setCount] = useState(0);
     useEffect(()=>{
@@ -104,10 +161,19 @@ function GroupElement({name, id}) {
                             <div className="types" title="Bet type">Mode</div>
                             <div className='participations' title="Bet participation">%</div>
                         </div>
-                        {bets.length?bets.map((bet, index)=><BetElement bet={bet} key={index} groupSize={users.length}/>):<div className="bet-view-row" style={{textAlign: 'center', width: '100%', display: 'flex', justifyContent: 'flex-start', backgroundColor: 'var(--table-header-background)', color: 'var(--big-O-color)', fontWeight: '200', fontStyle: 'italic', padding: '2px 0px 2px 5px'}}>No active bets</div>}
+                        <div className="scroll">
+                            {bets.length?bets.map((bet, index)=><BetElement bet={bet} key={index} groupSize={users.length}/>):<div className="bet-view-row" style={{textAlign: 'center', width: '100%', display: 'flex', justifyContent: 'flex-start', backgroundColor: 'var(--table-header-background)', color: 'var(--big-O-color)', fontWeight: '200', fontStyle: 'italic', padding: '2px 0px 2px 5px'}}>No active bets</div>}
+                        </div>
                     </div>
                 </div>
+
             </div>
+            <div className="requests">
+                    <div className="requests-container-title">
+                        Join Requests
+                    </div>
+                    <Requests groupID={id}/>
+                </div>
             <USIModal isOpen={USIModalVisible}  onCancel={()=>setUSIModalVisible(false)} onConfirm={addUser}/>
         </div>
     );
@@ -131,7 +197,7 @@ export default function GroupManager() {
     }, [meta])
 
     return (
-        <div className="group-manager">
+        <div className="group-manager page">
             {groupList.map((group, index)=>
                 <div key={index}>
                     {<GroupElement id={group.groupID} name={group.groupName} />}

@@ -64,7 +64,7 @@ export default function UserBets() {
     }, [user]);
 
     return (
-<div className="placed-bets-table">
+<div className="placed-bets-table page">
     <table>
         <thead>
             <tr className="placed-bets-header">

@@ -15,6 +15,7 @@ import BetManagerPage from "./components/routes/BetManagerPage";
 import ManageGroupPage from "./components/routes/ManageGroupPage";
 import UserBetsPage from "./components/routes/UserBetsPage";
 import HomePage from "./components/routes/HomePage";
+import SocialPage from "./components/routes/SocialPage";
 
 import ".//styles/styles.css";
 
@@ -90,6 +91,11 @@ const router = createBrowserRouter([
   {
     path: "/your-groups",
     element: <ManageGroupPage />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: 'social',
+    element: <SocialPage />,
     errorElement: <ErrorPage />
   }
 ]);

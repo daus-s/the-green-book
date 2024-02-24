@@ -1,6 +1,8 @@
 import CreateBet from "../CreateBet";
 import Header from "../Header";
 
+import { Navigate } from 'react-router-dom';
+
 export default function CreateBetPage() {
     return (
         <div className="App">

@@ -1,11 +1,14 @@
 import Header from "../Header";
 import Profile from "../Profile";
-import { Navigate } from 'react-router-dom';
+// replacing this: import { Navigate } from 'react-router-dom';
+// with this:
+import Perhaps from "./Perhaps";
 export default function ProfilePage() {
+
     return (
         <div>
-            <Header />
-            {sessionStorage.getItem("logged-in")?<Profile />:<Navigate to="/login"/>}
+            
+            {sessionStorage.getItem("logged-in")?<><Header /><Profile /></>:<Perhaps />}
         </div>
     );
 }
