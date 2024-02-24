@@ -5,7 +5,7 @@ export default function ManageGroupPage() {
     return (
         <div className="App">
             <Header />
-            <GroupManager />
+            {sessionStorage.getItem("logged-in")?<GroupManager />:<Navigate to="/login"/>}            
         </div>
     );
 }

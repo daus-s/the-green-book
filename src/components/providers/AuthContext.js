@@ -98,6 +98,7 @@ export const AuthProvider = ({ children }) => {
         if (data.session) {
           var ts = Math.round((new Date()).getTime() / 1000);
           if (data.session.expires_at>ts) { 
+            sessionStorage.setItem("logged-in", true);
             setSession(data.session);
             if (data.session.user) {
               setUser(data.session.user);
@@ -161,6 +162,7 @@ export const AuthProvider = ({ children }) => {
       else {
         setUser(res.data.user);
         setSession(res.data.session);
+        sessionStorage.setItem('logged-in', true);
       }
     }
     catch (error) {
@@ -193,7 +195,8 @@ export const AuthProvider = ({ children }) => {
   
     // Redirect to the login page
     window.location.replace(base + "/login");
-  
+    sessionStorage.setItem('logged-in', false);
+
     // Log error if any
     if (error) {
       console.error('Logout error:', error.message);
@@ -204,7 +207,7 @@ export const AuthProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, session, meta, login, logout }}>
+    <AuthContext.Provider value={{ user, session, meta, login, logout, getSession }}>
       {children}
     </AuthContext.Provider>
   );

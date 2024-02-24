@@ -1,3 +1,7 @@
+.placed-bets-table {
+    max-width: 800px;
+}
+
 .placed-bets-table table {
     border-collapse: collapse;
     gap: 0;

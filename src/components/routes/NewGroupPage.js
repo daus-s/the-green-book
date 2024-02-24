@@ -5,6 +5,6 @@ export default function NewGroupPage() {
     return (
     <div className="App">
         <Header/>
-        <CreateGroup />
+        {sessionStorage.getItem("logged-in")?<CreateGroup />:<Navigate to="/login"/>}
     </div>);
 }
