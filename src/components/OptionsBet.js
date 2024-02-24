@@ -54,7 +54,7 @@ const OptionsBet = ({ bet }) => {
         style={{
           maxWidth: "320px",
           position: "relative",
-          left: "15%",
+          left: "8%",
           width: "70%",
           textAlign: "left",
         }}

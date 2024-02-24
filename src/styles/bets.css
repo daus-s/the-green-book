@@ -28,20 +28,17 @@
 } */
 
 .bet .odds {
-  color: var(--big-O-color);
-  font-weight: 700;
-  font-size: 20px;
+  color: var(--bet-text-color);
+  font-weight: 600;
+  font-size: 16.67px;
 }
 
 .line,
 .it-hits {
-  color: var(--bet-text-color);
+  color: var(--cta-button-hover-bg-color);
   font-size: 32px;
 }
 
-.ou {
-  font-size: smaller;
-}
 .odds {
   text-align: right;
 }
@@ -69,12 +66,13 @@
   padding: 1px 5px 1px 5px;
   margin: 10px;
   position: relative;
-  left: 15%;
-  width: 70%;
+  left: 0px;
+  width: 80%;
   text-align: left;
   background-color: var(--highlighted-dark);
   border-radius: 8px;
   display: flex;
   align-self: flex-start;
   flex-direction: column;
+  overflow: hidden;
 }

@@ -2,7 +2,7 @@
 .home {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-around;
   padding: 20px;
   min-height: 90vh;
@@ -33,11 +33,16 @@
   font-size: 18px;
   text-align: center;
   margin-bottom: 20px;
+  position: relative; 
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .home .options {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1020px;
 }
 
 .home .option {
@@ -62,6 +67,7 @@
   overflow: hidden;
   transition: transform 0.3s ease;
   height: 300px;
+  width: 300px;
 }
 
 .home .card:hover {
@@ -88,17 +94,17 @@
 }
 
 .footer {
-  position: fixed;
-  bottom: 9px;
-  width: 100vh;
+  position: absolute;
+  top: calc(100vh);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 4px 10px 4px 10px;
 }
 
 .footer .note {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: flex-end;
-  width: 100%;
+  width: fit-content;
 }
 
 .footer .note .link {
@@ -147,4 +153,11 @@
   max-height:300px;
   width: auto;
   height: auto;
+}
+
+.home .acct-ctrl {
+  position: absolute;
+  top: 69px;
+  transform: translateY(-50%);
+  right: 16px;
 }

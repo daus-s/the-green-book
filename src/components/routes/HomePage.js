@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "../../styles/home.css";
+import AccountControl from '../AccountControl';
 
 export default function HomePage() {
     return (
@@ -18,6 +19,9 @@ export default function HomePage() {
             </div>
             <div className="description">
                 theGreenBook, a social betting app paying homage to its humble beginnings as a green notebook shared by some friends
+            </div>
+            <div className='acct-ctrl'>
+                <AccountControl />
             </div>
         </div>
             <div className="options">
@@ -46,13 +50,20 @@ export default function HomePage() {
                     </div>
                 </Link>
             </div>
-        <div className='footer'>
+        <footer className='footer'>
             <div className='note'>
-                {/* <div className='link' style={{cursor: 'pointer'}}> */}
-                    <a href="https://github.com/daus-s/the-green-book/issues">Report an issue</a>
-                {/* </div> */}
+                <a href="/developers">Developers</a>
             </div>
-        </div>
+            <div className='note'>
+                <a href="/attributions">Attributions</a>
+            </div>
+            <div className='note'>
+                <a href='/ty<3'>Special Thanks</a>
+            </div>
+            <div className='note'>
+                <a href="https://github.com/daus-s/the-green-book/issues">Report an issue</a>
+            </div>
+        </footer>
     </div>
     );
 };
