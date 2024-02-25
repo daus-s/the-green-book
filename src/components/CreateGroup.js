@@ -4,7 +4,7 @@ import "../styles/creategroup.css";
 import { useState } from "react";
 
 import { useAuth } from "./providers/AuthContext";
-import { random } from "../functions/RandomBigInt";
+// import { random } from "../functions/RandomBigInt"; # bigint deprecated pre-release
 import { useModal } from "./providers/ModalContext";
 
 export default function CreateGroup(props) {
@@ -12,7 +12,7 @@ export default function CreateGroup(props) {
   const [errors, setErrors] = useState([false, false]);
   const [name, setName] = useState("");
 
-  const { user, session } = useAuth();
+  const { user, meta } = useAuth();
   const { failed, succeed } = useModal();
 
   const addUser = () => {
@@ -94,11 +94,13 @@ export default function CreateGroup(props) {
         a = false;
       }
 
-      //insert relations into user_group
+      //insert relations into user_group 
+      /* See if the groupID can now be passed as a integer number not a string */
+      await supabase.from('user_groups').insert({userID: meta.publicID, groupID: groupID()});
       for (const id of ids) {
         let user_group = {
           userID: id,
-          groupID: groupID.toString(),
+          groupID: groupID(),
         };
         const {error} = await supabase.from('user_groups').insert(user_group)
         if (error) {
