@@ -97,7 +97,7 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
         }}
       >
         {"To win: "}
-        {(choice&&bet.odds&&wager&&odds[choice])?american(getNumber(odds[choice]), wager):'-'}
+        {(choice&&bet.odds&&wager&&odds[choice])?american(getNumber(odds[choice].toString()), wager):'-'}
       </div>
       <div
         className="your-wager"

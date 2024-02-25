@@ -72,6 +72,7 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
     }
   };
   
+  console.log(bet.odds);
   return (
     <div
       className="moneyline-place-bet-form"
@@ -92,7 +93,7 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
         }}
       >
         {"To win: "}
-        {outcome?Math.floor(american(getNumber(bet.odds[outcome]), wager)):"-"}
+        {outcome?Math.floor(american(getNumber(bet.odds[outcome].toString()), wager)):"-"}
       </div>
       <div
         className="your-wager"
