@@ -96,11 +96,11 @@ export default function CreateGroup(props) {
 
       //insert relations into user_group 
       /* See if the groupID can now be passed as a integer number not a string */
-      await supabase.from('user_groups').insert({userID: meta.publicID, groupID: groupID()});
+      await supabase.from('user_groups').insert({userID: meta.publicID, groupID: groupID});
       for (const id of ids) {
         let user_group = {
           userID: id,
-          groupID: groupID(),
+          groupID: groupID,
         };
         const {error} = await supabase.from('user_groups').insert(user_group)
         if (error) {

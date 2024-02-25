@@ -81,7 +81,7 @@ function GroupElement({group, message}) {
     }, []);
 
     const makeRequest = async () => {
-        const { error } = await supabase.from('requests').insert({public_id:meta.public_uid, group_id: group.groupID})
+        const { error } = await supabase.from('requests').insert({user_id:meta.publicID, group_id: group.groupID}); //ths line was so scuffed 
         if (error) {
             failed(error);
         }
