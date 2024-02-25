@@ -40,7 +40,7 @@ const OverUnderBet = ({ bet }) => {
       _outcome,
       _public
     });
-    if (data&&data==0) {
+    if (!error&&data===0) { //previously was data&&data==0 this is strictly never true because its false && true or true && false // both false
       succeed();
     } 
     else if (data) {
