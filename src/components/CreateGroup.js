@@ -75,7 +75,7 @@ export default function CreateGroup(props) {
 
       //insert into group
       let commish = await getCommissioner(); 
-      let groupID = (Math.pow(2, 31)-1) * Math.random(); 
+      let groupID = Math.floor((Math.pow(2, 31)-1) * Math.random()); 
                               // PREVIOUS VERSION WITH BIGINT
                               // if this ever collides on 'groups' 
                               // insert i am going to become a hermit 
