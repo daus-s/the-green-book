@@ -1,0 +1,115 @@
+public.bets
+
+UPDATE
+	USING expression
+	  ((SELECT commissioners."commissionerID"
+	    FROM commissioners
+	    WHERE (commissioners."userID" = auth.uid())) = "commissionerID")
+	WITH CHECK expression
+	  ((SELECT commissioners."commissionerID"
+	    FROM commissioners
+	    WHERE (commissioners."userID" = auth.uid())) = "commissionerID")
+
+INSERT
+	WITH CHECK expression
+	  ((SELECT commissioners."commissionerID"
+   	    FROM commissioners
+  	    WHERE (commissioners."userID" = auth.uid())) = "commissionerID")
+
+public.groups
+	
+INSERT
+	WITH CHECK expression
+   	  ((SELECT count(*) AS count
+   	    FROM commissioners
+  	    WHERE (commissioners."userID" = auth.uid())) >= 1)
+
+public.public_users
+
+UPDATE
+	USING expression
+	    ((auth.jwt() ->> 'email'::text) = email)
+	WITH CHECK expression
+	    ((auth.jwt() ->> 'email'::text) = email)
+
+
+public.requests
+
+DELETE
+	USING expression
+	    is_your_commish(auth.uid(), group_id)
+
+INSERT
+	WITH CHECK expression
+	  ((SELECT users."publicID"
+  	    FROM users
+ 	    WHERE (users."userID" = auth.uid())) = user_id)
+
+public.user_balances
+
+SELECT 
+	USING expression
+	    (auth.uid() = "userID")
+
+public.user_bets
+
+
+	CREATE POLICY updating_bet_policy
+	    ON user_bets
+	    FOR update
+	    USING (
+	            "userID" = auth.uid() 
+	        AND bet_is_open("betID")
+	        AND is_member_of("userID", (select "groupID" from bets where "betID" = "betID"))
+	    )
+	    WITH CHECK (
+	          is_valid_bet_update("userID", "betID", outcome, amount)
+	      AND outcome_in_odds(outcome, (select odds from bets where bets."betID" = "betID"))
+	      AND withdraw_from_balance("userID", amount, 'JeT=VkY(S9j#~L:6!yu/vK')
+	);
+
+	CREATE POLICY place_bet_policy
+	    ON user_bets
+	    FOR INSERT
+	    WITH CHECK (
+	         "userID" = auth.uid() 
+	        AND bet_is_open("betID")
+	        AND is_member_of("userID", (select "groupID" from bets where user_bets."betID" = bets."betID"))
+	        AND  outcome_in_odds(outcome, (select odds from bets where bets."betID" = "betID"))
+	        AND withdraw_from_balance("userID", amount, 'JeT=VkY(S9j#~L:6!yu/vK') --change this spmehow
+	);
+
+public.user_groups
+
+DELETE 
+	USING expression
+	  (is_your_commish(auth.uid(), "groupID") OR (( SELECT users."publicID"
+	    FROM users
+	    WHERE (users."userID" = auth.uid())) = "userID"))
+
+INSERT 
+	WITH CHECK expression
+	  ( SELECT users.commissioner
+	   FROM users
+	   WHERE (users."userID" = auth.uid()))
+
+SELECT 
+	USING expression
+	  is_member_of(auth.uid(), "groupID")
+
+
+public.users
+
+SELECT 
+	USING expression
+          (auth.uid() = "userID")
+
+INSERT
+	WITH CHECK expression
+	  auth.uid() = "userID" --dubuG
+
+UPDATE 
+	USING expression
+	  (auth.uid() = "userID")
+	WITH CHECK
+	  (auth.uid() = "userID")
