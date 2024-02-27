@@ -180,7 +180,7 @@ function BetHeader({bet, toggle}) {
 }
 
 function BetTool ({ bet, id }) {
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(bet.open);
     const [betsData, setBetsData] = useState(null);
 
     const close = () => {

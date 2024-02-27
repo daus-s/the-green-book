@@ -6,7 +6,8 @@ import { american } from "../functions/CalculateWinnings.js";
 import "../styles/tables.css";
 import { getNumber } from "../functions/ParseOdds";
 
-const  BetRow = ({bet, addWinnings}) => {
+const  BetRow = ({bet}) => {
+
     const isAWinner = bet.bets.winner?bet.bets.winner==bet.outcome:false;
     return (
         <tr className={`placed-bet-row ${bet.bets.open ? '' : (isAWinner ? 'winner' : 'loser')}`}>
@@ -20,12 +21,12 @@ const  BetRow = ({bet, addWinnings}) => {
                 {
                     bet.bets.open?         
                     bet && bet.bets && bet.bets.odds && bet.bets.odds[bet.outcome] ?
-                        Math.floor(american(getNumber(bet.bets.odds[bet.outcome]), bet.amount)) : '-' 
+                        Math.floor(american(getNumber(String(bet.bets.odds[bet.outcome])), bet.amount)) : '-' 
                         :
                         ""
                 }
             </td>
-            <td className="profits">{bet.bets.open ? "" : bet.bets.winner===bet.outcome?Math.floor(american(getNumber(bet.bets.odds[bet.outcome]), bet.amount))-bet.amount:-1*bet.amount}</td>
+            <td className="profits">{bet.bets.open ? "" : bet.bets.winner===bet.outcome?Math.floor(american(getNumber(String(bet.bets.odds[bet.outcome])), bet.amount))-bet.amount:-1*bet.amount}</td>
             {/* {JSON.stringify(bet)} */}
         </tr>
 
@@ -53,7 +54,7 @@ export default function UserBets() {
                 setPlacedBets(data);
                 data.map((bet)=>{ 
                     w+=bet.amount; 
-                    p+=(bet.bets.open ? 0 : bet.bets.winner===bet.outcome?Math.floor(american(getNumber(bet.bets.odds[bet.outcome]), bet.amount))-bet.amount:-1*bet.amount)
+                    p+=(bet.bets.open ? 0 : bet.bets.winner===bet.outcome?Math.floor(american(getNumber(String(bet.bets.odds[bet.outcome])), bet.amount))-bet.amount:-1*bet.amount)
                 });
                 setWagers(w);
                 setWinnings(p);

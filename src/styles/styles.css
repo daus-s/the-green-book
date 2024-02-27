@@ -92,4 +92,6 @@ body {
 
 .page {
   margin-top: 96px;
+  margin-bottom: 96px;
+  padding-bottom: 56px;
 }
