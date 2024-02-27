@@ -6,11 +6,6 @@ import Perhaps from "./Perhaps";
 import { isLoggedIn } from "../../functions/LoginBool";
 
 export default function ProfilePage() {
-
-    if (isLoggedIn()) {
-        console.log('truthy');
-        console.log(isLoggedIn());
-    }
     return (
         <div>
             

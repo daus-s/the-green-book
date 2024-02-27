@@ -72,7 +72,6 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
     }
   };
   
-  console.log(bet.odds);
   return (
     <div
       className="moneyline-place-bet-form"

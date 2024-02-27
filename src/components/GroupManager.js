@@ -24,7 +24,6 @@ function Requests({groupID, groupName}) {
     useEffect(()=>{
         const getRequests = async() => {
             const {data, error} = await supabase.from('requests').select('user_id').eq('group_id', groupID);
-            console.log('requests',data?data:error)
             if (data&&data.length>0) {
                 setRS(data);
                 // setFound(x<data.length&&x>0?data[x]:data[0]);
@@ -38,7 +37,6 @@ function Requests({groupID, groupName}) {
             if (rs.length > x) {
                 const { data, error } = await supabase.from('public_users').select().eq('id', rs[x]?.user_id).single()
                     if (data) {
-                        console.log(data)
                         setFace(data);
                     } else {
                         
@@ -191,7 +189,6 @@ function GroupElement({name, id}) {
 
                 } else {
                 }
-                console.log(data?data:error);
             }
         }
 
