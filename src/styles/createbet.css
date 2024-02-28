@@ -40,7 +40,7 @@ input,
     font-size: 28px;
 }
 
-textarea {
+.create-bet textarea {
     width: 100%;
     min-height: 3em; 
     max-height: 434px; 
@@ -78,8 +78,12 @@ label input[type="radio"] {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.create-bet button:hover {
     background-color: var(--cta-button-hover-bg-color);
+}
+
+.create-bet button.remove-button:hover {
+    background-color: var(--soft-highlight);
 }
 
 .bet-radio .custom-radio {

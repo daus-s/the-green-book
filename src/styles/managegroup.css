@@ -174,10 +174,6 @@
     transform: translateX(2px);
 }
 
-.request .accept, .request .reject {
-
-}
-
 .req-nav-div {
     display: flex;
     flex-direction: row;

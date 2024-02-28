@@ -12,7 +12,7 @@
     color: var(--bright-text);
     transition: border-color 0.3s ease, background-color 0.3s ease;
     border: 2px solid var(--bet-background-color);
-    align-items: flex-end;
+    align-items: center;
     margin: 2px 5px 2px 5px;
 }
 

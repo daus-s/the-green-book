@@ -10,7 +10,6 @@ import { useModal } from '../providers/ModalContext';
 
 
 const USIModal = ({ isOpen, onCancel, onConfirm}) => {
-
     const { failed } = useModal();
 
     const [query, setQuery] =  useState("");
@@ -22,10 +21,10 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
     const [results, setResults] = useState([]);
 
     const handleClick = () => {
-        onConfirm(user&&user.id&&user.id)
+        onConfirm(user&&user.id);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         handleClick();
     }
@@ -98,8 +97,8 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
             <div className='search-container'>
                 <input className="search-bar" placeholder="search users..." value={query} onChange={(e)=>setQuery(e.target.value)}/><img style={{height: '32px'}} src="search.png"/>
             </div>
-            <div class="scroll-container">
-                <div class="content">
+            <div className="scroll-container">
+                <div className="content">
                     {/* {JSON.stringify(results)} */}
                     {query&&results&&results.map((r, index)=>{
                         return <SearchResult r={r} key={index} select={setUser}/>;
