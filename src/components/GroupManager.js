@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useAuth } from "./providers/AuthContext";
 import { supabase } from "../functions/SupabaseClient";
 
-import UserElement from "./UserElement";
 
 import "../styles/managegroup.css"
 import USIModal from "./modals/USIModal";
 import { useModal } from "./providers/ModalContext";
 import { trnslt } from "../functions/translateMode";
 import ADModal from "./modals/ADModal";
+import FindUserList from "./FindUserList";
 
 function Requests({groupID, groupName}) {
     // const [found, setFound] = useState({})
@@ -20,6 +20,22 @@ function Requests({groupID, groupName}) {
     const [approve, setApprove] = useState(undefined);
 
     const { succeed, failed } = useModal();
+
+    const addUser = async (userID) => {
+        if (!id) {
+            await CreateGroup();
+        }
+        const { error } = await supabase.from('user_groups').insert({userID: userID, groupID: id})
+        if (error) {
+            //set failure modal true with message check?
+            failed(error);
+        } else {
+            succeed();
+            setUSIModalVisible(false);
+            window.location.reload(false);
+        }
+    }
+
 
     useEffect(()=>{
         const getRequests = async() => {
@@ -109,6 +125,7 @@ function Requests({groupID, groupName}) {
                     :
                     <div className="no-results">
                         No Requests
+                        {/* in here add the little notification element*/}
                     </div>
                     }
                 </div>
@@ -163,35 +180,46 @@ function GroupElement({name, id}) {
         } else {
             succeed();
             setUSIModalVisible(false);
-            window.location.reload(false);
+            window.location.replace(location.href);
+        }
+    }
+
+    const removeUser = async (user) => {
+        const { error } = await supabase.from('user_groups').delete().match({userID: user.id, groupID: id});
+        if (error) {
+            //set error modal true 
+            failed(error);
+        } else {
+            succeed();
+            window.location.replace(location.href);
+        }
+    }
+    
+    const getUsers = async () => {
+        if (id) {
+            const {data, error} = await supabase.from('user_groups').select('userID').eq("groupID", id)
+            if (data) {
+                setUsers(data);
+            } else if (error) {
+
+            } else {
+            }
+        }
+    }
+
+    const getBets = async () => {
+        if (id) {
+            const {data, error} = await supabase.from('bets').select().eq("groupID", id).eq('open', true);
+            if (data) {
+                setBets(data);
+            } else if (error) {
+
+            } else {
+            }
         }
     }
 
     useEffect(()=>{
-        const getUsers = async () => {
-            if (id) {
-                const {data, error} = await supabase.from('user_groups').select('userID').eq("groupID", id)
-                if (data) {
-                    setUsers(data);
-                } else if (error) {
-
-                } else {
-                }
-            }
-        }
-
-        const getBets = async () => {
-            if (id) {
-                const {data, error} = await supabase.from('bets').select().eq("groupID", id).eq('open', true);
-                if (data) {
-                    setBets(data);
-                } else if (error) {
-
-                } else {
-                }
-            }
-        }
-
         getUsers();
         getBets();
     }, [])
@@ -203,15 +231,7 @@ function GroupElement({name, id}) {
             </div>
             <div className="group-info">
                 <div className="user-group-view">
-                    <div className="user-container-title">
-                        Users
-                    </div>
-                    <div className="users-container">
-                        {users.map((user, index)=><UserElement public_uid={user.userID} groupID={id} key={index}/>)}
-                        <div className="add-user" onClick={()=>setUSIModalVisible(true)}>
-                            <img src="insert.png" style={{width: "32px", height: "32px", margin:"1px"}}/>
-                        </div>
-                    </div>
+                    <FindUserList name={name} id={id} addUser={addUser} users={users} setUsers={setUsers} remove={removeUser}/>
                 </div>
                 <div className="bets-group-view" >
                     <div className="bets-container-title">
