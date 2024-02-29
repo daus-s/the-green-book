@@ -7,14 +7,9 @@ import "../styles/user.css"
 export default function UserElement({ public_uid, groupID, remove }) {
     const [removeModalVisible, setRemoveModalVisible] = useState(false);
     const [user, setUser] = useState(null);
-    console.log('publicID', public_uid);
-
-
-
     useEffect(()=>{
         const getUser = async () => {
             const { data, error } = await supabase.from('public_users').select().eq("id", public_uid);
-            console.log(data?data:error);
             if (data&&data.length==1) {
                 setUser(data[0]);
             }
