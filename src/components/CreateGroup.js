@@ -21,7 +21,6 @@ export default function CreateGroup(props) {
     const pid = meta.publicID;
     if (pid) {
       const {data, error} = await supabase.from('public_users').select().eq('id', pid).single();
-      console.log(data?data:error)
       if (data) {
         await addUser(data);
       }
@@ -44,9 +43,6 @@ export default function CreateGroup(props) {
        user = u;
     }
     if (user) {
-      console.log(user);
-      console.log(users);
-      
       let contains = false;
       let length = users?.length;
       for (let i = 0; i < length; ++i) {//does
@@ -56,7 +52,6 @@ export default function CreateGroup(props) {
                         users[i].username===user.username //uniqeness contrainst only applies on these fields this is enough to verify the closeness of user
             );
         } 
-        console.log(contains);
       }
       if (!contains) {
         let shallow = [...users] //get a shallow copy
@@ -75,7 +70,6 @@ export default function CreateGroup(props) {
   //   }
   //   setUsers(array);
   const remove = async (user) => {
-    console.log('chadly function call')
     const commish = await getCommissioner();
     if (commish.id===user.id && 
         commish.email===user.email &&
@@ -145,7 +139,6 @@ export default function CreateGroup(props) {
       //insert relations into user_group  
       let a  = true;     
       for (const user of users) {
-        console.log(user)
         let user_group = {
           userID: user.id,
           groupID: groupID,
