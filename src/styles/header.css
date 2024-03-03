@@ -60,6 +60,7 @@ header {
 
 nav {
   display: flex;
+  justify-content: space-between;
   overflow-x: auto;
   position: absolute;
   left: 304px;
