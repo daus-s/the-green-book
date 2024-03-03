@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "../styles/selector.css"
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext";
+import { useModal } from "./providers/ModalContext";
 
 function PictureSelector({src, selected, setSelected}) {
     let a = selected === src;
@@ -38,6 +39,7 @@ export default function ProfileSelection({close}) {
     const prefix = "users/"; //use this so it ca be migrated to storage if need be
 
     const { user, meta } = useAuth();
+    const { failed, succeed } = useModal();
 
     useEffect(()=>{
         setSelected(meta.pfp)

@@ -95,3 +95,12 @@ body {
   margin-bottom: 96px;
   padding-bottom: 56px;
 }
+
+.notification-box {
+  position: relative;
+  z-index: 1;
+}
+
+.icon-parent {
+  position: relative;
+}

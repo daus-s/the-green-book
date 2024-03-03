@@ -64,11 +64,11 @@ nav {
   position: absolute;
   left: 304px;
   right: 196px;
+  width: calc(100% - 500px);
+  justify-content: space-evenly;
   padding-bottom: 16px;
   transform: translateY(8px);
-  /* box-shadow: inset 10px 0px 10px blue; var(--background-color) */
-  /*   ;
- */
+  margin: 0 auto;
 }
 
 nav a {

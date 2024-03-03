@@ -18,3 +18,4 @@ x.png      -  <a href="https://www.flaticon.com/free-icons/close" title="close i
 insert.png -  <a href="https://www.flaticon.com/free-icons/plus" title="plus icons">Plus icons created by dmitri13 - Flaticon</a>
 left.png,
 right.png  - <a href="https://www.flaticon.com/free-icons/next" title="next icons">Next icons created by Roundicons - Flaticon</a>
+sheild.png - <a href="https://www.flaticon.com/free-icons/emblem" title="emblem icons">Emblem icons created by Smashicons - Flaticon</a>

@@ -6,6 +6,7 @@ import { supabase } from "../functions/SupabaseClient";
 import RequestModal from "../components/modals/RequestModal";
 
 import "../styles/social.css";
+import CommissionerShield from "./CommissionerShield";
 
 function CommissionerElement({commish /* int */}) {
     const [commishInfo, setCommishInfo] = useState({}); 
@@ -22,8 +23,9 @@ function CommissionerElement({commish /* int */}) {
 
     return (
         <div className="commish" title="Commissioner">
-            <div className="pic">
+            <div className="pic icon-parent">
                 <img src={commishInfo.pfp_url} style={{height: '50px', borderRadius: '50%', padding: '5px'}}/>
+                <CommissionerShield />
             </div>
             <div className="top-down">
                 <div className="commish-name">{commishInfo.username}</div>
@@ -83,7 +85,9 @@ function GroupElement({group, message}) {
             failed(error);
         }
         else {
+            setReqVis(false);
             succeed();
+            setJoined("Requested");
         }
     }
     return (
@@ -126,7 +130,6 @@ export default function Social() {
 
     //i love functional programming
     
-    // xddinside
     return (
         <div className="page social">
                 <div className='search-groups search-container'>
