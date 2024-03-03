@@ -11,7 +11,6 @@ function CommissionerElement({commish /* int */}) {
     const [commishInfo, setCommishInfo] = useState({}); 
     useEffect(()=>{
         const abuseRLSAndGetCommishData = async () => {
-            console.log(commish)
             if (commish!==-1){
                 const { data, error } = await supabase.rpc('get_commish_data', { u: commish });
                 setCommishInfo(data);
@@ -64,10 +63,8 @@ function GroupElement({group, message}) {
         const getStatus = async () => {
             const { data: member,  error: memError } = await supabase.from('user_groups').select().eq('groupID', group.groupID).eq('userID', meta.publicID);
             const { data: request, error: reqError } = await supabase.from('requests').select().eq('group_id', group.groupID).eq('user_id', meta.publicID);
-
-            // console.log(member?member:memError);
-            // console.log(request?request:reqError);
-            if (request&&request.length) {
+            
+            if (request&&request.length===1) {
                 setJoined("Requested");
             }
             if (member&&member.length===1) {

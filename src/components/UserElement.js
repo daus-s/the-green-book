@@ -3,29 +3,15 @@ import { supabase } from "../functions/SupabaseClient";
 import RemoveModal from "./modals/RemoveModal";
 
 import "../styles/user.css"
-import { useModal } from "./providers/ModalContext";
 
-export default function UserElement({ public_uid, groupID }) {
-    const { failed, succeed } = useModal();
+export default function UserElement({ public_uid, groupID, remove }) {
     const [removeModalVisible, setRemoveModalVisible] = useState(false);
     const [user, setUser] = useState(null);
-
-    const handleRemove = async () => {
-        const { error } = await supabase.from('user_groups').delete().match({userID: public_uid, groupID: groupID});
-        if (error) {
-            //set error modal true 
-            failed(error);
-        } else {
-            succeed();
-            setRemoveModalVisible(false);
-        }
-    }
-
     useEffect(()=>{
         const getUser = async () => {
             const { data, error } = await supabase.from('public_users').select().eq("id", public_uid);
             if (data&&data.length==1) {
-                setUser(data[0])
+                setUser(data[0]);
             }
         }
         getUser();
@@ -38,7 +24,7 @@ export default function UserElement({ public_uid, groupID }) {
             <button onClick={()=>setRemoveModalVisible(true)}>
                 <img src="x.png"/>
             </button>
-            <RemoveModal isOpen={removeModalVisible} onCancel={()=>setRemoveModalVisible(false)} onConfirm={handleRemove} username={user?user.username:"-"}/>
+            <RemoveModal isOpen={removeModalVisible} onCancel={()=>setRemoveModalVisible(false)} onConfirm={()=>{remove(user); setRemoveModalVisible(false);}} username={user?user.username:"-"}/>
         </div>
     );
 }
