@@ -9,8 +9,9 @@ import { useModal } from "./providers/ModalContext";
 import { trnslt } from "../functions/translateMode";
 import ADModal from "./modals/ADModal";
 import FindUserList from "./FindUserList";
+import Notification from "./Notification";
 
-function Requests({groupID, groupName}) {
+function Requests({groupID, groupName, setCount}) {
     // const [found, setFound] = useState({})
     const [rs, setRS] = useState([]);
     const [x, setX] = useState(0);
@@ -21,28 +22,12 @@ function Requests({groupID, groupName}) {
 
     const { succeed, failed } = useModal();
 
-    const addUser = async (userID) => {
-        if (!id) {
-            await CreateGroup();
-        }
-        const { error } = await supabase.from('user_groups').insert({userID: userID, groupID: id})
-        if (error) {
-            //set failure modal true with message check?
-            failed(error);
-        } else {
-            succeed();
-            setUSIModalVisible(false);
-            window.location.reload(false);
-        }
-    }
-
-
     useEffect(()=>{
         const getRequests = async() => {
             const {data, error} = await supabase.from('requests').select('user_id').eq('group_id', groupID);
             if (data&&data.length>0) {
                 setRS(data);
-                // setFound(x<data.length&&x>0?data[x]:data[0]);
+                setCount?setCount(data.length):()=>{}; //what the fuck
             }
         }
         getRequests();
@@ -79,6 +64,7 @@ function Requests({groupID, groupName}) {
             failed(data?data:error?error:null);
         }
         setADVis(false);
+        window.location.replace(location.href);
     }
 
     const reject = async () => {
@@ -90,6 +76,7 @@ function Requests({groupID, groupName}) {
             succeed();
         }
         setADVis(false);
+        window.location.replace(location.href);
     }
 
     const handleAxion = (type) => {
@@ -166,16 +153,23 @@ function BetElement({bet, groupSize}) {
 }
 
 function GroupElement({name, id}) {
+    const { meta } = useAuth();
     const { failed, succeed } = useModal();
 
+    const [USIModalVisible, setUSIModalVisible] = useState(false);
+
+    //GROUP DATA
     const [users, setUsers] = useState([]);
     const [bets, setBets] = useState([]);
-    const [USIModalVisible, setUSIModalVisible] = useState(false);
+    const [commissioner, setCommissioner] = useState({});
+
+    //USE TO PASS TO CHILD
+    const [count, setCount] = useState(0);
 
     const addUser = async (userID) => {
         const { error } = await supabase.from('user_groups').insert({userID: userID, groupID: id})
         if (error) {
-            //set failure modal true with message check?
+            //set failure modal true with message
             failed(error);
         } else {
             succeed();
@@ -197,7 +191,7 @@ function GroupElement({name, id}) {
     
     const getUsers = async () => {
         if (id) {
-            const {data, error} = await supabase.from('user_groups').select('userID').eq("groupID", id)
+            const {data, error} = await supabase.from('user_groups').select('userID').eq("groupID", id);
             if (data) {
                 setUsers(data);
             } else if (error) {
@@ -231,7 +225,7 @@ function GroupElement({name, id}) {
             </div>
             <div className="group-info">
                 <div className="user-group-view">
-                    <FindUserList name={name} id={id} addUser={addUser} users={users} setUsers={setUsers} remove={removeUser}/>
+                    <FindUserList name={name} id={id} addUser={addUser} users={users} setUsers={setUsers} remove={removeUser} commish={meta.publicID}/>
                 </div>
                 <div className="bets-group-view" >
                     <div className="bets-container-title">
@@ -251,10 +245,11 @@ function GroupElement({name, id}) {
 
             </div>
             <div className="requests">
-                    <div className="requests-container-title">
+                    <div className="requests-container-title notification-box">
                         Join Requests
+                        <Notification count={count}/>
                     </div>
-                    <Requests groupID={id} groupName={name}/>
+                    <Requests groupID={id} groupName={name} setCount={setCount}/>
                 </div>
             <USIModal isOpen={USIModalVisible}  onCancel={()=>setUSIModalVisible(false)} onConfirm={addUser}/>
         </div>
