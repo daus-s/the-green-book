@@ -1,18 +1,28 @@
-// PlaceBetForm.js
-import "../styles/radio.css";
-
 import { useEffect, useState } from "react";
 import { american } from "../functions/CalculateWinnings.js";
+
+import "../styles/radio.css";
 import { supabase } from "../functions/SupabaseClient.js";
 import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
 
-const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
+const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
   const [betAmount, setBetAmount] = useState("");
-  const [outcome, setOutcome] = useState(null);
   const [wager, setWager] = useState(0);
   const [locked, setLocked] = useState(false);
+  const [choice, setChoice] = useState("");
+
+
   const { user } = useAuth();
+
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+
+    // Validate that only numeric values are entered
+    if (/^\d*$/.test(inputValue)) {
+      setBetAmount(inputValue);
+    }
+  };
 
   useEffect(()=>{
     //get user bet
@@ -22,59 +32,54 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
         if (data.length==0)
         {
           setWager(0);
+          setChoice(null);
         }
         else if (data.length==1)
         {
           setLocked(true);
-          const bet = data[0]
+          const bet = data[0];
           setWager(bet.amount);
-          if (['hits', 'misses'].includes(bet.outcome)) {
-            setOutcome(bet.outcome);
+          if (['over', 'under'].includes(bet.outcome)) {
+            setChoice(bet.outcome);
           }
         }
         else {
           setWager(0);
+          setChoice(null);
         }
       } 
       else {
         setWager(0);
+        setChoice(null);
       }
     };
 
     getUserBet();
   },[wager]);
 
-
-    const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-
-    // Validate that only numeric values are entered
-    if (/^\d*$/.test(inputValue)) {
-      setBetAmount(inputValue);
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!outcome) {
+    if (!choice) {
       alert("Please select a valid bet option.");
       return;
-    } 
-    else
-    if (!betAmount  || isNaN(parseInt(betAmount)) || betAmount < 0) {
+    } else
+    if (!betAmount || isNaN(parseInt(betAmount)) || parseInt(betAmount) < 0) {
       alert("Please enter a valid bet amount.");
       return;
-    } else {
-      onSubmit(Math.max(0, parseInt(betAmount)), outcome);
+    }
+    else {
+      onSubmit(Math.max(0, parseInt(betAmount)), choice);
       setBetAmount(""); // Reset the form after submitting
-      setOutcome(outcome);
+      setChoice(choice);
       setWager(parseInt(betAmount));
     }
   };
-  
+
+  let odds = bet.odds;
+
   return (
     <div
-      className="moneyline-place-bet-form"
+      className="over-under-place-bet-form"
       style={{
         display: "flex",
         flexDirection: "row",
@@ -92,7 +97,7 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
         }}
       >
         {"To win: "}
-        {outcome?Math.floor(american(getNumber(bet.odds[outcome].toString()), wager)):"-"}
+        {(choice&&bet.odds&&wager&&odds[choice])?american(getNumber(odds[choice].toString()), wager):'-'}
       </div>
       <div
         className="your-wager"
@@ -122,12 +127,13 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
               type="radio"
               className="real-radio"
               name="overUnder"
-              value="hits"
-              checked={outcome === 'hits'}
-              onChange={(e)=>{setOutcome(e.target.value)}}
+              value="over"
+              checked={choice==="over"}
               disabled={locked}
+              onChange={(e)=>setChoice(e.target.value)}
+              onBlur={(e) => e.preventDefault()}
             />
-            <div className="custom-radio">Hits</div>
+            <div className="custom-radio">Over</div>
           </label>
 
           <label className="radio-label">
@@ -135,12 +141,13 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
               type="radio"
               className="real-radio"
               name="overUnder"
-              value="misses"
-              checked={outcome === 'misses'}
-              onChange={(e)=>{setOutcome(e.target.value)}}
+              value="under"
+              checked={choice==="under"}
               disabled={locked}
+              onChange={(e)=>setChoice(e.target.value)}
+              onBlur={(e) => e.preventDefault()} //this is to suppress some warning
             />
-            <div className="custom-radio">Misses</div>
+            <div className="custom-radio">Under</div>
           </label>
         </div>
         <input
@@ -195,4 +202,4 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
   );
 };
 
-export default MoneylinePlaceBetForm;
+export default OverUnderPlaceBetForm;

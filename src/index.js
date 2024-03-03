@@ -94,7 +94,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: 'social',
+    path: '/social',
     element: <SocialPage />,
     errorElement: <ErrorPage />
   }

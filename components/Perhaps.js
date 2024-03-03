@@ -1,5 +1,5 @@
-import AccountControl from "../AccountControl";
-import Logo from "../Logo";
+import AccountControl from "./AccountControl";
+import Logo from "./Logo";
 
 /* * 
     Source: 
