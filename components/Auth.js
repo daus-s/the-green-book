@@ -1,7 +1,7 @@
+'use client'
+
 import { useState } from "react";
-
-import { useNavigate } from "react-router-dom";
-
+import { useRouter } from 'next/navigation'
 import { useAuth } from "./providers/AuthContext";
 
 export default function Auth(props) {
@@ -10,8 +10,7 @@ export default function Auth(props) {
   const [password, setPassword] = useState("");
   const [invalid, setInvalid] = useState(false);
 
-  const navigate = useNavigate();
-
+  const router = useRouter();
 
 
   const handleLogin = async (e) => {
@@ -22,7 +21,7 @@ export default function Auth(props) {
       // if (path) {
       //   navigate(path);
       // } else {
-      navigate("/bets")
+      router.push("/bets");
       // }
     } catch (error) {
       //console.error(error);

@@ -1,8 +1,7 @@
-import CreateBet from "../CreateBet";
-import Header from "../Header";
-
 import { Navigate } from 'react-router-dom';
 import { isLoggedIn } from "../../functions/LoginBool";
+import CreateBet from "../components/CreateBet";
+import Header from "../components/Header";
 
 export default function CreateBetPage() {
     return (

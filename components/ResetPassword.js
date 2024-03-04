@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "../styles/passwords.css";
 import { supabase } from "../functions/SupabaseClient";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 
 
 export default function ResetPassword() {
@@ -11,7 +11,7 @@ export default function ResetPassword() {
 
     const [error, setError] = useState(false);
 
-    const navigate = useNavigate();
+    const router = useRouter();
 
     
     const handleChange1 = (e) => {
@@ -25,7 +25,7 @@ export default function ResetPassword() {
         e.preventDefault();
         if (password1 == password2) {
             const { data, error } = await supabase.auth.updateUser({ password: password1 });
-            if (data) navigate("/");
+            if (data) router.push("/");
             if (error) setError(true); 
         }
         else {

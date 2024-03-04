@@ -1,11 +1,10 @@
-import "../styles/wallet.css";
-
-import { supabase } from '../functions/SupabaseClient'; // Import your Supabase client configuration
-import { useAuth } from './providers/AuthContext'; // Path to your AuthProvider
+import { supabase } from '../functions/SupabaseClient'; 
+import { useAuth } from './providers/AuthContext';
 import { useEffect, useState } from "react";
 
 
-export default function Wallet(props) {
+export default function Wallet() {
+  console.log('waa wwaa we wa')
   const { user, session } = useAuth();
 
 
@@ -27,12 +26,11 @@ export default function Wallet(props) {
         }
       }
     };
+
     fetchWallet();
   },[user, session]);
 
-  
-  const amount = 100;
-  return (
+    return (
     <div className="wallet page">
       <img src="money.png" alt="wallet" />
       <div>

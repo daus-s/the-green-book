@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import App from "./_app";
 import AccountControl from '../components/AccountControl';
 
 export default function HomePage() {

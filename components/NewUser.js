@@ -1,9 +1,8 @@
-import "../styles/auth.css";
 import { supabase } from "../functions/SupabaseClient";
 import { useEffect, useState } from "react";
 import { validEmail, validUsername } from "../functions/isEmail";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "./providers/AuthContext";
+import { useRouter } from "next/router";
 
 export default function NewUser() {
   const [username, setUsername] = useState("");
@@ -16,7 +15,7 @@ export default function NewUser() {
   const[usernameSyntaxError, setUsernameSyntaxError] = useState(false);
   const[emailSyntaxError, setEmailSyntaxError] = useState(false);
 
-  const navigate = useNavigate();
+  const router = useRouter();
   const { login } = useAuth();
 
   useEffect(()=> {
@@ -67,7 +66,7 @@ export default function NewUser() {
       );
       if (!insertResponse.error&&signupResponse.data) {
         await login(username?username:email?email:undefined, pwd);
-        navigate("/bets");
+        router.push("/bets");
       }
     }
   };

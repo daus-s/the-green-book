@@ -1,10 +1,7 @@
 // Bet.js
-import "../styles/bets.css";
 import OverUnderPlaceBetForm from "./OverUnderPlaceBetForm";
-
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
-
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
 import { supabase } from "../functions/SupabaseClient";

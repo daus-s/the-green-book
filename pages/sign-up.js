@@ -1,4 +1,4 @@
-import NewUser from "../NewUser";
+import NewUser from "../components/NewUser";
 
 export default function SignupPage() {
     return (

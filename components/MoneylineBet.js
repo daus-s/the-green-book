@@ -1,12 +1,9 @@
-import "../styles/bets.css";
-
 import MoneylinePlaceBetForm from "./MoneylinePlaceBetForm"; 
-
-import { supabase } from "../functions/SupabaseClient";
-import { useAuth } from "./providers/AuthContext";
-
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
+
+import { supabase } from "../functions/SupabaseClient";
+import { useAuth } from "./providers/AuthContext"
 import { useModal } from "./providers/ModalContext";
 
 const MoneyLineBet = ({ bet }) => {

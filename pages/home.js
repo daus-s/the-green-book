@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import "../styles/home.css";
-import AccountControl from '../AccountControl';
+import AccountControl from '../components/AccountControl';
 
 export default function HomePage() {
     return (

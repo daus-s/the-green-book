@@ -1,9 +1,11 @@
 supabase/
 node_modules/
+.next/
 notes
 create\ tables
 # DO NO UPLOAD ENV FIILES
 *.env
+*.env*
 .DS_STORE
 
 # Supabase

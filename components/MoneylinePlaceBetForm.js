@@ -1,6 +1,4 @@
 // PlaceBetForm.js
-import "../styles/radio.css";
-
 import { useEffect, useState } from "react";
 import { american } from "../functions/CalculateWinnings.js";
 import { supabase } from "../functions/SupabaseClient.js";

@@ -1,12 +1,9 @@
-import "../styles/bets.css";
-import OptionsPlaceBetForm from "./OptionsPlaceBetForm";
-
-import ReactMarkdown from 'react-markdown';
-import DOMPurify from 'dompurify';
-
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
+import OptionsPlaceBetForm from "./OptionsPlaceBetForm";
+import ReactMarkdown from 'react-markdown';
+import DOMPurify from 'dompurify';
 
 const OptionsBet = ({ bet }) => {
   const { user, meta } = useAuth();

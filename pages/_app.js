@@ -1,7 +1,8 @@
 // pages/_app.js
-
+'use client'
 import React from 'react';
 import Providers from './_providers';
+
 
 import '../styles/auth.css';
 import '../styles/creategroup.css';
@@ -28,8 +29,8 @@ import '../styles/tables.css';
 export default function App({ Component, pageProps }) {
   return (
     <Providers>
-      <Component {...pageProps} />
-    </Providers>
+        <Component {...pageProps} />
+    </ Providers>
   );
 }
 

@@ -48,10 +48,6 @@ export default function Bets() {
         <div className="bets page">
             {bets.map((b)=>{return bet(b)})
             }
-        </div>)
-    // return 
-    //     (<div className="bets">
-
-    //     </div>)
-    //     ;
+        </div>
+    );
 }

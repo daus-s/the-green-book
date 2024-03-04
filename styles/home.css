@@ -111,10 +111,12 @@
 }
 
 .flashy {
-  margin: 20px 0px 0px -25px;
+  width: 100vh;
+  margin: 20px 0px 0px 0px;
   display: flex;
   flex-direction: row;
   user-select: none;
+  position: relative;
 }
 .flashy .text {
   display: flex;

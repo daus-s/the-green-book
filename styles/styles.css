@@ -3,6 +3,9 @@
   text-align: center;
   background-color: var(--background-color);
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1,
@@ -81,11 +84,9 @@ body {
   box-sizing: border-box;
 }
 
-#root {
-  height: 100vh;
-}
-
-#root {
+#root, #__next {
+  height: 100vh;  
+  width: 100%;
   position: absolute;
   top: 0px;
 }

@@ -1,4 +1,3 @@
-import Header from "./Header";
 import { useState, useEffect } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext.js";

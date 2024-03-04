@@ -2,8 +2,6 @@ import { useState } from "react";
 import { validEmail } from "../functions/isEmail";
 import { supabase } from "../functions/SupabaseClient";
 
-import "../styles/passwords.css";
-
 export default function ForgotPassword() {
     const [email, setEmail] = useState("");
     const [error, setError] = useState(false);

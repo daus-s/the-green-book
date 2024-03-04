@@ -1,13 +1,9 @@
 import ProfileSelection from "./ProfileSelection";
-
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
 import { useEffect, useState } from "react";
-
 import { supabase } from "../functions/SupabaseClient";
 import { alpha, validUsername } from "../functions/isEmail";
-
-import "../styles/profile.css";
 
 export default function Profile() {
   const [editName, setEditName] = useState(false);

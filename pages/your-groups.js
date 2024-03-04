@@ -1,5 +1,5 @@
-import GroupManager from "../GroupManager";
-import Header from "../Header";
+import GroupManager from "../components/GroupManager";
+import Header from "../components/Header";
 
 import { Navigate } from 'react-router-dom';
 import { isLoggedIn } from "../../functions/LoginBool";

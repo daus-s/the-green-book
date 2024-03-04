@@ -1,9 +1,12 @@
+import useSessionStorage from "../hooks/SessionStorage";
+
 function isLoggedIn() {
-    if (sessionStorage.getItem('logged-in')==='true')
+    const status = useSessionStorage('logged-in')
+    if (status==='true')
     {
         return true;
     }
-    if (sessionStorage.getItem('logged-in')==='false')
+    if (status==='false')
     {
         return false;
     }

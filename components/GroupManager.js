@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "./providers/AuthContext";
 import { supabase } from "../functions/SupabaseClient";
-
-
-import "../styles/managegroup.css"
-import USIModal from "./modals/USIModal";
 import { useModal } from "./providers/ModalContext";
 import { trnslt } from "../functions/translateMode";
+
 import ADModal from "./modals/ADModal";
 import FindUserList from "./FindUserList";
 import Notification from "./Notification";
+import USIModal from "./modals/USIModal";
+s
 
 function Requests({groupID, groupName, setCount}) {
     // const [found, setFound] = useState({})

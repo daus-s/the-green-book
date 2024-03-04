@@ -1,7 +1,4 @@
 import { useState, useEffect } from "react";
-import "../styles/radio.css";
-import "../styles/bets.css";
-
 import { american } from "../functions/CalculateWinnings.js";
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext.js";

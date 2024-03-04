@@ -1,5 +1,5 @@
-import Header from "../Header";
-import Social from "../Social";
+import Header from "../components/Header";
+import Social from "../components/Social";
 import { Navigate } from 'react-router-dom';
 import { isLoggedIn } from "../../functions/LoginBool";
 

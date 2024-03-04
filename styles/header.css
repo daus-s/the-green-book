@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: "DigitizedMontserrat";
-  src: url("../../public/MontserratSubrayada-Regular.ttf") format("truetype"); 
+  src: url("../public/MontserratSubrayada-Regular.ttf") format("truetype"); 
   font-weight: normal;
   font-style: normal;
 }

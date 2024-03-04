@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-
-import "../styles/selector.css"
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
