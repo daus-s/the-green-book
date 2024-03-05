@@ -1,0 +1,22 @@
+.bet-header {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.user-bet-row img.user-picture  {
+    height: 30px;
+    width: 30px;
+    aspect-ratio: 1;
+    margin-right: 1px;
+    border-radius: 50%;
+}
+
+.user-id {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-id .user-name
+{
+    max-width: 112px;
+}
