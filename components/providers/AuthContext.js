@@ -155,7 +155,12 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data.user);
         setSession(res.data.session);
         sessionStorage.setItem('logged-in', true);
-        return sessionStorage.getItem('breadcrumb');
+        let b = sessionStorage.getItem('breadcrumb');
+        sessionStorage.removeItem('breadcrumb');
+        if (b) 
+          return b;
+        else 
+          return null;
       }
     }
     catch (error) {

@@ -1,10 +1,18 @@
 import Link from "next/link";
 import Header from "../components/Header";
 
-export default function Attributions() {
+export default function AttributionPage() {
     return (
         <div className="App" style={{paddingTop: '96px'}}>
             <Header />
+            <Attributions />
+        </div>
+    );
+}
+
+function Attributions() {
+    return (
+        <div className="attributions page">
             <Attribution src='mark.png' href='https://www.flaticon.com/free-icons/good' desc='Good icons created by Alfredo Creates - Flaticon'/>
             <Attribution src='close.png' href='https://www.flaticon.com/free-icons/close' desc='Close icons created by Alfredo Hernandez - Flaticon'/>
             <Attribution src='add.png' href='https://www.flaticon.com/free-icons/plus' desc='Plus icons created by dmitri13 - Flaticon'/>
@@ -24,7 +32,6 @@ export default function Attributions() {
             <Attribution src='left.png' href='https://www.flaticon.com/free-icons/next' desc='Next icons created by Roundicons - Flaticon'/>
             <Attribution src='right.png' href='https://www.flaticon.com/free-icons/next' desc='Next icons created by Roundicons - Flaticon'/>
             <Attribution src='shield.png' href='https://www.flaticon.com/free-icons/emblem' desc='Emblem icons created by Smashicons - Flaticon'/>
-
         </div>
     );
 }

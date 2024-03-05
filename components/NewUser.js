@@ -65,8 +65,12 @@ export default function NewUser() {
         }
       );
       if (!insertResponse.error&&signupResponse.data) {
-        await login(username?username:email?email:undefined, pwd);
-        router.push("/bets");
+        const path = await login(username?username:email?email:undefined, pwd);
+        if (path) {
+          router.push(`${path}`);
+        } else {
+          router.push('/bets');
+        }
       }
     }
   };
