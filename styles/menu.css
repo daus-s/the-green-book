@@ -11,7 +11,14 @@
 
 .user-bet-row {
     background-color:  var(--table-bg);
-    border-top: 1px var(--table-border) solid;
+}
+
+.user-bet-row:nth-child(even) {
+    background-color: var(--alt1-table-rows-bg);
+
+}
+.user-bet-row:nth-child(odd) {
+    background-color: var(--alt2-table-rows-bg);
 }
 
 .user-bets-header {
@@ -19,9 +26,11 @@
     display: grid;
     font-weight: bold; 
     padding: 2px 0px 5px 0px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
     grid-template-columns: 9fr 10fr 5fr;
+    background-color: var(--table-header-background); 
+    padding: 5px; 
+    border-bottom: solid 1px var(--table-border); 
+    color: var(--bright-text);
 
 }
 
@@ -57,9 +66,7 @@
     width: 400px;
     row-gap: 0;
     margin: 10px;
-    border: 1px var(--table-border) solid;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    color: var(--grayed-out-text);
 }
 
 .user-id {

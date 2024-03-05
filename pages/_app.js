@@ -1,5 +1,4 @@
 // pages/_app.js
-'use client'
 import React from 'react';
 import Providers from './_providers';
 

@@ -8,7 +8,6 @@ import ADModal from "./modals/ADModal";
 import FindUserList from "./FindUserList";
 import Notification from "./Notification";
 import USIModal from "./modals/USIModal";
-s
 
 function Requests({groupID, groupName, setCount}) {
     // const [found, setFound] = useState({})

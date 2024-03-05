@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useAuth } from "./providers/AuthContext";
 import AccountControl from "./AccountControl";
 import Logo from "./Logo";

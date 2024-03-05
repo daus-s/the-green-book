@@ -225,7 +225,7 @@ export default function CreateBet(props) {
     const handleSubmit = async (e) => {
       e.preventDefault();
       //big logic
-      const biggerJson = {};
+      let biggerJson = {};
       if (type=="op") {
         odds.forEach((json)=>{
           if (json.odds && json.title) {

@@ -1,13 +1,10 @@
-import { useState, useEffect } from "react";
+'use client'
 
-const useSessionStorage = (name) => {
-  const [value, setValue] = useState('');
+export default function useSessionStorage(name) {
+  if (typeof window !== 'undefined') {
+      return sessionStorage.getItem(name);
+   }
 
-  useEffect(() => {
-    setValue(sessionStorage.getItem(name));
-  }, [])
-
-  return value;
+  return null;
 }
 
-export default useSessionStorage;

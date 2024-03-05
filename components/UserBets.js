@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "./providers/AuthContext.js";
 import { supabase } from "../functions/SupabaseClient";
 import { american } from "../functions/CalculateWinnings.js";
-import "../styles/tables.css";
 import { getNumber } from "../functions/ParseOdds";
 
 const  BetRow = ({bet}) => {

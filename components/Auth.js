@@ -16,12 +16,12 @@ export default function Auth(props) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(usr, password);
-      // const path = sessionStorage.get('authRedirectPath'); //this is erroring
-      // if (path) {
-      //   navigate(path);
-      // } else {
-      router.push("/bets");
+      const path = await login(usr, password);
+      if (path) {
+        router.push(`${path}`);
+      } else {
+        router.push('/bets');
+      }
       // }
     } catch (error) {
       //console.error(error);

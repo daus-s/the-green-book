@@ -155,6 +155,7 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data.user);
         setSession(res.data.session);
         sessionStorage.setItem('logged-in', true);
+        return sessionStorage.getItem('breadcrumb');
       }
     }
     catch (error) {
@@ -179,14 +180,12 @@ export const AuthProvider = ({ children }) => {
   //   }
   // };
 
-  const logout = async () => {
-    const base = "http://localhost:3000"; // Make sure to include the protocol (http/https)
-  
+  const logout = async () => {  
     // Sign out from Supabase
     const { error } = await supabase.auth.signOut();
   
-    // Redirect to the login page
-    window.location.replace(base + "/login");
+    // Redirect to the home page
+    window.location.replace("/");
     sessionStorage.setItem('logged-in', false);
 
     // Log error if any

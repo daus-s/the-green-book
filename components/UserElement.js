@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../functions/SupabaseClient";
 import RemoveModal from "./modals/RemoveModal";
-
-import "../styles/user.css"
 import CommissionerShield from "./CommissionerShield";
 
 export default function UserElement({ public_uid, groupID, remove, commish }) {

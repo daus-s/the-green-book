@@ -1,13 +1,12 @@
+'use client'
+
 import { supabase } from '../functions/SupabaseClient'; 
-import { useAuth } from './providers/AuthContext';
+import {  useAuth } from './providers/AuthContext.js';
 import { useEffect, useState } from "react";
 
 
 export default function Wallet() {
-  console.log('waa wwaa we wa')
   const { user, session } = useAuth();
-
-
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +21,6 @@ export default function Wallet() {
           }
         } catch (error) {
           setLoading(true);
-          console.error("Error fetching wallet");
         }
       }
     };
@@ -35,9 +33,8 @@ export default function Wallet() {
       <img src="money.png" alt="wallet" />
       <div>
         <div className="amount">${loading?<span className="null">&#8212;</span>:balance}</div>
-        {/*add "add money" feature here to monetize*/}
       </div>
     </div>
   );
-  //todo allow pppurchasing tokens if mponetizing also before that do full security check.
+  //todo allow purchasing tokens if monetizing also before that do full security check.
 }

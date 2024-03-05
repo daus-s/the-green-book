@@ -2,10 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
 import { supabase } from "../functions/SupabaseClient";
-
 import RequestModal from "../components/modals/RequestModal";
-
-import "../styles/social.css";
 import CommissionerShield from "./CommissionerShield";
 
 function CommissionerElement({commish /* int */}) {

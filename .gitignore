@@ -1,6 +1,8 @@
 supabase/
 node_modules/
 .next/
+build/
+scripts/
 notes
 create\ tables
 # DO NO UPLOAD ENV FIILES
@@ -8,10 +10,10 @@ create\ tables
 *.env*
 .DS_STORE
 
+package-lock.json
+
 # Supabase
 supabase.branches
 supabase.temp
 supabase.env
 
-# I don't really know
-public/family-guy-peter-griffin.gif
