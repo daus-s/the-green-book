@@ -2,13 +2,13 @@
 Daus Carmichael
 #### betties.app
 
-the-green-book is a webapp that allows users to place bets with their friends like I would do in college with my roommates and friends. So here's to that little dumb and degenerate tradition! Cheers!
+the-green-book is a web app that allows users to place bets with their friends like I would do in college with my roommates and friends. So here's to that little dumb and degenerate tradition! Cheers!
 :beer:
 ### Abstract
 theGreenBook, a social betting app paying homage to its humble beginnings as a green notebook shared by some friends
 
 ### Developers
-#### Dependcies
+#### Dependencies
 - `node` install via [brew install node](https://formulae.brew.sh/formula/node) on macOS
 
 Instructions to run locally
