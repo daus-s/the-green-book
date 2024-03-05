@@ -25,7 +25,7 @@ const  BetRow = ({bet}) => {
                         ""
                 }
             </td>
-            <td className="profits">{bet.bets.open ? "" : bet.bets.winner===bet.outcome?Math.floor(american(getNumber(String(bet.bets.odds[bet.outcome])), bet.amount))-bet.amount:-1*bet.amount}</td>
+            <td className="profits">{bet.bets.open ? "" : bet.bets.winner===bet.outcome?Math.floor(american(getNumber(String(bet.bets.odds[bet.outcome])), bet.amount)):-1*bet.amount}</td>
             {/* {JSON.stringify(bet)} */}
         </tr>
 
@@ -53,7 +53,7 @@ export default function UserBets() {
                 setPlacedBets(data);
                 data.map((bet)=>{ 
                     w+=bet.amount; 
-                    p+=(bet.bets.open ? 0 : bet.bets.winner===bet.outcome?Math.floor(american(getNumber(String(bet.bets.odds[bet.outcome])), bet.amount))-bet.amount:-1*bet.amount)
+                    p+=(bet.bets.open ? 0 : bet.bets.winner===bet.outcome?Math.floor(american(getNumber(String(bet.bets.odds[bet.outcome])), bet.amount)):-1*bet.amount)
                 });
                 setWagers(w);
                 setWinnings(p);

@@ -1,6 +1,4 @@
 import { useState } from "react";
-
-import "../styles/passwords.css";
 import { supabase } from "../functions/SupabaseClient";
 import { useRouter } from "next/router";
 

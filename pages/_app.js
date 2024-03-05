@@ -23,6 +23,7 @@ import '../styles/managegroup.css';
 import '../styles/passwords.css';
 import '../styles/selector.css';
 import '../styles/tables.css';
+import '../styles/attributions.css';
 
 
 export default function App({ Component, pageProps }) {

@@ -128,7 +128,7 @@ function BetRow({userBet}) {
         <div className="user-bet-row">
             <div className="user-id">
                 <img className="user-picture" src={userBet.pfp_url} />
-                <div className="user-name">{userBet.username}</div>
+                <div className="user-name" title={userBet.username}>{userBet.username}</div>
             </div>
             <div className="user-option">{userBet.outcome}</div>
             <div className="user-wager">{userBet.amount}</div>
