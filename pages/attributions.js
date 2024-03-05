@@ -25,7 +25,6 @@ function Attributions() {
             <Attribution src='submit.png' href='https://www.flaticon.com/free-icons/submit' desc='Submit icons created by Depot Visual - Flaticon'/>
             <Attribution src='user.png' href='https://www.flaticon.com/free-icons/user' desc='User icons created by Becris - Flaticon'/>
             <Attribution src='write.png' href='https://www.flaticon.com/free-icons/edit' desc='Edit icons created by Kiranshastry - Flaticon'/>
-            <Attribution src='verify.png' href='https://www.flaticon.com/free-icons/verified' desc='Verified icons created by Rizki Ahmad Fauzi - Flaticon'/>
             <Attribution src='search.png' href='https://www.flaticon.com/free-icons/search' desc='Search icons created by Catalin Fertu - Flaticon'/>
             <Attribution src='trash.png' href='https://www.flaticon.com/free-icons/delete' desc='Delete icons created by Kiranshastry - Flaticon'/>
             <Attribution src='x.png' href='https://www.flaticon.com/free-icons/close' desc='Close icons created by ariefstudio - Flaticon'/>
