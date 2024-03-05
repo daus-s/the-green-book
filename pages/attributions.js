@@ -3,7 +3,7 @@ import Header from "../components/Header";
 
 export default function AttributionPage() {
     return (
-        <div className="App" style={{paddingTop: '96px'}}>
+        <div className="App">
             <Header />
             <Attributions />
         </div>
