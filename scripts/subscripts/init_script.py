@@ -167,6 +167,9 @@ class init:
                 
                 for demo in demos:
                     print(self.create_user_bets(demo, bet))
+
+                print('success')
+                return
             except Exception as e:
                 print(e)
                 input('failed?')
