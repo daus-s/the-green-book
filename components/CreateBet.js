@@ -34,7 +34,6 @@ export default function CreateBet(props) {
     const getGroups = async () => {
       if (user) {
         let c = meta.commish;
-        console.log(`meta=${meta}`)
         if (c) {
           const groupsYoureCommissionerOf = await supabase.from("groups").select().eq('commissionerID', c);
           const groupsYoureAMemberOf = await supabase.from('user_groups').select('groupID').eq('userID', meta.publicID);
@@ -115,28 +114,40 @@ export default function CreateBet(props) {
 
     const handleHitChange = (e) => {
       let val = e.target.value;
-      if (validOdds(val)) {
+      if (val.length == 1 && parseInt(val)) {
+        setHit("+" + val); //imply positive odds
+      } 
+      else if (validOdds(val)) {
         setHit(val);
       }
     }
 
     const handleMissChange = (e) => {
       let val = e.target.value;
-      if (validOdds(val)) {
+      if (val.length == 1 && parseInt(val)) {
+        setMiss("+" + val); //imply positive odds
+      } 
+      else if (validOdds(val)) {
         setMiss(val);
       }
     }
 
     const handleBlur = (e) => {
       if (e.target.name=="miss") {
-        setHit(formatOdds(getComplementary(formatOdds(getNumber(e.target.value)))));
+        let odds = formatOdds(getComplementary(formatOdds(getNumber(e.target.value))))
+        if (!isNaN(odds)) {
+          setHit(odds);
+        }
       }
       if (e.target.name=="hits") {
-        setMiss(formatOdds(getComplementary(formatOdds(getNumber(e.target.value)))));
+        let odds = formatOdds(getComplementary(formatOdds(getNumber(e.target.value))))
+        if (!isNaN(odds)) {
+          setMiss(odds);
+        }
       }    
     }
 
-    const handleOOChange = (e, i, mode) => {
+    const handleOptionsOddsChange = (e, i, mode) => {
       let shallow = [...odds];
       let change = odds[i];
       if (mode=="title") {
@@ -164,7 +175,7 @@ export default function CreateBet(props) {
                   <input 
                     type="text"
                     value={odds[index].title}
-                    onChange={(e) => handleOOChange(e, index, "title")}
+                    onChange={(e) => handleOptionsOddsChange(e, index, "title")}
                     required = {(index < 2) || odds[index].odds!==""}
                     />
                   </td>
@@ -172,7 +183,7 @@ export default function CreateBet(props) {
                   <input 
                     type="text"
                     value={odds[index].odds}
-                    onChange={(e) => handleOOChange(e, index, "odds")}
+                    onChange={(e) => handleOptionsOddsChange(e, index, "odds")}
                     required = {(index < 2) || odds[index].title!==""}
                   />
                 </td>
@@ -251,7 +262,16 @@ export default function CreateBet(props) {
           biggerJson = null;
         }
       }
-      let c = meta.commish;
+      //unfortuantley this has to be a query into groups bc of collective groups
+      let c = await supabase.from('groups').select('commissionerID').eq('groupID',group);
+      if (c.data) {
+        c=c.data
+        if (c.length==1) {
+          c = c[0].commissionerID;
+        } else {
+          c = meta.commish;
+        }
+      }
       //insert into bets
       /**
        * type=="ou"?(line?true:false):true
