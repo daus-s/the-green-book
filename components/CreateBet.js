@@ -27,25 +27,27 @@ export default function CreateBet(props) {
   const [group, setGroup] = useState(-1);
 
   //custom hooks
-  const { user, session } = useAuth();
+  const { user, meta } = useAuth();
   const {succeed, failed} = useModal();
-
-
-  const getCommissioner = async () => {
-    let commish = await supabase.from("commissioners").select('commissionerID').eq('userID', user.id);
-    if (commish.data && commish.data.length > 0) {
-      const commissionerID = commish.data[0].commissionerID;
-      return commissionerID;
-    }
-  }
 
   useEffect(() => {
     const getGroups = async () => {
       if (user) {
-        let c = await getCommissioner();
+        let c = meta.commish;
+        console.log(`meta=${meta}`)
         if (c) {
-          const groupData = await supabase.from("groups").select().eq('commissionerID', c);
-          setGroups(groupData.data);
+          const groupsYoureCommissionerOf = await supabase.from("groups").select().eq('commissionerID', c);
+          const groupsYoureAMemberOf = await supabase.from('user_groups').select('groupID').eq('userID', meta.publicID);
+          const groupIDsAsAList = (groupsYoureAMemberOf&&groupsYoureAMemberOf.data)?groupsYoureAMemberOf.data.map((obj)=>obj.groupID):undefined; 
+          const collectiveGroupsYoureAMemberOf = await supabase.from("groups").select().eq('collective', true).neq('commissionerID', c).in('groupID', groupIDsAsAList?groupIDsAsAList:[]);
+          const combined = [];
+          if (groupsYoureCommissionerOf && groupsYoureCommissionerOf.data) {
+            combined.push(...groupsYoureCommissionerOf.data);
+          }
+          if (collectiveGroupsYoureAMemberOf?.data) {
+            combined.push(...collectiveGroupsYoureAMemberOf.data);
+          }
+          setGroups(combined);
         }
         else {
           //not a commish
@@ -54,7 +56,7 @@ export default function CreateBet(props) {
     }
 
     getGroups();
-  }, [user, session])
+  }, [user,meta])
 
   const handleLineChange = (e) => {
     let val = e.target.value;
@@ -249,7 +251,7 @@ export default function CreateBet(props) {
           biggerJson = null;
         }
       }
-      let c = await getCommissioner();
+      let c = meta.commish;
       //insert into bets
       /**
        * type=="ou"?(line?true:false):true
@@ -318,8 +320,8 @@ export default function CreateBet(props) {
               <label>Select Group</label>
               <select value={group} onChange={handleSelect}>
                 <option value={-1}></option>
-                {groups.map((group, index) => (
-                  <option key={index} value={group.groupID}>
+                {groups.map((group) => (
+                  <option key={group.groupID} value={group.groupID}>
                     {group.groupName}
                   </option>
                 ))}
