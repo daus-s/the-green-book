@@ -10,8 +10,9 @@
 
 .profile-nav .profile-menu-mobile {
     background-color: var(--table-header-background);
+    font-size: 18px;
     position: absolute;
-    width: 140px;
+    width: 130px;
     transform: translateX(calc(-100% + 40px)) translateY(-15px);
     border-radius: 2px;
     color: var(--grayed-out-text);
