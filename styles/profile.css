@@ -5,6 +5,25 @@
     cursor: pointer;
     border-radius: 50%;
     object-fit: cover;
+    position: relative;
+}
+
+.profile-nav .profile-menu-mobile {
+    background-color: var(--table-header-background);
+    position: absolute;
+    width: 140px;
+    transform: translateX(calc(-100% + 40px)) translateY(-15px);
+    border-radius: 2px;
+    color: var(--grayed-out-text);
+}
+
+.profile-nav .profile-menu-mobile * {
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.profile-nav .profile-menu-mobile *:hover {
+    background-color: var(--highlighted-dark);
 }
 
 .profile-signout-div {
