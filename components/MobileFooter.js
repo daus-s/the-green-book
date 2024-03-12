@@ -6,7 +6,6 @@ import Notification from './Notification';
 import { supabase } from '../functions/SupabaseClient';
 
 function SidebarProfile({meta, user}) {
-    console.log(user, meta)
     return (
         <div className='sidebar-profile'>
             <div className='pfp-box'>

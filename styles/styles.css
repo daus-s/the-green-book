@@ -7,6 +7,9 @@
   flex-direction: column;
   align-items: center;
   height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 h1,
@@ -102,7 +105,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 100vh;
+  height: 100%;
+  width: 100%;
 }
 
 .notification-box {
