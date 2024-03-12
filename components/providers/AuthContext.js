@@ -32,13 +32,13 @@ export const AuthProvider = ({ children }) => {
       
     }
 
-    const getProfilePictureUrl = async () => {
+    const getPublicData = async () => {
       try {
         const email = (await getSession()).data?.session.user.email;
 
         const { data, error } = await supabase
           .from("public_users")
-          .select('pfp_url')
+          .select('*')
           .eq('email', email)
           .limit(1)
           .single();
@@ -47,6 +47,8 @@ export const AuthProvider = ({ children }) => {
           setMeta((prevMeta) => ({
             ...prevMeta,
             pfp: data.pfp_url,
+            publicID: data.id,
+            username: data.username
           }));
         } 
         else {
@@ -65,20 +67,14 @@ export const AuthProvider = ({ children }) => {
       const email = (await getSession()).data?.session.user.email || "";
       if (email) {
         const {data,error} = await supabase.from("users").select("publicID").eq("email", user.email)
-        if (data[0]?.publicID) {
-          setMeta((prevMeta) => ({
-            ...prevMeta,
-            publicID: data[0].publicID,
-          }));        
-        }
+        
       }
 
     }
 
     if (user&&session) {
       getCommissionerStatus();
-      getProfilePictureUrl();
-      getPublicID();
+      getPublicData();
     }
   },[user,session]);
 

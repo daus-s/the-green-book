@@ -8,6 +8,7 @@ export default function ProfileNav() {
     const {meta, logout} = useAuth();
 
     const profileMenuRef = useRef(null);
+    
     const onClick = (e) => {
         if (!isMobile) {
             window.location.href="/profile";
@@ -36,7 +37,7 @@ export default function ProfileNav() {
 
     return (
         <div className="profile-nav">
-            <img src={meta.pfp} onClick={onClick} style={isMobile?{'cursor': 'default'}:{}}/>
+            <img src={meta.pfp} onClick={onClick} style={isMobile?{cursor: 'default', marginRight: '0', height: '50px', width: '50px'}:{}}/>
             {profileMenu?(
                 <div className="profile-menu-mobile" ref={profileMenuRef}>
                     <div className="profile-link" onClick={(e)=>window.location.href="/profile"}>Profile</div>

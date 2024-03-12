@@ -9,6 +9,12 @@ const preStyle = {
 }
 
 export default function CommissionerShield({ style }) {
+    if (style.height && !style.width) {
+        style.width = style.height;
+    }
+    if (style.width && !style.height) {
+        style.height = style.width;
+    }
     return (
         <img src="shield.png" style={{ ...preStyle, ...style }}/>
     );

@@ -24,6 +24,7 @@ import '../styles/passwords.css';
 import '../styles/selector.css';
 import '../styles/tables.css';
 import '../styles/attributions.css';
+import '../styles/sidebar.css';
 
 
 export default function App({ Component, pageProps }) {

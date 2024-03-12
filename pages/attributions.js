@@ -31,6 +31,7 @@ function Attributions() {
             <Attribution src='left.png' href='https://www.flaticon.com/free-icons/next' desc='Next icons created by Roundicons - Flaticon'/>
             <Attribution src='right.png' href='https://www.flaticon.com/free-icons/next' desc='Next icons created by Roundicons - Flaticon'/>
             <Attribution src='shield.png' href='https://www.flaticon.com/free-icons/emblem' desc='Emblem icons created by Smashicons - Flaticon'/>
+            <Attribution src='menu.png' href='https://www.flaticon.com/free-icons/hamburger' desc='Hamburger icons created by feen - Flaticon' />
         </div>
     );
 }
