@@ -33,3 +33,20 @@
 .attribution .data * {
     margin: 5px;
 }
+
+.attribution.mobile {
+    width: 290px;
+    padding: 10px 45px 10px 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.attribution.mobile img {
+    position: relative;
+    left: 25%;
+}
+
+.attribution.mobile .title {
+    position: relative;
+    left: 25%;
+}

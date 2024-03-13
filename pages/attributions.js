@@ -1,12 +1,10 @@
 import Link from "next/link";
-import Header from "../components/Header";
+import { useMobile } from "../components/providers/MobileContext";
 
 export default function AttributionPage() {
+
     return (
-        <div className="App">
-            <Header />
-            <Attributions />
-        </div>
+        <Attributions />
     );
 }
 
@@ -37,13 +35,27 @@ function Attributions() {
 }
 
 function Attribution({href, desc, src}) {
-    return (
-        <div className="attribution">
-            <div className="title">{src}</div>
-            <div className="data">
-                <img src={src} style={{height: '50px'}}/>
-                <Link href={href}> {desc}</Link>
+    const { isMobile } = useMobile();
+    
+    return ( isMobile ? 
+        (   
+            <div className="attribution mobile">
+                <Link href={href}>
+                    <img src={src} style={{height: '32px'}}/>
+                </Link>
+                <div className="title">{src}</div>
             </div>
-        </div>
+        )
+        :
+        (
+            <div className="attribution">
+                <div className="title">{src}</div>
+                <div className="data">
+                    <img src={src} style={{height: '50px'}}/>
+                    <Link href={href}> {desc}</Link>
+                </div>
+                
+            </div>
+        )
     )
 }

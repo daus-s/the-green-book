@@ -75,6 +75,7 @@ body {
   --dark-green-highlight: ;
   --table-border: #C3C9CF;  /*inv(48, 54, 61)*/
   --overlay: rgba(12,12,12,.5);
+  --almost-opaque: rgba(51,51,51,.75);
   --danger: #ba1d24;
   --danger-input: #2f2626;
   --delete-button: #cd0e31;
@@ -100,13 +101,14 @@ body {
 
 .page {
   margin-top: 96px;
-  margin-bottom: 96px;
-  padding-bottom: 56px;
+  padding-bottom: 74px;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
   width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .notification-box {

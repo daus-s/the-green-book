@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import AccountControl from '../components/AccountControl';
+import MobileFooter from '../components/MobileFooter';
 
 export default function HomePage() {
     return (
@@ -63,6 +64,7 @@ export default function HomePage() {
                 <a href="https://github.com/daus-s/the-green-book/issues">Report an issue</a>
             </div>
         </footer>
+        <MobileFooter />
     </div>
     );
 };

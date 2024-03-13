@@ -25,12 +25,15 @@ import '../styles/selector.css';
 import '../styles/tables.css';
 import '../styles/attributions.css';
 import '../styles/sidebar.css';
+import Layout from '../components/Layout';
 
 
 export default function App({ Component, pageProps }) {
   return (
     <Providers>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
     </ Providers>
   );
 }
