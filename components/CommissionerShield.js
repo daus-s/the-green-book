@@ -9,10 +9,10 @@ const preStyle = {
 }
 
 export default function CommissionerShield({ style }) {
-    if (style.height && !style.width) {
+    if (style && style.height && !style.width) {
         style.width = style.height;
     }
-    if (style.width && !style.height) {
+    if (style && style.width && !style.height) {
         style.height = style.width;
     }
     return (
