@@ -4,7 +4,8 @@
     border-radius: 6px;
     background-color: var(--input-background);
     color: var(--input-text);
-    width: 413px;
+    width: calc(100% - 36px);
+    max-width: 413px;
     outline: none;
     border: none;
 }
@@ -48,6 +49,7 @@
 .social .result {
     background-color: transparent;
     border: 0;
+    max-width: 100%;
 }
 
 .social .group-name {
