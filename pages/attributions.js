@@ -30,26 +30,26 @@ function Attributions() {
             <Attribution src='right.png' href='https://www.flaticon.com/free-icons/next' desc='Next icons created by Roundicons - Flaticon'/>
             <Attribution src='shield.png' href='https://www.flaticon.com/free-icons/emblem' desc='Emblem icons created by Smashicons - Flaticon'/>
             <Attribution src='menu.png' href='https://www.flaticon.com/free-icons/hamburger' desc='Hamburger icons created by feen - Flaticon' />
-            <Attribution src='social.png' href='https://www.flaticon.com/free-icons/networking' desc='Networking icons created by Becris - Flaticon'/>
-            <Attribution src='history.png' href="https://www.flaticon.com/free-icons/chart" desc='Chart icons created by Kiranshastry - Flaticon' />
-            <Attribution src='balance.png' href="https://www.flaticon.com/free-icons/price" desc='Price icons created by bqlqn - Flaticon' />
-            <Attribution src='bet.png' href="https://www.flaticon.com/free-icons/casino-chip" desc='Casino chip icons created by Freepik - Flaticon' />
-            <Attribution src='bookkeeping.png' href="https://www.flaticon.com/free-icons/bookkeeping" desc='Bookkeeping icons created by smashingstocks - Flaticon'/>
-            <Attribution src='groupsettings.png' href="https://www.flaticon.com/free-icons/profile" desc='Profile icons created by Pixel perfect - Flaticon' />
-            <Attribution src='creategroup.png' href="https://www.flaticon.com/free-icons/members" desc='Members icons created by GOFOX - Flaticon'/>
-            <Attribution src='newbet.png' href="https://www.flaticon.com/free-icons/exam"  desc='Exam icons created by RIkas Dzihab - Flaticon' />
+            <Attribution src='social.png' href='https://www.flaticon.com/free-icons/networking' desc='Networking icons created by Becris - Flaticon'backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='history.png' href="https://www.flaticon.com/free-icons/chart" desc='Chart icons created by Kiranshastry - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='balance.png' href="https://www.flaticon.com/free-icons/price" desc='Price icons created by bqlqn - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='bet.png' href="https://www.flaticon.com/free-icons/casino-chip" desc='Casino chip icons created by Freepik - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='bookkeeping.png' href="https://www.flaticon.com/free-icons/bookkeeping" desc='Bookkeeping icons created by smashingstocks - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='groupsettings.png' href="https://www.flaticon.com/free-icons/profile" desc='Profile icons created by Pixel perfect - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='creategroup.png' href="https://www.flaticon.com/free-icons/members" desc='Members icons created by GOFOX - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='newbet.png' href="https://www.flaticon.com/free-icons/exam"  desc='Exam icons created by RIkas Dzihab - Flaticon' backgroundColor='var(--soft-highlight)'/>
         </div>
     );
 }
 
-function Attribution({href, desc, src}) {
+function Attribution({href, desc, src, backgroundColor}) {
     const { isMobile } = useMobile();
     
     return ( isMobile ? 
         (   
             <div className="attribution mobile">
                 <Link href={href}>
-                    <img src={src} style={{height: '32px'}}/>
+                    <img src={src} style={{height: '32px', backgroundColor:(backgroundColor?backgroundColor:'transparent')}}/>
                     <div className="title">{src}</div>
                 </Link>
             </div>
@@ -60,7 +60,7 @@ function Attribution({href, desc, src}) {
                 <Link href={href}> 
                     <div className="title">{src}</div>
                     <div className="data">
-                        <img src={src} style={{height: '50px'}}/>
+                        <img src={src} style={{height: '50px', backgroundColor:(backgroundColor?backgroundColor:'transparent')}}/>
                         {desc}
                     </div>
                 </Link>

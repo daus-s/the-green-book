@@ -12,20 +12,20 @@ export default function Header() {
     <header>
       <Logo />
       {
-      isMobile &&
+      !isMobile &&
       <nav>
-        <Link href="/bets">Your Bets</Link>
-        <Link href="/bets-placed">Bets Placed</Link>
-        <Link href="/wallet">Balance</Link>
-        <Link href="/social">Groups</Link>
+        <Link href="/bets"><img src="bet.png" alt="bets menu" className="link-image"/></Link>
+        <Link href="/bets-placed"><img src="history.png" alt="betting history" className="link-image"/></Link>
+        <Link href="/wallet"><img src ='balance.png' alt="balance and wallet" className="link-image"/></Link>
+        <Link href="/social"><img src="social.png" alt="social" className="link-image"/></Link>
         {
         meta.commish?
         (
         <>
-          <Link href="/create-group">Create Group</Link>
-          <Link href="/your-groups">Manage Groups</Link>
-          <Link href="/create-bet">Create Bet</Link>
-          <Link href="/manage-bets">Bet Manager</Link>       
+          <Link href="/create-group"><img src="creategroup.png" alt="create group" className="link-image"/></Link>
+          <Link href="/your-groups"><img src="groupsettings.png" alt="manage groups" className="link-image"/></Link>
+          <Link href="/create-bet"><img src="newbet.png" alt="create bet" className="link-image"/></Link>
+          <Link href="/manage-bets"><img src="bookkeeping.png" alt="bookkeeping and bet manager" className="link-image"/></Link>       
         </>
         )
         :

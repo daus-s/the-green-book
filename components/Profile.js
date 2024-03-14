@@ -1,6 +1,7 @@
 import ProfileSelection from "./ProfileSelection";
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
+import { useMobile } from "./providers/MobileContext";
 import { useEffect, useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { alpha, validUsername } from "../functions/isEmail";
@@ -17,6 +18,7 @@ export default function Profile() {
  
   const { user, meta, session } = useAuth();
   const { failed, succeed } = useModal();
+  const { isMobile } = useMobile();
 
 
 
@@ -76,8 +78,8 @@ export default function Profile() {
 
   return (
     <div className="profile page">
-      <div className="profile-data">
-        <div className="profile-pic">
+      <div className="profile-data" style={isMobile?mobileStyle.profileData:{}}>
+        <div className="profile-pic" style={isMobile?mobileStyle.profilePic:{}}>
           <div className="pfp-img">
             <img src={meta.pfp} alt = "Profile picture." style={{height:"112px", borderRadius: "50%"}}/>
           </div>
@@ -87,7 +89,8 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div className="user-data">
+        {isMobile&&choosePFP?<ProfileSelection close={setChoosePFP}/>:""} 
+        <div className="user-data" style={isMobile?mobileStyle.userData:{}}>
           {
             editName
             ?
@@ -117,9 +120,32 @@ export default function Profile() {
           <div className="email">
               {email}
           </div>
+          <div className="reset-password-link" style={isMobile?mobileStyle.passwordReset:{}}>
+            <a href="/reset-password">Change your password</a>
+          </div>
         </div>
       </div>
-      {choosePFP?<ProfileSelection close={setChoosePFP}/>:""} 
+      {!isMobile&&choosePFP?<ProfileSelection close={setChoosePFP}/>:""} 
     </div>
   );
+}
+
+const mobileStyle = {
+  profileData: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    width: '100%',
+  },
+  profilePic: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    transform: 'translateX(34px)',
+  },
+  userData: {
+    maxWidth: '100%',
+    minWidth: '0px',
+  },
+  passwordReset: {
+    justifyContent: 'center',
+  }
 }

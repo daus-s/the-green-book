@@ -132,3 +132,15 @@
     text-align: center;
 
 }
+
+.reset-password-link {
+    width: 100%;
+    font-size: 14px;
+}
+.reset-password-link a {
+    color: var(--link-color);
+}
+
+.reset-password-link a:hover {
+    color: var(--link-hover);
+}

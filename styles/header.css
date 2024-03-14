@@ -72,6 +72,18 @@ nav {
   max-width: fit-content;
 }
 
+nav a img {
+  height: 50px;
+}
+
+nav .link-image {
+  transition: filter 0.3s;
+}
+
+nav .link-image:hover {
+  filter: brightness(200%);
+}
+
 nav a {
   color: var(--nav-link-color);
   text-decoration: none;
