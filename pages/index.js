@@ -5,7 +5,7 @@ import MobileFooter from '../components/MobileFooter';
 
 export default function HomePage() {
     return (
-    <div className="home">
+    <div className="home " style={{overflowY: 'auto', overflowX: 'hidden'}}>
         <div className='page-header'>
             <div className='flashy'>
                 <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
@@ -24,7 +24,7 @@ export default function HomePage() {
                 <AccountControl />
             </div>
         </div>
-            <div className="options">
+            <div className="options page">
                 <Link href="/sign-up" className="option">
                     <div className="card">
                         <div className="card-content">
@@ -64,7 +64,6 @@ export default function HomePage() {
                 <a href="https://github.com/daus-s/the-green-book/issues">Report an issue</a>
             </div>
         </footer>
-        <MobileFooter />
     </div>
     );
 };

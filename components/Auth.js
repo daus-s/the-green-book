@@ -22,9 +22,7 @@ export default function Auth(props) {
       } else {
         router.push('/bets');
       }
-      // }
     } catch (error) {
-      //console.error(error);
       setInvalid(true);
       setPassword("");
     }

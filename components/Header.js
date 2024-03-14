@@ -2,13 +2,17 @@ import Link from 'next/link';
 import { useAuth } from "./providers/AuthContext";
 import AccountControl from "./AccountControl";
 import Logo from "./Logo";
+import { useMobile } from './providers/MobileContext';
 
 
 export default function Header() {
+  const {isMobile} = useMobile();
   const {meta} = useAuth();
   return (
     <header>
       <Logo />
+      {
+      isMobile &&
       <nav>
         <Link href="/bets">Your Bets</Link>
         <Link href="/bets-placed">Bets Placed</Link>
@@ -27,7 +31,7 @@ export default function Header() {
         :
         <></>
         }
-      </nav>
+      </nav>}
       <AccountControl />
     </header>
   );
