@@ -44,6 +44,7 @@
 }
 
 .options-winnings {
+  align-items: center;
   margin-top: 10px;
   display: flex;
   flex-direction: row;
@@ -75,4 +76,33 @@
   align-self: flex-start;
   flex-direction: column;
   overflow: hidden;
+}
+
+.find-groups {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--bet-option-highlight);
+  font-size: 30px;
+}
+
+.find-groups a {
+  padding-top: 10px;
+  color: var(--deactive-gray);
+  text-decoration: none;
+}
+
+.find-groups a:hover {
+  color: var(--bet-text-color);
+}
+
+.winnings-cash {
+  display: flex;
+  flex-direction: row;
+}
+
+.input-buttons {
+  display: flex;
+  flex-direction: row;
 }

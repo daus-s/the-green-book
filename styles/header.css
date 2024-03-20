@@ -74,6 +74,7 @@ nav {
 
 nav a img {
   height: 50px;
+  width: fit-content;
 }
 
 nav .link-image {
@@ -85,17 +86,18 @@ nav .link-image:hover {
 }
 
 nav a {
-  color: var(--nav-link-color);
+  color: var(--bet-background-color);
   text-decoration: none;
   margin: 0 15px;
   font-size: 18px;
   width: fit-content;
-  display: inline-block;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 nav a:hover {
-  color: var(--nav-link-hover-color);
+  filter: brightness(200%);
 }
 
 .cta-button {

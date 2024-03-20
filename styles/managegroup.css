@@ -70,6 +70,7 @@
 
 .scroll {
     overflow-y: auto; 
+    width: 240px;
 }
 
 .bet-view-row {
@@ -84,10 +85,22 @@
 .bet-view-row .titles,
 .bet-view-row .types,
 .bet-view-row .participations {
-    width: 30%;
     text-align: left;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap;
+}
+
+.bet-view-row .titles {
+    width: 35%;
+}
+
+.bet-view-row .types {
+    width: 36%;
+}
+
+.bet-view-row .participations {
+    width: 15%;
 }
 
 .bet-view-row:nth-child(even) {

@@ -1,6 +1,4 @@
 .wallet img {
-  width: 300px;
-  aspect-ratio: original;
   overflow: hidden;
   margin: 10px;
 }

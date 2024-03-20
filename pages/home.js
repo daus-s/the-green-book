@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import AccountControl from '../components/AccountControl';
-import MobileFooter from '../components/MobileFooter';
+import MobileFooter from '../components/Sidebar';
 
 export default function HomePage() {
     return (

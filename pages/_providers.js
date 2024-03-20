@@ -7,12 +7,13 @@ import { MobileProvider } from '../components/providers/MobileContext';
 
 export default function Providers({ children }) {
   return (
-    <AuthProvider>
-      <ModalProvider>
-        <MobileProvider>
-          {children}
-        </MobileProvider>
-      </ModalProvider>
-    </AuthProvider>
+    <MobileProvider>
+      <AuthProvider>
+        <ModalProvider>
+            {children}
+        </ModalProvider>
+      </AuthProvider>
+    </MobileProvider>
+
   );
 }

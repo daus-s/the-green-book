@@ -33,7 +33,7 @@ function Attributions() {
             <Attribution src='social.png' href='https://www.flaticon.com/free-icons/networking' desc='Networking icons created by Becris - Flaticon'backgroundColor='var(--soft-highlight)'/>
             <Attribution src='history.png' href="https://www.flaticon.com/free-icons/chart" desc='Chart icons created by Kiranshastry - Flaticon' backgroundColor='var(--soft-highlight)'/>
             <Attribution src='balance.png' href="https://www.flaticon.com/free-icons/price" desc='Price icons created by bqlqn - Flaticon' backgroundColor='var(--soft-highlight)'/>
-            <Attribution src='bet.png' href="https://www.flaticon.com/free-icons/casino-chip" desc='Casino chip icons created by Freepik - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='bet.png' href="https://www.flaticon.com/free-icons/insert"  desc='Insert icons created by Iconjam - Flaticon' backgroundColor='var(--soft-highlight)'/>
             <Attribution src='bookkeeping.png' href="https://www.flaticon.com/free-icons/bookkeeping" desc='Bookkeeping icons created by smashingstocks - Flaticon' backgroundColor='var(--soft-highlight)'/>
             <Attribution src='groupsettings.png' href="https://www.flaticon.com/free-icons/profile" desc='Profile icons created by Pixel perfect - Flaticon' backgroundColor='var(--soft-highlight)'/>
             <Attribution src='creategroup.png' href="https://www.flaticon.com/free-icons/members" desc='Members icons created by GOFOX - Flaticon' backgroundColor='var(--soft-highlight)'/>

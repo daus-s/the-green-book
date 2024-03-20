@@ -132,6 +132,7 @@ input[type="radio"] {
     background-color: var(--input-background);
     font-size: 28px;
     font-weight: 600;
+    width: calc(100% - 144px);
     color: var(--bet-text-color);
 }
 
@@ -287,4 +288,21 @@ input[type="radio"] {
 .add-button img {
     height: 24px;
     width: 24px;
+}
+
+.selects {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 10px);
+}
+
+.selects * {
+    flex: 1;
+}
+
+.selects .type, .selects .group {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 5px;
 }

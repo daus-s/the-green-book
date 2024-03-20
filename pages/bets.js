@@ -3,7 +3,7 @@ import Bets from "../components/Bets";
 import Header from "../components/Header";
 import ProtectedRoute from "./_ProtectedRoute";
 import { useMobile } from "../components/providers/MobileContext";
-import MobileFooter from "../components/MobileFooter";
+import MobileFooter from "../components/Sidebar";
      
 export default function BetPage() {
     const { isMobile } = useMobile();
@@ -11,9 +11,7 @@ export default function BetPage() {
     return (
         <ProtectedRoute>
             <div className="App">
-                <Header/>
-                <Bets />
-                {isMobile?<MobileFooter />:<></>}
+                <Bets />            
             </div>
         </ProtectedRoute>
     )

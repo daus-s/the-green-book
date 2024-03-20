@@ -82,7 +82,8 @@ body {
   --delete-button-hover: #dd1035;
   --fancy: #c0de31;
   --satan-minus-one: #555;
-  --cool-dark: #28262b; 
+  --cool-dark: #28262b;
+  --rotation-time: 1s;
 }
 
 * {

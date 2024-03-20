@@ -1,7 +1,9 @@
 // pages/_app.js
 import React from 'react';
-import Providers from './_providers';
 
+import Providers from './_providers';
+import Layout from '../components/Layout';
+import RotationProvider from '../components/RotationProvider';
 
 import '../styles/auth.css';
 import '../styles/creategroup.css';
@@ -25,16 +27,19 @@ import '../styles/selector.css';
 import '../styles/tables.css';
 import '../styles/attributions.css';
 import '../styles/sidebar.css';
-import Layout from '../components/Layout';
+import '../styles/tree.css';
 
 
 export default function App({ Component, pageProps }) {
+  
   return (
     <Providers>
+      {/* <RotationProvider> */}
         <Layout>
-          <Component {...pageProps} />
-        </Layout>
-    </ Providers>
+            <Component {...pageProps} />
+          </Layout>
+        {/* </RotationProvider> */}
+    </Providers>
   );
 }
 
