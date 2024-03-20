@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 
-
+import { useMobile } from '../providers/MobileContext';
 import { useModal } from '../providers/ModalContext';
 
 //69420 is reserved
@@ -12,6 +12,7 @@ const codes = {
 const FailureModal = ({ isOpen, onClose, error }) => {
   const { code, message } = error?error:{code: 69420, message:'Something unexpected occured. :('}; //destructure argument
   const { failure, unfailed } = useModal();
+  const { isMobile } = useMobile();
 
   useEffect(()=>{
     const timeoutId = setTimeout(() => {
@@ -45,10 +46,10 @@ const FailureModal = ({ isOpen, onClose, error }) => {
         content: {        
           backgroundColor: 'var(--bet-background-color)',
           borderColor: 'var(--bet-option-highlight)',
-          minWidth: '400px',
-          minHeight: '200px',
-          width: '400px',
-          height: '200px',
+          minWidth: isMobile?'250px':'400px',
+          minHeight: isMobile?'150px':'200px',
+          width: isMobile?'250px':'400px',
+          height: isMobile?'150px':'200px',
           aspectRatio: '2',
           position: 'absolute',
           top: '50%',

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
 import FindUserList from "./FindUserList";
+import { useMobile } from "./providers/MobileContext";
 // import { random } from "../functions/RandomBigInt"; # bigint deprecated pre-release
 
 
@@ -12,6 +13,7 @@ export default function CreateGroup() {
 
   const { user, meta } = useAuth();
   const { failed, succeed } = useModal();
+  const { isMobile } = useMobile();
 
 
 
@@ -153,26 +155,35 @@ export default function CreateGroup() {
   }
 
   return (
-    <div className="create-group page">
-      <div className="creategroup-header"><h3>Create Group</h3><br/></div>
-      <div >
-        <div className="title-label-label">Group Name{" "}</div>
-        <input
-            type="text"
-            value={name}
-            onChange={(e) => handleNameChange(e)}
-            required
-            style={{fontSize:"inherit", width: "100%", margin: "10px 0px 10px 0px"}}/>
-        <FindUserList 
-            users={users} 
-            addUser={addUser}
-            create={true}
-            remove={remove}
+    <div className="create-group page" style={isMobile?mobileStyle.form:{}}>
+      <div className="new-group" style={isMobile?mobileStyle.form:{}}>
+        <div className="creategroup-header"><h3>Create Group</h3><br/></div>
+        <div >
+          <div className="title-label-label">Group Name{" "}</div>
+          <input
+              type="text"
+              value={name}
+              onChange={(e) => handleNameChange(e)}
+              required
+              style={{fontSize:"inherit", width: "100%", margin: "10px 0px 10px 0px"}}/>
+          <FindUserList 
+              users={users} 
+              addUser={addUser}
+              create={true}
+              remove={remove}
           />
         <div className="btn-cntr">
           <button className="create-group submit" onClick={handleSubmit}>Create</button>
         </div>
+      </div>
      </div>
     </div>
   );
+}
+
+const mobileStyle = {
+  form: {
+    width: '100%',
+    borderRadius: '0',
+  },
 }

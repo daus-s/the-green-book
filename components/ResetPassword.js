@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { useRouter } from "next/router";
+import { useMobile } from "./providers/MobileContext";
 
 
 export default function ResetPassword() {
@@ -10,6 +11,7 @@ export default function ResetPassword() {
     const [error, setError] = useState(false);
 
     const router = useRouter();
+    const { isMobile } = useMobile();
 
     
     const handleChange1 = (e) => {
@@ -34,12 +36,16 @@ export default function ResetPassword() {
     return (
         <div className="reset-password page">
             <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
-            <form className="reset-password-form" onSubmit={(e)=>handleSubmit(e)}>
-                <div className="pwd">
+            <form 
+                className="reset-password-form" 
+                onSubmit={(e)=>handleSubmit(e)}
+                style={isMobile?{width:'calc(100% - 20px)'}:{}}
+            >
+                <div className="pwd" style={isMobile?{maxWidth:'100%'}:{}}>
                     <label>Password</label>
                     <input type="password" value={password1} onChange={(e)=>handleChange1(e)}/>
                 </div>
-                <div className="pwd">
+                <div className="pwd" style={isMobile?{maxWidth:'100%'}:{}}>
                     <label>Confirm Password</label>
                     <input type="password" value={password2} onChange={(e)=>handleChange2(e)}/>
                 </div>

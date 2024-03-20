@@ -8,6 +8,7 @@ import ADModal from "./modals/ADModal";
 import FindUserList from "./FindUserList";
 import Notification from "./Notification";
 import USIModal from "./modals/USIModal";
+import { useMobile } from "./providers/MobileContext";
 
 function Requests({groupID, groupName, setCount}) {
     // const [found, setFound] = useState({})
@@ -19,6 +20,7 @@ function Requests({groupID, groupName, setCount}) {
     const [approve, setApprove] = useState(undefined);
 
     const { succeed, failed } = useModal();
+    const { isMobile } = useMobile();
 
     useEffect(()=>{
         const getRequests = async() => {
@@ -90,13 +92,13 @@ function Requests({groupID, groupName, setCount}) {
 
     return (
         <>
-            <div className="req-nav-div">
-                <div className="left" onClick={()=>setX(prv=>(prv-1)%rs.length)}><img src="left.png"/></div>
-                <div className="request">
+            <div className="req-nav-div" style={isMobile?{width:'100%'}:{}}>
+                <div className="left" onClick={()=>setX(prv=>(prv-1)%rs.length)}><img src="left.png" style={isMobile?{width: '20px', height:'20px'}:{}}/></div>
+                <div className="request"  style={isMobile?{width:'235px'}:{}}>
                     {rs.length?
-                        <div className="user">
+                        <div className="user" style={isMobile?{width:'100%'}:{}}>
                             <div className="pfp">
-                                {face&&face.pfp_url?<img src={face.pfp_url}/>:<></>}
+                                {face&&face.pfp_url?<img src={face.pfp_url} />:<></>}
                             </div>
                             <div className="top-down">
                                 <div className="username">
@@ -108,7 +110,7 @@ function Requests({groupID, groupName, setCount}) {
                             </div>
                         </div>
                     :
-                    <div className="no-results">
+                    <div className="no-results" style={isMobile?{width:'235px'}:{}}>
                         No Requests
                         {/* in here add the little notification element*/}
                     </div>
@@ -119,7 +121,7 @@ function Requests({groupID, groupName, setCount}) {
             {
             rs.length
             ?
-            <div className="decision-box">
+            <div className="decision-box" style={isMobile?{paddingLeft: '0px', width:'100%', padding: '10px 32.5px 2px 32.5px'}:{}}>
                 <div className="accept" onClick={()=>handleAxion('accept')}><img src="accept.png"  title="Accept"/><div className="text">Accept</div></div>
                 <div className="reject" onClick={()=>handleAxion('reject')}><img src="remove.png" title="Reject"/><div className="text">Reject</div></div>
             </div>
@@ -153,6 +155,8 @@ function BetElement({bet, groupSize}) {
 function GroupElement({name, id}) {
     const { meta } = useAuth();
     const { failed, succeed } = useModal();
+    const { isMobile, height, width } = useMobile();
+    const elementWidth = `${Math.min(height, width) - 20}px`;
 
     const [USIModalVisible, setUSIModalVisible] = useState(false);
 
@@ -217,11 +221,11 @@ function GroupElement({name, id}) {
     }, [])
 
     return (
-        <div className="group-element" id={`group-${id}`}>
-            <div className="group-title">
+        <div className="group-element" id={`group-${id}`} style={isMobile?{width: elementWidth}:{}} >
+            <div className="group-title" style={isMobile?mobileStyle.header:{}}>
                 {name}
             </div>
-            <div className="group-info">
+            <div className="group-info" style={isMobile?{flexDirection: 'column'}:{}}>
                 <div className="user-group-view">
                     <FindUserList name={name} id={id} addUser={addUser} users={users} setUsers={setUsers} remove={removeUser} commish={meta.publicID}/>
                 </div>
@@ -257,6 +261,7 @@ function GroupElement({name, id}) {
 export default function GroupManager() {
     const [groupList, setGroupList] = useState([]);
     const { user, meta } = useAuth();
+    const { isMobile } = useMobile();
 
     useEffect(()=>{
         const getGroups = async () => {
@@ -274,10 +279,27 @@ export default function GroupManager() {
     return (
         <div className="group-manager page">
             {groupList.map((group, index)=>
-                <div key={index}>
+                <div key={index} style={{...isMobile&&mobileStyle.mt}}>
                     {<GroupElement id={group.groupID} name={group.groupName} />}
                 </div>) 
             }
         </div>
     );
+}
+
+const mobileStyle = {
+    groupElement: {
+        width: 'calc(100% - 20px)'
+    },
+    header: {
+        width: '100%'
+    },
+    mt: {
+        display: 'flex', 
+        flexDirection: 'column',
+        alignItems: 'center',
+        flex: 1,
+        width: '100%',
+    }
+
 }

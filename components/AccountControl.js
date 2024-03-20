@@ -15,7 +15,7 @@ export default function AccountControl() {
         else {
             setAuthenticated(false);
         }
-    },[user,session]); //load on mount
+    },[user,session]);
 
     switch (authenticated) {
         case true: 

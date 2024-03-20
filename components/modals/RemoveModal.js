@@ -1,9 +1,11 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { useMobile } from '../providers/MobileContext';
 
 
 const RemoveModal = ({ isOpen, onCancel, onConfirm, username  }) => {
   //think nyx from wish.com
+  const { isMobile } = useMobile();
   return (
     <Modal 
       isOpen={isOpen} 
@@ -15,7 +17,7 @@ const RemoveModal = ({ isOpen, onCancel, onConfirm, username  }) => {
         },
         content: {
           backgroundColor: 'var(--bet-background-color)',
-          width: '768px',
+          width: isMobile?'calc(100% - 16px)':'768px',
           height: '200px',
           position: 'absolute',
           top: '50%',

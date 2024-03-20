@@ -4,12 +4,16 @@ import { useModal } from "./providers/ModalContext";
 import OptionsPlaceBetForm from "./OptionsPlaceBetForm";
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
+import { useMobile } from "./providers/MobileContext";
 
 const OptionsBet = ({ bet }) => {
   const { user, meta } = useAuth();
   const { failed, succeed } = useModal();
+  const { isMobile, height, width } = useMobile();
+  const elementWidth = `${Math.min(height, width) - 20}px`;
 
 
+  const title = DOMPurify.sanitize(bet.title);
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 
 
@@ -48,7 +52,7 @@ const OptionsBet = ({ bet }) => {
   };
 
   return (
-    <div className="options bet">
+    <div className="options bet" style={isMobile?{width: elementWidth}:{}}>
       <h3
         style={{
           maxWidth: "320px",
@@ -56,11 +60,12 @@ const OptionsBet = ({ bet }) => {
           left: "8%",
           width: "70%",
           textAlign: "left",
+          ...isMobile?mobileStyle.header:{}
         }}
       >
-        {bet.title}
+        {title}
       </h3>
-      <div className="description">
+      <div className="description" style={isMobile?mobileStyle.desc:{}}>
         <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
       </div>
       {result === "Closed" ? (
@@ -75,4 +80,21 @@ const OptionsBet = ({ bet }) => {
   );
 };
 
+const mobileStyle = {
+  bet: {
+    width: 'calc(100% - 20px)'
+  },
+  header: {
+    width: '65%',
+    paddingLeft: '15px',
+    height: 'calc(2em + 7px)',
+    overflowY: 'hidden', 
+    textOverflow: 'ellipsis'
+  },
+  desc: {
+    width: 'calc(100% - 20px)',
+  }
+}
+
 export default OptionsBet;
+

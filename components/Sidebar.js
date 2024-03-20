@@ -6,16 +6,28 @@ import Notification from './Notification';
 import { supabase } from '../functions/SupabaseClient';
 
 function SidebarProfile({meta, user}) {
-    return (
-        <div className='sidebar-profile'>
-            <div className='pfp-box'>
-                <img className='pfp' src={meta.pfp} onClick={()=>window.location.href='/profile'} />
-                {meta.commish&&<CommissionerShield style={{height: '30px', pointerEvents: 'none'}}/>}
+    if (meta && user) {
+        return (
+            <div className='sidebar-profile'>
+                <div className='pfp-box'>
+                    <img className='pfp' src={meta.pfp} onClick={()=>window.location.href='/profile'} />
+                    {meta.commish?<CommissionerShield style={{height: '30px', pointerEvents: 'none'}}/>:<></>}
+                </div>
+                <div className='username'>{meta.username}</div>
+                <div className='email'>{user.email}</div>
             </div>
-            <div className='username'>{meta.username}</div>
-            <div className='email'>{user.email}</div>
-        </div>
-    );
+        );
+    }
+    else {
+        return (
+            <div className='sidebar-profile'>
+                <div className='pfp-box'>
+                    <img className='big' src='greenbook.jpg' onClick={()=>window.location.href='/'} />
+                </div>
+                <button className='login' onClick={()=>window.location.href='/login'}>Log-in</button>
+            </div>
+        );
+    }
 }
 
 function Sidebar({close}) {
@@ -42,7 +54,7 @@ function Sidebar({close}) {
                 sum = requestsLengths.reduce((acc, length) => acc + length, 0);
                 setRequests(sum);
             } catch (error) {
-                console.log('failed to fetch requests');
+                console.error('failed to fetch requests');
             }
         }
 
@@ -61,7 +73,7 @@ function Sidebar({close}) {
     return (
         <div className='sidebar-container' onClick={handleClickInside}>
             <div className='sidebar' ref={sidebarRef}>
-                {user&&meta&&<SidebarProfile user={user} meta={meta}/>}
+                <SidebarProfile user={user} meta={meta}/>
                 <div className='bars'>
                     <div className='sidebar-nav'>
                         <div className='user-options'>
@@ -75,24 +87,27 @@ function Sidebar({close}) {
                                 <Link href="/social">Social</Link>
                             </div>
                         </div>
-                        {meta.commish && (
-                        <div className='commish-options'>
-                            <div className='commish-title'>
-                                <Link href="/commissioner">Commissioners</Link>
-                            </div>
-                            <div className='commish-links'>
-                                <Link href="/create-bet">Create Bet</Link>
-                                <Link href="/manage-bets">Bet Manager</Link>
-                                <Link href="/create-group">Create Group</Link>
-                                <div className='notification-box' style={{textAlign: 'left'}}>
-                                    <Link href="/your-groups" style={{paddingLeft: '0'}}>Group Manager</Link>
-                                    <Notification count={requests} style={{width:'18px', height: '18px', fontSize: '14px', fontWeight: 500, transform: 'translateX(-6px) translateY(-4px)', padding: '0'}}/>
+                        {meta.commish ? (
+                            <div className='commish-options'>
+                                <div className='commish-title'>
+                                    <Link href="/commissioner">Commissioners</Link>
+                                </div>
+                                <div className='commish-links'>
+                                    <Link href="/new-bet">Create Bet</Link>
+                                    <Link href="/bookkeeping">Bet Manager</Link>
+                                    <Link href="/new-group">Create Group</Link>
+                                    <div className='notification-box' style={{textAlign: 'left'}}>
+                                        <Link href="/your-groups" style={{paddingLeft: '0'}}>Group Manager</Link>
+                                        <Notification count={requests} style={{width:'18px', height: '18px', fontSize: '14px', fontWeight: 500, transform: 'translateX(-6px) translateY(-4px)', padding: '0'}}/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        )}
+                        )
+                        :
+                            <></>
+                        }
                     </div>
-                    {user&&meta&&<button className='signout' onClick={logout}>Sign-out</button>}
+                    {user&&meta?<button className='signout' onClick={logout}>Sign-out</button>:<></>}
                 </div>
             </div>
         </div>
@@ -106,7 +121,7 @@ export default function MobileFooter() {
             <div className="mobile-menu-button">
                 <img src="menu.png" alt="mobile menu" onClick={()=>setSidebarVis(true)}/>
             </div>
-            {sidebar && <Sidebar close={()=>setSidebarVis(false)} />}
+            {sidebar ? <Sidebar close={()=>setSidebarVis(false)} /> : <></>}
         </>
     );
 }

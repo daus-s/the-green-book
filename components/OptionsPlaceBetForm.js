@@ -3,6 +3,8 @@ import { american } from "../functions/CalculateWinnings.js";
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
+import DOMPurify from 'dompurify';
+
 
 
 export default function OptionsPlaceBetForm({ onSubmit, bet }) {
@@ -96,10 +98,10 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
             />
             <div className="custom-radio option">
               <div className="name">
-                {option.name}
+                {DOMPurify.sanitize(option.name)}
               </div>
               <div className="value">
-                ({option.value})
+                ({DOMPurify.sanitize(option.value)})
               </div>
             </div>
           </label>

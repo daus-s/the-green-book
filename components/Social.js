@@ -106,7 +106,8 @@ function GroupElement({group, message}) {
 export default function Social() {
     let cook; //this'll come into play fsfs
 
-    const { isMobile } = useMobile();
+    const { isMobile, height, width } = useMobile();
+    const elementWidth = `${Math.min(height, width) - 20}px`;
 
     //stateful function...
     const [query, setQuery] = useState('');
@@ -130,11 +131,11 @@ export default function Social() {
     
     return (
         <div className="page social">
-                <div className='search-groups search-container' style={isMobile?mobileStyle.searchBar:{}}>
+                <div className='search-groups search-container' style={isMobile?{width: elementWidth}:{}}>
                     <input className="search-bar" placeholder="search groups..." value={query} onChange={(e)=>setQuery(e.target.value)}/>
                     <img style={{height: '32px'}} src="search.png"/>
             </div>
-            <div className="social-results" style={isMobile?mobileStyle.results:{}}>
+            <div className="social-results" style={isMobile?{width: elementWidth, marginTop: 0}:{}}>
                 {results&&results.length?results.map((group, index)=>{ return <GroupElement group={group} key={index}/>;}):
                 !query.length?<GroupElement message='begin'/>:<GroupElement message='No groups found. :('/>}
             </div>
