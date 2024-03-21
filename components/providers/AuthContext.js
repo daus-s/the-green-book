@@ -8,7 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
-  const [meta, setMeta] = useState({});
+  const [meta, setMeta] = useState(null);
 
   const getSession = async () => {
     return await supabase.auth.getSession();
@@ -164,34 +164,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  //OLD VERION KEEP IN CASE I CAN HACK IT WITH STATE VARS
-  // const logout = async () => {
-  //   const base = "localhost:3000"
-  //   try {
-  //     const { error } = await supabase.auth.signOut();
-  //     window.location.href = base + "/login";
-  //     if (error) {
-  //       console.error('Logout error:', error.message);
-  //     } else {
-  //       setUser(null);
-  //       setSession(null);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during logout:', error.message);
-  //   }
-  // };
-
   const logout = async () => {  
-    // Sign out from Supabase
     const { error } = await supabase.auth.signOut();
   
-    // Redirect to the home page
-    window.location.replace("/");
-    sessionStorage.setItem('logged-in', false);
-
-    // Log error if any
     if (error) {
       console.error('Logout error:', error.message);
+    } else {
+      window.location.replace("/");
+      sessionStorage.setItem('logged-in', false);
     }
   };
   
