@@ -99,11 +99,17 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 4px 10px 40px 10px;
+  top: calc(100vh);
+  transform: translateY(-50px);
+  position: absolute;
 }
 
 .footer .note {
   width: fit-content;
   height: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .footer .note .link {

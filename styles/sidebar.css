@@ -42,6 +42,7 @@
     align-items: center;
     font-size: 12px;
     width: 100%;
+    height: 117px;
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -54,6 +55,8 @@
     justify-content: space-between;
     align-items: center;
     flex: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .sidebar-profile .username {

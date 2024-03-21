@@ -63,13 +63,11 @@ nav {
   justify-content: space-between;
   overflow-x: auto;
   position: absolute;
-  left: 304px;
-  right: 196px;
-  width: calc(100% - 500px);
+  left: 284px;
+  right: 284px;
   padding-bottom: 16px;
   transform: translateY(8px);
-  margin: 0 auto;
-  max-width: fit-content;
+  margin: 0 0;
 }
 
 nav a img {
@@ -90,6 +88,7 @@ nav a {
   text-decoration: none;
   margin: 0 15px;
   font-size: 18px;
+  white-space: nowrap;
   width: fit-content;
   display: flex;
   flex-direction: column;

@@ -21,6 +21,7 @@
     color: var(--bet-background-color);
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: 'transparent';
 }
 
 .leaf-box {
@@ -52,7 +53,7 @@
 
 }
 
-.tree-menu  button {
+.tree-menu a.login {
     background-color: var(--bet-option-highlight);
     padding: 10px 20px;
     color: var(--text-color);
@@ -64,7 +65,7 @@
     min-width: 122px;
 }
 
-.tree-menu button:hover {
+.tree-menu a.login:hover {
     background-color: var(--cta-button-bg-color);
 }
 
