@@ -19,15 +19,15 @@ export default function ProfileNav() {
         }
     }
 
+    // Function to handle clicks outside the profile menu
+    // when clicked outside of the mobile option box it should close
     useEffect(() => {
-        // Function to handle clicks outside the profile menu
         const handleClickOutside = (event) => {
             if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
                 setProfileMenuVisible(false);
             }
         };
     
-        // Add event listener when component mounts
         document.addEventListener('mousedown', handleClickOutside);
     
         return () => {
@@ -36,11 +36,11 @@ export default function ProfileNav() {
       }, [profileMenuRef]);
 
     return (
-        <div className="profile-nav">
+        <div className="profile-nav" style={isMobile?{paddingLeft: '0px'}:{}}>
             <img src={meta.pfp} onClick={onClick} style={isMobile?{cursor: 'default', marginRight: '0', height: '50px', width: '50px', paddingLeft: '0px'}:{}}/>
             {profileMenu?(
                 <div className="profile-menu-mobile" ref={profileMenuRef}>
-                    <div className="profile-link" onClick={(e)=>window.location.href="/profile"}>Profile</div>
+                    <div className="profile-link" onClick={()=>window.location.href="/profile"}>Profile</div>
                     <div className="sign-out" onClick={logout}>Sign-out</div>
                 </div>
                 )

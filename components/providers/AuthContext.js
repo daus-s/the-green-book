@@ -8,7 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
-  const [meta, setMeta] = useState(null);
+  const [meta, setMeta] = useState({});
 
   const getSession = async () => {
     return await supabase.auth.getSession();
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
             if (data.session.user) {
               setUser(data.session.user);
             } else {
-              setUser(null);
+              setUser();
               auth = false;
             }
           } else {

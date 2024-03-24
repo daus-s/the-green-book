@@ -24,7 +24,6 @@ function SidebarProfile({meta, user}) {
                 <div className='pfp-box'>
                     <img className='big' src='greenbook.jpg' onClick={()=>window.location.href='/'} />
                 </div>
-                <button className='login' onClick={()=>window.location.href='/login'}>Log-in</button>
             </div>
         );
     }
@@ -75,6 +74,7 @@ function Sidebar({close}) {
             <div className='sidebar' ref={sidebarRef}>
                 <SidebarProfile user={user} meta={meta}/>
                 <div className='bars'>
+                    {user&&
                     <div className='sidebar-nav'>
                         <div className='user-options'>
                             <div className='user-title'>
@@ -107,7 +107,8 @@ function Sidebar({close}) {
                             <></>
                         }
                     </div>
-                    {user&&meta?<button className='signout' onClick={logout}>Sign-out</button>:<></>}
+                    }
+                    {user&&meta?<button className='signout' onClick={logout}>Sign-out</button>:<button className='login mmt' onClick={()=>window.location.href='/login'}>Log-in</button>}
                 </div>
             </div>
         </div>

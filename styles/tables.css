@@ -19,16 +19,107 @@
 }
 
 
-.placed-bets-table .winner {
+.placed-bets-table .winner, .mobile-row.winner {
     background-color: var(--table-bg-green); 
     
 }
 
-.placed-bets-table .loser {
+.placed-bets-table .loser, .mobile-row.loser {
     background-color: var(--table-bg-red);
 }
 
-.status, .outcome, .wager, .to-win, .profits {
+.status, .outcome, .wager, .to-win, .profits, .bet-name {
     text-align: center; 
     padding: 5px 10px 5px 10px; /* Adjust padding for consistency */
+}
+
+/** MOBILE FAKE TABLE STYLING **/
+
+
+.mobile-placed-bets-table {
+    padding: 15px 0px 104px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.scroll-horizontal {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+
+.mobile-row * {
+    display: flex;
+    flex-direction: row;
+    width: 180px; 
+    padding: 5px 10px;
+}
+
+.mobile-row .mobile-profits, .mobile-row .mobile-wager, .mobile-row .mobile-to-win {
+    width: 128px;
+}
+
+
+.mobile-table {
+    max-width: 100%;
+    max-height: calc(100vh - 176px);
+}
+  
+.mobile-row {
+    display: flex;
+    width: fit-content;
+    background-color: var(--background-color);
+}
+
+.scroll-horizontal .mobile-row:first-child {
+    position: sticky;
+    left: 0;
+}
+
+.scroll-horizontal .mobile-row .bet-name.mobile-title {
+    position: sticky;
+    left: 0;
+    background-color: inherit;
+
+}
+
+.mobile-placed-bets-header {
+    background-color: var(--bet-option-button);
+    position: sticky;
+    top: 0;
+}
+
+.mobile-history {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--bet-text-color)
+}
+
+.total-wager, .percentage, .winnings, .net-change  {
+    margin: 10px 0px 0px 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.descriptor {
+    font-size: 18px;
+    color: var(--unimportant-text); 
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.value {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--form-input); 
+    transform: translateY(2px);
+    margin: 0px 4px;
 }

@@ -38,6 +38,7 @@ function Attributions() {
             <Attribution src='groupsettings.png' href="https://www.flaticon.com/free-icons/profile" desc='Profile icons created by Pixel perfect - Flaticon' backgroundColor='var(--soft-highlight)'/>
             <Attribution src='creategroup.png' href="https://www.flaticon.com/free-icons/members" desc='Members icons created by GOFOX - Flaticon' backgroundColor='var(--soft-highlight)'/>
             <Attribution src='newbet.png' href="https://www.flaticon.com/free-icons/exam"  desc='Exam icons created by RIkas Dzihab - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='login.png' href="https://www.flaticon.com/free-icons/register" desc='Register icons created by See Icons - Flaticon'/>
         </div>
     );
 }

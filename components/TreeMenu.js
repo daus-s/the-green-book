@@ -154,15 +154,15 @@ export default function TreeMenu() {
     const [loaded, setLoaded] = useState(false);
 
     useEffect(()=>{
-        setLoaded(meta.constructor === Object && Object.keys(meta).length > 0)
-    })
+        setLoaded(true);
+    }, [meta])
 
     if (loaded) {
-        if ((meta.constructor === Object && Object.keys(meta).length > 0) && meta.commish) {
+        if ((meta && meta.constructor === Object && Object.keys(meta).length > 0) && meta.commish) {
             //user logged in, AND is a commishioner
             return <CommissionerTree />;
         }
-        else if ((meta.constructor === Object && Object.keys(meta).length > 0) && !meta.commish) {
+        else if ((meta && meta.constructor === Object && Object.keys(meta).length > 0) && !meta.commish) {
             //user logged in, but is not a commissioner
             return <UserTree />
         } else {

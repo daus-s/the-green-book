@@ -1,0 +1,19 @@
+.thanks, .devs {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    max-width: 768px;
+    padding: 40px;
+}
+
+.samwise-gamgee {
+    font-weight: 900;
+}
+
+.thanks p, .devs * {
+    text-align: left;
+}
+
+.devs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

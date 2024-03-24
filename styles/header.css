@@ -26,7 +26,6 @@
   margin-top: 0; 
   color: var(--highlighted-dark); 
   text-align: left;
-  padding-left: 7px;
 }
 
 header {
@@ -111,6 +110,19 @@ nav a:hover {
   min-width: 122px;
 }
 
+.login-as-button {
+  background-color: var(--cta-button-bg-color);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.login-as-button img {
+  transform: translateX(-4px) translateY(2px);
+}
 .cta-button:hover {
   background-color: var(--cta-button-hover-bg-color);
 }

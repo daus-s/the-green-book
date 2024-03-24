@@ -5,6 +5,7 @@ import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
 import { useMobile } from "./providers/MobileContext";
+import Link from "next/link";
 
 
 
@@ -29,7 +30,7 @@ export default function CreateBet(props) {
   const [group, setGroup] = useState(-1);
 
   //custom hooks
-  const { user, session } = useAuth();
+  const { user, meta, session } = useAuth();
   const {succeed, failed} = useModal();
   const { isMobile } = useMobile();
 
@@ -44,16 +45,10 @@ export default function CreateBet(props) {
 
   useEffect(() => {
     const getGroups = async () => {
-      if (user) {
-        let c = await getCommissioner();
-        if (c) {
-          const groupData = await supabase.from("groups").select().eq('commissionerID', c);
+        if (meta&&meta.commish) {
+          const groupData = await supabase.from("groups").select().eq('commissionerID', meta.commish);
           setGroups(groupData.data);
         }
-        else {
-          //not a commish
-        }
-      }
     }
 
     getGroups();
@@ -327,33 +322,136 @@ export default function CreateBet(props) {
       }
     }
 
-
-  if (!isMobile) {
+  if (groups&&!groups.length) {
+    // length of groups is 0 means empty list 
+    // essentially we need to redirect to new group page
     return (
-      <div className="new-bet page">
-        <div className="create-bet">
-          <h1 style={{fontSize:"2.5em"}}>Create Bet</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="box">
-              <div className="left-column">
-                <div className="input-row">
-                  <label name="title">Title</label>
-                  <input type="text" name="title" value={title} onChange={(e)=>setTitle(e.target.value)} required/>
+      <div className="redirect-to-new-group page" style={isMobile?{}:{paddingTop: '72px', fontSize: '36px'}}>
+        Create a group to share your bet with!
+        <Link href='/new-group'>New Group</Link>
+      </div>
+    );
+  } 
+  else {
+    if (!isMobile) {
+      return (
+        <div className="new-bet page">
+          <div className="create-bet">
+            <h1 style={{fontSize:"2.5em"}}>Create Bet</h1>
+            <form onSubmit={handleSubmit}>
+              <div className="box">
+                <div className="left-column">
+                  <div className="input-row">
+                    <label name="title">Title</label>
+                    <input type="text" name="title" value={title} onChange={(e)=>setTitle(e.target.value)} required/>
+                  </div>
+                  <div className="input-row">
+                    <label name="description">Description</label>
+                    <textarea 
+                    id="auto-resize-textarea"
+                    name="description"
+                    value={content}
+                    onChange={handleTextareaChange}
+                    placeholder="Type here..."
+                    />
+                  </div>
                 </div>
-                <div className="input-row">
-                  <label name="description">Description</label>
-                  <textarea 
-                  id="auto-resize-textarea"
-                  name="description"
-                  value={content}
-                  onChange={handleTextareaChange}
-                  placeholder="Type here..."
-                  />
+                <div className="right-column">
+                  <div className="select-corner">
+                    <label>Select Group</label>
+                    <select value={group} onChange={handleSelect}>
+                      <option value={-1}></option>
+                      {groups.map((group, index) => (
+                        <option key={index} value={group.groupID}>
+                          {group.groupName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div className="right-column">
-                <div className="select-corner">
-                  <label>Select Group</label>
+              <div className="bet-radio">
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="betType" 
+                    value="ou" 
+                    className="real-radio" 
+                    onChange={(e)=>setType(e.target.value)} 
+                    checked={type === "ou"}
+                  />
+                  <div className="custom-radio">
+                    Over-Under
+                  </div>
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="betType" 
+                    value="ml" 
+                    className="real-radio" 
+                    onChange={(e)=>setType(e.target.value)} 
+                    checked={type === "ml"}
+                  />
+                  <div className="custom-radio">
+                    Moneyline
+                  </div>
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="betType" 
+                    value="op" 
+                    className="real-radio" 
+                    onChange={(e)=>setType(e.target.value)} 
+                    checked={type === "op"}
+                  />
+                  <div className="custom-radio">
+                    Options
+                  </div>
+                </label>
+              </div>
+              {type=="ou" ? overunder : (
+                type=="ml"? moneyline : (
+                  type=="op" ? options : <div></div>
+                  )
+                )
+              }
+              <button>Submit</button>
+            </form>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="new-bet page" style={isMobile?mobileStyle.page:{}}>
+          <div className="create-bet" style={mobileStyle.form}>
+            <div className="mobile-header" style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+            <h1 style={{fontSize:"2.5em"}}>Create Bet</h1>
+            <label className="radio-label" style={{alignSelf: 'center', margin: "0px 0px 20px 10px"}}>
+              <div className="custom-radio" style={{width: '120px', padding: '10px', backgroundColor: 'var(--cta-button-bg-color)', height: '48px', borderRadius: '24px', marginRight: '0', textAlign: 'center', fontSize: '16px'}}>
+                {extrapolate(type)}
+              </div>
+            </label>
+            </div>
+            <form onSubmit={handleSubmit} style={{position: 'relative',display: 'flex', flexDirection: 'column'}}>
+              <div className="input-row" style={{paddingLeft:"0px",marginLeft:"0px"}}>
+                <label name="title">Title</label>
+                <input type="text" name="title" value={title} onChange={(e)=>setTitle(e.target.value)} required/>
+              </div>
+              <div className="input-row" style={{paddingLeft:"0px",marginLeft:"0px"}}>
+                <label name="description">Description</label>
+                <textarea 
+                id="auto-resize-textarea"
+                name="description"
+                value={content}
+                onChange={handleTextareaChange}
+                placeholder="Type here..."
+                />
+              </div>
+              <div className="selects">
+                <div className="group">
+                  <label>Group</label>
                   <select value={group} onChange={handleSelect}>
                     <option value={-1}></option>
                     {groups.map((group, index) => (
@@ -363,122 +461,30 @@ export default function CreateBet(props) {
                     ))}
                   </select>
                 </div>
-              </div>
-            </div>
-            <div className="bet-radio">
-              <label className="radio-label">
-                <input 
-                  type="radio" 
-                  name="betType" 
-                  value="ou" 
-                  className="real-radio" 
-                  onChange={(e)=>setType(e.target.value)} 
-                  checked={type === "ou"}
-                />
-                <div className="custom-radio">
-                  Over-Under
+                <div className="type">
+                  <label>Type</label>
+                  <select value={type} onChange={handleSelect2}>
+                    {['Over-Under', 'Moneyline', 'Options'].map((name, index) => (
+                      <option key={index} value={interpolate(name)}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              </label>
-              <label className="radio-label">
-                <input 
-                  type="radio" 
-                  name="betType" 
-                  value="ml" 
-                  className="real-radio" 
-                  onChange={(e)=>setType(e.target.value)} 
-                  checked={type === "ml"}
-                />
-                <div className="custom-radio">
-                  Moneyline
                 </div>
-              </label>
-              <label className="radio-label">
-                <input 
-                  type="radio" 
-                  name="betType" 
-                  value="op" 
-                  className="real-radio" 
-                  onChange={(e)=>setType(e.target.value)} 
-                  checked={type === "op"}
-                />
-                <div className="custom-radio">
-                  Options
-                </div>
-              </label>
-            </div>
-            {type=="ou" ? overunder : (
-              type=="ml"? moneyline : (
-                type=="op" ? options : <div></div>
+                
+              {type=="ou" ? overunder : (
+                type=="ml"? moneyline : (
+                  type=="op" ? options : <></>
+                  )
                 )
-              )
-            }
-            <button>Submit</button>
-          </form>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="new-bet page" style={isMobile?mobileStyle.page:{}}>
-        <div className="create-bet" style={mobileStyle.form}>
-          <div className="mobile-header" style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-          <h1 style={{fontSize:"2.5em"}}>Create Bet</h1>
-          <label className="radio-label" style={{alignSelf: 'center', margin: "0px 0px 20px 10px"}}>
-            <div className="custom-radio" style={{width: '120px', padding: '10px', backgroundColor: 'var(--cta-button-bg-color)', height: '48px', borderRadius: '24px', marginRight: '0', textAlign: 'center', fontSize: '16px'}}>
-              {extrapolate(type)}
-            </div>
-          </label>
+              }
+              <button style={isMobile&&(type==='ou')?mobileStyle.button:{}}>Submit</button>
+            </form>
           </div>
-          <form onSubmit={handleSubmit} style={{position: 'relative',display: 'flex', flexDirection: 'column'}}>
-            <div className="input-row" style={{paddingLeft:"0px",marginLeft:"0px"}}>
-              <label name="title">Title</label>
-              <input type="text" name="title" value={title} onChange={(e)=>setTitle(e.target.value)} required/>
-            </div>
-            <div className="input-row" style={{paddingLeft:"0px",marginLeft:"0px"}}>
-              <label name="description">Description</label>
-              <textarea 
-              id="auto-resize-textarea"
-              name="description"
-              value={content}
-              onChange={handleTextareaChange}
-              placeholder="Type here..."
-              />
-            </div>
-            <div className="selects">
-              <div className="group">
-                <label>Group</label>
-                <select value={group} onChange={handleSelect}>
-                  <option value={-1}></option>
-                  {groups.map((group, index) => (
-                    <option key={index} value={group.groupID}>
-                      {group.groupName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="type">
-                <label>Type</label>
-                <select value={type} onChange={handleSelect2}>
-                  {['Over-Under', 'Moneyline', 'Options'].map((name, index) => (
-                    <option key={index} value={interpolate(name)}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              </div>
-              
-            {type=="ou" ? overunder : (
-              type=="ml"? moneyline : (
-                type=="op" ? options : <></>
-                )
-              )
-            }
-            <button style={isMobile&&(type==='ou')?mobileStyle.button:{}}>Submit</button>
-          </form>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

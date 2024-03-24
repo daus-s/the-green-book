@@ -12,7 +12,7 @@ export default function Footer() {
                 <a href="/attributions">Attributions</a>
             </div>
             <div className='note' style={isMobile?{fontSize: '11px'}:{}}>
-                <a href='/ty<3'>Special Thanks</a>
+                <a href='/thankyou'>Special Thanks</a>
             </div>
             <div className='note' style={isMobile?{fontSize: '11px'}:{}}>
                 <a href="https://github.com/daus-s/the-green-book/issues">Report an issue</a>

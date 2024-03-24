@@ -306,3 +306,20 @@ input[type="radio"] {
     width: 40%;
     margin: 5px;
 }
+
+.redirect-to-new-group {
+    font-size: 24px;
+    font-weight: 600;
+    max-width: 768px;
+    width: calc(100% - 20px);
+    color: var(--soft-highlight);
+}
+
+.redirect-to-new-group a {
+    font-weight: 400;
+    color: var(--cta-button-bg-color);
+}
+
+.redirect-to-new-group a:hover {
+    color: var(--cta-button-hover-bg-color);
+}

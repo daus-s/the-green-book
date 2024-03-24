@@ -3,7 +3,6 @@ import React from 'react';
 
 import Providers from './_providers';
 import Layout from '../components/Layout';
-import RotationProvider from '../components/RotationProvider';
 
 import '../styles/auth.css';
 import '../styles/creategroup.css';
@@ -28,17 +27,17 @@ import '../styles/tables.css';
 import '../styles/attributions.css';
 import '../styles/sidebar.css';
 import '../styles/tree.css';
+import '../styles/textpages.css';
+import "../styles/commissioners.css";
 
 
 export default function App({ Component, pageProps }) {
   
   return (
     <Providers>
-      {/* <RotationProvider> */}
         <Layout>
             <Component {...pageProps} />
-          </Layout>
-        {/* </RotationProvider> */}
+        </Layout>
     </Providers>
   );
 }
