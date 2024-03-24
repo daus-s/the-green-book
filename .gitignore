@@ -2,7 +2,8 @@ supabase/
 node_modules/
 .next/
 build/
-scripts/
+scripts/g2b.py
+scripts/colors.txt
 notes
 create\ tables
 # DO NO UPLOAD ENV FIILES
