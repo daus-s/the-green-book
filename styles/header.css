@@ -2,15 +2,21 @@
 
 #wordtitles {
   text-align: center;
-  width: 224px;
   text-align: left;
 }
 
 #wordtitles h1 {
-  font-size: 2em; 
+  font-size: 28px; 
   margin-bottom: 0;
   color: var(--header-color);
-  min-width: 173px;
+}
+
+#wordtitles h6 {
+  font-family: "DigitizedMontserrat";
+  font-size: 10px; 
+  margin-top: 0; 
+  color: var(--highlighted-dark); 
+  text-align: left;
 }
 
 @font-face {
@@ -18,14 +24,6 @@
   src: url("../public/MontserratSubrayada-Regular.ttf") format("truetype"); 
   font-weight: normal;
   font-style: normal;
-}
-
-#wordtitles h6 {
-  font-family: "DigitizedMontserrat";
-  font-size: .78em; 
-  margin-top: 0; 
-  color: var(--highlighted-dark); 
-  text-align: left;
 }
 
 header {
@@ -62,16 +60,16 @@ nav {
   justify-content: space-between;
   overflow-x: auto;
   position: absolute;
-  left: 284px;
-  right: 284px;
+  left: 230px;
+  right: 230px;
   padding-bottom: 16px;
   transform: translateY(8px);
   margin: 0 0;
 }
 
 nav a img {
-  height: 50px;
-  width: fit-content;
+  width: 100%;
+  max-width: 50px;
 }
 
 nav .link-image {
@@ -85,17 +83,22 @@ nav .link-image:hover {
 nav a {
   color: var(--bet-background-color);
   text-decoration: none;
-  margin: 0 15px;
+  padding: 0px 8px 0px 8px;
   font-size: 18px;
   white-space: nowrap;
   width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-left: solid 1px var(--bet-background-color);
 }
+
+
 
 nav a:hover {
   filter: brightness(200%);
+  border-left: solid 1px var(--half-bet-background-color);
+
 }
 
 .cta-button {
@@ -108,6 +111,7 @@ nav a:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
   min-width: 122px;
+  margin: 5px 12px 5px 0px ;
 }
 
 .login-as-button {

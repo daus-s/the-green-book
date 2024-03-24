@@ -11,13 +11,14 @@ export default function Header({nav}) {
   const xtraWide = useMediaQuery('(min-width: 1397px)');
   const {meta} = useAuth();
   const cs = meta&&meta.commish;
+  //solve the fencepost problem
   return (
     <header>
       <Logo />
       {
       (!isMobile)&&nav ?
       <nav>
-        <Link href="/bets" style={cs?{width:'12.5%'}:{width:'25%'}}><img src="bet.png" alt="bets menu" className="link-image"/>{xtraWide?'Bet':<></>}</Link>
+        <Link href="/bets" style={cs?{width:'12.5%', border: 'none'}:{width:'25%', border: 'none'}}><img src="bet.png" alt="bets menu" className="link-image"/>{xtraWide?'Bet':<></>}</Link>
         <Link href="/history" style={cs?{width:'12.5%'}:{width:'25%'}}><img src="history.png" alt="betting history" className="link-image"/>{xtraWide?'History':<></>}</Link>
         <Link href="/wallet" style={cs?{width:'12.5%'}:{width:'25%'}}><img src ='balance.png' alt="balance and wallet" className="link-image"/>{xtraWide?'Balance':<></>}</Link>
         <Link href="/social" style={cs?{width:'12.5%'}:{width:'25%'}}><img src="social.png" alt="social" className="link-image"/>{xtraWide?'Groups':<></>}</Link>

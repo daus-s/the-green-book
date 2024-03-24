@@ -1,9 +1,9 @@
 .profile-nav {
-    padding-left: 108px;
+    padding-left: 0px;
 }
 .profile-nav img {
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
     margin-right: 14px;
     cursor: pointer;
     border-radius: 50%;
@@ -33,6 +33,7 @@
 .profile-signout-div {
     display: flex;
     flex-direction: row;
+    margin: 5px 0px 5px 13px;
 }
 
 .user-data > * {
