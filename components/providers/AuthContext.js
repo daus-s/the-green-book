@@ -14,7 +14,18 @@ export const AuthProvider = ({ children }) => {
     return await supabase.auth.getSession();
   };
    
-
+  async function checkPassword(email, password) {
+    try {
+      const { error } = await supabase.auth.api.signInWithEmailAndPassword(email, password);
+      if (error) {
+        throw error;
+      } else {
+        return true; 
+      }
+    } catch (error) {
+      return false;
+    }
+  }
 
   useEffect(()=>{
     const getCommissionerStatus = async () => {
@@ -179,7 +190,7 @@ export const AuthProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, session, meta, login, logout, getSession }}>
+    <AuthContext.Provider value={{ user, session, meta, login, logout, getSession, checkPassword }}>
       {children}
     </AuthContext.Provider>
   );

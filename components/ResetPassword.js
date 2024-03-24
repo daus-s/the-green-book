@@ -9,6 +9,8 @@ export default function ResetPassword() {
     const [password2, setPassword2] = useState("");
 
     const [error, setError] = useState(false);
+    const [match, setMatch] = useState(false);
+
 
     const router = useRouter();
     const { isMobile } = useMobile();
@@ -25,11 +27,14 @@ export default function ResetPassword() {
         e.preventDefault();
         if (password1 == password2) {
             const { data, error } = await supabase.auth.updateUser({ password: password1 });
-            if (data) router.push("/");
+            console.log(data?data:error);
+            if (data) {
+                router.push("/");
+            }
             if (error) setError(true); 
         }
         else {
-            setError(true);
+            setMatch(false);
         }
     };
 
@@ -49,9 +54,11 @@ export default function ResetPassword() {
                     <label>Confirm Password</label>
                     <input type="password" value={password2} onChange={(e)=>handleChange2(e)}/>
                 </div>
+                {match?<div className="error">Passwords don't match</div>:<></>}
                 <button className="update-password" type="submit">
                     Update
                 </button>
+                {error?<div className="error">Failed to update password</div>:<></>}
             </form>
         </div>
     );

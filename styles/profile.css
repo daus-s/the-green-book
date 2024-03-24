@@ -55,6 +55,12 @@
     min-width: 433px;
 }
 
+.pfp-img {
+    height: 112px;
+    width: 112px;
+    position: relative;
+}
+
 .edit {
     cursor: pointer;
     border-radius: 4px;

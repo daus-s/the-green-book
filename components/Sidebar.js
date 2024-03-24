@@ -78,26 +78,26 @@ function Sidebar({close}) {
                     <div className='sidebar-nav'>
                         <div className='user-options'>
                             <div className='user-title'>
-                                <Link href="/profile">User</Link>
+                                <Link href="/profile" onClick={close}>User</Link>
                             </div>
                             <div className='user-links'>
-                                <Link href="/bets">Place Bets</Link>
-                                <Link href="/bets-placed">Bet History</Link>
-                                <Link href="/wallet">Wallet</Link>
-                                <Link href="/social">Social</Link>
+                                <Link href="/bets" onClick={close}>Place Bets</Link>
+                                <Link href="/history" onClick={close}>Bet History</Link>
+                                <Link href="/wallet" onClick={close}>Wallet</Link>
+                                <Link href="/social" onClick={close}>Social</Link>
                             </div>
                         </div>
                         {meta.commish ? (
                             <div className='commish-options'>
                                 <div className='commish-title'>
-                                    <Link href="/commissioner">Commissioners</Link>
+                                    <Link href="/commissioner" onClick={close}>Commissioners</Link>
                                 </div>
                                 <div className='commish-links'>
-                                    <Link href="/new-bet">Create Bet</Link>
-                                    <Link href="/bookkeeping">Bet Manager</Link>
-                                    <Link href="/new-group">Create Group</Link>
+                                    <Link href="/new-bet" onClick={close}>Create Bet</Link>
+                                    <Link href="/bookkeeping" onClick={close}>Bet Manager</Link>
+                                    <Link href="/new-group" onClick={close}>Create Group</Link>
                                     <div className='notification-box' style={{textAlign: 'left'}}>
-                                        <Link href="/your-groups" style={{paddingLeft: '0'}}>Group Manager</Link>
+                                        <Link href="/your-groups" onClick={close} style={{paddingLeft: '0'}}>Group Manager</Link>
                                         <Notification count={requests} style={{width:'18px', height: '18px', fontSize: '14px', fontWeight: 500, transform: 'translateX(-6px) translateY(-4px)', padding: '0'}}/>
                                     </div>
                                 </div>

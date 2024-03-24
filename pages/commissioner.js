@@ -1,33 +1,32 @@
-import { useMobile } from "../components/providers/MobileContext";
+import Link from "next/link";
 
 export default function CommissionerPage() {
-    const {isMobile} = useMobile();
     return (
         <div className="commissioner-menu page">
             <div className="groups">
                 Groups
                 <div className="options">
-                    <div className="create-group-selection option">
+                    <Link className="create-group-selection option" href="/new-group">
                         <img src="creategroup.png" style={{width: '100px'}}/>
                         Create Group
-                    </div>
-                    <div className="manage-group-selection option">
+                    </Link>
+                    <Link className="manage-group-selection option" href="/your-groups">
                         <img src="groupsettings.png" style={{width: '100px'}}/>
                         Manage Groups
-                    </div>
+                    </Link>
                 </div>
             </div>
             <div className="bets">
                 Bets
                 <div className="options">
-                    <div className="create-bet-selection option">
+                    <Link className="create-bet-selection option" href="/new-bet">
                         <img src="newbet.png" style={{width: '100px'}}/>
                         Create Bet
-                    </div>
-                    <div className="manage-bet-selection option">
+                    </Link>
+                    <Link className="manage-bet-selection option" href="/bookeeping">
                         <img src="bookkeeping.png" style={{width: '100px'}}/>
                         Bookkeeper
-                    </div>
+                    </Link>
                 </div>
             </div>
 

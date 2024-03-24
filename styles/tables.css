@@ -108,7 +108,7 @@
     align-items: center;
 }
 
-.descriptor {
+.mobile-history .descriptor {
     font-size: 18px;
     color: var(--unimportant-text); 
     display: flex;
@@ -116,7 +116,7 @@
     align-items: flex-end;
 }
 
-.value {
+.mobile-history .value {
     font-size: 22px;
     font-weight: bold;
     color: var(--form-input); 

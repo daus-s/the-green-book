@@ -5,6 +5,7 @@ import { useMobile } from "./providers/MobileContext";
 import { useEffect, useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { alpha, validUsername } from "../functions/isEmail";
+import CommissionerShield from "./CommissionerShield";
 
 export default function Profile() {
   const [editName, setEditName] = useState(false);
@@ -81,7 +82,8 @@ export default function Profile() {
       <div className="profile-data" style={isMobile?mobileStyle.profileData:{}}>
         <div className="profile-pic" style={isMobile?mobileStyle.profilePic:{}}>
           <div className="pfp-img">
-            <img src={meta.pfp} alt = "Profile picture." style={{height:"112px", borderRadius: "50%"}}/>
+            <img src={meta&&meta.pfp?meta.pfp:'user.png'} alt = "Profile picture." style={{height:"112px", borderRadius: "50%"}}/>
+            {meta.commish?<CommissionerShield style={{height: '44px', pointerEvents: 'none', transform: 'translateY(27%) translateX(calc(50% - 12px))'}}/>:<></>}
           </div>
           <div className="edit-box">
             <div className="edit">

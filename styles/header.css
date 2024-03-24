@@ -122,6 +122,8 @@ nav a:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
   align-self: flex-start;
+  outline: none;
+  border: none;
 }
 
 .login-as-button img {
