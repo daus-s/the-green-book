@@ -3,6 +3,7 @@ import { american } from "../functions/CalculateWinnings.js";
 import { supabase } from "../functions/SupabaseClient.js";
 import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
+import { useMobile } from "./providers/MobileContext.js";
 
 const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
   const [betAmount, setBetAmount] = useState("");
@@ -12,6 +13,7 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
 
 
   const { user } = useAuth();
+  const { isMobile } = useMobile();
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
@@ -80,35 +82,37 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
       className="over-under-place-bet-form"
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: isMobile?"column":"row",
         justifyContent: "space-between",
       }}
     >
-      <div
-        className="to-win"
-        style={{
-          fontWeight: "700",
-          color: "var(--bet-text-color)",
-          fontSize: "18px",
-          alignSelf: "flex-end",
-          padding: "10px",
-        }}
-      >
-        {"To win: "}
-        {(choice&&bet.odds&&wager&&odds[choice])?american(getNumber(odds[choice].toString()), wager):'-'}
-      </div>
-      <div
-        className="your-wager"
-        style={{
-          fontWeight: "700",
-          color: "var(--bet-text-color)",
-          fontSize: "18px",
-          alignSelf: "flex-end",
-          padding: "10px",
-        }}
-      >
-        {"Your wager: "}
-        {wager}
+      <div className="winnings-cash" style={{justifyContent: 'space-between'}}>
+        <div
+          className="to-win"
+          style={{
+            fontWeight: "700",
+            color: "var(--bet-text-color)",
+            fontSize: "18px",
+            alignSelf: "flex-end",
+            padding: "10px",
+          }}
+        >
+          {"To win: "}
+          {(choice&&bet.odds&&wager&&odds[choice])?american(getNumber(odds[choice].toString()), wager):'-'}
+        </div>
+        <div
+          className="your-wager"
+          style={{
+            fontWeight: "700",
+            color: "var(--bet-text-color)",
+            fontSize: "18px",
+            alignSelf: "flex-end",
+            padding: "10px",
+          }}
+        >
+          {"Your wager: "}
+          {wager}
+        </div>
       </div>
       <form
         onSubmit={handleSubmit}
@@ -117,6 +121,7 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
           alignItems: "flex-start",
           display: "flex",
           flexDirection: "row",
+          justifyContent: 'space-between'        
         }}
       >
         <div className="radio-group">
@@ -148,53 +153,55 @@ const OverUnderPlaceBetForm = ({ onSubmit, bet }) => {
             <div className="custom-radio">Under</div>
           </label>
         </div>
-        <input
-          type="text"
-          value={betAmount}
-          onChange={handleInputChange}
-          style={{
-            height: "30px",
-            width: "6ch",
-            textAlign: "center",
-            marginRight: "0px",
-            borderTopLeftRadius: "8px",
-            borderBottomLeftRadius: "8px",
-            paddingLeft: "4px",
-            paddingRight: "4px",
-            paddingTop: "0px",
-            paddingBottom: "0px",
-            backgroundColor: "var(--input-background)",
-            color: "var(--input-text)",
-            borderColor: "var(--input-border)",
-            backgroundColor: "var(--form-input)",
-          }} // Set the width to 3 characters, center the text, and add right margin
-        />
-        <button
-          style={{
-            border: "none",
-            padding: "0px",
-            height: "30px",
-            width: "30px",
-            borderTopRightRadius: "15px",
-            borderBottomRightRadius: "15px",
-            backgroundColor: "var(--button-background)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <img
-            src="star.png"
-            alt="Place bet."
+        <div className="input-buttons">
+          <input
+            type="text"
+            value={betAmount}
+            onChange={handleInputChange}
             style={{
-              height: "20px",
-              width: "20px",
-              borderTopRightRadius: "8px",
-              borderBottomRightRadius: "8px",
-            }}
+              height: "30px",
+              width: "6ch",
+              textAlign: "center",
+              marginRight: "0px",
+              borderTopLeftRadius: "8px",
+              borderBottomLeftRadius: "8px",
+              paddingLeft: "4px",
+              paddingRight: "4px",
+              paddingTop: "0px",
+              paddingBottom: "0px",
+              backgroundColor: "var(--input-background)",
+              color: "var(--input-text)",
+              borderColor: "var(--input-border)",
+              backgroundColor: "var(--form-input)",
+            }} // Set the width to 3 characters, center the text, and add right margin
           />
-        </button>
+          <button
+            style={{
+              border: "none",
+              padding: "0px",
+              height: "30px",
+              width: "30px",
+              borderTopRightRadius: "15px",
+              borderBottomRightRadius: "15px",
+              backgroundColor: "var(--button-background)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <img
+              src="star.png"
+              alt="Place bet."
+              style={{
+                height: "20px",
+                width: "20px",
+                borderTopRightRadius: "8px",
+                borderBottomRightRadius: "8px",
+              }}
+            />
+          </button>
+        </div>
       </form>
     </div>
   );

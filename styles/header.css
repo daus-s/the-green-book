@@ -2,15 +2,21 @@
 
 #wordtitles {
   text-align: center;
-  width: 224px;
   text-align: left;
 }
 
 #wordtitles h1 {
-  font-size: 2em; 
+  font-size: 28px; 
   margin-bottom: 0;
   color: var(--header-color);
-  min-width: 173px;
+}
+
+#wordtitles h6 {
+  font-family: "DigitizedMontserrat";
+  font-size: 10px; 
+  margin-top: 0; 
+  color: var(--highlighted-dark); 
+  text-align: left;
 }
 
 @font-face {
@@ -20,15 +26,6 @@
   font-style: normal;
 }
 
-#wordtitles h6 {
-  font-family: "DigitizedMontserrat";
-  font-size: .78em; 
-  margin-top: 0; 
-  color: var(--highlighted-dark); 
-  text-align: left;
-  padding-left: 7px;
-}
-
 header {
   background-color: var(--background-color);
   color: var(--header-text-color);
@@ -36,10 +33,10 @@ header {
   text-align: center;
   color: var(--header-text-color);
   position: fixed;
-  left: 0px;
-  right: 0px;
   top: 0;
-  z-index: 1000;
+  max-width: 100%;
+  width: 100%;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,26 +60,45 @@ nav {
   justify-content: space-between;
   overflow-x: auto;
   position: absolute;
-  left: 304px;
-  right: 196px;
-  width: calc(100% - 500px);
+  left: 230px;
+  right: 230px;
   padding-bottom: 16px;
   transform: translateY(8px);
-  margin: 0 auto;
+  margin: 0 0;
+}
+
+nav a img {
+  width: 100%;
+  max-width: 50px;
+}
+
+nav .link-image {
+  transition: filter 0.3s;
+}
+
+nav .link-image:hover {
+  filter: brightness(200%);
 }
 
 nav a {
-  color: var(--nav-link-color);
+  color: var(--bet-background-color);
   text-decoration: none;
-  margin: 0 15px;
+  padding: 0px 8px 0px 8px;
   font-size: 18px;
-  width: fit-content;
-  display: inline-block;
   white-space: nowrap;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: solid 1px var(--bet-background-color);
 }
 
+
+
 nav a:hover {
-  color: var(--nav-link-hover-color);
+  filter: brightness(200%);
+  border-left: solid 1px var(--half-bet-background-color);
+
 }
 
 .cta-button {
@@ -95,8 +111,24 @@ nav a:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
   min-width: 122px;
+  margin: 5px 12px 5px 0px ;
 }
 
+.login-as-button {
+  background-color: var(--cta-button-bg-color);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+  outline: none;
+  border: none;
+}
+
+.login-as-button img {
+  transform: translateX(-4px) translateY(2px);
+}
 .cta-button:hover {
   background-color: var(--cta-button-hover-bg-color);
 }

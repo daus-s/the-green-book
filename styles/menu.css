@@ -2,7 +2,7 @@
     justify-content: space-evenly;
     grid-column-start: 1;
     grid-column-end: 4;
-    grid-template-columns: 6fr 13fr 5fr;
+    grid-template-columns: 8fr 6fr 5fr;
     display: grid;
     gap: 10px;
     font-weight: 600;
@@ -72,8 +72,13 @@
 .user-id {
     display: flex;
     flex-direction: row;
-    width: 143px
+    overflow-x: auto;
+    overflow-y: hidden;
+}
 
+.user-id, .user-option, .user-wager {
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .bet-header {

@@ -1,15 +1,39 @@
+.profile-nav {
+    padding-left: 0px;
+}
 .profile-nav img {
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
     margin-right: 14px;
     cursor: pointer;
     border-radius: 50%;
     object-fit: cover;
+    position: relative;
+}
+
+.profile-nav .profile-menu-mobile {
+    background-color: var(--table-header-background);
+    font-size: 24px;
+    position: absolute;
+    width: 150px;
+    transform: translateX(calc(-100% + 50px)) translateY(-10px);
+    border-radius: 2px;
+    color: var(--grayed-out-text);
+}
+
+.profile-nav .profile-menu-mobile * {
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.profile-nav .profile-menu-mobile *:hover {
+    background-color: var(--highlighted-dark);
 }
 
 .profile-signout-div {
     display: flex;
     flex-direction: row;
+    margin: 5px 0px 5px 13px;
 }
 
 .user-data > * {
@@ -29,6 +53,12 @@
     color: var(--bet-text-color);
     height: 140px;
     min-width: 433px;
+}
+
+.pfp-img {
+    height: 112px;
+    width: 112px;
+    position: relative;
 }
 
 .edit {
@@ -111,4 +141,16 @@
     flex-direction: row;
     text-align: center;
 
+}
+
+.reset-password-link {
+    width: 100%;
+    font-size: 14px;
+}
+.reset-password-link a {
+    color: var(--link-color);
+}
+
+.reset-password-link a:hover {
+    color: var(--link-hover);
 }

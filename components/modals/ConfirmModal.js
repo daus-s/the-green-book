@@ -1,8 +1,13 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { useMobile } from '../providers/MobileContext';
+
+
 
 const ConfirmModal = ({ isOpen, onCancel, onConfirm, title, option }) => {
   //think nyx from wish.com
+
+  const { isMobile } = useMobile();
   return (
     <Modal 
       isOpen={isOpen} 
@@ -14,8 +19,8 @@ const ConfirmModal = ({ isOpen, onCancel, onConfirm, title, option }) => {
         },
         content: {
           backgroundColor: 'var(--bet-background-color)',
-          width: '768px',
-          height: '400px',
+          width: isMobile?'calc(100% - 20px)':'768px',
+          height: isMobile?'fit-content':'400px',
           position: 'absolute',
           top: '50%',
           left: '50%',

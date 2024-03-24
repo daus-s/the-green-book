@@ -1,7 +1,8 @@
 // pages/_app.js
 import React from 'react';
-import Providers from './_providers';
 
+import Providers from './_providers';
+import Layout from '../components/Layout';
 
 import '../styles/auth.css';
 import '../styles/creategroup.css';
@@ -24,13 +25,20 @@ import '../styles/passwords.css';
 import '../styles/selector.css';
 import '../styles/tables.css';
 import '../styles/attributions.css';
+import '../styles/sidebar.css';
+import '../styles/tree.css';
+import '../styles/textpages.css';
+import "../styles/commissioners.css";
 
 
 export default function App({ Component, pageProps }) {
+  
   return (
     <Providers>
-        <Component {...pageProps} />
-    </ Providers>
+        <Layout>
+            <Component {...pageProps} />
+        </Layout>
+    </Providers>
   );
 }
 

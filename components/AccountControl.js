@@ -1,10 +1,13 @@
 import ProfileNav from "./ProfileNav";
 import { useEffect, useState } from "react";
 import { useAuth } from "./providers/AuthContext";
+import { useMobile } from "./providers/MobileContext";
+import Image from "next/image";
 
 export default function AccountControl() {
     const {user, session, logout} = useAuth();
     const [authenticated, setAuthenticated] = useState((user?user.role=='authenticated':false));
+    const {isMobile} = useMobile();
 
     useEffect(()=>{
         if (session&&user) {
@@ -13,17 +16,17 @@ export default function AccountControl() {
         else {
             setAuthenticated(false);
         }
-    },[user,session]); //load on mount
+    },[user,session]);
 
     switch (authenticated) {
         case true: 
             return (
             <div className="profile-signout-div">
                 <ProfileNav/>
-                <button className="cta-button" onClick={()=>logout()}>Sign Out</button>
+                {!isMobile?<button className="cta-button" onClick={()=>logout()}>Sign Out</button>:<></>}
             </div>)
         case false:
-            return (<button className="cta-button" onClick={()=>window.location.href='/login'}>Sign In</button>);
+            return (isMobile?<button className="login-as-button"><img src='login.png' style={{height: '40px', width: '40px'}}/></button>:<button className="cta-button" onClick={()=>window.location.href='/login'}>Sign In</button>);
     }
 
 }

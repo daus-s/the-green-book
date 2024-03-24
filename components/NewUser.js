@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { validEmail, validUsername } from "../functions/isEmail";
 import { useAuth } from "./providers/AuthContext";
 import { useRouter } from "next/router";
+import { useMobile } from "./providers/MobileContext";
 
 export default function NewUser() {
   const [username, setUsername] = useState("");
@@ -17,6 +18,7 @@ export default function NewUser() {
 
   const router = useRouter();
   const { login } = useAuth();
+  const { isMobile } = useMobile();
 
   useEffect(()=> {
     setEmailSyntaxError(!validEmail(email)&&email!=='');
@@ -85,25 +87,26 @@ export default function NewUser() {
   }
 
   return (
-    <div className="new-user page">
+    <div className="new-user page no-header">
       <img src="greenbook.jpg" alt="The Green Book logo." className="biglogo"/>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={isMobile?mobileStyle.input:{}}>
         <div
-          style={{ margin: "10px", display: "flex", flexDirection: "column" }}
-        >
+          style={{ margin: "10px", display: "flex", flexDirection: "column" , ...isMobile?mobileStyle.input:{}}}
+          >
           <label>Email</label>
           <input 
             type="text" 
             className="email-field" 
             value={email}
             onChange={(e)=>{setEmail(e.target.value)}}
+            style={isMobile?mobileStyle.input:{}}
             required
           ></input>
           {emailSyntaxError?<span className="error">Please enter a valid email.</span>:emailError?<span className="error" >Email is already in use.</span>:""}
         </div>
         <div
-          style={{ margin: "10px", display: "flex", flexDirection: "column" }}
-        >
+          style={{ margin: "10px", display: "flex", flexDirection: "column" , ...isMobile?mobileStyle.input:{}}}
+          >
           <label>
             
             Username{" "}
@@ -113,12 +116,13 @@ export default function NewUser() {
             className="username-field"
             value={username}
             onChange={(e)=>{setUsername(e.target.value)}}
+            style={isMobile?mobileStyle.input:{}}
             required
           ></input>
           {usernameSyntaxError?<span className="error">Please use a alphanumeric username.</span>:usernameError?<span className="error" >Username is already in use.</span>:""}
         </div>
         <div
-          style={{ margin: "10px", display: "flex", flexDirection: "column" }}
+          style={{ margin: "10px", display: "flex", flexDirection: "column" , ...isMobile?mobileStyle.input:{}}}
         >
           <label>Password</label>
           <input 
@@ -126,12 +130,13 @@ export default function NewUser() {
             className="password-field" 
             value={password}
             onChange={(e)=>{setPassword(e.target.value)}}
+            style={isMobile?mobileStyle.input:{}}
             required
-      ></input>
+          />
         </div>
         <div
-          style={{ margin: "10px", display: "flex", flexDirection: "column" }}
-        >
+          style={{ margin: "10px", display: "flex", flexDirection: "column" , ...isMobile?mobileStyle.input:{}}}
+          >
           <label>
             Name{" "}
             <span className="note-span">
@@ -141,7 +146,7 @@ export default function NewUser() {
           <input
             type="text"
             className="name-field"
-            style={{ fontSize: "larger" }}
+            style={{  fontSize: "larger", width: "400px", ...isMobile?mobileStyle.input:{} }}
             onChange={(e)=>{setName(e.target.value)}}
             value={name}
             required
@@ -156,4 +161,14 @@ export default function NewUser() {
       <a href="/login">Sign In</a>
     </div>
   );
+}
+
+const mobileStyle = {
+  form: {
+    width: 'calc(100% - 16px)',
+  },
+  input: {
+    maxWidth: '100%',
+    width: 'calc(100% - 16px)',
+  }
 }

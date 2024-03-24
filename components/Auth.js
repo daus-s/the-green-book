@@ -3,14 +3,16 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import { useAuth } from "./providers/AuthContext";
+import { useMobile } from "./providers/MobileContext";
 
-export default function Auth(props) {
+export default function Auth() {
   const { login } = useAuth();
   const [usr, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [invalid, setInvalid] = useState(false);
 
   const router = useRouter();
+  const { isMobile } = useMobile();
 
 
   const handleLogin = async (e) => {
@@ -22,9 +24,7 @@ export default function Auth(props) {
       } else {
         router.push('/bets');
       }
-      // }
     } catch (error) {
-      //console.error(error);
       setInvalid(true);
       setPassword("");
     }
@@ -33,22 +33,22 @@ export default function Auth(props) {
   return (
     <div className="auth-login page">
       <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} style={isMobile?mobileStyle.form:{}}>
         <div
-          style={{ margin: "10px", display: "flex", flexDirection: "column" }}
+          style={{ margin: "10px", display: "flex", flexDirection: "column", ...isMobile?mobileStyle.input:{} }}
         >
-          <label>Email</label>
+          <label>Username</label>
           <input
             className="email"
             type="text"
             value={usr}
             onChange={(e) => setUser(e.target.value)}
-            style={{ width: "400px" }}
+            style={{ width: "400px", ...isMobile?mobileStyle.input:{} }}
             required
           />
         </div>
         <div
-          style={{ margin: "10px", display: "flex", flexDirection: "column" }}
+          style={{ margin: "10px", display: "flex", flexDirection: "column", ...isMobile?mobileStyle.input:{} }}
         >
           <label>Password</label>
           <input
@@ -56,7 +56,7 @@ export default function Auth(props) {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "400px" }}
+            style={{ width: "400px", ...isMobile?mobileStyle.input:{} }}
             required
           />
         </div>
@@ -71,4 +71,14 @@ export default function Auth(props) {
       </div>
     </div>
   );
+}
+
+const mobileStyle = {
+  form: {
+    width: 'calc(100% - 16px)',
+  },
+  input: {
+    maxWidth: '100%',
+    width: 'calc(100% - 16px)',
+  }
 }

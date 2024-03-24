@@ -5,9 +5,11 @@ import Modal from 'react-modal';
 
 import { supabase } from "../../functions/SupabaseClient";
 import { useModal } from '../providers/ModalContext';
+import { useMobile } from '../providers/MobileContext';
 
 const USIModal = ({ isOpen, onCancel, onConfirm}) => {
     const { failed } = useModal();
+    const {isMobile} = useMobile();
 
     const [query, setQuery] =  useState("");
     const [user, setUser] = useState({});
@@ -16,6 +18,14 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
 
     const [pretendCache, setPretendCache] = useState({});
     const [results, setResults] = useState([]);
+
+    const cancelWrapper = () => {
+        setQuery('');
+        setUser({});
+        //dont clear pretend cache
+        setResults('');
+        onCancel();
+    }
 
     const handleClick = () => {
         onConfirm(user&&user.id);
@@ -60,7 +70,7 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
     return (
       <Modal 
         isOpen={isOpen} 
-        onRequestClose={onCancel}
+        onRequestClose={cancelWrapper}
         style={{
           overlay: {
             backgroundColor: 'var(--overlay)',
@@ -68,7 +78,7 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
           },
           content: {
             backgroundColor: 'var(--bet-background-color)',
-            width: '768px',
+            width: isMobile?'calc(100% - 20px)':'768px',
             height: '400px',
             position: 'absolute',
             top: '50%',
@@ -80,21 +90,28 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
         portalClassName='normal-overflow'
       >
         <div className="modal usi" >
-            <form className='user' onSubmit={handleSubmit}>
-                <div className='pfp'>
-                    <img src={src} style={{height: '64px', borderRadius:'50%'}}/>
+            <form className='user' onSubmit={handleSubmit} style={isMobile?mobileStyle.child:{}}>
+                <div className='pfp' style={isMobile?{marginRight: 0, height: '48px'}:{}}>
+                    <img src={src} style={{height: isMobile?'48px':'64px', borderRadius:'50%'}}/>
                 </div>
-                <div className='name'>
+                <div className='name' style={isMobile?{width: 'calc(100% - 96px)', height: '48px'}:{}}>
                     {user&&user.username?user.username:''}
                 </div>
                 <button className='add' onClick={handleClick}>
                     <img src="insert.png" style={{height: '48px', padding: '8px'}}/>
                 </button>
             </form>
-            <div className='search-container'>
-                <input className="search-bar" placeholder="search users..." value={query} onChange={(e)=>setQuery(e.target.value)}/><img style={{height: '32px'}} src="search.png"/>
+            <div className='search-container' style={isMobile?{...mobileStyle.child, ...mobileStyle.noTransfrom}:{}}>
+                <input 
+                    className="search-bar" 
+                    placeholder="search users..." 
+                    value={query} 
+                    onChange={(e)=>setQuery(e.target.value)}
+                    style={isMobile?mobileStyle.child:{}}
+                />
+                <img style={{height: isMobile?'20px':'32px'}} src="search.png"/>
             </div>
-            <div className="scroll-container">
+            <div className="scroll-container" style={isMobile?mobileStyle.scroll:{}}>
                 <div className="content">
                     {/* {JSON.stringify(results)} */}
                     {query&&results&&results.map((r, index)=>{
@@ -110,10 +127,11 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
 
 
 const SearchResult = ({r, select}) => {
+    const {isMobile} = useMobile();
     return (
-        <div className='result' onClick={()=>select(r)}>
+        <div className='result' onClick={()=>select(r)} style={isMobile?mobileStyle.result:{}}>
             <div className='result-pfp'>
-                <img src={r.pfp_url} style={{height: '60px', borderRadius:'50%'}}/>
+                <img src={r.pfp_url} style={{height: isMobile?'55px':'60px', borderRadius:'50%'}}/>
             </div>
             <div className='text-fields'>            
                 <div className='username'>{r.username}</div>
@@ -124,3 +142,20 @@ const SearchResult = ({r, select}) => {
 }
   
 export default USIModal;
+
+const mobileStyle = {
+    child: {
+        width: 'calc(100% - 20px)',
+        fontSize: '20px'
+    },
+    noTransfrom: {
+        transform: 'translateX(0)'
+    },
+    scroll: {
+        top: '100px',
+        maxHeight: '275px',
+    },
+    result: {
+        width: 'calc(100% - 20px)',
+    }
+}

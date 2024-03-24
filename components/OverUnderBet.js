@@ -5,14 +5,18 @@ import DOMPurify from 'dompurify';
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
 import { supabase } from "../functions/SupabaseClient";
+import { useMobile } from "./providers/MobileContext";
 
 
 const OverUnderBet = ({ bet }) => {
 
+  const title = DOMPurify.sanitize(bet.title);
   const sanitizedMarkdown = DOMPurify.sanitize(bet.description);
 
   const { user, meta } = useAuth();
   const { failed, succeed } = useModal();
+  const { isMobile, height, width } = useMobile();
+  const elementWidth = `${Math.min(height, width) - 20}px`;
 
   const result = bet.open?"Open":"Closed";
   const line = bet.line;
@@ -51,7 +55,7 @@ const OverUnderBet = ({ bet }) => {
   };
 
   return (
-    <div className="over-under bet">
+    <div className="over-under bet" style={isMobile?{width: elementWidth}:{}}>
       <h3
         style={{
           maxWidth: "320px",
@@ -59,11 +63,12 @@ const OverUnderBet = ({ bet }) => {
           left: "8%",
           width: "70%",
           textAlign: "left",
+          ...isMobile?mobileStyle.header:{}
         }}
       >
-        {bet.title}
+        {title}
       </h3>
-      <div className="description" style={{marginTop:"30px"}}>
+      <div className="description" style={{marginTop:"30px", ...isMobile?mobileStyle.desc:{}}}>
         <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
       </div>
       {result === "Closed" ? (
@@ -93,5 +98,21 @@ const OverUnderBet = ({ bet }) => {
     </div>
   );
 };
+
+const mobileStyle = {
+  bet: {
+    width: 'calc(100% - 20px)'
+  },
+  header: {
+    width: '55%',
+    paddingLeft: '15px',
+    height: 'calc(2em + 7px)',
+    overflowY: 'hidden', 
+    textOverflow: 'ellipsis'
+  },
+  desc: {
+    width: 'calc(100% - 20px)',
+  }
+}
 
 export default OverUnderBet;

@@ -4,6 +4,8 @@ import { american } from "../functions/CalculateWinnings.js";
 import { supabase } from "../functions/SupabaseClient.js";
 import { useAuth } from "./providers/AuthContext.js";
 import { getNumber } from "../functions/ParseOdds.js";
+import { useMobile } from "./providers/MobileContext.js";
+
 
 const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
   const [betAmount, setBetAmount] = useState("");
@@ -11,6 +13,8 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
   const [wager, setWager] = useState(0);
   const [locked, setLocked] = useState(false);
   const { user } = useAuth();
+  const { isMobile } = useMobile();
+
 
   useEffect(()=>{
     //get user bet
@@ -75,10 +79,11 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
       className="moneyline-place-bet-form"
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: isMobile?"column":"row",
         justifyContent: "space-between",
       }}
     >
+    <div className="winnings-cash" style={{justifyContent: 'space-between'}}>
       <div
         className="to-win"
         style={{
@@ -93,17 +98,18 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
         {outcome?Math.floor(american(getNumber(bet.odds[outcome].toString()), wager)):"-"}
       </div>
       <div
-        className="your-wager"
-        style={{
-          fontWeight: "700",
-          color: "var(--bet-text-color)",
-          fontSize: "18px",
-          alignSelf: "flex-end",
-          padding: "10px",
-        }}
-      >
-        {"Your wager: "}
-        {wager}
+          className="your-wager"
+          style={{
+            fontWeight: "700",
+            color: "var(--bet-text-color)",
+            fontSize: "18px",
+            alignSelf: "flex-end",
+            padding: "10px",
+          }}
+        >
+          {"Your wager: "}
+          {wager}
+        </div>
       </div>
       <form
         onSubmit={handleSubmit}
@@ -112,6 +118,7 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
           alignItems: "flex-start",
           display: "flex",
           flexDirection: "row",
+          justifyContent: 'space-between'        
         }}
       >
         <div className="radio-group">
@@ -141,53 +148,55 @@ const MoneylinePlaceBetForm = ({ onSubmit, bet }) => {
             <div className="custom-radio">Misses</div>
           </label>
         </div>
-        <input
-          type="text"
-          value={betAmount}
-          onChange={handleInputChange}
-          style={{
-            height: "30px",
-            width: "6ch",
-            textAlign: "center",
-            marginRight: "0px",
-            borderTopLeftRadius: "8px",
-            borderBottomLeftRadius: "8px",
-            paddingLeft: "4px",
-            paddingRight: "4px",
-            paddingTop: "0px",
-            paddingBottom: "0px",
-            backgroundColor: "var(--input-background)",
-            color: "var(--input-text)",
-            borderColor: "var(--input-border)",
-            backgroundColor: "var(--form-input)",
-          }} // Set the width to 3 characters, center the text, and add right margin
-        />
-        <button
-          style={{
-            border: "none",
-            padding: "0px",
-            height: "30px",
-            width: "30px",
-            borderTopRightRadius: "15px",
-            borderBottomRightRadius: "15px",
-            backgroundColor: "var(--button-background)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <img
-            src="star.png"
-            alt="Place bet."
+        <div className="input-buttons">
+          <input
+            type="text"
+            value={betAmount}
+            onChange={handleInputChange}
             style={{
-              height: "20px",
-              width: "20px",
-              borderTopRightRadius: "8px",
-              borderBottomRightRadius: "8px",
-            }}
+              height: "30px",
+              width: "6ch",
+              textAlign: "center",
+              marginRight: "0px",
+              borderTopLeftRadius: "8px",
+              borderBottomLeftRadius: "8px",
+              paddingLeft: "4px",
+              paddingRight: "4px",
+              paddingTop: "0px",
+              paddingBottom: "0px",
+              backgroundColor: "var(--input-background)",
+              color: "var(--input-text)",
+              borderColor: "var(--input-border)",
+              backgroundColor: "var(--form-input)",
+            }} // Set the width to 3 characters, center the text, and add right margin
           />
-        </button>
+          <button
+            style={{
+              border: "none",
+              padding: "0px",
+              height: "30px",
+              width: "30px",
+              borderTopRightRadius: "15px",
+              borderBottomRightRadius: "15px",
+              backgroundColor: "var(--button-background)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <img
+              src="star.png"
+              alt="Place bet."
+              style={{
+                height: "20px",
+                width: "20px",
+                borderTopRightRadius: "8px",
+                borderBottomRightRadius: "8px",
+              }}
+            />
+          </button>
+        </div>
       </form>
     </div>
   );

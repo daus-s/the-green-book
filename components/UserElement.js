@@ -2,10 +2,13 @@ import { useEffect, useState } from "react"
 import { supabase } from "../functions/SupabaseClient";
 import RemoveModal from "./modals/RemoveModal";
 import CommissionerShield from "./CommissionerShield";
+import { useMobile } from "./providers/MobileContext";
 
 export default function UserElement({ public_uid, groupID, remove, commish }) {
     const [removeModalVisible, setRemoveModalVisible] = useState(false);
     const [user, setUser] = useState(null);
+    const { isMobile } = useMobile();
+
     useEffect(()=>{
         const getUser = async () => {
             const { data, error } = await supabase.from('public_users').select().eq("id", public_uid);
@@ -24,7 +27,7 @@ export default function UserElement({ public_uid, groupID, remove, commish }) {
     }
 
     return (
-        <div className="user-element">
+        <div className="user-element" style={isMobile?{minWidth: '0px'}:{}}>
             <div className="icon-parent" style={{display:'flex', alignItems: 'center'}}>
                 <img src={user?user.pfp_url:"/user.png"}/>
                 {commish?<CommissionerShield style={{width: '16px', height: '16px', transform: 'translateY(0px) translateX(4px)'}}/>: <></>}

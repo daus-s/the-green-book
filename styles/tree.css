@@ -1,0 +1,89 @@
+.tree img {
+    width: 100%;
+    padding: 20px;
+}
+
+.tree-menu {
+    max-width: 400px;
+    margin: 96px 52px 52px 52px;
+    position: relative;
+}
+
+.leaf {
+    position: absolute;
+    transition: transform var(--rotation-time) ease;
+    text-align: center;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--bet-background-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: 'transparent';
+}
+
+.leaf-box {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    top: -10%; 
+    left: -10%;
+    transition: transform var(--rotation-time) ease;
+    justify-content: center;
+    display: flex;
+    pointer-events: none;
+}
+
+.rotate-img {
+    z-index: 1;
+    pointer-events: all;
+}
+
+
+.leaf:hover {
+    font-weight: 700;
+    filter: brightness(200%);
+}
+
+.dendrology {
+    position: absolute;
+    color: var(--bet-background-color);
+
+}
+
+.tree-menu a.login {
+    background-color: var(--bet-option-highlight);
+    padding: 10px 20px;
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 122px;
+}
+
+.tree-menu a.login:hover {
+    background-color: var(--cta-button-bg-color);
+}
+
+a.leaf {
+    text-decoration: none;
+    pointer-events: all;
+}
+
+.dendrology {
+    background-color:var(--background-color) ; 
+    width: 195px;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    font-size: 16px;
+    transition: transform 0.3s ease; /* Smooth transition for transform property */
+}
+  
+.dendrology:hover {
+    transform: scale(1.05); /* Scale up by 5% on hover */
+}

@@ -7,15 +7,37 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    
 }
 
-.attribution .title {
+.attribution a {
+    text-decoration: none;
+}
+
+.attribution a .title {
     font-size: 26px;
     font-weight: 600;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.attribution.mobile .title {
+    font-size: 23px;
 }
 
 .attribution a {
     color: var(--link-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.attribution.mobile a {
+    color: var(--text-color);
+    text-decoration: none;
 }
 
 .attribution a:hover {
@@ -28,8 +50,26 @@
     align-items: flex-end; 
     font-size: 20px;
     font-weight: 600;
+    text-decoration: none;
 }
 
 .attribution .data * {
-    margin: 5px;
+    margin: 0px 11px;
+}
+
+.attribution.mobile {
+    width: 290px;
+    padding: 10px 45px 10px 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.attribution.mobile img {
+    position: relative;
+    left: 0;
+}
+
+.attribution.mobile .title {
+    position: relative;
+    left: 10px;
 }

@@ -1,0 +1,160 @@
+.mobile-menu-button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 50%;
+    background-color: var(--almost-opaque);
+    padding: 10px;
+}
+
+.mobile-menu-button img {
+    width: 50px;
+    height: 50px;
+}
+
+.sidebar {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    width: 156px;
+    z-index: 12;
+    background-color: var(--bet-background-color);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.sidebar-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 11;
+    background-color: var(--overlay);
+}
+
+.sidebar-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    width: 100%;
+    height: 117px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 20px;
+}
+
+.sidebar .bars {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.sidebar-profile .username {
+    font-size: 20px;
+    font-weight: 700;
+}
+.sidebar-profile .username, .sidebar-profile .email {
+    text-overflow: ellipsis;
+}
+
+.pfp-box {
+    display: flex;
+    flex-direction: row-reverse;
+    align-self: center;
+}
+
+.sidebar-profile .pfp {
+    border-radius: 50%;
+    height: 64px;
+    margin: 4px;
+}
+
+.sidebar .signout, .sidebar .login {
+    color: var(--text-color);
+    background-color: var(--cta-button-bg-color);
+    border: none;
+    border-radius: 15px;
+    padding: 8px 15px;
+    width: fit-content;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .login {
+    width: 100px;
+}
+
+.sidebar .signout:hover {
+    background-color: var(--cta-button-hover-bg-color);
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    width: 100%;
+}
+
+.sidebar-nav a {
+    text-decoration: none;
+    color: var(--deactive-gray);
+}
+
+.sidebar-nav a:hover {
+    text-decoration: underline;
+    color: var(--bet-text-color);
+}
+
+.user-title a, .commish-title a {
+    text-align: left;
+    padding-left: 0 !important;
+    color: var(--text-color) !important;
+    font-weight: 500;
+}
+
+.user-title, .commish-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 5px !important;
+    font-weight: 900;
+}
+
+.user-links, .commish-links {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.user-options * , .commish-options * {
+    padding-left: 8px;
+    font-weight: 400;
+}
+.pfp-box {
+    position: relative;
+}
+
+.user-options, .commish-options {
+    margin: 10px 0;
+}
+
+.pfp-box .big {
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+}
+
+.mmt {
+    justify-self: flex-end;
+    margin-top: auto;
+}

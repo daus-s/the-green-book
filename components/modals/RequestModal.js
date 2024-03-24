@@ -1,8 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { useMobile } from '../providers/MobileContext';
 
 
 const RequestModal = ({ isOpen, onClose, group, onConfirm}) => {
+  const { isMobile } = useMobile();
   return (
     <Modal 
       isOpen={isOpen} 
@@ -15,8 +17,8 @@ const RequestModal = ({ isOpen, onClose, group, onConfirm}) => {
         content: {        
           backgroundColor: 'var(--bet-background-color)',
           borderColor: 'var(--bet-option-highlight)',
-          width: '600px',
-          height: '300px',
+          width: isMobile?'calc(100% - 16px)':'600px',
+          height: isMobile?'200px':'600px',
           position: 'absolute',
           top: '50%',
           left: '50%',

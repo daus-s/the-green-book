@@ -14,7 +14,18 @@ export const AuthProvider = ({ children }) => {
     return await supabase.auth.getSession();
   };
    
-
+  async function checkPassword(email, password) {
+    try {
+      const { error } = await supabase.auth.api.signInWithEmailAndPassword(email, password);
+      if (error) {
+        throw error;
+      } else {
+        return true; 
+      }
+    } catch (error) {
+      return false;
+    }
+  }
 
   useEffect(()=>{
     const getCommissionerStatus = async () => {
@@ -32,13 +43,13 @@ export const AuthProvider = ({ children }) => {
       
     }
 
-    const getProfilePictureUrl = async () => {
+    const getPublicData = async () => {
       try {
         const email = (await getSession()).data?.session.user.email;
 
         const { data, error } = await supabase
           .from("public_users")
-          .select('pfp_url')
+          .select('*')
           .eq('email', email)
           .limit(1)
           .single();
@@ -47,6 +58,8 @@ export const AuthProvider = ({ children }) => {
           setMeta((prevMeta) => ({
             ...prevMeta,
             pfp: data.pfp_url,
+            publicID: data.id,
+            username: data.username
           }));
         } 
         else {
@@ -65,20 +78,14 @@ export const AuthProvider = ({ children }) => {
       const email = (await getSession()).data?.session.user.email || "";
       if (email) {
         const {data,error} = await supabase.from("users").select("publicID").eq("email", user.email)
-        if (data[0]?.publicID) {
-          setMeta((prevMeta) => ({
-            ...prevMeta,
-            publicID: data[0].publicID,
-          }));        
-        }
+        
       }
 
     }
 
     if (user&&session) {
       getCommissionerStatus();
-      getProfilePictureUrl();
-      getPublicID();
+      getPublicData();
     }
   },[user,session]);
 
@@ -96,7 +103,7 @@ export const AuthProvider = ({ children }) => {
             if (data.session.user) {
               setUser(data.session.user);
             } else {
-              setUser(null);
+              setUser();
               auth = false;
             }
           } else {
@@ -168,34 +175,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  //OLD VERION KEEP IN CASE I CAN HACK IT WITH STATE VARS
-  // const logout = async () => {
-  //   const base = "localhost:3000"
-  //   try {
-  //     const { error } = await supabase.auth.signOut();
-  //     window.location.href = base + "/login";
-  //     if (error) {
-  //       console.error('Logout error:', error.message);
-  //     } else {
-  //       setUser(null);
-  //       setSession(null);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during logout:', error.message);
-  //   }
-  // };
-
   const logout = async () => {  
-    // Sign out from Supabase
     const { error } = await supabase.auth.signOut();
   
-    // Redirect to the home page
-    window.location.replace("/");
-    sessionStorage.setItem('logged-in', false);
-
-    // Log error if any
     if (error) {
       console.error('Logout error:', error.message);
+    } else {
+      window.location.replace("/");
+      sessionStorage.setItem('logged-in', false);
     }
   };
   
@@ -203,7 +190,7 @@ export const AuthProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, session, meta, login, logout, getSession }}>
+    <AuthContext.Provider value={{ user, session, meta, login, logout, getSession, checkPassword }}>
       {children}
     </AuthContext.Provider>
   );

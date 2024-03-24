@@ -9,6 +9,7 @@ import ConfirmModal from "./modals/ConfirmModal.js";
 import DeleteModal from "./modals/DeleteModal.js";
 
 import { useModal } from "./providers/ModalContext.js";
+import { useMobile } from "./providers/MobileContext.js";
 
 
 function OptionRadio({bet, setParentChoice}) {
@@ -123,7 +124,7 @@ function OptionRadio({bet, setParentChoice}) {
     );
 }
 //placed user bets
-function BetRow({userBet}) {    
+function BetRow({userBet}) { 
     return (
         <div className="user-bet-row">
             <div className="user-id">
@@ -137,8 +138,9 @@ function BetRow({userBet}) {
 }
 
 function PlacedBets({placedBets}) {
+    const { isMobile } = useMobile();
     return (
-        <div className="placed-bets">
+        <div className="placed-bets" style={isMobile?mobileStyle.side:{}}>
             <div className="user-bets-header">
                 <div>User</div>
                 <div>Option</div>
@@ -150,16 +152,17 @@ function PlacedBets({placedBets}) {
 }
 
 function BetMenu({bets, bet}) {
+    const {isMobile} = useMobile();
     // TODO: highlght green and red when selecting option
     const sanitizedMarkdown = DOMPurify.sanitize(bet?.description);
 
     return (
-        <div className="bet-menu-div">
-            <div className="description">
+        <div className="bet-menu-div" style={isMobile?mobileStyle.entree:{}}>
+            <div className="description" style={isMobile?mobileStyle.side:{}}>
                 <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
             </div>
             <PlacedBets placedBets={bets}/>
-            <div className="bet-options">
+            <div className="bet-options" style={isMobile?mobileStyle.side:{}}>
                 {bet.open?<OptionRadio bet={bet} />:<></>}
             </div>
         </div>
@@ -167,8 +170,9 @@ function BetMenu({bets, bet}) {
 }
 
 function BetHeader({bet, toggle}) {
+    const {isMobile} = useMobile();
     return (
-        <div className="bet-header" onClick={()=>toggle()}>
+        <div className="bet-header" onClick={()=>toggle()} style={isMobile?mobileStyle.entree:{}}>
             <div className="bet-title">{bet.title}</div>
             <div className="status-icon"> {bet.open?<img src="mark.png" style={{height: '24px'}}/>:<img src="close.png" style={{height: '24px'}}/>} </div>
         </div>
@@ -178,6 +182,9 @@ function BetHeader({bet, toggle}) {
 function BetTool ({ bet, id }) {
     const [expanded, setExpanded] = useState(bet.open);
     const [betsData, setBetsData] = useState(null);
+
+    const { isMobile, height, width } = useMobile();
+    const elementWidth = `${Math.min(height, width) - 20}px`;
 
     const close = () => {
         setExpanded(false);
@@ -214,7 +221,16 @@ function BetTool ({ bet, id }) {
      * options on the bet
      */
     return (
-        expanded ? <div className="bet menu"><BetHeader toggle={close} bet={bet}/><BetMenu bets={betsData} bet={bet}/></div> : <div className="bet menu"><BetHeader toggle={open} bet={bet}/></div>
+        expanded
+        ? 
+        <div className="bet menu" style={isMobile?{width: elementWidth,...mobileStyle.menu}:{}}>
+            <BetHeader toggle={close} bet={bet}/>
+            <BetMenu bets={betsData} bet={bet}/>
+        </div> 
+        : 
+        <div className="bet menu" style={isMobile?{width: elementWidth,...mobileStyle.menu}:{}}>
+            <BetHeader toggle={open} bet={bet}/>
+        </div>
     );
 }
 
@@ -240,4 +256,19 @@ export default function BetManager() {
             {bets.map((bet)=>(<BetTool bet={bet} id={bet.betID}/>))}
         </div>
     )
+}
+
+const mobileStyle = {
+    menu: {
+        padding: '10px 5px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    entree: {
+        width: '100%'
+    },
+    side: {
+        width: 'calc(100% - 20px)'
+    },
 }

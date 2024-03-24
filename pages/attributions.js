@@ -1,12 +1,10 @@
 import Link from "next/link";
-import Header from "../components/Header";
+import { useMobile } from "../components/providers/MobileContext";
 
 export default function AttributionPage() {
+
     return (
-        <div className="App">
-            <Header />
-            <Attributions />
-        </div>
+        <Attributions />
     );
 }
 
@@ -31,18 +29,43 @@ function Attributions() {
             <Attribution src='left.png' href='https://www.flaticon.com/free-icons/next' desc='Next icons created by Roundicons - Flaticon'/>
             <Attribution src='right.png' href='https://www.flaticon.com/free-icons/next' desc='Next icons created by Roundicons - Flaticon'/>
             <Attribution src='shield.png' href='https://www.flaticon.com/free-icons/emblem' desc='Emblem icons created by Smashicons - Flaticon'/>
+            <Attribution src='menu.png' href='https://www.flaticon.com/free-icons/hamburger' desc='Hamburger icons created by feen - Flaticon' />
+            <Attribution src='social.png' href='https://www.flaticon.com/free-icons/networking' desc='Networking icons created by Becris - Flaticon'backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='history.png' href="https://www.flaticon.com/free-icons/chart" desc='Chart icons created by Kiranshastry - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='balance.png' href="https://www.flaticon.com/free-icons/price" desc='Price icons created by bqlqn - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='bet.png' href="https://www.flaticon.com/free-icons/insert"  desc='Insert icons created by Iconjam - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='bookkeeping.png' href="https://www.flaticon.com/free-icons/bookkeeping" desc='Bookkeeping icons created by smashingstocks - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='groupsettings.png' href="https://www.flaticon.com/free-icons/profile" desc='Profile icons created by Pixel perfect - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='creategroup.png' href="https://www.flaticon.com/free-icons/members" desc='Members icons created by GOFOX - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='newbet.png' href="https://www.flaticon.com/free-icons/exam"  desc='Exam icons created by RIkas Dzihab - Flaticon' backgroundColor='var(--soft-highlight)'/>
+            <Attribution src='login.png' href="https://www.flaticon.com/free-icons/register" desc='Register icons created by See Icons - Flaticon'/>
         </div>
     );
 }
 
-function Attribution({href, desc, src}) {
-    return (
-        <div className="attribution">
-            <div className="title">{src}</div>
-            <div className="data">
-                <img src={src} style={{height: '50px'}}/>
-                <Link href={href}> {desc}</Link>
+function Attribution({href, desc, src, backgroundColor}) {
+    const { isMobile } = useMobile();
+    
+    return ( isMobile ? 
+        (   
+            <div className="attribution mobile">
+                <Link href={href}>
+                    <img src={src} style={{height: '32px', backgroundColor:(backgroundColor?backgroundColor:'transparent')}}/>
+                    <div className="title">{src}</div>
+                </Link>
             </div>
-        </div>
+        )
+        :
+        (
+            <div className="attribution">
+                <Link href={href}> 
+                    <div className="title">{src}</div>
+                    <div className="data">
+                        <img src={src} style={{height: '50px', backgroundColor:(backgroundColor?backgroundColor:'transparent')}}/>
+                        {desc}
+                    </div>
+                </Link>
+            </div>
+        )
     )
 }

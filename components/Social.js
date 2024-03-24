@@ -4,6 +4,7 @@ import { useModal } from "./providers/ModalContext";
 import { supabase } from "../functions/SupabaseClient";
 import RequestModal from "../components/modals/RequestModal";
 import CommissionerShield from "./CommissionerShield";
+import { useMobile } from "./providers/MobileContext";
 
 function CommissionerElement({commish /* int */}) {
     const [commishInfo, setCommishInfo] = useState({}); 
@@ -33,6 +34,9 @@ function CommissionerElement({commish /* int */}) {
 }
 
 function GroupElement({group, message}) {
+    const { isMobile } = useMobile();
+
+
     const [joined, setJoined] = useState("Join Group"); //make this a string variable based on the status so requested already a member
     const [reqVis, setReqVis] = useState(false);
 
@@ -89,9 +93,9 @@ function GroupElement({group, message}) {
     }
     return (
         <div className="result">
-            <div className='group'>
+            <div className='group' style={isMobile?mobileStyle.contained:{}}>
                 <div className="group-name">{group.groupName}</div>
-                <div className="comm-container"><CommissionerElement commish={commish} /></div>
+                <div className="comm-container" style={isMobile?mobileStyle.contained:{}}><CommissionerElement commish={commish} /></div>
                 <button className={`insert-button`} disabled={joined!=="Join Group"} style={joined!=="Join Group"?{ backgroundColor: 'var(--form-input)', cursor: 'not-allowed'}:{}} onClick={()=>setReqVis(true)}>{joined}</button>
             </div>
             <RequestModal isOpen={reqVis} onClose={()=>{setReqVis(false)}} group={group.groupName} onConfirm={makeRequest} />
@@ -102,14 +106,12 @@ function GroupElement({group, message}) {
 export default function Social() {
     let cook; //this'll come into play fsfs
 
+    const { isMobile, height, width } = useMobile();
+    const elementWidth = `${Math.min(height, width) - 20}px`;
 
     //stateful function...
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
-
-    //context providers
-    const { meta, user } = useAuth();
-    const { succeed, failed } = useModal();
 
     useEffect(()=>{
         const getGroupsByQuery = async () => {
@@ -129,13 +131,29 @@ export default function Social() {
     
     return (
         <div className="page social">
-                <div className='search-groups search-container'>
-                    <input className="search-bar" placeholder="search groups..." value={query} onChange={(e)=>setQuery(e.target.value)}/><img style={{height: '32px'}} src="search.png"/>
+                <div className='search-groups search-container' style={isMobile?{width: elementWidth}:{}}>
+                    <input className="search-bar" placeholder="search groups..." value={query} onChange={(e)=>setQuery(e.target.value)}/>
+                    <img style={{height: '32px'}} src="search.png"/>
             </div>
-            <div className="social-results">
+            <div className="social-results" style={isMobile?{width: elementWidth, marginTop: 0}:{}}>
                 {results&&results.length?results.map((group, index)=>{ return <GroupElement group={group} key={index}/>;}):
                 !query.length?<GroupElement message='begin'/>:<GroupElement message='No groups found. :('/>}
             </div>
         </div>
     );
+}
+
+const mobileStyle = {
+    searchBar: {
+        width: 'calc(100% - 20px)',
+    },
+    results: {
+        width: 'calc(100% - 20px)',
+    },
+    topDown: {
+        width: 'calc(100% - 70px)',
+    },
+    contained: {
+        maxWidth: '100%',
+    }
 }
