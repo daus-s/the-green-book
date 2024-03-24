@@ -27,7 +27,6 @@ export default function ResetPassword() {
         e.preventDefault();
         if (password1 == password2) {
             const { data, error } = await supabase.auth.updateUser({ password: password1 });
-            console.log(data?data:error);
             if (data) {
                 router.push("/");
             }

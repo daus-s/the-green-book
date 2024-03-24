@@ -53,7 +53,7 @@ function Sidebar({close}) {
                 sum = requestsLengths.reduce((acc, length) => acc + length, 0);
                 setRequests(sum);
             } catch (error) {
-                console.error('failed to fetch requests');
+                //console.error('failed to fetch requests');
             }
         }
 

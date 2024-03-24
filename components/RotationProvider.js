@@ -18,7 +18,6 @@ export default function RotationProvider({ props, children }) {
 
       const handleOrientationChange = (event) => {
           const { orientation } = event.target;
-          console.log(`rotated to ${orientation}°`);
           let newRotation = 0;
           setDisplayRotation(orientation)
           let Δφ = deviceRotation - orientation;
