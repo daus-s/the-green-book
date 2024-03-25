@@ -6,6 +6,7 @@ import OptionsBet from "./OptionsBet";
 import OverUnderBet from "./OverUnderBet";
 import { supabase } from "../functions/SupabaseClient";
 import Link from "next/link";
+import Loading from "./Loading";
 
 function bet(b) {
     if (b.mode == 'ou') return <OverUnderBet bet={b} key={b.betID}/> 
@@ -14,7 +15,7 @@ function bet(b) {
 }
 
 export default function Bets() {
-
+    const [loading, setLoading] = useState(true);
     const { user, session } = useAuth();
     const { isMobile } = useMobile();
 
@@ -39,6 +40,7 @@ export default function Bets() {
                         }
                     }
                     setBets(betList);
+                    setLoading(false);
                 }
             }
         }
@@ -47,13 +49,16 @@ export default function Bets() {
     },[user, session])
     return (
         <div className="bets page">
-            {bets.length
-                ?
-                bets.map((b)=>{return bet(b)})
+            {loading ?
+                <Loading />
                 :
-                <div className="find-groups" style={isMobile ? mobileStyle.empty : {}}>
-                    <Link href="/social">Join groups to bet with friends!</Link>
-                </div>  
+                bets.length
+                    ?
+                    bets.map((b)=>{return bet(b)})
+                    :
+                    <div className="find-groups" style={isMobile ? mobileStyle.empty : {}}>
+                        <Link href="/social">Join groups to bet with friends!</Link>
+                    </div>
             }
         </div>
     );

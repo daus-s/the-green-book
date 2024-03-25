@@ -29,6 +29,7 @@ import '../styles/sidebar.css';
 import '../styles/tree.css';
 import '../styles/textpages.css';
 import "../styles/commissioners.css";
+import "../styles/loading.css";
 
 
 export default function App({ Component, pageProps }) {
