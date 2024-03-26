@@ -123,7 +123,7 @@ export default function UserBets() {
                         </div>
                     </div>
                     <div className="net-change">
-                        <div className="descriptor">are {line<0?'down':'all'}
+                        <div className="descriptor">are {line<0?'down':'up'}
                         <div className="value">{line<0?-1*line:line}</div>
                         coins all-time.
                         </div>
