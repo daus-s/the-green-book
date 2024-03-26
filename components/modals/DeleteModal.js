@@ -42,7 +42,7 @@ const DeleteModal = ({ isOpen, onDelete, onCancel, betName }) => {
         }
       }}
     >
-      <div className="modal">
+      <div className="modal" style={isMobile?{height: 'auto'}:{}}>
         <h2>Delete Bet</h2>
         <p style={{userSelect:"none"}}>Are you sure you want to delete the bet: {betName}?</p>
         <p>Enter the bet name <span style={{fontWeight:"bold",userSelect:"none"}}>{betName}</span> to close the bet. This will permanently close the bet and all placed bets will be refunded.</p>

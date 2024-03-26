@@ -6,6 +6,7 @@ import { useModal } from '../providers/ModalContext';
 const SuccessModal = ({ isOpen, onClose }) => {
   //insert timeout code here
   const { success, unsucc } = useModal();
+  
   useEffect(()=>{
     const timeoutId = setTimeout(() => {
       unsucc();

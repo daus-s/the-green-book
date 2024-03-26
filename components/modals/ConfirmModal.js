@@ -21,7 +21,7 @@ const ConfirmModal = ({ isOpen, onCancel, onConfirm, title, option }) => {
           backgroundColor: 'var(--bet-background-color)',
           width: isMobile?'calc(100% - 20px)':'768px',
           height: isMobile?'fit-content':'400px',
-          position: 'absolute',
+          position: isMobile?'fixed':'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
@@ -29,7 +29,7 @@ const ConfirmModal = ({ isOpen, onCancel, onConfirm, title, option }) => {
         }
       }}
     >
-      <div className="modal">
+      <div className="modal" style={isMobile?{height: 'auto'}:{}}>
         <div className='modal-title-container'>
           <div className='modal-title'>{title}</div>
           <div className='modal-title descriptor'>Cash Out</div>

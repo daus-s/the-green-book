@@ -34,7 +34,7 @@ const ADModal = ({ isOpen, onClose, onConfirm, approve, guest, groupName}) => {
             }
         }}
         >
-        <div className="modal">
+        <div className="modal" style={isMobile?{height: 'auto'}:{}}>
             <div className='modal-title'>{approve?'Approve join request':'Deny join request'}</div>
             <div className='request-text'>{approve?
                 <>Are you sure you want to let <b>{guest?.username}</b> join {groupName?groupName:'this group'}?</>
