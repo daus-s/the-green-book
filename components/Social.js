@@ -78,7 +78,7 @@ function GroupElement({group, message}) {
 
         getCommishData();
         getStatus();
-    }, []);
+    }, [group]);
 
     const makeRequest = async () => {
         const { error } = await supabase.from('requests').insert({user_id:meta.publicID, group_id: group.groupID}); //ths line was so scuffed 
