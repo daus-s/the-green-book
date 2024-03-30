@@ -1,7 +1,7 @@
 // TODO: build this 
-export default function Loading() {
+export default function Loading({style}) {
     return (
-        <div className="loading" style={{...styles.loading}}>
+        <div className="loading" style={{...styles.loading, ...style}}>
             <div className="first loader" style={{...styles.element, ...styles.first}}>
 
             </div>
