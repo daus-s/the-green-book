@@ -40,7 +40,7 @@ export default function ProfileNav() {
         <div className="profile-nav" style={isMobile?{paddingLeft: '0px'}:{}}>
             <div className="pfp-box">
                 <img src={meta.pfp} onClick={onClick} style={isMobile?{cursor: 'default', marginRight: '0', height: '50px', width: '50px', paddingLeft: '0px'}:{}}/>
-                {meta.commish?<CommissionerShield style={{height: '25px', pointerEvents: 'none', transform: 'translateY(20%) translateX(20%)', margin: '0'}}/>:<></>}
+                {meta.commish?<CommissionerShield style={{height: '25px', pointerEvents: 'none', transform: `translateY(20%) translateX(${(isMobile?1:-1)*20}%)`, margin: '0'}}/>:<></>}
             </div>
             {profileMenu?(
                 <div className="profile-menu-mobile" ref={profileMenuRef}>
