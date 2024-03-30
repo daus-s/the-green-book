@@ -37,10 +37,23 @@ export default function CreateBet(props) {
 
   useEffect(() => {
     const getGroups = async () => {
-        if (meta&&meta.commish) {
-          const groupData = await supabase.from("groups").select().eq('commissionerID', meta.commish);
-          setGroups(groupData.data);
+      if (user) {
+        let c = meta.commish;
+        if (c) {
+          const groupsYoureCommissionerOf = await supabase.from("groups").select().eq('commissionerID', c);
+          const groupsYoureAMemberOf = await supabase.from('user_groups').select('groupID').eq('userID', meta.publicID);
+          const groupIDsAsAList = (groupsYoureAMemberOf&&groupsYoureAMemberOf.data)?groupsYoureAMemberOf.data.map((obj)=>obj.groupID):undefined; 
+          const collectiveGroupsYoureAMemberOf = await supabase.from("groups").select().eq('collective', true).neq('commissionerID', c).in('groupID', groupIDsAsAList?groupIDsAsAList:[]);
+          const combined = [];
+          if (groupsYoureCommissionerOf && groupsYoureCommissionerOf.data) {
+            combined.push(...groupsYoureCommissionerOf.data);
+          }
+          if (collectiveGroupsYoureAMemberOf?.data) {
+            combined.push(...collectiveGroupsYoureAMemberOf.data);
+          }
+          setGroups(combined);
         }
+      }
     }
 
     getGroups();
@@ -148,6 +161,10 @@ export default function CreateBet(props) {
     }
 
     const handleBlur = (e) => {
+      if (e.target.value.length===0) {
+        setHit('');
+        setMiss('');
+      }
       if (e.target.name=="miss") {
         let odds = formatOdds(getComplementary(formatOdds(getNumber(e.target.value))))
         if (!isNaN(odds)) {
@@ -170,7 +187,10 @@ export default function CreateBet(props) {
         change.title = e.target.value;
       }
       if (mode=="odds") {
-        if (validOdds(e.target.value)) {
+        if (e.target.value.length == 1 && parseInt(e.target.value)) {
+          change.odds = "+" + e.target.value; //imply positive odds
+        } 
+        else if (validOdds(e.target.value)) {
           change.odds = e.target.value;
         }
       }
@@ -283,7 +303,7 @@ export default function CreateBet(props) {
       //unfortuantley this has to be a query into groups bc of collective groups
       let c = await supabase.from('groups').select('commissionerID').eq('groupID',group);
       if (c.data) {
-        c=c.data
+        c=c.data;
         if (c.length==1) {
           c = c[0].commissionerID;
         } else {
