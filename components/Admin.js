@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { useMobile } from "./providers/MobileContext";
 import { useAuth } from "./providers/AuthContext";
 import BalanceTable from "./BalanceTable";
-function CommishRequests() {
-    return (
-        <div className="commissioner-requests">
-            
-        </div>
-    );
-}
+import Commishify from "./Commishify";
 
 export default function Admin() {
     const {isMobile} = useMobile();
@@ -26,8 +20,8 @@ export default function Admin() {
     },[user, meta])
     return (
         <div className="admin page">
-            {/* <CommishRequests /> */} 
             <BalanceTable /> 
+            <Commishify /> 
         </div>
     );
 }

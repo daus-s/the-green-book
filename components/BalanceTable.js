@@ -143,7 +143,7 @@ export default function BalanceTable() {
 
     const list = data.filter(userData=>userData.username.startsWith(query)).map((userData)=>(<UserBalance user={userData}/>));
     return (
-        <div className="balance-table">
+        <div className="balance-table admin-child">
             <div className="query">
                 <img className="search-icon" src="search.png" />
                 <input 
