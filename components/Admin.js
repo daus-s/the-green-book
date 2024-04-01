@@ -9,6 +9,10 @@ export default function Admin() {
     const {user, meta, admin} = useAuth();
     const [access, setAccess] = useState(false);
 
+    const adminComponents = [<BalanceTable />, <Commishify />];
+    const [comp, setComp] = useState(0);
+
+
     useEffect(()=>{
         const isAdmin = async () => {
             const a = await admin();
@@ -18,10 +22,26 @@ export default function Admin() {
         }
         isAdmin();
     },[user, meta])
-    return (
-        <div className="admin page">
-            <BalanceTable /> 
-            <Commishify /> 
-        </div>
-    );
+
+
+    if (!isMobile) {
+        return (
+            <div className="admin page">
+                <BalanceTable /> 
+                <Commishify /> 
+            </div>
+        );
+    } 
+    else if (isMobile) {
+        return (
+            <div className="admin page">
+                {adminComponents[comp]}
+                <div className="dot-selector">
+                    {adminComponents.map((c, index)=>{
+                        <button value={index} onClick={(e)=>setComp(e.target.value)} style={index===comp?{boxShadow:'0 0 5px white'}:{}}>&middot;</button>
+                    })}
+                </div>
+            </div>
+        );
+    }
 }

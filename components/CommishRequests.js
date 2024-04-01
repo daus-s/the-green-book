@@ -100,7 +100,7 @@ export default function CommishRequests({ setCount}) {
 
 
     return (
-        <div className="commish requests">
+        <div className="commish requests admin-child">
             <div className="req-nav-div" style={isMobile?{width:'100%'}:{}}>
                 <div className="left" onClick={()=>setX(prv=>(prv-1)%rs.length)}><img src="left.png" style={isMobile?{width: '20px', height:'20px'}:{}}/></div>
                 <div className="request"  style={isMobile?{width:'235px'}:{}}>

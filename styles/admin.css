@@ -17,8 +17,7 @@
 }
 
 .user-balance.title .balance {
-    padding: 0;
-
+    padding: 0; 
 }
 
 
@@ -95,6 +94,9 @@
 
 .balance-table {
     width: 480px;
+    height: 375px;
+    position: relative;
+    bottom: 0px;
 }
 
 .error-title {
@@ -132,8 +134,25 @@
     display: flex;
     justify-content: flex-end;
     margin-left: auto;
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
 }
 .text-nav * {
     padding: 0px 0px 0px 10px;
     cursor: pointer;
+}
+
+.admin {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin: inherit auto;
+    height: auto !important;
+    width: auto !important;
+}
+
+.admin-child {
+    margin: 10px;
 }
