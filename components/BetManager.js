@@ -23,6 +23,7 @@ function OptionRadio({bet, setParentChoice}) {
         name,
         value,
     }));
+    const line = bet.mode==='ou'?bet.line:undefined;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -105,7 +106,7 @@ function OptionRadio({bet, setParentChoice}) {
                         />
                         <div className="custom-radio option">
                             <div className="name">
-                            {option.name}
+                            {line||line===0?option.name + " " + line:option.name}
                             </div>
                             <div className="value">
                             ({option.value})
