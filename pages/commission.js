@@ -44,7 +44,7 @@ function Commission() {
             <li><img src="bet.png" /></li>
             <li style={{margin: '0px 0px 10px 0px'}}>Place bets in <u><b>collective</b></u> groups</li>
         </ul>
-        {meta.commish?<div className="commishify already-a-commish"><div className="img-cntr"><img src='shield.png' style={{height: '80px'}}></img></div>Already commissioned.</div>:requested?<button className="commishify deactive" disabled>Requested</button>:<button className="commishify" onClick={makeReq}>Join Now</button>}
+        {meta.commish?<div className="commishify already-a-commish" onClick={()=>{window.location.href="/commissioner"}}><div className="img-cntr"><img src='shield.png' style={{height: '80px'}}></img></div>Already commissioned.</div>:requested?<button className="commishify deactive" disabled>Requested</button>:<button className="commishify" onClick={makeReq}>Join Now</button>}
     </div>
 }
 
