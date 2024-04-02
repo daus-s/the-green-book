@@ -69,6 +69,7 @@ export default function CommishRequests({ setCount}) {
             setX((i)=>i-1);
         } 
         setRS(shallow);
+        setCount((prev)=>(prev-1));
     }
 
     const reject = async () => {
@@ -86,6 +87,7 @@ export default function CommishRequests({ setCount}) {
             setX((i)=>i-1);
         } 
         setRS(shallow);
+        setCount((prev)=>(prev-1));
     }
 
     const handleAxion = (type) => {
