@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../functions/SupabaseClient"
 import { useAuth } from "../components/providers/AuthContext"
+import { useMobile } from "../components/providers/MobileContext";
 
 function Commission() {
     const [requested, setRequested] = useState(false);
     
+    const {isMobile} = useMobile();
     const {user, meta} = useAuth();
 
     const makeReq = async () => {
@@ -26,10 +28,11 @@ function Commission() {
             //otherwise something failed to load
             }
         }
+
         checkRequest();
     }, [user, meta])
 
-    return <div className="commission page">
+    return <div className="commission page" style={isMobile?{paddingBottom: '114px', borderRadius: '0px'}:{}}>
         <h1>Become a commissioner</h1>
         <ul>
             <li><img src="social.png" /></li>
