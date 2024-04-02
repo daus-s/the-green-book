@@ -101,7 +101,6 @@ export default function BalanceTable() {
                                                         await supabase.from('users').select('*, user_balances ( balance ), public_users!public_users_publicID_fkey ( * )').ilike('username',`${query?query:''}*`).order('userID').limit(5) :
                                                         await supabase.from('users').select('*, user_balances ( balance ), public_users!public_users_publicID_fkey ( * )').ilike('username',`${query?query:''}*`).order('userID').limit(5).lte('userID', shallow[shallow.length-1]).gt('userID', shallow[shallow.length-2]);
             const { data: users, error } = await getUsers();
-            console.log(users)
             if (!error) {
                 if (users.length) {
                     setData(users);

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { supabase } from "../functions/SupabaseClient"
 import { useAuth } from "../components/providers/AuthContext"
 import { useMobile } from "../components/providers/MobileContext";
+import ProtectedRoute from "./_ProtectedRoute";
+
 
 function Commission() {
     const [requested, setRequested] = useState(false);
@@ -47,6 +49,10 @@ function Commission() {
 }
 
 export default function CommissionPage() {
-    return <Commission />
+    return (
+        <ProtectedRoute>
+            <Commission />
+        </ProtectedRoute>
+    );
 }
 

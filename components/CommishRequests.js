@@ -30,7 +30,6 @@ export default function CommishRequests({ setCount}) {
         const getUserData  =  async () => {
             if (rs.length > x) {
                 const {data:publicID, error: publicError} = await supabase.from('users').select('publicID').eq('userID', rs[x]?.id).single();
-                console.log(publicID?publicID:publicError);
                 if (!publicError) {
                     const { data, error } = await supabase.from('public_users').select().eq('id', publicID.publicID).single();
                     if (data) {
@@ -44,7 +43,6 @@ export default function CommishRequests({ setCount}) {
     }, [x, rs]);
 
     const accept = async () => {
-        console.log(rs[x])
         const {data: update, error: errCheck} = await supabase.from('users').update({'commissioner': true}).eq('userID', rs[x]?.id);
         if (!errCheck) {
             const {data: insert, error: insCheck} = await supabase.from('commissioners').insert({'userID': rs[x].id});

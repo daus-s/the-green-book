@@ -33,7 +33,6 @@ export default function Admin() {
         );
     } 
     else if (isMobile) {
-        console.log(comp)
         return (
                 <div className="admin page" style={{width: '100%', paddingBottom: '114px', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'space-between'}}>
                 {adminComponents[comp]}
