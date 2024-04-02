@@ -1,14 +1,10 @@
-import { useEffect } from "react";
 import Admin from "../components/Admin";
-import ProtectedRoute from "./_ProtectedRoute";
+import AdminGuard from "./_Admin";
 
 export default function AdminPage() {
-    useEffect(()=> {
-
-    }, [])
     return (
-        <ProtectedRoute>
+        <AdminGuard>
             <Admin/>
-        </ProtectedRoute>
+        </AdminGuard>
     );
 }

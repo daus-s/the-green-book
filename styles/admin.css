@@ -112,7 +112,8 @@
 .no-such-user {
     text-align: left;
     position: relative;
-    left: 68px;
+    padding-left: 80px;
+    width: 100%;
 }
 
 .user-balance input.balance {
@@ -148,11 +149,33 @@
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    margin: inherit auto;
-    height: auto !important;
-    width: auto !important;
+    margin-left:  auto;
+    margin-right: auto;
+    justify-content: center;
+    width: 100% !important;
 }
 
 .admin-child {
     margin: 10px;
+}
+
+.dot-selector {
+    display: flex;
+    flex-direction: row;
+}
+
+.dot-selector button {
+    border: 0;
+    outline: 0;
+    background-color: var(--grayed-out-text);
+    color: var(--text-color);
+    font-size: 24px;
+    height: 16px;
+    width: 16px;
+    margin: 0 10px;
+    border-radius: 50%;
+}
+
+.commissioner-requests {
+    padding-top: 10px;
 }
