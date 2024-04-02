@@ -117,6 +117,7 @@ body {
 .notification-box {
   position: relative;
   z-index: 1;
+  overflow-x: visible;
 }
 
 .icon-parent {

@@ -8,7 +8,7 @@ const prestyle = {
     width: '24px',
     height: '24px',
     fontSize: '18px',
-    overflow: 'hidden',
+    textOverflow: 'ellipsis',
     transform: 'translateX(50%) translateY(calc(-50% + 8px))',
     zIndex: '2',
     textAlign: 'center',
