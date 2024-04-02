@@ -18,7 +18,7 @@ const RequestModal = ({ isOpen, onClose, group, onConfirm}) => {
           backgroundColor: 'var(--bet-background-color)',
           borderColor: 'var(--bet-option-highlight)',
           width: isMobile?'calc(100% - 16px)':'600px',
-          height: isMobile?'200px':'600px',
+          height: isMobile?'200px':'300px',
           position: 'absolute',
           top: '50%',
           left: '50%',
