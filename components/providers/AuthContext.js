@@ -116,12 +116,13 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
           setSession(null);
           auth = false;
-        }
-        return true;
+        }     
       } catch (error) {
         //console.error('Error fetching session:', error.message);
         auth = false;
       }
+      sessionStorage.setItem('logged-in', auth);
+      return auth;
     };
 
     checkUserAuthentication();
@@ -186,11 +187,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
   
-
+  const admin = async () => {
+    if (user) {
+      const {data, error} = await supabase.rpc('user_is_admin');
+      return data;
+    }
+  }
 
 
   return (
-    <AuthContext.Provider value={{ user, session, meta, login, logout, getSession, checkPassword }}>
+    <AuthContext.Provider value={{ user, session, meta, login, logout, getSession, checkPassword, admin }}>
       {children}
     </AuthContext.Provider>
   );
