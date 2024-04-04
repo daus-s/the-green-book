@@ -154,3 +154,14 @@
 .reset-password-link a:hover {
     color: var(--link-hover);
 }
+
+.profile ul {
+    display: block;
+    text-align: left;
+    margin: 0 auto;
+    width: auto;
+}
+
+.profile ul li {
+    width: fit-content;
+}
