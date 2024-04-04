@@ -13,18 +13,19 @@ const AdminGuard = ({ children }) => {
         const checkAdmin = async () => {
             if (user) {
                 const { data, error } = await supabase.from('users').select('admin').eq("userID", user.id).single();
-                setLoading(false);
                 return data.admin;
             } else {
                 setLoading(true);
             }
         }
-
+        
         const doReRoute = async () => {
             if (user) {
                 if (!await checkAdmin()) {
                     // console.log(`${user.email} tried to access secure components`)
                     router.push('/');
+                } else {
+                    setLoading(false);
                 }
             } else {
                 setLoading(true);
