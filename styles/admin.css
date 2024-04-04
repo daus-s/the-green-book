@@ -1,0 +1,181 @@
+.user-balance {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--table-border);
+    padding: 2px;
+}
+.user-balance.title {
+        border: none;
+        color: var(--deactive-gray); 
+        background-color: var(--input-background);
+}
+.user-balance.title .username, .user-balance.title .balance {
+    margin-bottom: 0;
+    bottom: 0px;
+    position: relative;
+}
+
+.user-balance.title .balance {
+    padding: 0; 
+}
+
+
+
+.user-balance .balance {
+    max-width: 160px;
+    width: auto;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: left;
+    padding: 1px 2px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    bottom: 5px;
+    position: relative;
+    color: var(--unimportant-text)
+
+}
+
+.user-balance .balance:hover {
+    background-color: var(--soft-highlight);
+}
+.user-balance.title .balance:hover {
+    background-color: transparent;
+
+}
+
+.user-balance .username {
+    width: 240px;
+    font-size: 32px;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 5px;
+    color: var(--bright-text)
+
+}
+
+.user-balance .pfp img {
+    width: 48px;
+    height: 48px;
+    margin: 0px 10px;
+}
+.user-balance .pfp{
+    width: 68px;
+}
+
+.balance-table .query img {
+    margin: 4px 20px 4px 4px;
+    position: absolute;
+    height: 32px;
+    left: 16px;
+}
+
+.balance-table .query input {
+    position: absolute;
+    left: 68px;
+    background-color: var(--background-color);
+    margin-top: 0px;
+    border: none;
+    outline: none;
+    font-size: 32px;
+    color: var(--deactive-gray);
+}
+
+.balance-table input::placeholder {
+    color: var(--soft-highlight);
+}
+
+.balance-table .query {
+    width: 100%;
+    position: relative;
+    height: 40px;
+}
+
+.balance-table {
+    width: 480px;
+    height: 375px;
+    position: relative;
+    bottom: 0px;
+}
+
+.error-title {
+    font-size: 32px;
+    color: var(--bright-text);
+    font-weight: 600;
+}
+.criteria {
+    font-size: 16px;
+    color: var(--deactive-gray);
+    font-weight: 600;
+}
+.no-such-user {
+    text-align: left;
+    position: relative;
+    padding-left: 80px;
+    width: 100%;
+}
+
+.user-balance input.balance {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--unimportant-text)
+}
+
+.user-balance input.balance:hover {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.text-nav {
+    text-decoration: underline;
+    color: var(--deactive-gray);
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
+}
+.text-nav * {
+    padding: 0px 0px 0px 10px;
+    cursor: pointer;
+}
+
+.admin {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-left:  auto;
+    margin-right: auto;
+    justify-content: center;
+    width: 100% !important;
+}
+
+.admin-child {
+    margin: 10px;
+}
+
+.dot-selector {
+    display: flex;
+    flex-direction: row;
+}
+
+.dot-selector button {
+    border: 0;
+    outline: 0;
+    background-color: var(--grayed-out-text);
+    color: var(--text-color);
+    font-size: 24px;
+    height: 16px;
+    width: 16px;
+    margin: 0 10px;
+    border-radius: 50%;
+}
+
+.commissioner-requests {
+    padding-top: 10px;
+}

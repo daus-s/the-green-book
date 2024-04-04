@@ -122,9 +122,14 @@ export default function Profile() {
           <div className="email">
               {email}
           </div>
-          <div className="reset-password-link" style={isMobile?mobileStyle.passwordReset:{}}>
-            <a href="/reset-password">Change your password</a>
-          </div>
+          <ul className="tasks">
+            <li className="reset-password-link" style={isMobile?mobileStyle.passwordReset:{}}>
+              <a href="/reset-password">Change your password</a>
+            </li>
+            <li className="reset-password-link" style={isMobile?mobileStyle.passwordReset:{}}>
+              <a href="/commission">Become a commissioner</a>
+            </li>
+          </ul>
         </div>
       </div>
       {!isMobile&&choosePFP?<ProfileSelection close={setChoosePFP}/>:""} 

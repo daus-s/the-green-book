@@ -37,55 +37,55 @@ body {
   --big-logo-size: 200px;
 
   /* COLORS */ 
-  --big-O-color: #aeaeae;
-  --background-color: #121212; /* Dark background color */
-  --bet-background-color: #333;
+  --nav-link-color: #fff;
+  --input-text: #fff; /* White text color */
   --text-color: #ffffff; /* Light text color */
+  --button-text: #ffffff; /* Light text color for buttons */
+  --bright-text: #e0e0ea;
+  --grayed-out-text: #ddd;
+  --bet-text-color: #ccc;
+  --table-border: #C3C9CF;  /*inv(48, 54, 61)*/
+  --big-O-color: #aeaeae;
+  --unimportant-text: #aaa;
+  --deactive-gray: #aaa;
   --header-color: #4caf50; /* Dark green header text color */
   --button-background: #4caf50; /* Dark green button background color */
-  --button-text: #ffffff; /* Light text color for buttons */
   --button-hover: #45a049; /* Slightly darker green on hover */
-  --list-item-background: #333; /* Dark background color for list items */
   --link-color: #4caf50; /* Dark green link color */
   --link-hover: #45a049; /* Slightly darker green on hover */
-  --nav-link-color: #fff;
+  --darker-text: #158469;
   --nav-link-hover-color: #45a049;
   --cta-button-bg-color: #4caf50;
   --cta-button-hover-bg-color: #45a049;
-  --deactive-gray: #aaa;
-  --bet-text-color: #ccc;
-  --grayed-out-text: #ddd;
-  --bright-text: #e0e0ea;
+  --table-bg-green: #142814;
   --bet-option-button: #555d50;
   --bet-option-highlight: #737870;
-  --darker-text: #158469;
-  --input-background: #333; /* Darker gray background color */
-  --input-text: #fff; /* White text color */
   --form-input: #555; /* Border color */
+  --satan-minus-one: #555;
   --highlighted-dark: #444;
-  --error-color: #8e1717;
+  --bet-background-color: #333;
+  --list-item-background: #333; /* Dark background color for list items */
+  --input-background: #333; /* Darker gray background color */
+  --background-color: #121212; /* Dark background color */
   --soft-highlight:#666;
   --table-header-background: #222;
   --alt1-table-rows-bg: #525252;
+  --cool-dark: #28262b;
   --alt2-table-rows-bg: #28262b;
+  --half-bet-background-color: #181818;
   --table-bg: #0d1108;
-  --table-bg-green: #142814;
-  --table-bg-red: #281414;
-  --dark-red-highlight: ;
-  --dark-green-highlight: ;
-  --table-border: #C3C9CF;  /*inv(48, 54, 61)*/
-  --overlay: rgba(12,12,12,.5);
-  --almost-opaque: rgba(51,51,51,.75);
-  --danger: #ba1d24;
   --danger-input: #2f2626;
+  --table-bg-red: #281414;
+  --error-color: #8e1717;
+  --danger: #ba1d24;
   --delete-button: #cd0e31;
   --delete-button-hover: #dd1035;
-  --fancy: #c0de31;
-  --satan-minus-one: #555;
-  --cool-dark: #28262b;
+  --dark-red-highlight: ;
+  --dark-green-highlight: ;
+  --overlay: rgba(12,12,12,.5);
+  --almost-opaque: rgba(51,51,51,.75);
   --rotation-time: 1s;
-  --unimportant-text: #aaa;
-  --half-bet-background-color: #181818;
+  --fancy: #c0de31;
 }
 
 * {
