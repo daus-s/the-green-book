@@ -19,11 +19,12 @@ from pymongo import ASCENDING, DESCENDING
 # TODO: Change these
 _LINK: str = "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014"
 _YEAR: int = 2023 #datetime.datetime.now().year
+_PATH = load_dotenv(".py.env") and os.getenv('CHROME_PATH')
 
 def get_page_source() -> str:
     chrome_options = Options()
     chrome_options.add_argument("--headless") 
-    service = Service("/usr/local/bin/chromedriver") 
+    service = Service(_PATH) 
     driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.get(_LINK)
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
