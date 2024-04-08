@@ -40,6 +40,27 @@ def get_page() -> bytes | None:
     else:
         return None
     
+def test(): 
+    #getenv, gettable, getpagesource, connectmongo
+    err_ms = ['failed to procure username', 'failed to procure password', 'failed to fetch pagesource', 'failed to parse table', 'failed to connect to mongoDB']
+    try:
+        i = 0
+        assert env()['username'] is not None    
+        i+=1
+        assert env()['password'] is not None
+        i+=1
+        ps = get_page_source()
+        assert len(ps) > 0
+        i+=1
+        assert get_table(ps) != []
+        i+=1
+        assert connect_mongo() is not None
+        i+=1
+    except AssertionError: 
+        print('failed testing')
+        print(err_ms[i])
+        return False
+
 def get_table(content: str) -> list: 
     html = soup(content, "html.parser")
     table = html.find("table")
@@ -126,8 +147,10 @@ def main(args: list):
     elif len(args) == 2:
         if args[1] == '--index':
             index()
+        elif args[1] == '--test':
+            test()
         else: 
-            print(f"Only --index is supported.\nSyntax:\n\t· python scrape_masters.py --index\n")
+            print(f"Only --index and --test are supported.\nSyntax:\n\t· python scrape_masters.py --index\n")
 
     elif len(args) == 1:
         insert()
