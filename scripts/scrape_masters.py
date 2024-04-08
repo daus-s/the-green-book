@@ -13,6 +13,8 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from pymongo.collection import Collection
 from pymongo.results import InsertManyResult
+from pymongo.cursor import Cursor
+from pymongo import ASCENDING, DESCENDING
 
 # TODO: Change these
 _LINK: str = "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014"
@@ -83,6 +85,19 @@ def insert_mongo(table: Collection, ls: list) -> int:
         return 201
     else:
         return 500
+    
+
+def index(key: str='name', asc: bool=True):
+    table: Collection = connect_mongo()
+    order = DESCENDING
+    if asc:
+        order = ASCENDING
+
+    sorted_documents: Cursor = table.find().sort(key, order)
+    for i in range(len(sorted_documents.distinct("_id"))):
+        document = sorted_documents[i]
+        table.update_one({"_id":document["_id"]}, {"$set": {"index": int(i%255)}})
+    pass
 
 def insert():
     table: Collection = connect_mongo()
@@ -106,7 +121,13 @@ def main(args: list):
                 year = int(args[2])
                 delete_mongo(year)
             except ValueError:
-                print(f"Error: {args[2]} is not a valid integer.")
+                print(f"Usage of the --delete flag requires an integer to delete the specific year\nSyntax:\n\t· python scrape_masters.py --delete <year>\nError: {args[2]} is not a valid integer.\n")
+    elif len(args) == 2:
+        if args[1] == '--index':
+            index()
+        else: 
+            print(f"Only --index is supported.\nSyntax:\n\t· python scrape_masters.py --index\n")
+
     elif len(args) == 1:
         insert()
 
