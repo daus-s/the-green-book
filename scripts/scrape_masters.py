@@ -88,7 +88,7 @@ def get_table(content: str) -> list:
     
 
 def env():
-    load_dotenv(".py.env")
+    load_dotenv(".env")
     mongo_db_write_password = os.getenv("MONGO_WRITE_PWD")
     mongo_db_write_username= os.getenv("MONGO_WRITE_USR")
     return {'username': mongo_db_write_username, 'password': mongo_db_write_password}
