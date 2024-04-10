@@ -8,7 +8,6 @@ export default async function handler(req, res) {
                                 .collection("masters")
                                 .find({})
                                 .toArray();
-        console.log(golfers);
         res.json(golfers);
     } catch (e) {
         console.error(e);

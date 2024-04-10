@@ -39,4 +39,4 @@ function allButThese(list, elements) {
     }
 }
 
-module.exports = { allButThis }
+module.exports = { allButThis, allButThese }

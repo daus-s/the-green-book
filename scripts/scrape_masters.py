@@ -19,7 +19,7 @@ from pymongo import ASCENDING, DESCENDING
 # TODO: Change these
 _LINK: str = "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014"
 _YEAR: int = 2023 #datetime.datetime.now().year
-_PATH = load_dotenv(".py.env") and os.getenv('CHROME_PATH')
+_PATH = load_dotenv(".env") and os.getenv('CHROME_PATH')
 
 def get_page_source() -> str:
     chrome_options = Options()
