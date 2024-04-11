@@ -74,6 +74,11 @@ def get_table(content: str) -> list:
             if len(cols) == 10 and not cols[0] in ['CUT', 'WD', 'Pos']:
                 player = {}
                 player['name'] =  cols[2]
+                try:
+                    thru = int(cols[4])
+                except ValueError:
+                        thru = 0 
+                player['thru'] = thru
                 player['rd1'] =  int(cols[6].replace('E', '0'))
                 player['rd2'] =  int(cols[7].replace('E', '0'))
                 player['rd3'] =  int(cols[8].replace('E', '0'))
