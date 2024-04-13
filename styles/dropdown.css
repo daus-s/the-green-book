@@ -1,0 +1,54 @@
+.drop-down-item {
+    background-color: var(--bet-background-color);
+    width: 100%;
+    max-width: 375px;
+    height: 71px;
+    border: 1px solid var(--table-border);
+    padding-right: 25px;
+    position: relative;
+    margin: 1px 0px;
+}
+
+.drop-down-selector {
+    max-width: 100%;
+    height: fit-content;
+    max-height: 355px;
+    background-color: var(--bet-background-color);
+}
+
+.drop-down-selector .scroll-container {
+    position: relative;
+    /* width: 392px; */
+}
+
+.player-selector {
+    position: relative;
+}
+.drop-down-selector .selected {
+    background-color: var(--soft-highlight);
+}
+
+.dda {
+    width: 20px;
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    user-select: none;
+}
+
+.dda.left {
+    transform: rotate(90deg);
+}
+
+.dda.down {
+    transform: rotate(0deg);
+}
+.scroll-container .drop-down-item{
+    padding-right: 9px;
+}
+
+.scroll-container {
+    position: relative;
+    /* display: flex;
+    flex-direction: column; */
+}

@@ -1,0 +1,300 @@
+.masters-place-bet-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.golfer .strokes {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-weight: 600;
+}
+.golfer .strokes span {
+    padding-right: 5px;
+}
+
+.golfer .golfer-name {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.alternates, .first-team {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: 119px;
+    margin: 0px 0px 40px 0px;
+    width: calc(100vw - 30px);
+    max-width: 1580px;
+}
+
+.masters-place-bet-form .number {
+    color: var(--unimportant-text);
+    font-weight: 600;
+    width: calc(100% - 20px);
+    text-align: left;
+}
+
+.player-selector {
+    height: 100%;
+}
+
+.picks.title {
+    padding-left: 10px;
+    font-size: 48px;
+    text-align: left;
+    font-weight: 600;
+    align-self: flex-start;
+    color: var(--bright-text);
+}
+
+.masters-place-bet-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .masters-place-bet-form .form {
+    width: 80%;
+    max-width: 800px; 
+    background-color: var(--input-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .form-header {
+    height: 60px;
+    border-radius: 30px;
+    background-color: var(--nav-link-hover-color); /* Your color variable */
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+  }
+  
+  .tab-radio {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .tab {
+    background-color: var(--form-input);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tab:hover {
+    background-color: var(--nav-link-hover-color); /* Hover color */
+  }
+  
+  .form-body {
+    padding: 20px;
+    display: flex;
+  }
+  
+  .cta-button {
+    width: 100%;
+    max-width: 200px;
+    padding: 12px 24px;
+    background-color: var(--nav-link-hover-color); /* Button color */
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: var(--darker-text); 
+  }
+  
+
+.golfer.display {
+    /*let me cook*/
+    border: 1px solid var(--table-border);
+    width: 269px;
+    margin: 0px 10px;
+}
+
+.golfer.display .golfer-name {
+    font-size: 24px;
+    height: 28px;
+}
+.golfer.display .strokes {
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+}
+.team .starters, .team.alt-disp {
+    display: flex;
+    flex-direction: column;
+}
+
+.box-score {
+    border: 1px solid var(--table-border);
+    height: 20px;
+    width: 26px;
+    text-align: end;
+}
+
+.box-score.wide {
+    aspect-ratio: 2/3;
+    width: 34px;
+}
+
+.team {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.team-title {
+    text-align: left;
+    width: 267px;
+    padding-left: 10px;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--bright-text);
+}
+
+.actions-golf {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 20px - 289px);
+}
+
+.opponent {
+    position: relative;
+    transform: translateX(56px);
+    display: flex;
+    font-size: 36px;
+    color: var(--grayed-out-text);
+    font-weight: 500;
+    background-color: var(--form-input);
+    height: 40px;
+    width: fit-content;
+    max-width: calc(100% - 56px);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border-radius: 20px;
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-right: 16px;
+    align-self: flex-start;
+    margin: 0px 4px 4px 0px;
+}
+
+.opponent .email {
+    font-size: 16px;
+}
+
+.opponent .text-fields {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    padding-left: 5px;
+}
+
+.opponent .username {
+    transform: translateY(-2px);
+}
+.actions-golf .cta-button {
+    position: absolute;
+    bottom: 0px;
+}
+
+.team-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 291px;
+    margin-bottom: 10px;
+    padding: 0px 16px;
+}
+
+.team-title {
+    border-radius: 15px;
+    width: fit-content;
+    padding: 1px 7px;
+}
+
+
+.league.placeholder-div, .group.league {
+    border: 1px solid var(--table-border);
+    position: relative;
+}
+
+.your-group-selector .league {
+    width: 100%;
+}
+
+.your-group-selector {
+    width: 72%;
+}
+
+.group.league {
+    font-size: 28px;
+    height: 56px;
+    background-color: var(--input-background);
+    padding: 14px;
+    text-align: left;
+    width: 100%;
+}
+
+
+
+.your-group-selector .scroll-container {
+    max-width: 100%;
+    left: 0px;
+    right: 0px;
+    max-height: 168px;
+    height: 168px;
+    top: 56px !important;
+    position: absolute;
+}
+
+.your-group-selector .drop-down-selector {
+    width: 100%;
+    position: relative;
+}
+
+.projection {
+    font-weight: 500;
+    font-size: 22px;
+    position: relative;
+    top: 28%;
+}
+
+.projection .number {
+    font-weight: 600;
+    font-size: 28px;
+}
+
+.player-selector.error-wrapper {
+    height: calc(100% - 44px);
+}
+
+.opponent.error-wrapper {
+    background-color: var(--table-header-background);
+}
+
+.opponent .error-message {
+    position: relative;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}

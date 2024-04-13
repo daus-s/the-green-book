@@ -158,7 +158,7 @@ export default function BalanceTable() {
     return (
         <div className="balance-table admin-child" style={isMobile?{...mobileStyles.table}:{}}>
             <div className="query">
-                <img className="search-icon" src="search.png" />
+                <img className="search-icon" src="/search.png" />
                 <input 
                     type="text"
                     value={query}

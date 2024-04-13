@@ -78,7 +78,7 @@ export default function Requests({groupID, groupName, setCount}) {
     return (
         <>
             <div className="req-nav-div" style={isMobile?{width:'100%'}:{}}>
-                <div className="left" onClick={()=>setX(prv=>(prv-1)%rs.length)}><img src="left.png" style={isMobile?{width: '20px', height:'20px'}:{}}/></div>
+                <div className="left" onClick={()=>setX(prv=>(prv-1)%rs.length)}><img src="/left.png" style={isMobile?{width: '20px', height:'20px'}:{}}/></div>
                 <div className="request"  style={isMobile?{width:'235px'}:{}}>
                     {rs.length?
                         <div className="user" style={isMobile?{width:'100%'}:{}}>
@@ -101,14 +101,14 @@ export default function Requests({groupID, groupName, setCount}) {
                     </div>
                     }
                 </div>
-                <div className="right" onClick={()=>setX(prv=>(prv+1)%rs.length)}><img src="right.png"/></div>
+                <div className="right" onClick={()=>setX(prv=>(prv+1)%rs.length)}><img src="/right.png"/></div>
             </div>
             {
             rs.length
             ?
             <div className="decision-box" style={isMobile?{paddingLeft: '0px', width:'100%', padding: '10px 32.5px 2px 32.5px'}:{}}>
-                <div className="accept" onClick={()=>handleAxion('accept')}><img src="accept.png"  title="Accept"/><div className="text">Accept</div></div>
-                <div className="reject" onClick={()=>handleAxion('reject')}><img src="remove.png" title="Reject"/><div className="text">Reject</div></div>
+                <div className="accept" onClick={()=>handleAxion('accept')}><img src="/accept.png"  title="Accept"/><div className="text">Accept</div></div>
+                <div className="reject" onClick={()=>handleAxion('reject')}><img src="/remove.png" title="Reject"/><div className="text">Reject</div></div>
             </div>
             :
             <></>

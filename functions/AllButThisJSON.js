@@ -28,7 +28,7 @@ function allButThis(list, element) {
 
 function allButThese(list, elements) {
     if (!Array.isArray(list) || !Array.isArray(elements)) {
-        throw Error('all but these requires two lists');
+        throw Error('allButThese requires two lists');
     }
     else {
         if (elements.length) {

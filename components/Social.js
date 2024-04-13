@@ -131,9 +131,9 @@ export default function Social() {
     
     return (
         <div className="page social">
-                <div className='search-groups search-container' style={isMobile?{width: elementWidth}:{}}>
-                    <input className="search-bar" placeholder="search groups..." value={query} onChange={(e)=>setQuery(e.target.value)}/>
-                    <img style={{height: '32px'}} src="search.png"/>
+            <div className='search-groups search-container' style={isMobile?{width: elementWidth}:{}}>
+                <input className="search-bar" placeholder="search groups..." value={query} onChange={(e)=>setQuery(e.target.value)}/>
+                <img style={{height: '32px'}} src="/search.png"/>
             </div>
             <div className="social-results" style={isMobile?{width: elementWidth, marginTop: 0}:{}}>
                 {results&&results.length?results.map((group, index)=>{ return <GroupElement group={group} key={index}/>;}):

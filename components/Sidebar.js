@@ -22,7 +22,7 @@ function SidebarProfile({meta, user}) {
         return (
             <div className='sidebar-profile'>
                 <div className='pfp-box'>
-                    <img className='big' src='greenbook.jpg' onClick={()=>window.location.href='/'} />
+                    <img className='big' src='/greenbook.jpg' onClick={()=>window.location.href='/'} />
                 </div>
             </div>
         );
@@ -120,7 +120,7 @@ export default function MobileFooter() {
     return (
         <>
             <div className="mobile-menu-button">
-                <img src="menu.png" alt="mobile menu" onClick={()=>setSidebarVis(true)}/>
+                <img src="/menu.png" alt="mobile menu" onClick={()=>setSidebarVis(true)}/>
             </div>
             {sidebar ? <Sidebar close={()=>setSidebarVis(false)} /> : <></>}
         </>

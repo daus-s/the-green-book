@@ -32,7 +32,7 @@ export default function ForgotPassword() {
 
     return (
         <div className="forgot-password page">
-            <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
+            <img src="/greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
             <form className="forgot-password-form" onSubmit={(e)=>{sendResetEmail(e)}} style={isMobile?mobileStyle.form:{}}>
                 <div className="input" style={isMobile?mobileStyle.input:{}}>
                     <label>Email</label>

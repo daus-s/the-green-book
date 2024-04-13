@@ -225,13 +225,13 @@ export default function CreateBet(props) {
                 </td>
                 {
                   index>1?
-                  <div className="remove-option"><button className="remove-button" onClick={(e)=>removeOdds(e, index)}><img src="remove.png" alt="remove the option. constraint is a minimum of two options per bet"></img></button></div>:
+                  <div className="remove-option"><button className="remove-button" onClick={(e)=>removeOdds(e, index)}><img src="/remove.png" alt="remove the option. constraint is a minimum of two options per bet"></img></button></div>:
                   <div/>
                   }
               </tr>
             ))
           }
-          <div className="add-option"><button className="add-button" onClick={addOdds}><img src="add.png"/><div className="add-btn-txt" style={isMobile?mobileStyle.table:{}}>Add option</div></button></div>
+          <div className="add-option"><button className="add-button" onClick={addOdds}><img src="/add.png"/><div className="add-btn-txt" style={isMobile?mobileStyle.table:{}}>Add option</div></button></div>
           </tbody>
         </table>
       </div>

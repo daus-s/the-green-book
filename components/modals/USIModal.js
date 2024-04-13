@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import { supabase } from "../../functions/SupabaseClient";
 import { useModal } from '../providers/ModalContext';
 import { useMobile } from '../providers/MobileContext';
+import UserSearchResult from '../UserSearchResult';
 
 const USIModal = ({ isOpen, onCancel, onConfirm}) => {
     const { failed } = useModal();
@@ -98,7 +99,7 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
                     {user&&user.username?user.username:''}
                 </div>
                 <button className='add' onClick={handleClick}>
-                    <img src="insert.png" style={{height: '48px', padding: '8px'}}/>
+                    <img src="/insert.png" style={{height: '48px', padding: '8px'}}/>
                 </button>
             </form>
             <div className='search-container' style={isMobile?{...mobileStyle.child, ...mobileStyle.noTransfrom}:{}}>
@@ -109,13 +110,13 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
                     onChange={(e)=>setQuery(e.target.value)}
                     style={isMobile?mobileStyle.child:{}}
                 />
-                <img style={{height: isMobile?'20px':'32px'}} src="search.png"/>
+                <img style={{height: isMobile?'20px':'32px'}} src="/search.png"/>
             </div>
             <div className="scroll-container" style={isMobile?mobileStyle.scroll:{}}>
                 <div className="content">
                     {/* {JSON.stringify(results)} */}
                     {query&&results&&results.map((r, index)=>{
-                        return <SearchResult r={r} key={index} select={setUser}/>;
+                        return <UserSearchResult r={r} key={index} select={setUser}/>;
                     })}
                 </div>
             </div>
@@ -123,23 +124,6 @@ const USIModal = ({ isOpen, onCancel, onConfirm}) => {
       </Modal>
     );
 };
-
-
-
-const SearchResult = ({r, select}) => {
-    const {isMobile} = useMobile();
-    return (
-        <div className='result' onClick={()=>select(r)} style={isMobile?mobileStyle.result:{}}>
-            <div className='result-pfp'>
-                <img src={r.pfp_url} style={{height: isMobile?'55px':'60px', borderRadius:'50%'}}/>
-            </div>
-            <div className='text-fields'>            
-                <div className='username'>{r.username}</div>
-                <div className='email'>{r.email}</div>
-            </div>
-        </div>
-    )
-}
   
 export default USIModal;
 

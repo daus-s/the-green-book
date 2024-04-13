@@ -16,6 +16,6 @@ export default function CommissionerShield({ style }) {
         style.height = style.width;
     }
     return (
-        <img src="shield.png" style={{ ...preStyle, ...style }}/>
+        <img src="/shield.png" style={{ ...preStyle, ...style }}/>
     );
 }

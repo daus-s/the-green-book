@@ -1,0 +1,26 @@
+.search input.search-bar {
+    background-color: var(--input-background);
+    color: var(--bet-text-color);
+    width: 100%;
+    font-size: 24px;
+}
+
+.search .results-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 216px;
+    margin-left: 10px;
+    transform: translateX(18px); /*hack it together shift left 18px to match the search continaer idk how to override that*/
+}
+
+.results-container {
+    position: absolute;
+}
+
+.results-container .text-fields {
+    text-align: left;
+}
+
+.search .results-container {
+    z-index: 2;
+}

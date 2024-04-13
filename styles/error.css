@@ -1,0 +1,17 @@
+.error-wrapper {
+    border: 1px solid var(--error-color) !important; 
+    box-shadow: 0 0 12px var(--error-color) !important;
+
+}
+
+.error-message {
+    position: relative; 
+    bottom: -8px; 
+    left: 0px; 
+    display: flex; 
+    justify-content: space-around; 
+    width: 100%; 
+    color: var(--error-color); 
+    user-select: none;
+    width: 100%;
+}

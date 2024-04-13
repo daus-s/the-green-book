@@ -7,6 +7,7 @@ function random() {
 }
 /**
  * returns the combination of 4 integers bounded 0, 255 inclusive inclusive
+ * when called on a result of partition it must be "destructured"
  *        i1       i2       i3       i4
  *        aaaaaaaa bbbbbbbb cccccccc dddddddd
  * result ________|________|________|________
@@ -19,6 +20,7 @@ function random() {
 function coerce(i1, i2, i3, i4) {
     const bounded = (i) => i < 256 && i > -1
     if (!(bounded(i1) && bounded(i2) && bounded(i3) && bounded(i4))) {
+        console.error(`integers for coersion must be between 0 and 255 inclusive inclusive\ni:=[0, 255]\n • i1=${i1}\n • i2=${i2}\n • i3=${i3}\n • i4=${i4}`)
         throw Error('integers for coersion must be between 0 and 255 inclusive inclusive\ni:=[0, 255]')
     }
     //return single number

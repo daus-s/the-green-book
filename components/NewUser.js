@@ -88,7 +88,7 @@ export default function NewUser() {
 
   return (
     <div className="new-user page no-header">
-      <img src="greenbook.jpg" alt="The Green Book logo." className="biglogo"/>
+      <img src="/greenbook.jpg" alt="The Green Book logo." className="biglogo"/>
       <form onSubmit={handleSubmit} style={isMobile?mobileStyle.input:{}}>
         <div
           style={{ margin: "10px", display: "flex", flexDirection: "column" , ...isMobile?mobileStyle.input:{}}}

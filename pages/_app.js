@@ -32,6 +32,11 @@ import "../styles/commissioners.css";
 import '../styles/loading.css';
 import '../styles/admin.css';
 import '../styles/commission.css';
+import '../styles/dropdown.css';
+import '../styles/masters.css';
+import '../styles/search.css';
+import '../styles/error.css';
+
 
 export default function App({ Component, pageProps }) {
   

@@ -155,7 +155,7 @@ p.modal-data {
     background-color: var(--delete-button-hover);
 }
 
-.modal input.search-bar {
+input.search-bar {
     outline: none;
     border: 2px solid var(--highlighted-dark);
     font-size: 48px;
