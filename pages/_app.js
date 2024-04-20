@@ -36,6 +36,7 @@ import '../styles/dropdown.css';
 import '../styles/masters.css';
 import '../styles/search.css';
 import '../styles/error.css';
+import '../styles/mastersdash.css';
 
 
 export default function App({ Component, pageProps }) {

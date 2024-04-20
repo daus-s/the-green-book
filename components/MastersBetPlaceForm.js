@@ -6,12 +6,13 @@ import { coerce, partition } from "../functions/RandomBigInt";
 import { getGolfers } from "../functions/GetGolfers";
 import { useMobile } from "./providers/MobileContext";
 import { supabase } from "../functions/SupabaseClient";
+import { useModal } from "./providers/ModalContext";
 import { useAuth } from "./providers/AuthContext";  
 import MastersInfoModal from "./modals/MastersInfoModal";
 import UserSearchResult from "./UserSearchResult";
 import DataDropDown from "./DataDropDown";
+import Opponent from "./Opponent";
 import Search from "./Search";
-import { useModal } from "./providers/ModalContext";
 
 function Group({data: group , onClick, display, direction, selected}) {
     if (group) {
@@ -31,33 +32,6 @@ function Group({data: group , onClick, display, direction, selected}) {
     }
 }
 
-function Opponent({user, error}) {
-    if (user) {
-        return (
-            <div className="opponent">
-                <img src={user?.pfp_url} style={{borderRadius: '50%', height: '36px'}}/>
-                <div className="text-fields">
-                    <div className="username">
-                        {user?.username}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-    else {
-        return (
-            <div className={"placeholder-div"+(error?" error-wrapper opponent":"")} style={{height: '40px', width: '60%'}}>
-            {error?
-                <div className="error-message" style={{fontSize :'18px', color: 'var(--danger)' }}>
-                    Select an opponent
-                </div>
-                :
-                <></>
-           }
-            </div>
-        );
-    }
-}
 
 function PickNo({num}) {
     return (
@@ -259,7 +233,7 @@ export default function MastersPlaceBetForm({}) {
                     }
                     else {
                         succeed();
-                        window.location.href = '/masters';
+                        window.location.href = '/pga';
                     }
                 }
                 else {
@@ -268,7 +242,7 @@ export default function MastersPlaceBetForm({}) {
             } 
             else {
                 succeed();
-                window.location.href = '/masters';
+                window.location.href = '/pga';
             }
         } 
         else if (mode==='Opponent') {
@@ -279,13 +253,13 @@ export default function MastersPlaceBetForm({}) {
             const players = coerce(p1.index, p2.index, p3.index, p4.index);
             const alternates = coerce(alt1.index, alt2.index, alt3.index, alt4.index);
 
-            console.log('columns');
-            console.log('userID:', meta.publicID);
-            console.log('players:', players);
-            console.log('alternates:', alternates);
-            console.log('opponentID:', opp.id); 
+            // console.log('columns');
+            // console.log('userID:', meta.publicID);
+            // console.log('players:', players);
+            // console.log('alternates:', alternates);
+            // console.log('opponentID:', opp.id); 
 
-            const { error } = await supabase.from('').insert({public_id: meta.publicID, 
+            const { error } = await supabase.from('masters_opponents').insert({public_id: meta.publicID, 
                                                               players: players, 
                                                               alternates: alternates, 
                                                               oppie: opp.id
@@ -293,16 +267,26 @@ export default function MastersPlaceBetForm({}) {
 
             if (error) {
                 if (error.code == 23505) {
-                    const { error: e } = await supabase.from('').update({public_id: meta.publicID, 
+                    const { error: e } = await supabase.from('masters_opponents').update({public_id: meta.publicID, 
                                                                          players: players, 
                                                                          alternates: alternates, 
                                                                          oppie: opp.id})
                                                                 .eq('public_id', meta.publicID)
                                                                 .eq('oppie', opp.id);
+                    if (!e) {
+                        succeed();
+                        window.location.href = '/pga';
+                    } else {
+                        failed(error.message);
+                    }
+                } 
+                else {
+                    failed(error.message);
                 }
-            }
-            if (error) {
-                window.location.href = '/masters';
+
+            } 
+            else  {
+                window.location.href = '/pga';
             }
         }
     }
@@ -376,7 +360,7 @@ export default function MastersPlaceBetForm({}) {
                             }
                         </div>
                     </div>
-                    <div className="actions-golf">
+                    <div className="actions-golf" style={mode==='League'?{marginTop: '40px'}:{}}>
                         {mode=='Opponent'?
                             <>
                                 <Opponent user={opp} error={oppErr&&!opp}/>

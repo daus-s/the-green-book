@@ -3,8 +3,6 @@ import { supabase } from "../functions/SupabaseClient";
 import { useMobile } from "./providers/MobileContext";
 
 async function doQuery(table, query, fields)  { //or ilike?
-    console.log(table)
-    console.log()
     let s = '';
     for (let i = 0; i < fields.length; ++i) {
         s += fields[i] + '.ilike.' + query + '*';
@@ -12,7 +10,6 @@ async function doQuery(table, query, fields)  { //or ilike?
             s += ',';
         }
     }
-    console.log(s);
     const { data, error } = await supabase.from(table).select().or(s);
     if (data) {
         return data;
@@ -21,7 +18,7 @@ async function doQuery(table, query, fields)  { //or ilike?
         return [];
     } 
     else {
-        console.log('u didnt await correctly')
+        console.error('u didnt await correctly')
     }
 }
 // TODO: implement the USI cache in this area here
@@ -30,10 +27,10 @@ export default function Search({fields, table, name, JSX, onSelect}) {
         throw Error('JSX paramater must be a JSX element');
     }
     if (typeof onSelect !== 'function') {
-        throw Error('onSelect must be a function that takes a single parameter called data.')
+        throw Error('onSelect must be a function that takes a single parameter called data.');
     }
     if (!Array.isArray(fields) || !(typeof table == 'string')) {
-        throw Error('Search component requires a list and a table to query from')
+        throw Error('Search component requires a list and a table to query from');
     }
     const [results, setResults] = useState([]);
     const [query, setQuery] = useState(undefined);

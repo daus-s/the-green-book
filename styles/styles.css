@@ -56,6 +56,7 @@ body {
   --darker-text: #158415;
   --nav-link-hover-color: #45a049;
   --cta-button-bg-color: #4caf50;
+  --dark-green: #117711;
   --cta-button-hover-bg-color: #45a049;
   --table-bg-green: #142814;
   --bet-option-button: #555d50;
@@ -86,11 +87,15 @@ body {
   --almost-opaque: rgba(51,51,51,.75);
   --rotation-time: 1s;
   --fancy: #c0de31;
+  --masters-gold: #f6e200;
   --golf-trash: #dd1010;
   --golf-bad: #c05454;
   --golf-mid: #8a8a8a;
   --golf-good: #54c054;
   --golf-great: #148b14;
+  --gold: ;
+  --silver: ;
+  --bronze: ;
 }
 
 * {

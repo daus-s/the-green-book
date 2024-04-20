@@ -9,7 +9,7 @@ function allButThis(list, element) {
         throw Error('not yet implemented');
     }
     if (typeof element === "number") {
-        throw Error('not yet implemented');
+        return list.filter(item=>element!==item);
     }
     if (typeof element === "object") {
         return list.filter(item=>JSON.stringify(item)!==JSON.stringify(element));

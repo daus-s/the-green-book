@@ -1,3 +1,6 @@
+const { allButThis } = require("./AllButThisJSON");
+const { partition } = require("./RandomBigInt");
+
 function figureOutCurrentRound(data) {
     let rd1 = typeof data.rd1 === 'number';
     let rd2 = typeof data.rd2 === 'number';
@@ -16,13 +19,6 @@ function figureOutCurrentRound(data) {
         return 4; //end
     return 0;
 }
-/* 
-  --golf-trash: #dd1010;
-  --golf-bad: #c05454;
-  --golf-mid: #8a8a8a;
-  --golf-good: #54c054;
-  --golf-great: #148b14;
-*/
 /**
  * the number i is the number of score of the current round
  * @param {number} i 
@@ -83,13 +79,12 @@ function getGolferProjection(p) {
     let rds = [p?.rd1, p?.rd2, p?.rd3, p?.rd4];
     let score = 0;
     let count = 0;
-    let x = true
+    let x = true;
     while (x&&count<rds.length) {
         x = exists(rds[count])
         score += x?rds[count]:0;
         count += x?1:0;
     }
-    
     return (score - (72*count) * (4/count));
 }
 
@@ -97,4 +92,112 @@ function getTeamProjection(p1, p2, p3, p4) {
     return getGolferProjection(p1)+getGolferProjection(p2)+getGolferProjection(p3)+getGolferProjection(p4)
 }
 
-module.exports = { figureOutCurrentRound, goodness, goodnessStr, getGolferProjection, getTeamProjection }
+function scoreFromGolfer(index, golfers) {
+    if (!Array.isArray(golfers)) {
+        throw Error('golfers must be an array of json like objects schema...');
+    }
+    for (let i = 0; i < golfers.length; ++i) {
+        const golfer = golfers[i]
+        if (golfer?.index===index) {
+            return golfer?.rd1 + golfer?.rd2 + golfer?.rd3 + golfer?.rd4;
+        }
+    }
+    throw Error('the golfer doesnt exist in the set provided'); // the golfer doesnt exist in the data set provided, maybe i should throw here
+}
+//TESTIES
+/**
+ * 
+ * @param {number} final 
+ * @param {JSON} tourney 
+ * @returns 
+ */
+function getTeamScore(final, tourney) {
+    if (!final||!tourney) {
+        throw Error('no data provided');
+    }
+    const gs = partition(final);
+    //we have our indices
+    let score = 0;
+    for (let i = 0; i < gs.length; ++i) {
+        try {
+            // console.log(gs[i], scoreFromGolfer(gs[i], tourney))
+            score += scoreFromGolfer(gs[i], tourney);
+        }
+        catch (Error) {
+            score += 0; //do i want to add zero?
+        }
+    }
+    return score - 4*288; // factor for 4 golfers, and then 288 is par
+}
+/**
+ * 
+ * @param {number} players1 
+ * @param {number} alternates1 
+ * @param {number} players2 
+ * @param {number} alternates2 
+ * @returns 
+ */
+function evaluateTeamAndAlternate(players1, alternates1, players2, alternates2) {
+    let queue1 = [].concat(partition(players1).concat(partition(alternates1))).reverse(); //this is now a list i do this so it is easier to see functions
+    let queue2 = [].concat(partition(players2).concat(partition(alternates2))).reverse(); //now the first players are on the back of the list
+
+    const cut1 = [];
+    const cut2 = [];
+    for (let turn = 0; turn < 8; ++turn) {
+        //pick players
+        if (turn % 2) {
+            //second's picks
+            const player = queue2.pop();
+            cut2.push(player);
+            queue1 = allButThis(queue1, player);
+            queue2 = allButThis(queue2, player);
+        } else {
+            //first's picks
+            const player = queue1.pop();
+            cut1.push(player);
+            queue1 = allButThis(queue1, player);
+            queue2 = allButThis(queue2, player);
+        }
+    }
+    return [cut1, cut2]
+}
+
+//i think this function does too much.
+//it should take 2 GOLFBet objects and calculate from there.
+//just like it has the toruney data passed in -- removing the dependency on supabase
+function determineOrderAndEvaluate(fv, tb) {
+    //fv is your picks
+    //tb is opp picks
+    if (!fv || !tb) {
+        throw Error('missing at least one bet from calling this');
+    }
+    if (fv.public_id!==tb.oppie||fv.oppie!==tb.public_id) {
+        throw Error('mismatched bets. try again h8r.')
+    }
+
+    let user, opp;
+    if (fv.public_id < fv.oppie) { 
+        [user, opp] = evaluateTeamAndAlternate(...[fv.players, fv.alternates], ...[tb.players, tb.alternates]);
+    } 
+    else if (fv.public_id > fv.oppie) {
+        [user, opp] = evaluateTeamAndAlternate(...[tb.players, tb.alternates], ...[fv.players, fv.alternates]);
+    }
+    else {
+        throw Error('the player is playing themselves?');
+    }
+    return {user: user, opp: opp}
+}
+
+async function getOrderOfBrackets(league) {
+
+}
+
+async function getPosition(userId, league) {
+
+}
+
+
+
+
+
+module.exports = { figureOutCurrentRound, goodness, goodnessStr, getGolferProjection, getTeamProjection, scoreFromGolfer, getTeamScore, evaluateTeamAndAlternate, determineOrderAndEvaluate }

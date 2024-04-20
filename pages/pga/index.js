@@ -1,9 +1,9 @@
-import MastersPlaceBetForm from "../../components/MastersBetPlaceForm";
+import MastersDashboard from "../../components/MastersDashboard";
 
 export default function MastersPage() {
     return (
         <div className="masters page">
-            <MastersPlaceBetForm />
+            <MastersDashboard />
         </div>
     );
 }
