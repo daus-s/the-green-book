@@ -21,7 +21,7 @@ describe('scoreFromGolfer', () => {
     it('calculate each golfer score by index', ()=> {
         expect(scoreFromGolfer(18, data)).toBe(276);
     })
-
+  })
 describe('test daus vs chadlike', () => {
     const data = [
         {
@@ -793,5 +793,4 @@ describe('test daus vs chadlike', () => {
         expect(getTeamScore(coerce(...[18, 2, 19, 3]), data)).toBe(-15);
         expect(getTeamScore(coerce(...[30, 10, 9, 31]), data)).toBe(2);
     })
-})
 })

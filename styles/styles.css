@@ -93,9 +93,9 @@ body {
   --golf-mid: #8a8a8a;
   --golf-good: #54c054;
   --golf-great: #148b14;
-  --gold: ;
-  --silver: ;
-  --bronze: ;
+  --gold: #ffd700;
+  --silver: #c0c0c0;
+  --bronze: #cd7f32;
 }
 
 * {

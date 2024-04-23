@@ -3,12 +3,13 @@ import { useModal } from "./providers/ModalContext";
 import { useEffect, useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { encode } from "../functions/Encode";
-import { determineOrderAndEvaluate, getTeamScore, goodnessStr } from "../functions/GolfFunctions";
+import { determineOrderAndEvaluate, getPosition, getTeamScore, goodnessStr } from "../functions/GolfFunctions";
 
 import Loading from "./Loading";
 import Link from "next/link";
 import { getGolfers } from "../functions/GetGolfers";
 import { coerce, partition } from "../functions/RandomBigInt";
+import { podiumColors } from "../functions/OnTheH8rs";
 
 export default function MastersDashboard({succFlag}) {
     const [golfers, setGolfers] = useState(undefined);
@@ -90,7 +91,7 @@ export default function MastersDashboard({succFlag}) {
                 </div>
                 <div className="your-1v1-bets">
                     <div className="msb-header">
-                        Gentleman's bets
+                        Gentlemen's bets
                     </div>
                     <div className="m-1v1-bets">
                         {
@@ -108,6 +109,8 @@ export default function MastersDashboard({succFlag}) {
 }
 
 function BetLink({bet, tourney}) {
+    console.log('bet:', JSON.stringify(bet));
+
     if (!tourney) {
         throw Error('how are we gonna represent golf data without data...\nallchat: ?');
     }
@@ -116,7 +119,7 @@ function BetLink({bet, tourney}) {
     const ext = (bet.oppie?'@':'$') + (encode(aid)); //@ is one on one bet, $ is league bet
     const [anti, setAnti] = useState(undefined); // this is either a league object or a public_user object
     const [teams, setTeams] = useState(undefined);
-
+    const {meta} = useAuth();
 
     const targetDate = new Date('2024-04-13T04:59:00'); // update this to automatically set the cut line this should be stored in the db in a new relation
     const now = Date.now();
@@ -124,8 +127,10 @@ function BetLink({bet, tourney}) {
     const message = now < targetDate.getTime() && teams?.opp ? <p title="You will be refunded any tokens spent">No submission</p> : <div>idk some hourglass place holder or some ascii art</div>;
     useEffect(()=>{
         const getData = async () => {
+            console.log('bet')
             if (bet) {
-                if (typeof bet.oppie === 'number') { //these typeofs arent performant find a better solution
+                console.log('u')
+                if (bet?.oppie) { //these typeofs arent performant find a better solution
                     //we are working with a 1-on-1 bet
                     const {data, error} = await supabase.from('public_users').select().eq('id', bet.oppie).single();
                     if (data) {
@@ -149,10 +154,16 @@ function BetLink({bet, tourney}) {
                         setTeams({user: partition(bet.players), opp: null});
                     }
                 }
-                else if (typeof bet.league_id === 'number') {
-                    const {data, error} = await supabase.from('groups').select().eq('groupID', bet.league_id).single();
-                    if (data) {
-                        setAnti(data);
+                if (bet?.league_id) {
+                    console.log('fuck this')
+                    const {data: league, error: leagueError} = await supabase.from('groups').select().eq('groupID', bet.league_id).single();
+                    if (league) {
+                        setAnti(league);
+                    }
+                    const {data: brackets, error: bracketError} = await supabase.from('masters_league').select().eq('league_id', bet.league_id) 
+                    console.log(brackets?brackets:bracketError);
+                    if (brackets) {
+                        setTeams(brackets);
                     }
                 }
             }
@@ -160,24 +171,27 @@ function BetLink({bet, tourney}) {
         getData();
     },[])
     let comp = undefined;
-    console.log('your team:', teams?.user);
-    console.log('opponent team:', teams?.opp);
+    // console.log('your team:', teams?.user);
+    // console.log('opponent team:', teams?.opp);
 
     if (bet.oppie) {
         comp = (
             <Link href={link.replace('%s', ext)}>
                 <div className="one-on-one-bet">
                     <div className="score">
-                        You: {' '}{teams?.opp===null?<span className="asterisk">*</span>:<></>}<span className="score-box" title={teams.opp===null?'Projected based on your first team selections':''} style={{backgroundColor: goodnessStr(teams?getTeamScore(coerce(...teams.user), tourney)/4:0), marginLeft: teams.opp===null?'0px':'6px'}}>{teams?getTeamScore(coerce(...teams.user), tourney):'-'}</span>
+                        You: 
+                        {' '}
+                        {teams?.opp?<></>:<span className="asterisk">*</span>}
+                        <span className="score-box" title={teams?.opp?'':'Projected based on your first team selections'} style={{backgroundColor: goodnessStr(teams?getTeamScore(coerce(...teams.user), tourney)/4:0)}}>{teams?getTeamScore(coerce(...teams.user), tourney):'-'}</span>
                     </div>
                     {
-                    teams&&teams.opp===null ?
+                    teams?.opp?
                         <div className="score">
-                            {message}
+                            Opponent: {' '}<span className="score-box" style={{backgroundColor: goodnessStr(teams?getTeamScore(coerce(...teams.opp), tourney)/4:0)}}>{teams?getTeamScore(coerce(...teams.opp), tourney):'-'}</span>
                         </div>
                     :
                         <div className="score">
-                            Opponent: {' '}<span className="score-box" style={{backgroundColor: goodnessStr(teams?getTeamScore(coerce(...teams.opp), tourney)/4:0)}}>{teams?getTeamScore(coerce(...teams.opp), tourney):'-'}</span>
+                            {message}
                         </div>
                     }
                 </div>
@@ -197,15 +211,20 @@ function BetLink({bet, tourney}) {
     }
     else if (bet.league_id) {
         //we return a league bet link
+        const position = getPosition(meta.publicID, teams?teams:[], tourney);
+        
         comp =  (
             <Link href={link.replace('%s', ext)}>
                 <div className="league-bet">
-                    <div className="league-title">
+                    <div className="league-title" style={{ gridColumn: '1 / span 4' }}>
                         {anti?.groupName}
                     </div>
-                </div>
-                <div className="league link">
-        
+                    <div className="league-score" style={{ gridColumn: '1 / span 2', gridRow: '2'}}>
+                    score<span className="score-box" style={{backgroundColor: goodnessStr(getTeamScore(bet.players, tourney)/4), left: '0px', position: 'relative', marginLeft: '1px'}}>{getTeamScore(bet.players, tourney)}</span>
+                    </div>
+                    <div className="league-place" style={{ gridColumn: '3 / span 2', gridRow: '2', transform: 'translateY(5px)' }}>
+                        <span style={{fontSize: '18px', marginBottom: '5px'}}>#</span><span style={{fontSize: '36px', color: podiumColors(position)}}>{position}</span>
+                    </div>
                 </div>
             </Link>
         );

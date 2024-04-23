@@ -73,16 +73,6 @@ export const AuthProvider = ({ children }) => {
         console.error('Error fetching profile picture:', error);
       }
     }
-
-    const getPublicID = async () => {
-      const email = (await getSession()).data?.session.user.email || "";
-      if (email) {
-        const {data,error} = await supabase.from("users").select("publicID").eq("email", user.email)
-        
-      }
-
-    }
-
     if (user&&session) {
       getCommissionerStatus();
       getPublicData();

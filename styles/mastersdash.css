@@ -10,7 +10,10 @@
     min-width: 300px;
     width: 300px;
     overflow-x: hidden;
+    overflow-y: auto;
     font-size: 24px;
+    max-height: 100%;
+    padding-right: 21px;
 }
 /*masters sidebar header*/
 .msb-header {
@@ -45,6 +48,7 @@ a .opponent.link {
     margin: 10px;
     border-radius: 20px;
     color: var(--big-O-color) !important;
+    width: 100%;
 
 }
 
@@ -75,13 +79,14 @@ a .opponent.link {
     height: 28px;
 }
 
-.one-on-one-bet .score-box {
+.score-box {
     text-align: center;
     width: 37px;
     position: absolute;
     left: calc(80% - 6px);
     margin-left: 6px;
     border: 1px solid var(--table-border);
+    color: var(--text-color);
 }
 
 .one-on-one-bet {
@@ -94,18 +99,13 @@ a .opponent.link {
     overflow-x: auto;
 }
 
-.league-bet .league-title {
-    color: var(--bright-text);
-    font-size: 30px;
-    font-weight: 600;
-    text-align: left;
-}
-
 .asterisk {
-    width: 6px;
+    width: 12px;
+    font-weight: 600;
+    color: var(--bet-option-highlight);
     text-align: center;
     position: absolute;
-    left: calc(80% - 18px);
+    left: calc(80% - 12px);
 }
 
 .masters .no-results {
@@ -116,5 +116,47 @@ a .opponent.link {
     text-align: center;
     font-weight: 600;
     font-size: 30px;
+    
+}
 
+.league-bet .league-title {
+    color: var(--bright-text);
+    font-size: 30px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.league-bet {
+    display: grid;
+    grid-template-columns: auto auto auto auto; 
+    grid-template-rows: auto auto; 
+    gap: 0px; 
+    height: 80px;
+    position: relative;
+}
+
+.league-title {
+    color: var(--bright-text);
+    font-size: 30px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.league-score {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-left: 5px;
+    font-weight: 600;
+    color: var(--unimportant-text);
+}
+
+.league-place {
+    color: var(--unimportant-text);
+    font-weight: 600;
+    text-align: end;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 18px;
 }
