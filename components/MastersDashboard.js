@@ -248,9 +248,7 @@ function TournamentTable({tourney}) {
     useEffect(()=>{
         const arr = [...tourney];
         arr.sort((a,b)=>asc?a[sortOn]-b[sortOn]:b[sortOn]-a[sortOn]);
-            
-        console.log(arr);
-        setSorted(arr)
+        setSorted(arr);
     }, [sortOn, asc, tourney]);
 
     const changeCrit = (field) => {
