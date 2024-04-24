@@ -1,5 +1,4 @@
 import { useAuth } from "./providers/AuthContext";
-import { useModal } from "./providers/ModalContext";
 import { useEffect, useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { encode } from "../functions/Encode";
@@ -11,13 +10,11 @@ import { getGolfers } from "../functions/GetGolfers";
 import { coerce, partition } from "../functions/RandomBigInt";
 import { podiumColors } from "../functions/OnTheH8rs";
 
-export default function MastersDashboard({succFlag}) {
+export default function MastersDashboard() {
     const [golfers, setGolfers] = useState(undefined);
     const [leagueBets, setLeagueBets] = useState(undefined);
     const [gentlemanBets, setGentleBets] = useState(undefined);
-    const [loaded, setLoaded] = useState(false);
     
-    const {succeed} = useModal();
     const { meta } = useAuth();
 
 
@@ -25,7 +22,7 @@ export default function MastersDashboard({succFlag}) {
         const {data, error} = await supabase.from('masters_league').select().eq('public_id', meta.publicID);
         //console.log('league bets:', data?data:error);
         if (data) {
-            setLeagueBets(data)
+            setLeagueBets(data);
         }
     }
 
@@ -37,14 +34,15 @@ export default function MastersDashboard({succFlag}) {
         }
     }
 
+
  
 
     useEffect(()=>{
         if (meta.publicID) {
             getYourLeagueBets();
             getYour1v1Bets();
-            setLoaded(true);
         }
+
     }, [meta])
 
     useEffect(()=>{
@@ -56,17 +54,13 @@ export default function MastersDashboard({succFlag}) {
             }
         }
         gg();
-    },[])
-
-    if (succFlag) { //this is retarded
-        succeed();
-    }
+    },[]);
 
     //console.log('tournament\n', golfers);
     return (
         <div className="masters dashboard page">
             <div className="live stats">
-                Updated every minute
+                <TournamentTable tourney={golfers?golfers:[]}/>
             </div>
             <div className="bar">
                 <div className="your-league-bets">
@@ -75,17 +69,20 @@ export default function MastersDashboard({succFlag}) {
                     </div>
                     <div className="league-bets">
                         {
-                        golfers&&leagueBets&&leagueBets.length
+                        golfers&&leagueBets
                         ?
-                        leagueBets.map((bet)=>{return <BetLink key={bet.league_id} bet={bet} tourney={golfers}/>})
+                            leagueBets.length
+                            ?
+                            leagueBets.map((bet)=>{
+                                const comp = <BetLink key={bet.league_id} bet={bet} tourney={golfers} />;
+                                return comp;
+                            })
+                            :
+                            <div className="no-results">
+                                No bets
+                            </div>
                         :
-                        loaded
-                        ?
-                        <div className="no-results">
-                            No bets
-                        </div>
-                        :
-                        <Loading />
+                            <Loading />
                         }
                     </div>
                 </div>
@@ -95,8 +92,18 @@ export default function MastersDashboard({succFlag}) {
                     </div>
                     <div className="m-1v1-bets">
                         {
-                        gentlemanBets&&golfers?
-                            gentlemanBets.map((bet)=>{return <BetLink key={bet.oppie} bet={bet} tourney={golfers} />})
+                        golfers&&gentlemanBets
+                        ?
+                            gentlemanBets.length
+                            ?
+                            gentlemanBets.map((bet)=>{
+                                const comp = <BetLink key={bet.league_id} bet={bet} tourney={golfers} />;
+                                return comp;
+                            })
+                            :
+                            <div className="no-results">
+                                No bets
+                            </div>
                         :
                             <Loading />
                         }
@@ -109,8 +116,6 @@ export default function MastersDashboard({succFlag}) {
 }
 
 function BetLink({bet, tourney}) {
-    console.log('bet:', JSON.stringify(bet));
-
     if (!tourney) {
         throw Error('how are we gonna represent golf data without data...\nallchat: ?');
     }
@@ -121,15 +126,13 @@ function BetLink({bet, tourney}) {
     const [teams, setTeams] = useState(undefined);
     const {meta} = useAuth();
 
-    const targetDate = new Date('2024-04-13T04:59:00'); // update this to automatically set the cut line this should be stored in the db in a new relation
-    const now = Date.now();
+    // const targetDate = new Date('2024-04-13T04:59:00'); // update this to automatically set the cut line this should be stored in the db in a new relation
+    // const now = Date.now();
 
-    const message = now < targetDate.getTime() && teams?.opp ? <p title="You will be refunded any tokens spent">No submission</p> : <div>idk some hourglass place holder or some ascii art</div>;
+    // const message = now < targetDate.getTime() && teams?.opp ? <p title="You will be refunded any tokens spent">No submission</p> : <div>idk some hourglass place holder or some ascii art</div>;
     useEffect(()=>{
         const getData = async () => {
-            console.log('bet')
             if (bet) {
-                console.log('u')
                 if (bet?.oppie) { //these typeofs arent performant find a better solution
                     //we are working with a 1-on-1 bet
                     const {data, error} = await supabase.from('public_users').select().eq('id', bet.oppie).single();
@@ -137,31 +140,28 @@ function BetLink({bet, tourney}) {
                         // imean what am i gonna do throw an error to the user? nah we pretend it cant load 
                         setAnti(data);
                     }
-                    try {
-                        const {data: opp, error: e1} = await supabase.from('masters_opponents').select().eq('oppie', bet.public_id).eq('public_id', bet.oppie).single();
-                        if (!e1) {
-                            const data2 = bet?.oppie?determineOrderAndEvaluate(bet, opp):undefined;
-                            console.log('teams from src = ', data2);
-                            if (data2) {
-                                setTeams(data2);
-                            }
-                        } else {
-                            throw Error(e1.message);
+                    const {data: opp, error: e1} = await supabase.from('masters_opponents').select().eq('oppie', bet.public_id).eq('public_id', bet.oppie).single();
+                    if (!e1) {
+                        const data2 = bet?.oppie?determineOrderAndEvaluate(bet, opp):undefined;
+                        // console.log('teams from src = ', data2);
+                        if (data2) {
+                            setTeams(data2);
                         }
-                    }
-                    catch (error) {
-                        console.log('opp bet doesnt exist');
+                    } else {
                         setTeams({user: partition(bet.players), opp: null});
                     }
+            
+                        
+                
+
                 }
                 if (bet?.league_id) {
-                    console.log('fuck this')
                     const {data: league, error: leagueError} = await supabase.from('groups').select().eq('groupID', bet.league_id).single();
                     if (league) {
                         setAnti(league);
                     }
                     const {data: brackets, error: bracketError} = await supabase.from('masters_league').select().eq('league_id', bet.league_id) 
-                    console.log(brackets?brackets:bracketError);
+                    // console.log(brackets?brackets:bracketError);
                     if (brackets) {
                         setTeams(brackets);
                     }
@@ -190,8 +190,8 @@ function BetLink({bet, tourney}) {
                             Opponent: {' '}<span className="score-box" style={{backgroundColor: goodnessStr(teams?getTeamScore(coerce(...teams.opp), tourney)/4:0)}}>{teams?getTeamScore(coerce(...teams.opp), tourney):'-'}</span>
                         </div>
                     :
-                        <div className="score">
-                            {message}
+                        <div className="score" style={{display: 'flex', justifyContent: 'center'}}>
+                            <Loading style={{filter: 'brightness(200%)', margin: '0px 0px 0px 0px', transform: 'scale(75%)', position: 'relative', bottom: '15px'}}/>
                         </div>
                     }
                 </div>
@@ -212,7 +212,6 @@ function BetLink({bet, tourney}) {
     else if (bet.league_id) {
         //we return a league bet link
         const position = getPosition(meta.publicID, teams?teams:[], tourney);
-        
         comp =  (
             <Link href={link.replace('%s', ext)}>
                 <div className="league-bet">
@@ -220,10 +219,10 @@ function BetLink({bet, tourney}) {
                         {anti?.groupName}
                     </div>
                     <div className="league-score" style={{ gridColumn: '1 / span 2', gridRow: '2'}}>
-                    score<span className="score-box" style={{backgroundColor: goodnessStr(getTeamScore(bet.players, tourney)/4), left: '0px', position: 'relative', marginLeft: '1px'}}>{getTeamScore(bet.players, tourney)}</span>
+                    score<span className="score-box" style={{backgroundColor: goodnessStr(getTeamScore(bet.players, tourney)/4), left: '0px', position: 'relative', marginLeft: '2px'}}>{getTeamScore(bet.players, tourney)}</span>
                     </div>
                     <div className="league-place" style={{ gridColumn: '3 / span 2', gridRow: '2', transform: 'translateY(5px)' }}>
-                        <span style={{fontSize: '18px', marginBottom: '5px'}}>#</span><span style={{fontSize: '36px', color: podiumColors(position)}}>{position}</span>
+                        <span style={{fontSize: '24px', marginBottom: '5px'}}>#</span><span style={{fontSize: '48px', color: podiumColors(position)}}>{position}</span>
                     </div>
                 </div>
             </Link>
@@ -236,6 +235,70 @@ function BetLink({bet, tourney}) {
             </div>
         );
     } else {
-       
+       throw Error('failed to create a component')
     }
 }
+
+function TournamentTable({tourney}) {
+    console.log(tourney)
+    const [asc, setAsc] = useState(true);
+    const [sortOn, setSortOn] = useState('total');
+    const [sorted, setSorted] = useState(tourney);
+
+    useEffect(()=>{
+        const arr = [...tourney];
+        arr.sort((a,b)=>asc?a[sortOn]-b[sortOn]:b[sortOn]-a[sortOn]);
+            
+        console.log(arr);
+        setSorted(arr)
+    }, [sortOn, asc, tourney]);
+
+    const changeCrit = (field) => {
+        if (sortOn === field) {
+            setAsc(prev=>!prev);
+        }
+        else {
+            setSortOn(field);
+            setAsc(true);
+        }
+    }
+
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th onClick={()=>changeCrit('name')}>Golfer{sortOn==='name'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('total')}>Score{sortOn==='total'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('strokes')}>Strokes{sortOn==='strokes'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('rd1')}>Round 1{sortOn==='rd1'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('rd2')}>Round 2{sortOn==='rd2'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('rd3')}>Round 3{sortOn==='rd3'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('rd4')}>Round 4{sortOn==='rd4'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('round')}>Current Round{sortOn==='round'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('thru')}>Hole{sortOn==='thru'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {sorted.map((golfer)=>{
+                    return <GolferRow golfer={golfer} />
+                })}
+            </tbody>
+        </table>
+    );
+}
+
+function GolferRow({golfer}) {
+    return (
+        <tr>
+            <td>{golfer.name}</td>
+            <td>{golfer.total}</td>
+            <td>{golfer.strokes}</td>
+            <td>{golfer.rd1}</td>
+            <td>{golfer.rd2}</td>
+            <td>{golfer.rd3}</td>
+            <td>{golfer.rd4}</td>
+            <td>{golfer.round}</td>
+            <td>{golfer.thru}</td>
+        </tr>
+    );
+} 

@@ -12,7 +12,11 @@
     overflow-x: hidden;
     overflow-y: auto;
     font-size: 24px;
-    max-height: 100%;
+    top: 40px;
+    position: relative;
+    max-height: calc(100% - 40px);
+    height: calc(100% - 40px);
+    justify-content: flex-start;
     padding-right: 21px;
 }
 /*masters sidebar header*/
@@ -26,9 +30,16 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: flex-start;
     margin: 0 auto;
 }
 
+.live.stats {
+    height: 100%;
+    text-align: center;
+    margin: auto 0;
+    padding: 40px;
+}
 
 a .opponent.link {
     font-size: 22px;
@@ -131,7 +142,6 @@ a .opponent.link {
     grid-template-columns: auto auto auto auto; 
     grid-template-rows: auto auto; 
     gap: 0px; 
-    height: 80px;
     position: relative;
 }
 
@@ -159,4 +169,65 @@ a .opponent.link {
     align-items: flex-end;
     justify-content: flex-end;
     font-size: 18px;
+    height: 36px;
+}
+
+.masters table {
+    border-spacing: 0;
+    border: 1px solid var(--table-border);
+    background-color: var(--table-bg);
+    width: 100%;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.masters th {
+    padding: 8px 12px;
+    text-align: left;
+    background-color: var(--table-header-background);
+    border-bottom: 1px solid var(--table-border);
+    position: relative;
+}
+
+.masters td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--table-border);
+}
+
+.masters tbody tr:nth-child(even) {
+    background-color: var(--table-bg-green);
+}
+
+.masters tbody tr:hover {
+    background-color: var(--soft-highlight);
+}
+
+.masters th:nth-child(8),
+.masters td:nth-child(8) {
+    border-left: 1px solid var(--table-border);
+}
+
+.masters td:nth-child(1) {
+    color: var(--nav-link-color);
+}
+
+.masters td:nth-child(2) {
+    color: var(--bright-text);
+}
+
+.masters th:nth-child(2),
+.masters td:nth-child(2) {
+    border-left: 1px solid var(--table-border);
+}
+
+.masters th:nth-child(3),
+.masters td:nth-child(3) {
+    border-right: 1px solid var(--table-border);
+}
+
+.sort-arrow {
+    height: 10px;
+    position: absolute;
+    bottom: 7px;
+    right: 0px;
 }

@@ -189,7 +189,7 @@ function determineOrderAndEvaluate(fv, tb) {
 }
 
 function getOrderOfBrackets(brackets, tourney) { 
-    console.log(brackets);
+    // console.log(brackets);
     const list = [];
     for (const bracket of brackets) {
         const score = getTeamScore(bracket.players, tourney);
