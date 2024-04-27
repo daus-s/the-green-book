@@ -37,6 +37,12 @@ import '../styles/masters.css';
 import '../styles/search.css';
 import '../styles/error.css';
 import '../styles/mastersdash.css';
+import '../styles/pgatools.css';
+
+// //import the styles for the datetime picker in pgatools
+// import 'react-datetime-picker/dist/DateTimePicker.css';
+// import 'react-calendar/dist/Calendar.css';
+// import 'react-clock/dist/Clock.css';
 
 
 export default function App({ Component, pageProps }) {

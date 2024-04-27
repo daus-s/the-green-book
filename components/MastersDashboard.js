@@ -88,7 +88,7 @@ export default function MastersDashboard() {
                 </div>
                 <div className="your-1v1-bets">
                     <div className="msb-header">
-                        Gentlemen's bets
+                        Single bets
                     </div>
                     <div className="m-1v1-bets">
                         {

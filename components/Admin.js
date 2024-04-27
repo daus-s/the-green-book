@@ -3,6 +3,7 @@ import { useMobile } from "./providers/MobileContext";
 import { useAuth } from "./providers/AuthContext";
 import BalanceTable from "./BalanceTable";
 import Commishify from "./Commishify";
+import PGAPortal from "./PGAPortal";
 
 export default function Admin() {
     const {isMobile} = useMobile();
@@ -23,18 +24,9 @@ export default function Admin() {
     },[user, meta])
 
     
-
-    if (!isMobile) {
+    if (isMobile) {
         return (
-            <div className="admin page" style={{height: 'auto'}}>
-                <BalanceTable /> 
-                <Commishify /> 
-            </div>
-        );
-    } 
-    else if (isMobile) {
-        return (
-                <div className="admin page" style={{width: '100%', paddingBottom: '114px', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'space-between'}}>
+            <div className="admin page" style={{width: '100%', paddingBottom: '114px', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'space-between'}}>
                 {adminComponents[comp]}
                 <div className="dot-selector">
                     {adminComponents.map((c, index)=>{
@@ -43,5 +35,16 @@ export default function Admin() {
                 </div>
             </div>
         );
+    } 
+    else {
+        return (
+            <div className="admin page" style={{height: 'auto'}}>
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: "flex-end"}}>
+                    <BalanceTable /> 
+                    <Commishify /> 
+                </div>
+                <PGAPortal />
+                </div>
+            );
     }
 }
