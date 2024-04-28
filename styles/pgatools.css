@@ -1,6 +1,6 @@
 .new-golf-tournament {
     flex: 1;
-    width: 678px;
+    width: 405px;
     display: flex;
     flex-direction: column;
 }
@@ -15,4 +15,89 @@
     display: flex;
     justify-content: center;
     font-size: 19px;
+}
+
+.name-entry {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+.new-golf-tournament .name-entry, .new-golf-tournament .date-time-picker {
+    padding: 20px;
+
+}
+
+.date-time-picker {
+    width: 300px;
+}
+
+.date-time-picker div label {
+    color: var(--big-O-color);
+}
+
+.date-time-picker div label.Mui-focused {
+    color: var(--link-hover);
+}
+
+
+.date-time-picker div div div button svg {
+    fill: var(--link-hover);
+}
+
+.date-time-picker > div > div {
+    color: var(--big-O-color);
+}
+
+.date-time-picker > div > div > fieldset {
+    border-color: var(--big-O-color);
+}
+
+.date-time-picker > div > div > fieldset.Mui-focused.MuiOutlinedInput-notchedOutline {
+    border-color: var(--link-hover);
+}
+
+.date-time-picker .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: var(--link-hover);
+}
+
+
+.date-time-picker .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: var(--link-hover);
+}
+
+.css-1e3wlyl-MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item.Mui-selected {
+    background-color: var(--link-hover) !important;
+}
+
+body > div.base-Popper-root.MuiPickersPopper-root.css-1anqmj6-MuiPopper-root-MuiPickersPopper-root > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPickersPopper-paper.css-z17wx0-MuiPaper-root-MuiPickersPopper-paper > div > div.MuiDialogActions-root.MuiDialogActions-spacing.MuiPickersLayout-actionBar.css-knqc4i-MuiDialogActions-root > button {
+    color: var(--link-hover);
+
+}
+
+.MuiPickersDay-root.Mui-selected {
+    background-color: var(--link-hover) !important;
+}
+
+
+.url {
+    border-radius: 4px;
+    background-color: var(--form-input);
+    font-size: 20px;
+    height: 26px;
+    padding: 2px 4px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-align: left;
+    margin: 0px 20px;
+}
+
+.name-entry input {
+    background-color: var(--input-background);
+    color: var(--input-text);
+    outline: none;
+    border: none;
+    padding: 3px;
+    border-radius: 6px;
 }
