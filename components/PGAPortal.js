@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { DateTimePicker } from '@mui/x-date-pickers';import { urlify } from "../functions/Urlify";
-;
-
-
 
 export default function PGAPortal () {
     const [name, setName] = useState('')
@@ -11,7 +8,8 @@ export default function PGAPortal () {
         <div className="PGA-creator">
             <form className="new-golf-tournament form">
                 <div className="name-entry">
-                    <span>Name</span><input type="text" value={name} onChange={(e)=>setName(e.target.value)} />
+                    <span>Tournament Name</span>
+                    <input type="text" value={name} onChange={(e)=>setName(e.target.value)} />
                 </div>
                 <div className="url">
                     betties.app/pga/{urlify(name)}

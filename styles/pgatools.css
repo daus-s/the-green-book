@@ -24,10 +24,14 @@
 }
 
 
-.new-golf-tournament .name-entry, .new-golf-tournament .date-time-picker {
-    padding: 20px;
-
+.new-golf-tournament .name-entry {
+    padding: 5px 20px 20px 20px;
 }
+
+ .new-golf-tournament .date-time-picker {
+    padding: 20px 20px 5px 20px;
+}
+
 
 .date-time-picker {
     width: 300px;

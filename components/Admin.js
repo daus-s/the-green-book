@@ -4,6 +4,7 @@ import { useAuth } from "./providers/AuthContext";
 import BalanceTable from "./BalanceTable";
 import Commishify from "./Commishify";
 import PGAPortal from "./PGAPortal";
+import AdminComponent from "./AdminComponent";
 
 export default function Admin() {
     const {isMobile} = useMobile();
@@ -39,12 +40,16 @@ export default function Admin() {
     else {
         return (
             <div className="admin page" style={{height: 'auto'}}>
-                <div style={{display: 'flex', flexDirection: 'row', alignItems: "flex-end"}}>
-                    <BalanceTable /> 
+                <AdminComponent classname={'user-bals'} title={"User balances"}>
+                    <BalanceTable />
+                </AdminComponent> 
+                <AdminComponent classname={'commishify'}>
                     <Commishify /> 
-                </div>
-                <PGAPortal />
-                </div>
+                </AdminComponent> 
+                <AdminComponent title="Create PGA tournament" classname={'pga-tool'}>
+                    <PGAPortal />
+                </AdminComponent>
+            </div>
             );
     }
 }
