@@ -12,7 +12,7 @@ function NoSuchUser({criteria}) {
     return (
         <div className="no-such-user"style={isMobile?{paddingLeft: '48px'}:{}}>
             <div className="error-title">No such user.</div>
-            <div className="criteria">Criteria: {username}</div>
+            <div className="criteria">Criteria: {c}</div>
         </div>
     );
 }

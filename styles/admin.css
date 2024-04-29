@@ -154,7 +154,8 @@
     grid-template-areas: 
         "ub cr"
         "ub pga" 
-        ;
+    ;
+    width: auto;
     
 }
 
@@ -206,15 +207,40 @@
 
 .admin-component.user-bals {
     grid-area: ub;
+    width: 540px;
 }
 
 .admin-component.pga-tool {
     grid-area: pga;
     margin: 0px;
-
+    width: 480px;
 }
 
 .admin-component.commishify {
     grid-area: cr;
     margin: 0px;
+    width: 480px;
+}
+
+.new-golf-tournament.form button.submit {
+    background-color: var(--cta-button-bg-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 17px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    position: absolute;
+    bottom: 4px;
+    right: 0px;
+}
+
+.new-golf-tournament.form button.submit:hover {
+    background-color: var(--cta-button-hover-bg-color);
+}
+
+
+.admin .query input {
+    background-color: transparent;
 }
