@@ -188,16 +188,42 @@ function determineOrderAndEvaluate(fv, tb) {
     return {user: user, opp: opp}
 }
 
-async function getOrderOfBrackets(league) {
-
+function getOrderOfBrackets(brackets, tourney) { 
+    // console.log(brackets);
+    const list = [];
+    for (const bracket of brackets) {
+        const score = getTeamScore(bracket.players, tourney);
+        list.push({user: bracket.public_id, score: score});
+    }
+    list.sort((a,b)=>(a.score-b.score));
+    return list;
 }
 
-async function getPosition(userId, league) {
-
+function getPosition(userID, league, tourney) { 
+    
+    const scoredBrackets = getOrderOfBrackets(league, tourney);
+    for (let i = 0; i < scoredBrackets.length; ++i) {
+        if (userID===scoredBrackets[i].user) {
+            return i+1;
+        }
+    }
+    return -1;
 }
 
 
 
 
 
-module.exports = { figureOutCurrentRound, goodness, goodnessStr, getGolferProjection, getTeamProjection, scoreFromGolfer, getTeamScore, evaluateTeamAndAlternate, determineOrderAndEvaluate }
+module.exports = { 
+    figureOutCurrentRound, 
+    goodness, 
+    goodnessStr, 
+    getGolferProjection, 
+    getTeamProjection, 
+    scoreFromGolfer, 
+    getTeamScore, 
+    evaluateTeamAndAlternate, 
+    determineOrderAndEvaluate, 
+    getOrderOfBrackets, 
+    getPosition 
+}

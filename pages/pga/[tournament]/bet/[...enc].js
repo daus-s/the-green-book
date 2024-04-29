@@ -11,21 +11,28 @@ export default function MasterBet() {
     //preload the data
     const [userID, setUserID] = useState(undefined);
     const [oppID, setOppID] = useState(undefined);
-
+    
+    
     const router = useRouter()
+    console.log('QUERY: ', router?.query);
     useEffect(()=>{
         if (router&&router.query.enc) {
-            console.log(router.query.enc, typeof router.query.enc)
-            const user = router.query.enc[0].substring(0,6);
-            const opp = router.query.enc[0].substring(6,12);
+            console.log(router.query.enc, typeof router.query.enc);
+            console.log(router.query)
+            /* if (router.query.enc.charAt(0)==='$') {
+                //league
+            }
+            else if (router.query.enc.charAt(0)==='@') {
+                //single bet
+            } */
 
         }
     }, [router])
     
-
     return (
         <div className='golf-bet page'>
             <a href='/pga'>{'<'} Return to Masters dashboard</a>
+            <p>Tournament: {router.query.tournament}</p>
             <p>Bet: {router.query.enc}</p>
         </div>
     );

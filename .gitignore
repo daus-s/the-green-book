@@ -19,3 +19,6 @@ supabase.temp
 supabase.env
 
 drawings/
+
+#
+components/ErrorWrapper.js

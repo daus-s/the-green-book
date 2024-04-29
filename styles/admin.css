@@ -147,11 +147,11 @@
 
 .admin {
     display: flex;
-    flex-direction: row;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
     margin-left:  auto;
     margin-right: auto;
-    justify-content: center;
+    justify-content: flex-end;
     width: 100% !important;
 }
 
@@ -178,4 +178,5 @@
 
 .commissioner-requests {
     padding-top: 10px;
+    margin-bottom: 18px;
 }
