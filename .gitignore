@@ -2,6 +2,10 @@ supabase/
 node_modules/
 .next/
 build/
+# python enviroment
+scripts/.mypy_cache
+scripts/myenv
+
 scripts/g2b.py
 scripts/colors.txt
 notes
