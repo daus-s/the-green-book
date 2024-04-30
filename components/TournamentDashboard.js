@@ -10,18 +10,17 @@ import { getGolfers } from "../functions/GetGolfers";
 import { coerce, partition } from "../functions/RandomBigInt";
 import { podiumColors } from "../functions/OnTheH8rs";
 
-export default function MastersDashboard() {
+export default function TournamentDashboard() {
     const [golfers, setGolfers] = useState(undefined);
     const [leagueBets, setLeagueBets] = useState(undefined);
     const [gentlemanBets, setGentleBets] = useState(undefined);
     
     const { meta } = useAuth();
 
-
     const getYourLeagueBets = async () => {
         const {data, error} = await supabase.from('masters_league').select().eq('public_id', meta.publicID);
         //console.log('league bets:', data?data:error);
-        if (data) {
+        if (!error&&data) {
             setLeagueBets(data);
         }
     }
@@ -29,13 +28,10 @@ export default function MastersDashboard() {
     const getYour1v1Bets = async () => {
         const {data, error} = await supabase.from('masters_opponents').select().eq('public_id', meta.publicID);
         //console.log('1v1 bets:', data?data:error);
-        if (data) {
+        if (!error&&data) {
             setGentleBets(data)
         }
     }
-
-
- 
 
     useEffect(()=>{
         if (meta.publicID) {
@@ -56,14 +52,13 @@ export default function MastersDashboard() {
         gg();
     },[]);
 
-    //console.log('tournament\n', golfers);
     return (
-        <div className="masters dashboard page">
-            <div className="live stats">
+        <div className="masters dashboard">
+            <div className="live stats scrollbox">
                 <TournamentTable tourney={golfers?golfers:[]}/>
             </div>
-            <div className="bar">
-                <div className="your-league-bets">
+            <div className="bar scrollbox">
+                <div className="your-league-bets scrollbox-content" >
                     <div className="msb-header">
                         League Bets
                     </div>
@@ -86,7 +81,7 @@ export default function MastersDashboard() {
                         }
                     </div>
                 </div>
-                <div className="your-1v1-bets">
+                <div className="your-1v1-bets scrollbox-content">
                     <div className="msb-header">
                         Single bets
                     </div>
@@ -96,9 +91,8 @@ export default function MastersDashboard() {
                         ?
                             gentlemanBets.length
                             ?
-                            gentlemanBets.map((bet)=>{
-                                const comp = <BetLink key={bet.league_id} bet={bet} tourney={golfers} />;
-                                return comp;
+                            gentlemanBets.map((bet, index)=>{
+                                return <BetLink key={index} bet={bet} tourney={golfers} />;
                             })
                             :
                             <div className="no-results">
@@ -119,7 +113,7 @@ function BetLink({bet, tourney}) {
     if (!tourney) {
         throw Error('how are we gonna represent golf data without data...\nallchat: ?');
     }
-    const link = '/pga/bet/%s'; //make this correct 
+    const link = '/pga/masters-2024/bet/%s'; //make this correct 
     const aid = bet.oppie?bet.oppie:bet.league_id;
     const ext = (bet.oppie?'@':'$') + (encode(aid)); //@ is one on one bet, $ is league bet
     const [anti, setAnti] = useState(undefined); // this is either a league object or a public_user object
@@ -239,8 +233,7 @@ function BetLink({bet, tourney}) {
     }
 }
 
-function TournamentTable({tourney}) {
-    console.log(tourney)
+function  TournamentTable({tourney}) {
     const [asc, setAsc] = useState(true);
     const [sortOn, setSortOn] = useState('total');
     const [sorted, setSorted] = useState(tourney);
@@ -262,23 +255,23 @@ function TournamentTable({tourney}) {
     }
 
     return (
-        <table>
+        <table className="scrollbox-content">
             <thead>
                 <tr>
-                    <th onClick={()=>changeCrit('name')}>Golfer{sortOn==='name'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
-                    <th onClick={()=>changeCrit('total')}>Score{sortOn==='total'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
-                    <th onClick={()=>changeCrit('strokes')}>Strokes{sortOn==='strokes'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
-                    <th onClick={()=>changeCrit('rd1')}>Round 1{sortOn==='rd1'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
-                    <th onClick={()=>changeCrit('rd2')}>Round 2{sortOn==='rd2'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
-                    <th onClick={()=>changeCrit('rd3')}>Round 3{sortOn==='rd3'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
-                    <th onClick={()=>changeCrit('rd4')}>Round 4{sortOn==='rd4'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
-                    <th onClick={()=>changeCrit('round')}>Current Round{sortOn==='round'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
-                    <th onClick={()=>changeCrit('thru')}>Hole{sortOn==='thru'?<img className="sort-arrow" src="arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('name')}>Golfer{sortOn==='name'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('total')}>Score{sortOn==='total'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('strokes')}>Strokes{sortOn==='strokes'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('rd1')}>Round 1{sortOn==='rd1'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('rd2')}>Round 2{sortOn==='rd2'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('rd3')}>Round 3{sortOn==='rd3'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('rd4')}>Round 4{sortOn==='rd4'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('round')}>Current Round{sortOn==='round'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
+                    <th onClick={()=>changeCrit('thru')}>Hole{sortOn==='thru'?<img className="sort-arrow" src="/arrow.png" alt={asc?'sort indicator least to greatest':'sort indicator largest to smallest'} style={asc?{}:{transform: 'rotate(180deg)'}}/>:<></>}</th>
                 </tr>
             </thead>
             <tbody>
-                {sorted.map((golfer)=>{
-                    return <GolferRow golfer={golfer} />
+                {sorted.map((golfer, index)=>{
+                    return <GolferRow golfer={golfer} key={index}/>
                 })}
             </tbody>
         </table>

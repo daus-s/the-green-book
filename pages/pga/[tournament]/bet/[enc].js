@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
+import { supabase } from '../../../../functions/SupabaseClient'; //hahah
+import { decode } from '../../../../functions/Encode';
  
 export default function MasterBet() {
     //decode the url
@@ -9,23 +11,27 @@ export default function MasterBet() {
 
     //copypasta half the code from MastersPlaceBetForm.js
     //preload the data
-    const [userID, setUserID] = useState(undefined);
-    const [oppID, setOppID] = useState(undefined);
     
     
     const router = useRouter()
     console.log('QUERY: ', router?.query);
-    useEffect(()=>{
-        if (router&&router.query.enc) {
-            console.log(router.query.enc, typeof router.query.enc);
-            console.log(router.query)
-            /* if (router.query.enc.charAt(0)==='$') {
-                //league
-            }
-            else if (router.query.enc.charAt(0)==='@') {
-                //single bet
-            } */
 
+    const getLeagueBet = async (leagueID) => {
+        const {data, error} = await supabase.from('masters_league').select().eq('league_id', decode(leagueID));
+        console.log(data?data:error);
+    }
+
+    useEffect(()=>{
+        if (router&&router.query.enc&&router.query.tournament) {
+            console.log('permission to do some fucky shit rn');
+            if (router.query.enc?.charAt(0)==='$') {
+                //league
+                getLeagueBet(router.query.enc.substring(1, router.query.enc.length));    
+            }
+            else if (router.query.enc?.charAt(0)==='@') {
+                //single bet
+
+            }
         }
     }, [router])
     

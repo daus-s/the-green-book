@@ -3,7 +3,7 @@ import { useMobile } from "./providers/MobileContext";
 import { useAuth } from "./providers/AuthContext";
 import BalanceTable from "./BalanceTable";
 import Commishify from "./Commishify";
-import PGAPortal from "./PGAPortal";
+import PGACreator from "./PGACreator";
 import AdminComponent from "./AdminComponent";
 
 export default function Admin() {
@@ -47,7 +47,7 @@ export default function Admin() {
                     <Commishify /> 
                 </AdminComponent> 
                 <AdminComponent title="Create PGA tournament" classname={'pga-tool'}>
-                    <PGAPortal />
+                    <PGACreator />
                 </AdminComponent>
             </div>
             );

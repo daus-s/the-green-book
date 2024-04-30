@@ -16,6 +16,7 @@
     justify-content: flex-start;
     padding-right: 21px;
     position: relative;
+    padding-bottom: 30px; /* this might break with more bets am not sure how it would behave?*/
     margin: 40px 0px;
 }
 /*masters sidebar header*/
@@ -38,12 +39,14 @@
 .live.stats {
     height: calc(100%);
     text-align: center;
-    margin: auto 0;
     margin: 40px;
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid var(--table-border);
+}
 
+.scrollbox {
+  visibility: hidden;
 }
 
 a .opponent.link {
@@ -241,4 +244,16 @@ a .opponent.link {
 
 .masters thead tr {
     border: 1px solid var(--table-border);
+}
+
+/* 
+https://codepen.io/kizu/pen/OyzGXY
+*/
+.scrollbox:hover,
+.scrollbox:focus {
+  visibility: visible;
+}
+
+.scrollbox-content {
+    visibility: visible;
 }
