@@ -6,6 +6,7 @@ from selenium import webdriver # type: ignore
 from selenium.webdriver.chrome.service import Service # type: ignore
 from selenium.webdriver.chrome.options import Options # type: ignore
 from selenium.webdriver.common.by import By # type: ignore
+from selenium.common.exceptions import TimeoutException # type: ignore
 from selenium.webdriver.support.ui import WebDriverWait # type: ignore
 from selenium.webdriver.support import expected_conditions as EC # type: ignore
 from bs4 import BeautifulSoup as soup # type: ignore
@@ -37,16 +38,23 @@ def get_link(year: int, tournament: str) -> str:
     return _TOURNAMENTS[(tournament, year)]
 
 def get_page_source(year: int, tournament: str) -> str:
-    chrome_options = Options()
-    chrome_options.add_argument("--headless") 
-    service = Service(_PATH) 
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver.get(get_link(year, tournament))
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
-    page_source = driver.page_source
-    driver.quit()
-    
-    return page_source
+    try:
+        chrome_options = Options()
+        chrome_options.add_argument("--headless") 
+        service = Service(_PATH) 
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        driver.get(get_link(year, tournament))
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
+        page_source = driver.page_source
+        driver.quit()
+        
+        return page_source
+    except TimeoutException:
+        print('--table not found:\
+              \n  you are likely looking at a tournament in the future or the past\
+              \n  without a table implemented yet. Try later when it is closer to the\
+              \n  tournament.')
+        return None
 
 def get_page() -> bytes | None: 
     response: requests.Response = requests.get(_LINK)
@@ -64,7 +72,7 @@ def test():
         i+=1
         assert env()['password'] is not None
         i+=1
-        ps = get_page_source()
+        ps = get_page_source(2023, 'masters')
         assert len(ps) > 0
         i+=1
         assert get_table(ps) != []
