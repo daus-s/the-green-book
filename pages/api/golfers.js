@@ -26,5 +26,8 @@ export default async function handler(req, res) {
      * The client.close() in the finally block of the validateUniqueUser function. 
      * It was closing the connection before the connection in the createPracticeProfile function was finished inserting the user.
      * When that line is taken out, the function works. 
+     * 
+     * 
+     * dont even fucking close this fuckign bullshit what the fuck
      */
 }

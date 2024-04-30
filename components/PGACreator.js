@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DateTimePicker } from '@mui/x-date-pickers';
-import { urlify } from "../functions/Urlify";
-import { supabase } from "../functions/SupabaseClient";
+import { urlify } from "../functions/Urlify.js";
+import { supabase } from "../functions/SupabaseClient.js";
 import { useModal } from "./providers/ModalContext.js";
 
 export default function PGAPortal () {
@@ -41,7 +41,7 @@ export default function PGAPortal () {
                     <input type="text" value={name} onChange={(e)=>setName(e.target.value)} />
                 </div>
                 <div className="url">
-                    betties.app/pga/{urlify(name)}
+                    betties.app/pga{urlify(name)}
                 </div>
                 <div className="date-time-picker">
                     <DateTimePicker label="Basic date time picker" onChange={setCut} value={cut} required/>

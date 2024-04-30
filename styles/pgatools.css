@@ -106,3 +106,42 @@ body > div.base-Popper-root.MuiPickersPopper-root.css-1anqmj6-MuiPopper-root-Mui
     padding: 3px;
     border-radius: 6px;
 }
+
+span.link {
+    text-decoration: none;
+    z-index: 1;
+    margin-left: 25px
+}
+
+.tournament-link-list a {
+    text-decoration: none;
+    color: var(--bright-text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tournament-link-list {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    align-items: center;
+}
+
+.tournament-link {
+    border: 5px double var(--table-border);
+    border-radius: 35px;
+    height: 120px;
+    width: 100%;
+    min-width: 609px;
+    max-width: 1000px;
+    margin: 10px 0px;
+    font-size: 2em;
+    overflow: hidden;
+    position: relative;
+}
+
+.golf-preview {
+    filter: brightness(33%);
+}
