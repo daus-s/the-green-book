@@ -1,32 +1,47 @@
 import os
-import datetime
-from dotenv import load_dotenv
-import requests
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup as soup
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-from pymongo.collection import Collection
-from pymongo.results import InsertManyResult
-from pymongo.cursor import Cursor
-from pymongo import ASCENDING, DESCENDING
+import datetime # type: ignore
+from dotenv import load_dotenv # type: ignore
+import requests # type: ignore
+from selenium import webdriver # type: ignore
+from selenium.webdriver.chrome.service import Service # type: ignore
+from selenium.webdriver.chrome.options import Options # type: ignore
+from selenium.webdriver.common.by import By # type: ignore
+from selenium.webdriver.support.ui import WebDriverWait # type: ignore
+from selenium.webdriver.support import expected_conditions as EC # type: ignore
+from bs4 import BeautifulSoup as soup # type: ignore
+from pymongo.mongo_client import MongoClient # type: ignore
+from pymongo.server_api import ServerApi # type: ignore
+from pymongo.collection import Collection # type: ignore
+from pymongo.results import InsertManyResult # type: ignore
+from pymongo.cursor import Cursor # type: ignore
+from pymongo import ASCENDING, DESCENDING # type: ignore
 
 # TODO: Change these
 _LINK: str = "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014"
 _YEAR: int = 2023 #datetime.datetime.now().year
 _PATH = load_dotenv(".env") and os.getenv('CHROME_PATH')
 
-def get_page_source() -> str:
+_TITLES = ["masters", "pgachamps", "usopen", "theopen"]
+
+_TOURNAMENTS = {
+    ("masters", 2023): "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014",
+    ("masters", 2024): "https://www.pgatour.com/tournaments/2024/masters-tournament/R2024014",
+    ("pga"    , 2024): "https://www.pgatour.com/tournaments/2024/pga-championship/R2024033",
+}
+
+strkey = ""
+
+def get_link(year: int, tournament: str) -> str:
+    global strkey
+    strkey = str(year) + tournament
+    return _TOURNAMENTS[(tournament, year)]
+
+def get_page_source(year: int, tournament: str) -> str:
     chrome_options = Options()
     chrome_options.add_argument("--headless") 
     service = Service(_PATH) 
     driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver.get(_LINK)
+    driver.get(get_link(year, tournament))
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
     page_source = driver.page_source
     driver.quit()
@@ -77,8 +92,14 @@ def get_table(content: str) -> list:
                 try:
                     thru = int(cols[4])
                 except ValueError:
-                        thru = 0 
+                    thru = 0
+
+                try:
+                    curr = int(cols[5])
+                except ValueError:
+                    curr = 0
                 player['thru'] = thru
+                player['round'] = curr
                 player['rd1'] =  int(cols[6].replace('E', '0'))
                 player['rd2'] =  int(cols[7].replace('E', '0'))
                 player['rd3'] =  int(cols[8].replace('E', '0'))
@@ -106,15 +127,24 @@ def connect_mongo():
     
     return table
 
-def insert_mongo(table: Collection, ls: list) -> int:
+def insert_mongo(table: Collection, ls: list, year: int, tournament: str) -> int:
+    sort_data(ls, year, tournament)
+    # for l in ls:
+    #     print(l)
     results: InsertManyResult = table.insert_many(ls)
     if len(ls) == len(results.inserted_ids):
         return 201
     else:
         return 500
     
+def sort_data(ls: list, year: int, tournament: str) :
+    ls = sorted(ls, key=lambda k:k['total'])
+    for i in range(len(ls)):
+        ls[i]['_id'] = str(year) + '_' + str(i+1) + '_' + tournament
+    
 
-def index(key: str='name', asc: bool=True):
+
+def index(year: str, tournament: str, key: str='name', asc: bool=True):
     table: Collection = connect_mongo()
     order = DESCENDING
     if asc:
@@ -122,43 +152,71 @@ def index(key: str='name', asc: bool=True):
 
     sorted_documents: Cursor = table.find().sort(key, order)
     for i in range(len(sorted_documents.distinct("_id"))):
-        document = sorted_documents[i]
-        table.update_one({"_id":document["_id"]}, {"$set": {"index": int(i%255)}})
+        table.update_one({"_id": {"$regex": f'^{year}_\\d{{1,2}}_{tournament}'}}, {"$set": {"_id": str(year) + '_' + str(i+1) + '_' + tournament}})
     pass
 
-def insert():
+def insert(year: int, tournament: str):
     table: Collection = connect_mongo()
-    page_content = get_page_source()
+    page_content = get_page_source(year, tournament)
     if page_content:
         table_data = get_table(page_content)
-        if insert_mongo(table, table_data) == 500:
-            delete_mongo(_YEAR)
+        if insert_mongo(table, table_data, year, tournament) == 500:
+            delete_mongo(year, tournament)
     else:
         print("Failed to fetch page content.")
 
-def delete_mongo(year: int):
-    query: dict = {"year": {"$eq": year}}
+def delete_mongo(year: int, tournament: str):
+    query: dict = {"_id": {"$regex": f'^{year}_\\d{{1,3}}_{tournament}'}} # will work with up to 1000 golfers 
+                                                                            # or 999 im not sure
     table: Collection = connect_mongo()
     table.delete_many(query)
 
+def init():
+    for (tournament, year), link in _TOURNAMENTS.items():
+        print(f'Tournament:{tournament} - {year}: {link}')
+        delete_mongo(year, tournament)
+        insert(year, tournament)
+
 def main(args: list): 
-    if len(args) == 3:
+    if len(args) == 4:
         if args[1] == '--delete':
             try:
-                year = int(args[2])
-                delete_mongo(year)
+                year = int(args[3])
+                if args[2] not in _TITLES:
+                    raise ValueError("illegal title")
+                tournament = args[2]
+                delete_mongo(year, tournament)
             except ValueError:
-                print(f"Usage of the --delete flag requires an integer to delete the specific year\nSyntax:\n\t· python scrape_masters.py --delete <year>\nError: {args[2]} is not a valid integer.\n")
-    elif len(args) == 2:
-        if args[1] == '--index':
-            index()
-        elif args[1] == '--test':
-            test()
+                print(f"Usage of the --delete flag requires an integer to delete the specific year\
+                      \nSyntax:\
+                      \n\t· python scrape_masters.py --delete <tournament> <year>\
+                      \nError: {args[3]} is not a valid integer. OR\
+                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")
+        if args[1] == "--insert":
+            try:
+                year = int(args[3])
+                if args[2] not in _TITLES:
+                    raise ValueError("illegal title")
+                tournament = args[2]
+                insert(year, tournament)
+            except ValueError:
+                print(f"Usage of the --delete flag requires an integer to delete the specific year\
+                      \nSyntax:\
+                      \n\t· python scrape_masters.py --delete <tournament> <year>\
+                      \nError: {args[3]} is not a valid integer. OR\
+                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")
+    elif len(args) == 2 or len(args)==3:
+        if len(args)==2:
+            if args[1] == '--index':
+                index()
+            elif args[1] == '--test':
+                test()
+            elif args[1] == '--init':
+                init()
+        elif args[1] == '--delete':
+            print(f"Usage of the --delete flag requires an integer to delete the specific year\nSyntax:\n\t· python scrape_masters.py --delete <tournament> <year>")
         else: 
-            print(f"Only --index and --test are supported.\nSyntax:\n\t· python scrape_masters.py --index\n")
-
-    elif len(args) == 1:
-        insert()
+            print(f"Only --index, --init, --test, and --delete are supported.\nSyntax:\n\t· python scrape_masters.py --index\n")
 
 if __name__=='__main__':
     import sys
