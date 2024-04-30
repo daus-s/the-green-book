@@ -105,7 +105,7 @@ function Golfer({data, onClick, selected, display, direction}) {
         </div>
         );
     } 
-    else if (!data.name || !data.strokes || !(data.index || data.index==0) || !(data?.total||data?.total===0)) {
+    else if (!data.name || !data.strokes || parseable(data._id) || !(data?.total||data?.total===0)) {
         console.error(data);
         throw Error('the golfer component requires data to be non-nullish and the parameters\n    • name: string\n    • strokes: number <int>\n    • index: number <uint_8>\n\n    • total: number\n{', JSON.stringify(data), '}');
     } 

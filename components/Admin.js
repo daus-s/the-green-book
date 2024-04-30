@@ -17,7 +17,7 @@ export default function Admin() {
             <div className="admin page" style={{width: '100%', paddingBottom: '114px', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'space-between'}}>
                 {adminComponents[comp]}
                 <div className="dot-selector">
-                    {adminComponents.map((c, index)=>{
+                    {adminComponents.map((_, index)=>{
                         return <button value={index} onClick={(e)=>setComp(e.target.value)} style={index==comp?{boxShadow: '0 0 10px white',}:{}}></button>
                     })}
                 </div>
@@ -36,7 +36,7 @@ export default function Admin() {
                 <AdminComponent title="Create PGA tournament" classname={'pga-tool'}>
                     <PGACreator />
                 </AdminComponent>
-            </div>
+            </div>  
             );
     }
 }

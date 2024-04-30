@@ -113,7 +113,7 @@ function BetLink({bet, tourney}) {
     if (!tourney) {
         throw Error('how are we gonna represent golf data without data...\nallchat: ?');
     }
-    const link = '/pga/masters-2024/bet/%s'; //make this correct 
+    const link = '/pga/masters-2024/bet/%s';  
     const aid = bet.oppie?bet.oppie:bet.league_id;
     const ext = (bet.oppie?'@':'$') + (encode(aid)); //@ is one on one bet, $ is league bet
     const [anti, setAnti] = useState(undefined); // this is either a league object or a public_user object
