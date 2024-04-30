@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMobile } from "./providers/MobileContext";
-import { useAuth } from "./providers/AuthContext";
 import BalanceTable from "./BalanceTable";
 import Commishify from "./Commishify";
 import PGACreator from "./PGACreator";
@@ -8,21 +7,9 @@ import AdminComponent from "./AdminComponent";
 
 export default function Admin() {
     const {isMobile} = useMobile();
-    const {user, meta, admin} = useAuth();
-    const [access, setAccess] = useState(false);
 
-    const adminComponents = [<BalanceTable />, <Commishify />];
+    const adminComponents = [<BalanceTable />, <Commishify />, <PGACreator />];
     const [comp, setComp] = useState(0);
-
-
-    useEffect(()=>{
-        const isAdmin = async () => {
-            const a = await admin();
-            //a is bool
-            setAccess(a);
-        }
-        isAdmin();
-    },[user, meta])
 
     
     if (isMobile) {
