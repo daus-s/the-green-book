@@ -1,12 +1,12 @@
 ## PGA Scraping tool
-#### Last update: 4/30/2024 8:57 AM
+#### Last update: 4/30/2024 10:13 AM
 #### Daus Carmichael
 
 ### Overview
-
-### Installation
+The scrape_masters python script is a tool to remotely gather all the tournament data for the PGA tour majors. These are the Masters, the PGA Championship, the US Open, and the British Open. It uses selenium to scrape the data and then connects to the MongoDB in the table \[golf\]\[masters\]. It will be automated to run once a minute when live data is being updated for tournaments. 
 
 #### Dependencies
+- `python 3.^10`
 - `selenium 4.15.2`
 - `bs4 0.0.2`
 - `pymongo 4.7.1`
@@ -22,6 +22,7 @@
 #### Commands
 ##### --test
 Syntax: `python scrape_masters.py --test`
+
 args: None
 
 Runs a test to check if the environment variables are accessible. Then checks the page source and checks if the table data is loaded. Prints the corresponding error that occurred.
@@ -34,6 +35,7 @@ Possible messages
 
 #### --delete 
 Syntax: `python scrape_masters.py --delete <tournament> <year>`
+
 args: string tournament, int year
 
 Removes from the MongoDB all entries with `_id`'s matching the pattern
