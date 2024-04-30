@@ -4,7 +4,7 @@ node_modules/
 build/
 # python enviroment
 scripts/.mypy_cache
-scripts/myenv
+myenv/
 
 scripts/g2b.py
 scripts/colors.txt
