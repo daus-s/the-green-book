@@ -20,3 +20,15 @@ verfied for me
 
 title width 284 px
 https://css-tricks.com/viewport-sized-typography/
+
+BRANCH GOLF
+
+well at least we have testing
+
+- your task is to find every location that takes tourney as an object... 
+	- pretty much the entire GolfFunctions suite
+- and refactor "tourney" to be a json like
+const tourney = { 
+		  tournament_metadata: { tournament supabase object },
+		  golfers: [/*golfers via getGolfers function with new params*/],
+		}

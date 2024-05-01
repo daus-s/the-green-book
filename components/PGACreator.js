@@ -41,7 +41,7 @@ export default function PGAPortal () {
                     <input type="text" value={name} onChange={(e)=>setName(e.target.value)} />
                 </div>
                 <div className="url">
-                    betties.app/pga{urlify(name)}
+                    betties.app/pga/{urlify(name)}
                 </div>
                 <div className="date-time-picker">
                     <DateTimePicker label="Basic date time picker" onChange={setCut} value={cut} required/>

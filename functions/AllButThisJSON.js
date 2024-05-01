@@ -39,4 +39,25 @@ function allButThese(list, elements) {
     }
 }
 
-module.exports = { allButThis, allButThese }
+function has(list, element) {
+    for (const item of list) {
+        if (typeof element === "bigint" || typeof element === "boolean" || typeof element === "number" || typeof element === "string") {
+            if (element === item) {
+                return true;
+            }
+        }
+        if (typeof element === "object") {
+            if (JSON.stringify(item)!==JSON.stringify(element)) {
+                return true
+            }
+        }
+        if (typeof element === "symbol" || typeof element === "function") {
+            throw Error('not yet implemented');
+        }
+        if (typeof element === "undefined") {
+            return true;
+        }
+    }
+}
+
+module.exports = { allButThis, allButThese, has }

@@ -174,7 +174,17 @@ def insert(year: int, tournament: str):
         print("Failed to fetch page content.")
 
 def delete_mongo(year: int, tournament: str):
-    query: dict = {"_id": {"$regex": f'^{year}_\\d{{1,3}}_{tournament}'}} # will work with up to 1000 golfers 
+    # notes about this regex     
+    '''
+    This regex matches the pattern of ^int_int_string
+    with restrictions on the string. 
+    The string is checked against the list of valid strings before this.
+    The second digit may not be longer than 3 digits and 
+    must be an integer. this is done via [0-9] => {0,1,2,3,...9}
+    the length is checked by the regex expression that is just a python set
+    and thus it prints the same {1,3} prints as {1, 3}
+    '''
+    query: dict = {"_id": {"$regex": f'^{year}_[0-9]{{1,3}}_{tournament}'}} # will work with up to 1000 golfers 
                                                                             # or 999 im not sure
     table: Collection = connect_mongo()
     table.delete_many(query)

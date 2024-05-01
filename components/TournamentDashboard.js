@@ -9,13 +9,17 @@ import Link from "next/link";
 import { getGolfers } from "../functions/GetGolfers";
 import { coerce, partition } from "../functions/RandomBigInt";
 import { podiumColors } from "../functions/OnTheH8rs";
+import { useRouter } from "next/router";
 
 export default function TournamentDashboard() {
     const [golfers, setGolfers] = useState(undefined);
     const [leagueBets, setLeagueBets] = useState(undefined);
     const [gentlemanBets, setGentleBets] = useState(undefined);
+    const [tournament, setTournament] = useState();
     
     const { meta } = useAuth();
+    const router = useRouter();
+    console.log(router.query)
 
     const getYourLeagueBets = async () => {
         const {data, error} = await supabase.from('masters_league').select().eq('public_id', meta.publicID);
@@ -32,6 +36,15 @@ export default function TournamentDashboard() {
             setGentleBets(data)
         }
     }
+    
+    const getTournament = async () => {
+        if (router.query.tournament) {
+            const { data: tournament, error: strawberry } = await supabase.from('tournaments').select().eq('extension', router.query.tournament).single();
+            if (!strawberry&&tournament) {
+                setTournament(tournament);
+            }
+        }
+    }
 
     useEffect(()=>{
         if (meta.publicID) {
@@ -42,15 +55,23 @@ export default function TournamentDashboard() {
     }, [meta])
 
     useEffect(()=>{
-        const gg = async () => { 
-            const {data, error} = await getGolfers(); 
-            if (!error) {
-                //console.log('setting Golfers literally right now');
-                setGolfers(data);
+        getTournament();
+    }, [router])
+
+    useEffect(()=>{
+        const getGs = async () => { 
+            if (tournament) {
+                const {data, error} = await getGolfers(tournament); 
+                if (!error) {
+                    //console.log('setting Golfers literally right now');
+                    setGolfers(data);
+                } else {
+                    console.log(error);
+                }
             }
         }
-        gg();
-    },[]);
+        getGs();
+    },[tournament]);
 
     return (
         <div className="masters dashboard">

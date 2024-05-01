@@ -17,8 +17,13 @@
 .golfer .golfer-name {
     font-size: 32px;
     font-weight: 700;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.golfer.drop-down-item .golfer-name {
     text-align: right;
-    padding-right: 5px;
+    padding-left: 0px;
 }
 
 .alternates, .first-team {

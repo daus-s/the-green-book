@@ -13,6 +13,9 @@ import UserSearchResult from "./UserSearchResult";
 import DataDropDown from "./DataDropDown";
 import Opponent from "./Opponent";
 import Search from "./Search";
+import { parseable } from "../functions/ParseSchema";
+import { useRouter } from "next/router";
+import Loading from "./Loading";
 
 function Group({data: group , onClick, display, direction, selected}) {
     if (group) {
@@ -131,7 +134,7 @@ function Golfer({data, onClick, selected, display, direction}) {
 }
 
 export default function MastersPlaceBetForm({}) {
-    const [golfers, setGolfers] = useState([]);
+    const [golfers, setGolfers] = useState(undefined);
     const [p1, setP1] = useState(undefined);
     const [p2, setP2] = useState(undefined);
     const [p3, setP3] = useState(undefined);
@@ -149,39 +152,63 @@ export default function MastersPlaceBetForm({}) {
     const [opp, setOpp] = useState(undefined);
     const [oppErr, setOppErr] = useState(false);
     const [groups, setGroups] = useState([]);
-    
+    const [tournament, setTournament] = useState();
+
+
     const [mode, setMode] = useState('League');
     const [viewing, setViewing] = useState('Starters');
 
     const { width } = useMobile();
     const { meta } = useAuth();
+    const router = useRouter();
     const { succeed, failed } = useModal();
 
 
-    const getPlayers = async () => {
-        const {data, error}  = await getGolfers();
-        data?setGolfers(data):null;
-    }
-
-    useEffect(()=> {
-        const getYourGroups = async () => {
-            if (meta?.publicID||meta.publicID===0) {
-                const {data: groupIDs, error: errorGroupIDs} = await supabase.from('user_groups').select().eq('userID', meta?.publicID);
-                if (!errorGroupIDs&&groupIDs.length) {
-                    let stack = [];
-                    for (const userGroup of groupIDs) {
-                        const {data, error} = await supabase.from('groups').select().eq('groupID', userGroup.groupID).single()
-                        if (data&&!error) { 
-                            stack.push(data); 
-                        }
-                    }
-                    setGroups(stack);
-                } else {
-                    setGroups([]);
-                }
+    const getTournament = async () => {
+        if (router.query.tournament) {
+            const { data: tournament, error: strawberry } = await supabase.from('tournaments').select().eq('extension', router.query?.tournament).single(); //protected by uniqueness condition
+            if (!strawberry&&tournament) {
+                setTournament(tournament);
             }
         }
+    }
+
+    const getPlayers = async () => {
+        const {data, error}  = await getGolfers(tournament);
+        if (!error) {
+            //console.log('setting Golfers literally right now');
+            setGolfers(data);
+        } else {
+            console.log(error);
+        }
+    }
+        
+    const getYourGroups = async () => {
+        if (meta?.publicID||meta.publicID===0) {
+            const {data: groupIDs, error: errorGroupIDs} = await supabase.from('user_groups').select().eq('userID', meta.publicID);
+            if (!errorGroupIDs&&groupIDs.length) {
+                let stack = [];
+                for (const userGroup of groupIDs) {
+                    const {data, error} = await supabase.from('groups').select().eq('groupID', userGroup.groupID).single()
+                    if (data&&!error) { 
+                        stack.push(data); 
+                    }
+                }
+                setGroups(stack);
+            } else {
+                setGroups([]);
+            }
+        }
+    }
+    useEffect(()=>{
+        getTournament();
+    }, [router])
+
+    useEffect(()=>{
         getPlayers();
+    }, [tournament])
+
+    useEffect(()=> {
         getYourGroups();
     }, [meta])
 
@@ -298,6 +325,8 @@ export default function MastersPlaceBetForm({}) {
 
     const errM = 'Please pick a golfer';
     return (
+        golfers
+        ?
         <div className="masters-place-bet-form">
             <div className="pick-box" style={{height: `${2*height(width)+80+96+55}px`, maxHeight: '373px'}}>
                 <div className="picks title">
@@ -388,5 +417,7 @@ export default function MastersPlaceBetForm({}) {
             </form>
             <MastersInfoModal isOpen={seeInfo} onClose={()=>setSeeInfo(false)}/>
         </div>
+        :
+        <Loading />
     );
 }
