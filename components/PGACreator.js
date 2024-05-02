@@ -18,7 +18,7 @@ export default function PGAPortal () {
         if (new Date() < cut) {
             const {error} = await supabase.from('tournaments').insert({
                 tournament_name: name,
-                cut_time: cut,//this might be a problem
+                cut_time: cut, //this might be a problem
                 extension: urlify(name)
             });
             if (!error) {

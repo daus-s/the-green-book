@@ -15,14 +15,14 @@ export default function TournamentDashboard() {
     const [golfers, setGolfers] = useState(undefined);
     const [leagueBets, setLeagueBets] = useState(undefined);
     const [gentlemanBets, setGentleBets] = useState(undefined);
-    const [tournament, setTournament] = useState();
+    const [tournament, setTournament] = useState(undefined);
     
     const { meta } = useAuth();
     const router = useRouter();
     console.log(router.query)
 
     const getYourLeagueBets = async () => {
-        const {data, error} = await supabase.from('masters_league').select().eq('public_id', meta.publicID);
+        const {data, error} = await supabase.from('masters_league').select().eq('public_id', meta.publicID).eq('tournament_id', tournament.id);
         //console.log('league bets:', data?data:error);
         if (!error&&data) {
             setLeagueBets(data);
@@ -30,7 +30,7 @@ export default function TournamentDashboard() {
     }
 
     const getYour1v1Bets = async () => {
-        const {data, error} = await supabase.from('masters_opponents').select().eq('public_id', meta.publicID);
+        const {data, error} = await supabase.from('masters_opponents').select().eq('public_id', meta.publicID).eq('tournament_id', tournament.id);
         //console.log('1v1 bets:', data?data:error);
         if (!error&&data) {
             setGentleBets(data)
@@ -48,11 +48,13 @@ export default function TournamentDashboard() {
 
     useEffect(()=>{
         if (meta.publicID) {
-            getYourLeagueBets();
-            getYour1v1Bets();
+            if (tournament) {
+                getYourLeagueBets();
+                getYour1v1Bets();
+            }
         }
 
-    }, [meta])
+    }, [meta,tournament])
 
     useEffect(()=>{
         getTournament();

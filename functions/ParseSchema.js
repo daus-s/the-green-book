@@ -53,7 +53,7 @@ function validateFields(object) {
     console.log(object)
     if (object?.year&&object?.tournament) {
         // console.log('tournament ∈ T is', has( _tournaments, object.tournament));
-        if (parseInt(object.year)&&object.year>=2023&&has( _tournaments, object.tournament)) {
+        if (parseInt(object.year)&&parseInt(object.year)>=2023&&has( _tournaments, object.tournament)) {
             return true;
         }
     }
