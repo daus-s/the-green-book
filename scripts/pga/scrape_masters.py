@@ -113,7 +113,6 @@ def get_table(content: str) -> list:
                 player['rd3'] =  int(cols[8].replace('E', '0'))
                 player['rd4'] =  int(cols[9].replace('E', '0'))
                 player['strokes'] =  int(cols[6].replace('E', '0')) + int(cols[7].replace('E', '0')) + int(cols[8].replace('E', '0')) + int(cols[9].replace('E', '0'))
-                player['year'] = _YEAR
                 player['total'] =  int(cols[3].replace('E', '0'))
                 data.append(player)
         return data
@@ -136,7 +135,10 @@ def connect_mongo():
     return table
 
 def insert_mongo(table: Collection, ls: list, year: int, tournament: str) -> int:
-    sort_data(ls, year, tournament)
+    sort_data(ls)
+    append_metadata(ls, year, tournament)
+    for row in ls:
+        print(row)
     # for l in ls:
     #     print(l)
     results: InsertManyResult = table.insert_many(ls)
@@ -145,23 +147,29 @@ def insert_mongo(table: Collection, ls: list, year: int, tournament: str) -> int
     else:
         return 500
     
-def sort_data(ls: list, year: int, tournament: str) :
-    ls = sorted(ls, key=lambda k:k['total'])
-    for i in range(len(ls)):
-        ls[i]['_id'] = str(year) + '_' + str(i+1) + '_' + tournament
+def sort_data(ls: list) :
+    ls = sorted(ls, key=lambda k:k['name'])
+    for i in range(len(ls)): # this where the schema gets fucked
+        ls[i]['index'] = i
     
+def append_metadata(ls: list, year: int, tournament: str):
+    for l in ls:
+        l['year'] = year
+        l['tournament'] = tournament 
 
 
-def index(year: str, tournament: str, key: str='name', asc: bool=True):
+def index(year: int, tournament: str, key: str='name', asc: bool=True):
+    # DONT USE DEPRECATE SOON PLS
     table: Collection = connect_mongo()
     order = DESCENDING
     if asc:
         order = ASCENDING
 
-    sorted_documents: Cursor = table.find().sort(key, order)
+    sorted_documents: Cursor = table.find({"year": {"$eq": year}, "tournament": {"$eq": tournament}}).sort(key, order)
+    print('sorted')
     for i in range(len(sorted_documents.distinct("_id"))):
-        table.update_one({"_id": {"$regex": f'^{year}_\\d{{1,2}}_{tournament}'}}, {"$set": {"_id": str(year) + '_' + str(i+1) + '_' + tournament}})
-    pass
+        table.update_one({"_id": {"$eq": sorted_documents[i]['_id']}, "year": {"$eq": year}, "tournament": {"$eq": tournament}}, {"$set": {"index": i}})
+    print('updated')
 
 def insert(year: int, tournament: str):
     table: Collection = connect_mongo()
@@ -184,10 +192,19 @@ def delete_mongo(year: int, tournament: str):
     the length is checked by the regex expression that is just a python set
     and thus it prints the same {1,3} prints as {1, 3}
     '''
-    query: dict = {"_id": {"$regex": f'^{year}_[0-9]{{1,3}}_{tournament}'}} # will work with up to 1000 golfers 
-                                                                            # or 999 im not sure
+    query: dict = {"year": {"$eq": year},
+                   "tournament": {"$eq": tournament}
+                   } 
     table: Collection = connect_mongo()
     table.delete_many(query)
+
+def logDB(query={}):
+    table = connect_mongo()
+    #can add filtering here
+    data = table.find(query)
+    for document in data:
+        print(document)
+    #print('filters: ')
 
 def init():
     for (tournament, year), link in _TOURNAMENTS.items():
@@ -195,7 +212,23 @@ def init():
         delete_mongo(year, tournament)
         insert(year, tournament)
 
+
+def cmdMongo(args): 
+    if len(args) == 2:
+        logDB()
+    elif len(args) == 4:
+        try:
+            year = int(args[3])
+            if not args[2] in _TITLES:
+                raise Exception('illegal tournament name')
+            logDB({"year": {"$eq": year}, "tournament": {"$eq": args[2]}})
+        except Exception:
+            print('illegal year argument')
+             
 def main(args: list): 
+    # REDO THIS STRUCUTRE
+    if  args[1] == "--mongo":
+        cmdMongo(args)
     if len(args) == 4:
         if args[1] == '--delete':
             try:
@@ -223,6 +256,19 @@ def main(args: list):
                       \n\t· python scrape_masters.py --delete <tournament> <year>\
                       \nError: {args[3]} is not a valid integer. OR\
                       \nError: {args[2]} is not in the valid tournaments {_TITLES}.")
+        if args[1] == "--index":
+            try:
+                year = int(args[3])
+                if args[2] not in _TITLES:
+                    raise ValueError("illegal title")
+                tournament = args[2]
+                index(year, tournament)
+            except ValueError:
+                print(f"Usage of the --delete flag requires an integer to delete the specific year\
+                      \nSyntax:\
+                      \n\t· python scrape_masters.py --delete <tournament> <year>\
+                      \nError: {args[3]} is not a valid integer. OR\
+                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")        
     elif len(args) == 2 or len(args)==3:
         if len(args)==2:
             if args[1] == '--index':
