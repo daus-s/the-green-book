@@ -1,4 +1,5 @@
 async function getGolfers(tournament) {
+    /* //SHIFT-ALT-A
     console.log('tournament :', tournament)
     console.log(tournament.mongodb_endpoint)
     let a, b, c, d = false;
@@ -9,7 +10,8 @@ async function getGolfers(tournament) {
     c = tournament?.mongodb_endpoint?.year?true:false;
     console.log('year:', c );
     d = tournament?.mongodb_endpoint?.tournament?true:false;
-    console.log('tournament:', d );
+    console.log('tournament:', d ); 
+    */
     if (!tournament||!tournament?.mongodb_endpoint||!tournament.mongodb_endpoint?.year||!tournament.mongodb_endpoint?.tournament) {
         return { data: undefined, error: "Malformed tournament object" };
     }

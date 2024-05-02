@@ -3,7 +3,7 @@ import { validateFields } from "../../functions/ParseSchema";
 
 export default async function handler(req, res) {
     let query = {}
-
+    
     console.log(req)
     if (!validateFields(req.query)) {
         console.log(req.query)
@@ -11,7 +11,8 @@ export default async function handler(req, res) {
         return;
     } else {
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet
-        query._id =  {"$regex": `${req.query.year}_[0-9]{1,3}_${req.query.tournament}`};
+        query.year =  { "$eq": parseInt(req.query.year)};
+        query.tournament =  { "$eq": req.query.tournament};
     }
 
     let client;

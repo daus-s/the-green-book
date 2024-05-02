@@ -185,13 +185,17 @@ a .opponent.link {
     width: 100%;
     color: var(--text-color);
     font-size: 14px;
-    border: 1px solid var(--table-border);
+    border-left: 1px solid var(--table-border);
+    border-bottom: 1px solid var(--table-border);
+    border-right: 1px solid var(--table-border);
 }
 .masters thead {
     position: sticky;
     top: -1px;
     z-index: 1;
+    border-top: 1px solid var(--table-border);
 }
+
 .masters th {
     padding: 8px 12px;
     text-align: left;
@@ -244,6 +248,10 @@ a .opponent.link {
 
 .masters thead tr {
     border: 1px solid var(--table-border);
+}
+
+.masters thead tr th {
+    border-top: 1px solid var(--table-border);
 }
 
 /* 
