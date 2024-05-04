@@ -10,6 +10,7 @@ import { getGolfers } from "../functions/GetGolfers";
 import { coerce, partition } from "../functions/RandomBigInt";
 import { podiumColors } from "../functions/OnTheH8rs";
 import { useRouter } from "next/router";
+import CreateNewGolfWager from "./CreateNewGolfWager";
 
 export default function TournamentDashboard() {
     const [golfers, setGolfers] = useState(undefined);
@@ -89,16 +90,21 @@ export default function TournamentDashboard() {
                         {
                         golfers&&leagueBets
                         ?
+                            <>
+                            {
                             leagueBets.length
                             ?
-                            leagueBets.map((bet)=>{
-                                const comp = <BetLink key={bet.league_id} bet={bet} tourney={golfers} />;
-                                return comp;
-                            })
+                                leagueBets.map((bet)=>{
+                                    const comp = <BetLink key={bet.league_id} bet={bet} tourney={golfers} />;
+                                    return comp;
+                                })
                             :
-                            <div className="no-results">
-                                No bets
-                            </div>
+                                <div className="no-results">
+                                    No bets
+                                </div>
+                            }
+                            <CreateNewGolfWager />
+                            </>
                         :
                             <Loading />
                         }
@@ -112,15 +118,20 @@ export default function TournamentDashboard() {
                         {
                         golfers&&gentlemanBets
                         ?
+                            <>
+                            {
                             gentlemanBets.length
                             ?
-                            gentlemanBets.map((bet, index)=>{
-                                return <BetLink key={index} bet={bet} tourney={golfers} />;
-                            })
+                                gentlemanBets.map((bet, index)=>{
+                                    return <BetLink key={index} bet={bet} tourney={golfers} />;
+                                })
                             :
-                            <div className="no-results">
-                                No bets
-                            </div>
+                                <div className="no-results">
+                                    No bets
+                                </div>
+                            }
+                            <CreateNewGolfWager />
+                            </>
                         :
                             <Loading />
                         }

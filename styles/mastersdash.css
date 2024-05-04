@@ -265,3 +265,11 @@ https://codepen.io/kizu/pen/OyzGXY
 .scrollbox-content {
     visibility: visible;
 }
+
+.new-golf-wager {
+    transition: filter .6s ease;
+}
+
+.new-golf-wager:hover {
+    filter: brightness(150%);
+}
