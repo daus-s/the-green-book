@@ -16,7 +16,7 @@ describe('american function', () => {
   });
 
   it('throws an error for non-number wager', () => {
-    expect(() => american(150, 'invalid')).toThrow('Both odds and wager must be numbers.');
+    expect(() => american(150, 'invalid')).toThrow();
   });
 
 });

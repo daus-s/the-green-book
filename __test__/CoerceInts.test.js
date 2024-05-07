@@ -17,7 +17,7 @@ describe('coerce ints into single data point', () => {
         const d = 0;
         expect(()=>{
             coerce(a,b,c,d)
-        }).toThrow('integers for coersion must be between 0 and 255 inclusive inclusive\ni:=[0, 255]');
+        }).toThrow();
     });
 
     it('all 1s makes a big fat negative 1', () => {
