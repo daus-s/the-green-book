@@ -7,6 +7,7 @@ import { MobileProvider } from '../components/providers/MobileContext';
 //open source?
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { TourProvider } from '../components/providers/TournamentContext';
 
 
 
@@ -33,7 +34,9 @@ export default function Providers({ children }) { /* nah if aliens had space tra
       <MobileProvider>
         <AuthProvider>
           <ModalProvider>
-            {children}
+            <TourProvider>
+              {children}
+            </TourProvider>
           </ModalProvider>
         </AuthProvider>
       </MobileProvider>
