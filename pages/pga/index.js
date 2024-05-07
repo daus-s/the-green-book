@@ -39,10 +39,14 @@ function TournamentLink({tournament}) {
     useEffect(()=> {
         switch(tournament.tournament_name) {
             case "Masters 2024":
-                setImg(<img className="golf-preview" src="/augustanational.png" style={{objectFit: 'cover', position: 'absolute', zIndex: 0, }}/>);
+                setImg(<img className="golf-preview augusta" src="/augustanational.png" style={{objectFit: 'cover', position: 'absolute', zIndex: 0, }}/>);
                 break;
+            case "2023 Masters":
+                setImg(<img className="golf-preview augusta" src="/augustanational.png" style={{objectFit: 'cover', position: 'absolute', zIndex: 0, }}/>);
+                break;
+                
             case "2024 PGA Championship":
-                setImg(<img className="golf-preview" src="/valhallagolfclub.png" style={{objectFit: 'cover', position: 'absolute', zIndex: 0, transform: 'translateY(160px)'}}/>);
+                setImg(<img className="golf-preview valhalla" src="/valhallagolfclub.png" style={{objectFit: 'cover', position: 'absolute', zIndex: 0, transform: 'translateY(160px)'}}/>);
                 break;
             //expand on this as needed
         }

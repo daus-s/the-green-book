@@ -133,7 +133,7 @@ function Golfer({data, onClick, selected, display, direction}) {
     }
 }
 
-export default function MastersPlaceBetForm({}) {
+export default function MastersPlaceBetForm({payload}) {
     const [golfers, setGolfers] = useState(undefined);
     const [p1, setP1] = useState(undefined);
     const [p2, setP2] = useState(undefined);
@@ -153,17 +153,26 @@ export default function MastersPlaceBetForm({}) {
     const [oppErr, setOppErr] = useState(false);
     const [groups, setGroups] = useState([]);
     const [tournament, setTournament] = useState();
-
-
+    
+    
     const [mode, setMode] = useState('League');
     const [viewing, setViewing] = useState('Starters');
-
+    
     const { width } = useMobile();
     const { meta } = useAuth();
     const router = useRouter();
     const { succeed, failed } = useModal();
+    
+    if (payload) {
+        if (router.query.enc) {
+            const starters = partition(/** bet info */);
+            const alternates = partition();
+        } else {
 
+        }
 
+    }
+    
     const getTournament = async () => {
         if (router.query.tournament) {
             const { data: tournament, error: strawberry } = await supabase.from('tournaments').select().eq('extension', router.query?.tournament).single(); //protected by uniqueness condition
@@ -172,7 +181,7 @@ export default function MastersPlaceBetForm({}) {
             }
         }
     }
-
+    
     const getPlayers = async () => {
         const {data, error}  = await getGolfers(tournament);
         if (!error) {
@@ -182,7 +191,7 @@ export default function MastersPlaceBetForm({}) {
             console.log(error);
         }
     }
-        
+    
     const getYourGroups = async () => {
         if (meta?.publicID||meta.publicID===0) {
             const {data: groupIDs, error: errorGroupIDs} = await supabase.from('user_groups').select().eq('userID', meta.publicID);
@@ -325,10 +334,10 @@ export default function MastersPlaceBetForm({}) {
 
     const errM = 'Please pick a golfer';
     return (
-        golfers
+        golfers //                               ${2*height(width)+80+96+55}px
         ?
-        <div className="masters-place-bet-form">
-            <div className="pick-box" style={{height: `${2*height(width)+80+96+55}px`, maxHeight: '373px'}}>
+        <div className="masters-place-bet-form"> 
+            <div className="pick-box" style={{height: '100%', maxHeight: '373px'}}>
                 <div className="picks title">
                     Picks
                 </div>
