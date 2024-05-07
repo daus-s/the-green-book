@@ -4,8 +4,10 @@ node_modules/
 build/
 # python enviroment
 scripts/.mypy_cache
+scripts/__pycache__
 myenv/
 venv/
+
 
 scripts/g2b.py
 scripts/colors.txt
@@ -27,3 +29,6 @@ drawings/
 
 #
 components/ErrorWrapper.js
+
+# ignore dev tools
+dev/
