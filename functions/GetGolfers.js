@@ -16,7 +16,6 @@ async function getGolfers(tournament) {
         return { data: undefined, error: "Malformed tournament object" };
     }
     const query = `?year=${tournament.mongodb_endpoint.year}&tournament=${tournament.mongodb_endpoint.tournament}`;
-    console.log(query);
     try {
         const response = await fetch('/api/golfers' + query);
 
