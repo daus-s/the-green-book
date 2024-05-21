@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
 import { supabase } from '../../../../functions/SupabaseClient'; //hahah
 import { decode } from '../../../../functions/Encode';
+import {  } from '../../../'
  
 export default function MasterBet() {
     //decode the url
@@ -40,6 +41,7 @@ export default function MasterBet() {
             <a href='/pga'>{'<'} Return to Masters dashboard</a>
             <p>Tournament: {router.query.tournament}</p>
             <p>Bet: {router.query.enc}</p>
+            <MastersPlaceBetForm />
         </div>
     );
 }
