@@ -1,4 +1,6 @@
 import os
+import time
+import numpy as np
 import datetime # type: ignore
 from dotenv import load_dotenv # type: ignore
 import requests # type: ignore
@@ -19,15 +21,14 @@ from pymongo import ASCENDING, DESCENDING # type: ignore
 
 # TODO: Change these
 _LINK: str = "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014"
-_YEAR: int = 2023 #datetime.datetime.now().year
 _PATH = load_dotenv(".env") and os.getenv('CHROME_PATH')
 
 _TITLES = ["masters", "pgachamps", "usopen", "theopen"]
 
 _TOURNAMENTS = {
-    ("masters", 2023): "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014",
-    ("masters", 2024): "https://www.pgatour.com/tournaments/2024/masters-tournament/R2024014",
-    ("pga"    , 2024): "https://www.pgatour.com/tournaments/2024/pga-championship/R2024033",
+    ("masters",     2023): "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014",
+    ("masters",     2024): "https://www.pgatour.com/tournaments/2024/masters-tournament/R2024014",
+    ("pgachamps",   2024): "https://www.pgatour.com/tournaments/2024/pga-championship/R2024033",
 }
 
 strkey = ""
@@ -94,11 +95,19 @@ def get_table(content: str) -> list:
         for row in rows:
             cols = row.find_all(["th", "td"])
             cols = [col.text.strip() for col in cols]
-            if len(cols) == 10 and not cols[0] in ['CUT', 'WD', 'Pos']:
+
+            if len(cols) in [10, 11] and not cols[0] in ['CUT', 'WD', 'Pos']:
                 player = {}
                 player['name'] =  cols[2]
                 try:
-                    thru = int(cols[4])
+                    if 'F' in cols[4]:
+                        thru = 18
+                    else:
+                        add = 0 
+                        if '*' in cols[4]:
+                            add = 9
+                            cols[4].replace('*', '')
+                        thru = (int(cols[4]) + add) % 19
                 except ValueError:
                     thru = 0
 
@@ -108,16 +117,39 @@ def get_table(content: str) -> list:
                     curr = 0
                 player['thru'] = thru
                 player['round'] = curr
-                player['rd1'] =  int(cols[6].replace('E', '0'))
-                player['rd2'] =  int(cols[7].replace('E', '0'))
-                player['rd3'] =  int(cols[8].replace('E', '0'))
-                player['rd4'] =  int(cols[9].replace('E', '0'))
-                player['strokes'] =  int(cols[6].replace('E', '0')) + int(cols[7].replace('E', '0')) + int(cols[8].replace('E', '0')) + int(cols[9].replace('E', '0'))
-                player['total'] =  int(cols[3].replace('E', '0'))
+                try:
+                    rd1 = int(cols[6])
+                except ValueError:
+                    rd1 = 0
+                player['rd1'] =  rd1
+
+                try:
+                    rd2 = int(cols[7])
+                except ValueError:
+                    rd2 = 0
+                player['rd2'] =  rd2
+
+                try:
+                    rd3 = int(cols[8])
+                except ValueError:
+                    rd3 = 0
+                player['rd3'] = rd3
+
+                try:
+                    rd4 = int(cols[9])
+                except ValueError:
+                    rd4 = 0
+                player['rd4'] =  rd4
+
+                player['strokes'] =  rd1 + rd2 + rd3 + rd4
+                try:
+                    player['total'] =  int(cols[3].replace('E', '0'))
+                except ValueError:
+                    player['total'] = 0
                 data.append(player)
         return data
     else:
-        return []
+        return None
     
 
 def env():
@@ -137,14 +169,61 @@ def connect_mongo():
 def insert_mongo(table: Collection, ls: list, year: int, tournament: str) -> int:
     sort_data(ls)
     append_metadata(ls, year, tournament)
-    for row in ls:
-        print(row)
-    # for l in ls:
-    #     print(l)
+    for l in ls:
+        print(l)
     results: InsertManyResult = table.insert_many(ls)
     if len(ls) == len(results.inserted_ids):
         return 201
     else:
+        return 500
+
+def get_meta(data, year, tournament):
+    # circ = 0
+    # adam = 0
+    count = 0
+    rd4 = 0
+    rd3 = 0 
+    rd2 = 0
+    rd1 = 0
+    for doc in data:
+        #count golfers
+        count += 1
+        if doc['rd4'] != 0:
+            if doc['thru'] == 18:
+                rd4 += 1
+        if doc['rd3'] != 0:
+            if doc['thru'] == 18:
+                rd3 += 1
+        if doc['rd2'] != 0:
+            if doc['thru'] == 18:
+                rd2 += 1        
+        if doc['rd1'] != 0:
+            if doc['thru'] == 18:
+                rd1 += 1
+    print(tournament + ' ' + str(year))
+    print('round 1: {}%'.format(int(100*rd1/count)))
+    print('round 2: {}%'.format(int(100*rd2/count)))
+    print('round 3: {}%'.format(int(100*rd3/count)))
+    print('round 4: {}%'.format(int(100*rd4/count)))
+    if (rd4 == count):
+        print('TOURNAMENT COMPLETE')
+        return 'finished'
+    else:
+        return 'ongoing'
+            
+
+
+
+def update_mongo(table: Collection, ls: list, year: int, tournament: str) -> int:
+    try:
+        sort_data(ls)
+        append_metadata(ls, year, tournament)
+        table: Collection = connect_mongo()
+        data = table.find({"year": str(year), "tournament": tournament})
+        for doc in data:
+            table.update_one({year: year, tournament: tournament, index: doc['index']}, {"$set": doc})
+        return 201
+    except Exception:
         return 500
     
 def sort_data(ls: list) :
@@ -171,15 +250,55 @@ def index(year: int, tournament: str, key: str='name', asc: bool=True):
         table.update_one({"_id": {"$eq": sorted_documents[i]['_id']}, "year": {"$eq": year}, "tournament": {"$eq": tournament}}, {"$set": {"index": i}})
     print('updated')
 
-def insert(year: int, tournament: str):
+def live(year, tournament):
+    table: Collection = connect_mongo()
+    
+    inited = table.find_one({"year": year, "tournament": tournament}) is not None
+    times = np.random.normal(loc=300,scale=30,size=1000)
+    
+    for wait in times:
+        sts = True
+        page_content = get_page_source(year, tournament)
+        if page_content:
+            table_data = get_table(page_content)
+            if not inited:
+                res = get_meta(table_data, year, tournament)
+                if insert_mongo(table, table_data, year, tournament) == 500:
+                    sts = False
+                else:
+                    sts = True
+            else:
+                res = get_meta(table_data, year, tournament)
+                if update_mongo(table, table_data, year, tournament) == 500:
+                    sts = False
+                else:
+                    sts = True
+        else:
+            sts = False
+            inited = False
+        print('success') if sts else print('failure')
+        if res == 'ongoing':
+            time.sleep(wait)
+        else:
+            break
+
+def validate(year, tournament):
+    #compare data across tables from betties and pga 
+    pass
+
+def insert(year: int, tournament: str, safe:bool=False):
     table: Collection = connect_mongo()
     page_content = get_page_source(year, tournament)
     if page_content:
         table_data = get_table(page_content)
-        if insert_mongo(table, table_data, year, tournament) == 500:
+        if insert_mongo(table, table_data, year, tournament) == 500 and not safe:
             delete_mongo(year, tournament)
+            return False
+        else:
+            return True
     else:
         print("Failed to fetch page content.")
+        return False
 
 def delete_mongo(year: int, tournament: str):
     # notes about this regex     
@@ -200,7 +319,6 @@ def delete_mongo(year: int, tournament: str):
 
 def logDB(query={}):
     table = connect_mongo()
-    #can add filtering here
     data = table.find(query)
     for document in data:
         print(document)
@@ -250,12 +368,13 @@ def main(args: list):
                     raise ValueError("illegal title")
                 tournament = args[2]
                 insert(year, tournament)
-            except ValueError:
-                print(f"Usage of the --delete flag requires an integer to delete the specific year\
+            except ValueError as v:
+                print(f"Usage of the --delete flag requires an integer to create the specific year\
                       \nSyntax:\
-                      \n\t· python scrape_masters.py --delete <tournament> <year>\
+                      \n\t· python scrape_masters.py --insert <tournament> <year>\
                       \nError: {args[3]} is not a valid integer. OR\
-                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")
+                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.\
+                      \ntype: {v}")
         if args[1] == "--index":
             try:
                 year = int(args[3])
@@ -264,11 +383,24 @@ def main(args: list):
                 tournament = args[2]
                 index(year, tournament)
             except ValueError:
-                print(f"Usage of the --delete flag requires an integer to delete the specific year\
+                print(f"Usage of the --delete flag requires an integer to index the specific year\
                       \nSyntax:\
-                      \n\t· python scrape_masters.py --delete <tournament> <year>\
+                      \n\t· python scrape_masters.py --index <tournament> <year>\
                       \nError: {args[3]} is not a valid integer. OR\
-                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")        
+                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")   
+        if args[1] == "--live":
+            try:
+                year = int(args[3])
+                if args[2] not in _TITLES:
+                    raise ValueError("illegal title")
+                tournament = args[2]
+                live(year, tournament)
+            except ValueError:
+                print(f"Usage of the --delete flag requires an integer to set up live data for the specific year\
+                      \nSyntax:\
+                      \n\t· python scrape_masters.py --live <tournament> <year>\
+                      \nError: {args[3]} is not a valid integer. OR\
+                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")     
     elif len(args) == 2 or len(args)==3:
         if len(args)==2:
             if args[1] == '--index':
