@@ -33,6 +33,14 @@ _TOURNAMENTS = {
 
 strkey = ""
 
+def get_from_list(list, query):
+    year = query['year'] 
+    tournament = query['tournament'] 
+    index = query['index']
+    for item in list:
+        if item['year'] == year and item['tournament'] == tournament and item['index'] == index:
+            return item
+
 def get_link(year: int, tournament: str) -> str:
     global strkey
     strkey = str(year) + tournament
@@ -52,9 +60,9 @@ def get_page_source(year: int, tournament: str) -> str:
         return page_source
     except TimeoutException:
         print('--table not found:\
-              \n  you are likely looking at a tournament in the future or the past\
-              \n  without a table implemented yet. Try later when it is closer to the\
-              \n  tournament.')
+            \n  you are likely looking at a tournament in the future or the past\
+            \n  without a table implemented yet. Try later when it is closer to the\
+            \n  tournament.')
         return None
 
 def get_page() -> bytes | None: 
@@ -96,12 +104,15 @@ def get_table(content: str) -> list:
             cols = row.find_all(["th", "td"])
             cols = [col.text.strip() for col in cols]
 
-            if len(cols) in [10, 11] and not cols[0] in ['CUT', 'WD', 'Pos']:
+            if len(cols) in [10, 11] and not cols[0] in ['WD', 'Pos']:
                 player = {}
                 player['name'] =  cols[2]
-                try:
-                    if 'F' in cols[4]:
+                player['cut'] = not (cols[0] == 'CUT') # cut indicates if u made the cut    KEY
+                try:                                   #                                    made cut:   True
+                    if 'F' in cols[4]:                 #                                    eliminated: False
                         thru = 18
+                    elif cols[4] == '-':
+                        thru = 0
                     else:
                         add = 0 
                         if '*' in cols[4]:
@@ -157,7 +168,7 @@ def env():
     mongo_db_write_password = os.getenv("MONGO_WRITE_PWD")
     mongo_db_write_username= os.getenv("MONGO_WRITE_USR")
     return {'username': mongo_db_write_username, 'password': mongo_db_write_password}
-       
+
 def connect_mongo():
     write_creds: dict = env() #is a dict a subset of set
     uri: str = "mongodb+srv://{}:{}@cluster0.jthligq.mongodb.net/?retryWrites=true&w=majority".format(write_creds['username'], write_creds['password'])
@@ -169,8 +180,6 @@ def connect_mongo():
 def insert_mongo(table: Collection, ls: list, year: int, tournament: str) -> int:
     sort_data(ls)
     append_metadata(ls, year, tournament)
-    for l in ls:
-        print(l)
     results: InsertManyResult = table.insert_many(ls)
     if len(ls) == len(results.inserted_ids):
         return 201
@@ -178,9 +187,8 @@ def insert_mongo(table: Collection, ls: list, year: int, tournament: str) -> int
         return 500
 
 def get_meta(data, year, tournament):
-    # circ = 0
-    # adam = 0
     count = 0
+    cut = 0 #number of players that made the finals
     rd4 = 0
     rd3 = 0 
     rd2 = 0
@@ -188,44 +196,50 @@ def get_meta(data, year, tournament):
     for doc in data:
         #count golfers
         count += 1
-        if doc['rd4'] != 0:
-            if doc['thru'] == 18:
-                rd4 += 1
-        if doc['rd3'] != 0:
-            if doc['thru'] == 18:
-                rd3 += 1
         if doc['rd2'] != 0:
             if doc['thru'] == 18:
                 rd2 += 1        
         if doc['rd1'] != 0:
             if doc['thru'] == 18:
                 rd1 += 1
+        if doc['cut'] == True:
+            cut += 1
+            if doc['rd4'] != 0:
+                if doc['thru'] == 18:
+                    rd4 += 1
+            if doc['rd3'] != 0:
+                if doc['thru'] == 18:
+                    rd3 += 1
     print(tournament + ' ' + str(year))
-    print('round 1: {}%'.format(int(100*rd1/count)))
-    print('round 2: {}%'.format(int(100*rd2/count)))
-    print('round 3: {}%'.format(int(100*rd3/count)))
-    print('round 4: {}%'.format(int(100*rd4/count)))
-    if (rd4 == count):
+    print('round 1: {}% ({}/{} golfers)'.format(int(100*rd1/count), rd1, count))
+    print('round 2: {}% ({}/{} golfers)'.format(int(100*rd2/count), rd2, count))
+    print('round 3: {}% ({}/{} golfers)'.format(int(100*rd3/cut), rd3, cut))
+    print('round 4: {}% ({}/{} golfers)'.format(int(100*rd4/cut), rd4, cut))
+    if rd4 == cut:
         print('TOURNAMENT COMPLETE')
         return 'finished'
     else:
         return 'ongoing'
-            
-
-
 
 def update_mongo(table: Collection, ls: list, year: int, tournament: str) -> int:
     try:
         sort_data(ls)
         append_metadata(ls, year, tournament)
         table: Collection = connect_mongo()
-        data = table.find({"year": str(year), "tournament": tournament})
-        for doc in data:
-            table.update_one({year: year, tournament: tournament, index: doc['index']}, {"$set": doc})
+        data = table.find({"year": {"$eq": year}, "tournament": {"$eq": tournament}})
+        for doc in data: # this is O(n^2)
+            query = {"year": year, "tournament": tournament, "index": doc['index']}
+            fl = get_from_list(ls, query)
+            if fl is not None:    
+                table.update_one({"index": {"$eq": doc["index"]}, "year": {"$eq": year}, "tournament": {"$eq": tournament}}, {"$set": fl})
+                print('.', end='')
+            else:
+                print('x', end='')
+        print('\n', end='')
         return 201
     except Exception:
         return 500
-    
+
 def sort_data(ls: list) :
     ls = sorted(ls, key=lambda k:k['name'])
     for i in range(len(ls)): # this where the schema gets fucked
@@ -261,15 +275,20 @@ def live(year, tournament):
         page_content = get_page_source(year, tournament)
         if page_content:
             table_data = get_table(page_content)
+            # [print(row) for row in table_data]
             if not inited:
+                print('initializing tournament...')
                 res = get_meta(table_data, year, tournament)
-                if insert_mongo(table, table_data, year, tournament) == 500:
+                op = insert_mongo(table, table_data, year, tournament)
+                if op == 500:
                     sts = False
                 else:
                     sts = True
             else:
+                print('updating tournament...')
                 res = get_meta(table_data, year, tournament)
-                if update_mongo(table, table_data, year, tournament) == 500:
+                op = update_mongo(table, table_data, year, tournament)
+                if op == 500:
                     sts = False
                 else:
                     sts = True
@@ -342,7 +361,7 @@ def cmdMongo(args):
             logDB({"year": {"$eq": year}, "tournament": {"$eq": args[2]}})
         except Exception:
             print('illegal year argument')
-             
+
 def main(args: list): 
     # REDO THIS STRUCUTRE
     if  args[1] == "--mongo":
@@ -357,10 +376,10 @@ def main(args: list):
                 delete_mongo(year, tournament)
             except ValueError:
                 print(f"Usage of the --delete flag requires an integer to delete the specific year\
-                      \nSyntax:\
-                      \n\t· python scrape_masters.py --delete <tournament> <year>\
-                      \nError: {args[3]} is not a valid integer. OR\
-                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")
+                    \nSyntax:\
+                    \n\t· python scrape_masters.py --delete <tournament> <year>\
+                    \nError: {args[3]} is not a valid integer. OR\
+                    \nError: {args[2]} is not in the valid tournaments {_TITLES}.")
         if args[1] == "--insert":
             try:
                 year = int(args[3])
@@ -369,12 +388,12 @@ def main(args: list):
                 tournament = args[2]
                 insert(year, tournament)
             except ValueError as v:
-                print(f"Usage of the --delete flag requires an integer to create the specific year\
-                      \nSyntax:\
-                      \n\t· python scrape_masters.py --insert <tournament> <year>\
-                      \nError: {args[3]} is not a valid integer. OR\
-                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.\
-                      \ntype: {v}")
+                print(f"Usage of the --insert flag requires an integer to create the specific year\
+                    \nSyntax:\
+                    \n\t· python scrape_masters.py --insert <tournament> <year>\
+                    \nError: {args[3]} is not a valid integer. OR\
+                    \nError: {args[2]} is not in the valid tournaments {_TITLES}.\
+                    \ntype: {v}")
         if args[1] == "--index":
             try:
                 year = int(args[3])
@@ -383,11 +402,11 @@ def main(args: list):
                 tournament = args[2]
                 index(year, tournament)
             except ValueError:
-                print(f"Usage of the --delete flag requires an integer to index the specific year\
-                      \nSyntax:\
-                      \n\t· python scrape_masters.py --index <tournament> <year>\
-                      \nError: {args[3]} is not a valid integer. OR\
-                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")   
+                print(f"Usage of the --index flag requires an integer to index the specific year\
+                    \nSyntax:\
+                    \n\t· python scrape_masters.py --index <tournament> <year>\
+                    \nError: {args[3]} is not a valid integer. OR\
+                    \nError: {args[2]} is not in the valid tournaments {_TITLES}.")   
         if args[1] == "--live":
             try:
                 year = int(args[3])
@@ -396,11 +415,11 @@ def main(args: list):
                 tournament = args[2]
                 live(year, tournament)
             except ValueError:
-                print(f"Usage of the --delete flag requires an integer to set up live data for the specific year\
-                      \nSyntax:\
-                      \n\t· python scrape_masters.py --live <tournament> <year>\
-                      \nError: {args[3]} is not a valid integer. OR\
-                      \nError: {args[2]} is not in the valid tournaments {_TITLES}.")     
+                print(f"Usage of the --live flag requires an integer and tournament to set up live data for the specific year and tournament\
+                    \nSyntax:\
+                    \n\t· python scrape_masters.py --live <tournament> <year>\
+                    \nError: {args[3]} is not a valid integer. OR\
+                    \nError: {args[2]} is not in the valid tournaments {_TITLES}.")     
     elif len(args) == 2 or len(args)==3:
         if len(args)==2:
             if args[1] == '--index':
