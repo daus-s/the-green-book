@@ -191,7 +191,15 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
+/**
+ * 
+ * OBJECT
+ * meta: Object = {
+ *    pfp
+ *    publicID
+ *    username
+ * };
+ */
 export const useAuth = () => {
   return useContext(AuthContext);
 };

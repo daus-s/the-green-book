@@ -1,0 +1,21 @@
+BETTIES.APP TODO
+
+v2.2
+"golf and pga support"
+- i take care
+
+v3.0
+"social features"
+- friends feature
+- new login workflow
+  - 3 screens 
+  - identification, then password & confirm password
+  - display name and pic pfp
+  - live odd bets
+
+v4.0
+"infra"
+ - logging
+ - better data analytics
+ - verfied judges/verfied sources
+

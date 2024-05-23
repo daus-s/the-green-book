@@ -26,9 +26,12 @@ supabase.temp
 supabase.env
 
 drawings/
+public/golfergif/
+public/xddlogo.png
 
 #
 components/ErrorWrapper.js
 
 # ignore dev tools
 dev/
+template.js

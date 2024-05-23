@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "../../functions/SupabaseClient";
+import { options } from "marked";
 
 export default function MastersPage() {
     return (
@@ -16,7 +17,9 @@ function PGAPortal() {
 
     useEffect(()=>{
         const getTournaments = async () => {
-            const {data,error} = await supabase.from('tournaments').select();
+            const {data,error} = await supabase.from('tournaments').select().order('cut_time',  {
+                ascending: false
+            });
             if (!error&&data.length) {
                 setTournaments(data);
             }
@@ -38,13 +41,12 @@ function TournamentLink({tournament}) {
 
     useEffect(()=> {
         switch(tournament.tournament_name) {
-            case "Masters 2024":
+            case "2024 Masters":
                 setImg(<img className="golf-preview augusta" src="/augustanational.png" style={{objectFit: 'cover', position: 'absolute', zIndex: 0, }}/>);
                 break;
             case "2023 Masters":
                 setImg(<img className="golf-preview augusta" src="/augustanational.png" style={{objectFit: 'cover', position: 'absolute', zIndex: 0, }}/>);
                 break;
-                
             case "2024 PGA Championship":
                 setImg(<img className="golf-preview valhalla" src="/valhallagolfclub.png" style={{objectFit: 'cover', position: 'absolute', zIndex: 0, transform: 'translateY(160px)'}}/>);
                 break;

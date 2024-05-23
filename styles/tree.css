@@ -7,6 +7,9 @@
     max-width: 400px;
     margin: 96px 52px 52px 52px;
     position: relative;
+    grid-row: 1 / span 4;
+    grid-column: 2/3;
+
 }
 
 .leaf {
@@ -86,4 +89,12 @@ a.leaf {
   
 .dendrology:hover {
     transform: scale(1.05); /* Scale up by 5% on hover */
+}
+
+
+.home.page {
+    display: grid;
+    width: fit-content;
+    grid-template-columns: 2fr 6fr 2fr;
+    grid-template-rows: repeat(4, 1fr);
 }

@@ -27,6 +27,7 @@
 }
 
 .masters.dashboard {
+    height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -212,21 +213,27 @@ a .opponent.link {
     background-color: var(--table-bg-green);
 }
 
+.masters tbody tr.cut {
+    background-color: var(--danger-input);
+    color: var(--unimportant-text);
+}
+
+.masters tbody tr.cut:nth-child(even) {
+    background-color: var(--table-bg-red);
+}
+
+
 .masters tbody tr:hover {
     background-color: var(--soft-highlight);
+}
+
+.masters tbody tr.cut:hover {
+    background-color: var(--alt1-table-rows-bg);
 }
 
 .masters th:nth-child(8),
 .masters td:nth-child(8) {
     border-left: 1px solid var(--table-border);
-}
-
-.masters td:nth-child(1) {
-    color: var(--nav-link-color);
-}
-
-.masters td:nth-child(2) {
-    color: var(--bright-text);
 }
 
 .masters th:nth-child(2),
@@ -273,3 +280,132 @@ https://codepen.io/kizu/pen/OyzGXY
 .new-golf-wager:hover {
     filter: brightness(150%);
 }
+
+.status-widget {
+    text-align: left;
+    color: var(--bet-text-color);
+    height: 120px;
+    width: 256px;
+    padding: 0px 10px;
+    background-color: var(--bet-background-color);
+    grid-column: 4/5;
+    grid-row: 4/5;
+    padding: 10px;
+    align-items: flex-end;
+    border-radius: 25px;
+    margin: 0 auto;
+}
+
+.status-widget img {
+    height: 52px;
+    border-radius: 50%;
+}
+
+.status-widget .readable {
+    display: flex;
+    font-weight: 600;
+    width: fit-content;
+    padding-bottom: 10px;
+}
+
+.status-widget .readable div {
+    padding: 5px;
+    border: 1px solid var(--table-border);
+}
+
+.status-widget .readable div:nth-child(1) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: var(--background-color);
+}
+.status-widget .readable div:nth-child(2) {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-weight: 400 !important;
+}
+
+.status-widget .readable .closed {
+    background-color: var(--cool-dark);
+}
+
+.status-widget .readable .waiting {
+    background-color: var(--waiting);
+    color: var(--bet-background-color);
+}
+
+.status-widget .readable .ready {
+    background-color: var(--golf-great);
+}
+
+.status-widget img.status {
+    height: 26px;
+    padding: 0;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    transform: translateX(50%) translateY(-50%);
+}
+
+.status-widget .users {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.status-widget .users .us-container {
+    position: relative;
+    height: 84px;
+    width: 64px;
+}
+
+.status-widget .users .versus {
+    margin-top: auto;
+    font-size: 32px;
+    padding-bottom: 10px;
+}
+
+.masters.dashboard .widgets {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 96px;
+    padding-right: 20px;
+    height: 100%;
+}
+
+.widgets * {
+    margin: 10px 0px;
+}
+
+.pga-icon {
+    margin: 0 auto;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    width: 213px;
+    text-decoration: none;
+}
+
+a.pga-icon {
+    color: var(--unimportant-text);
+}
+
+a.pga-icon:hover {
+    color: var(--bright-text);
+}
+
+.tournament-widget {
+    background-color: var(--bet-background-color);
+    border-radius: 20px;
+    font-size: 36px;
+    width: 350px;
+    padding: 12px;
+}
+
+.tournament-widget span {
+    width: 100%;
+    text-align: left;
+    display: flex;
+}
+

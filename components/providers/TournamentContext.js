@@ -5,7 +5,7 @@ import { supabase } from '../../functions/SupabaseClient';
 
 const TournamentContext = createContext();
 
-export const useTourament = () => useContext(TournamentContext);
+export const useTournament = () => useContext(TournamentContext);
 
 // the modal provider provides the failure and success modals frequently used in componentns
 // each will have a function to make the modal visible

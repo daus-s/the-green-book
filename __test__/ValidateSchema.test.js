@@ -1,8 +1,11 @@
-const { validateFields } = require('../functions/ParseSchema');
+const { validateFields } = require("../functions/ParseSchema");
 
-describe('validate a good object ', () => {
+describe("validate a good object ", () => {
+    it("masters 2024 naming", () => {
+        expect(validateFields({ year: 2023, tournament: "masters" })).toBe(1);
+    });
 
-    it('masters 2024 naming', () => {
-        expect(validateFields({year: 2023, tournament: 'masters'})).toBe(true);
+    it("emtpy query", () => {
+        expect(validateFields({})).toBe(2);
     });
 });

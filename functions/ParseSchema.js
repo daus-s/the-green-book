@@ -45,18 +45,31 @@ function seperated(string) {
 
 function validateFields(object) {   
     if (typeof object !== 'object') {
-        return false;
+        return 0;
     }
     if (Object.keys(object).length===0) {
-        return false;
+        return 2;
     }
     if (object?.year&&object?.tournament) {
         // console.log('tournament ∈ T is', has( _tournaments, object.tournament));
         if (parseInt(object.year)&&parseInt(object.year)>=2023&&has( _tournaments, object.tournament)) {
-            return true;
+            return 1;
         }
     }
-    return false;
+    return 0;
 }
 
-module.exports = { parseable, seperated, validateFields}
+function validateUrlext(str) {
+    switch (str) {
+        case 'masters-2024':
+            return true;
+        case 'masters-2023':
+            return true;
+        case 'pga-championship-2024':
+            return true;
+        default:
+            return false
+    }
+}
+
+module.exports = { parseable, seperated, validateFields, validateUrlext }

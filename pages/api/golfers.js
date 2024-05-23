@@ -2,35 +2,36 @@ import clientPromise from "../../functions/MongoDBClient";
 import { validateFields } from "../../functions/ParseSchema";
 
 export default async function handler(req, res) {
-    let query = {}
-    
-    console.log(req)
-    if (!validateFields(req.query)) {
-        console.log(req.query)
-        res.status(418).json({error: 'Malformed request.'})
+    let query = {};
+    console.log("RESPONSE QUERY:", req.query);
+    const ok = validateFields(req.query);
+    if (!ok) {
+        res.status(418).json({ error: "Malformed request." });
         return;
     } else {
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet
-        query.year =  { "$eq": parseInt(req.query.year)};
-        query.tournament =  { "$eq": req.query.tournament};
+        if (ok === 1) {
+            query.year = { $eq: parseInt(req.query.year) };
+            query.tournament = { $eq: req.query.tournament };
+        } else if (ok === 2) {
+            query = {};
+        }
     }
 
     let client;
-    console.log(query);
     try {
         client = await clientPromise.connect();
         const db = client.db("golf");
-        const golfers = await db
-                                .collection("masters")
-                                .find(query)
-                                .toArray();
+        const golfers = await db.collection("masters").find(query).toArray();
+        console.log(golfers);
+        golfers.sort((a, b) => a.total - b.total);
         res.status(200).json(golfers);
     } catch (mongoError) {
         // try {
         //     await client.close();
         // } catch (closeError) {
         //     console.error(closeError);
-        // } 
+        // }
         console.error(mongoError);
         res.status(500).json({ error: "Internal Server Error" });
     } //dont add a finally block here because it is executed before the try is finished even with await???
