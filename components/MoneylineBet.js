@@ -77,9 +77,9 @@ const MoneyLineBet = ({ bet }) => {
         <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
       </div>
       {result === "Closed" ? (
-        <img id="status" src="close.png" />
+        <img id="status" src="/close.png" />
       ) : (
-        <img id="status" src="mark.png" />
+        <img id="status" src="/mark.png" />
       )}
       <div
         className="odds"

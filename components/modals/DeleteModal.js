@@ -58,7 +58,7 @@ const DeleteModal = ({ isOpen, onDelete, onCancel, betName }) => {
           <i className="warning" style={{color:"var(--danger)"}}>This action is not reversible.<br/>Tread Carefully...</i>
           <div className="button-container">
             <button className="cancel-button" onClick={cancelWrapper}>Cancel</button>
-            <button className="confirm-delete" type="submit" ><img src="trash.png" alt="Delete" onClick={handleDelete}style={{height: "24px", width: "24px"}}/></button>
+            <button className="confirm-delete" type="submit" ><img src="/trash.png" alt="Delete" onClick={handleDelete}style={{height: "24px", width: "24px"}}/></button>
           </div>
         </div>
       </div>

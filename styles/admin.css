@@ -97,6 +97,7 @@
     height: 375px;
     position: relative;
     bottom: 0px;
+    margin-top: 20px;
 }
 
 .error-title {
@@ -146,17 +147,16 @@
 }
 
 .admin {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    margin-left:  auto;
-    margin-right: auto;
-    justify-content: center;
-    width: 100% !important;
-}
-
-.admin-child {
-    margin: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Adjust min and max width as needed */
+    grid-auto-rows: 1fr; /* Adjust min and max height as needed */
+    gap: 20px; /* Adjust gap between widgets */
+    grid-template-areas: 
+        "ub cr"
+        "ub pga" 
+    ;
+    width: auto;
+    
 }
 
 .dot-selector {
@@ -177,5 +177,70 @@
 }
 
 .commissioner-requests {
-    padding-top: 10px;
+    margin-bottom: 18px;
+}
+
+.admin-component {
+    background-color: var(--table-header-background);
+    padding: 10px 30px 30px 30px;
+    margin: 20px;
+    border-radius: 30px;
+}
+
+.admin-component.selected {
+    border: 1px solid var(--table-border);
+    box-shadow: var(--soft-highlight) 0px 0px 10px;
+    padding: 9px 29px 29px 29px;
+}
+
+.admin-component:hover {
+    box-shadow: var(--soft-highlight) 0px 0px 10px;
+}
+
+.admin-component .header-span {
+    font-size: 28px;
+    color: var(--bet-text-color);
+    font-weight: 600px;
+    width: 100%;
+    text-align: left;
+}
+
+.admin-component.user-bals {
+    grid-area: ub;
+    width: 540px;
+}
+
+.admin-component.pga-tool {
+    grid-area: pga;
+    margin: 0px;
+    width: 480px;
+}
+
+.admin-component.commishify {
+    grid-area: cr;
+    margin: 0px;
+    width: 480px;
+}
+
+.new-golf-tournament.form button.submit {
+    background-color: var(--cta-button-bg-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 17px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    position: absolute;
+    bottom: 4px;
+    right: 0px;
+}
+
+.new-golf-tournament.form button.submit:hover {
+    background-color: var(--cta-button-hover-bg-color);
+}
+
+
+.admin .query input {
+    background-color: transparent;
 }

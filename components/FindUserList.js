@@ -27,7 +27,7 @@ export default function FindUserList({ id: groupId, addUser, /*how do i make thi
                 <div className="users-container" style={isMobile?{width: '100%'}:{}}>
                     {users.map((user, index)=><UserElement public_uid={user.userID?user.userID:user.id} groupID={groupId} key={index} remove={(user.userID?user.userID:user.id)===commish?undefined:remove} commish={(user.userID?user.userID:user.id)===commish}/>)}
                     <div className="add-user" onClick={()=>setUSIModalVisible(true)}>
-                        <img src="insert.png" style={{width: "32px", height: "32px", margin:"1px", marginLeft: users&&users.length?"1px":"10px"}}/>
+                        <img src="/insert.png" style={{width: "32px", height: "32px", margin:"1px", marginLeft: users&&users.length?"1px":"10px"}}/>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,417 @@
+.m-1v1-bets, .league-bets {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.masters .bar {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    width: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-size: 24px;
+    max-height: 100%;
+    justify-content: flex-start;
+    padding-right: 21px;
+    position: relative;
+    padding-bottom: 30px; /* this might break with more bets am not sure how it would behave?*/
+    margin: 40px 0px;
+}
+/*masters sidebar header*/
+.msb-header {
+    background-color: var(--dark-green);
+    font-weight: 600;
+    border-radius: 14px;
+}
+
+.masters.dashboard {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats {
+    height: calc(100% - 40px); 
+    text-align: center;
+    margin: 40px 40px 0px 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.live.stats {
+    margin: 0px 40px 0px 0px;
+}
+
+
+.scrollbox {
+  visibility: hidden;
+}
+
+
+a .opponent.link {
+    font-size: 22px;
+    height: 28px;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+
+.container-for-league-or-oppie  a:visited, .container-for-league-or-oppie  a:active, .container-for-league-or-oppie  a:link, .container-for-league-or-oppie  a:hover, .container-for-league-or-oppie  a  {
+    text-decoration: none;
+}
+
+.container-for-league-or-oppie {
+    background-color: var(--bet-background-color);
+    padding: 8px;
+    margin: 10px;
+    border-radius: 20px;
+    color: var(--big-O-color) !important;
+    width: 100%;
+
+}
+
+.container-for-league-or-oppie .bh {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    color: var(--big-O-color);
+    border-top: 1px solid var(--table-border);
+    padding-left: 8px;
+    padding-top: 5px;
+}
+
+.opponent.link {
+    transform: translateX(0px);
+    margin: 2px 0px 2px 10px;
+    font-weight: normal;
+}
+
+.stats {
+    max-width: 900px;
+    width: 100%;
+}
+
+.one-on-one-bet .score {
+    color: var(--text-color);
+    text-align: left;
+    height: 28px;
+}
+
+.score-box {
+    text-align: center;
+    width: 37px;
+    position: absolute;
+    left: calc(80% - 6px);
+    margin-left: 6px;
+    border: 1px solid var(--table-border);
+    color: var(--text-color);
+}
+
+.one-on-one-bet {
+    position: relative;
+    margin: 3px;
+}
+.one-on-one-bet .score {
+    margin: 5px;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.asterisk {
+    width: 12px;
+    font-weight: 600;
+    color: var(--bet-option-highlight);
+    text-align: center;
+    position: absolute;
+    left: calc(80% - 12px);
+}
+
+.masters .no-results {
+    background-color: transparent;
+    padding: 24px 4px 24px 4px;
+    border-radius: 16px;
+    color: var(--highlighted-dark);
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+    
+}
+
+.league-bet .league-title {
+    color: var(--bright-text);
+    font-size: 30px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.league-bet {
+    display: grid;
+    grid-template-columns: auto auto auto auto; 
+    grid-template-rows: auto auto; 
+    gap: 0px; 
+    position: relative;
+}
+
+.league-title {
+    color: var(--bright-text);
+    font-size: 30px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.league-score {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-left: 5px;
+    font-weight: 600;
+    color: var(--unimportant-text);
+}
+
+.league-place {
+    color: var(--unimportant-text);
+    font-weight: 600;
+    text-align: end;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 18px;
+    height: 36px;
+}
+
+.masters table {
+    border-spacing: 0;
+    background-color: var(--table-bg);
+    width: 100%;
+    color: var(--text-color);
+    font-size: 14px;
+    border-left: 1px solid var(--table-border);
+    border-bottom: 1px solid var(--table-border);
+    border-right: 1px solid var(--table-border);
+}
+.masters thead {
+    position: sticky;
+    top: -1px;
+    z-index: 1;
+    border-top: 1px solid var(--table-border);
+}
+
+.masters th {
+    padding: 8px 12px;
+    text-align: left;
+    background-color: var(--table-header-background);
+    border-bottom: 1px solid var(--table-border);
+    position: relative;
+}
+
+.masters td {
+    padding: 8px 12px;
+}
+
+.masters tbody tr:nth-child(even) {
+    background-color: var(--table-bg-green);
+}
+
+.masters tbody tr.cut {
+    background-color: var(--danger-input);
+    color: var(--unimportant-text);
+}
+
+.masters tbody tr.cut:nth-child(even) {
+    background-color: var(--table-bg-red);
+}
+
+
+.masters tbody tr:hover {
+    background-color: var(--soft-highlight);
+}
+
+.masters tbody tr.cut:hover {
+    background-color: var(--alt1-table-rows-bg);
+}
+
+.masters th:nth-child(8),
+.masters td:nth-child(8) {
+    border-left: 1px solid var(--table-border);
+}
+
+.masters th:nth-child(2),
+.masters td:nth-child(2) {
+    border-left: 1px solid var(--table-border);
+}
+
+.masters th:nth-child(3),
+.masters td:nth-child(3) {
+    border-right: 1px solid var(--table-border);
+}
+
+.sort-arrow {
+    height: 10px;
+    position: absolute;
+    bottom: 7px;
+    right: 0px;
+}
+
+.masters thead tr {
+    border: 1px solid var(--table-border);
+}
+
+.masters thead tr th {
+    border-top: 1px solid var(--table-border);
+}
+
+/* 
+https://codepen.io/kizu/pen/OyzGXY
+*/
+.scrollbox:hover,
+.scrollbox:focus {
+  visibility: visible;
+}
+
+.scrollbox-content {
+    visibility: visible;
+}
+
+.new-golf-wager {
+    transition: filter .6s ease;
+}
+
+.new-golf-wager:hover {
+    filter: brightness(150%);
+}
+
+.status-widget {
+    text-align: left;
+    color: var(--bet-text-color);
+    height: 120px;
+    width: 256px;
+    padding: 0px 10px;
+    background-color: var(--bet-background-color);
+    grid-column: 4/5;
+    grid-row: 4/5;
+    padding: 10px;
+    align-items: flex-end;
+    border-radius: 25px;
+    margin: 0 auto;
+}
+
+.status-widget img {
+    height: 52px;
+    border-radius: 50%;
+}
+
+.status-widget .readable {
+    display: flex;
+    font-weight: 600;
+    width: fit-content;
+    padding-bottom: 10px;
+}
+
+.status-widget .readable div {
+    padding: 5px;
+    border: 1px solid var(--table-border);
+}
+
+.status-widget .readable div:nth-child(1) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: var(--background-color);
+}
+.status-widget .readable div:nth-child(2) {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-weight: 400 !important;
+}
+
+.status-widget .readable .closed {
+    background-color: var(--cool-dark);
+}
+
+.status-widget .readable .waiting {
+    background-color: var(--waiting);
+    color: var(--bet-background-color);
+}
+
+.status-widget .readable .ready {
+    background-color: var(--golf-great);
+}
+
+.status-widget img.status {
+    height: 26px;
+    padding: 0;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    transform: translateX(50%) translateY(-50%);
+}
+
+.status-widget .users {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.status-widget .users .us-container {
+    position: relative;
+    height: 84px;
+    width: 64px;
+}
+
+.status-widget .users .versus {
+    margin-top: auto;
+    font-size: 32px;
+    padding-bottom: 10px;
+}
+
+.masters.dashboard .widgets {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 96px;
+    padding-right: 20px;
+    height: 100%;
+}
+
+.widgets * {
+    margin: 10px 0px;
+}
+
+.pga-icon {
+    margin: 0 auto;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    width: 213px;
+    text-decoration: none;
+}
+
+a.pga-icon {
+    color: var(--unimportant-text);
+}
+
+a.pga-icon:hover {
+    color: var(--bright-text);
+}
+
+.tournament-widget {
+    background-color: var(--bet-background-color);
+    border-radius: 20px;
+    font-size: 36px;
+    width: 350px;
+    padding: 12px;
+}
+
+.tournament-widget span {
+    width: 100%;
+    text-align: left;
+    display: flex;
+}
+

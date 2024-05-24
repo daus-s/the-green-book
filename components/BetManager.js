@@ -115,7 +115,7 @@ function OptionRadio({bet, setParentChoice}) {
                     </label>
                 ))}
                 <div className="button-container">
-                    <button onClick={handleDelete} className="delete-button"><img src="trash.png" alt="Delete" style={{height: "24px"}}/></button>
+                    <button onClick={handleDelete} className="delete-button"><img src="/trash.png" alt="Delete" style={{height: "24px"}}/></button>
                     <button className="cash-out-button" type="submit">Confirm</button>
                 </div>
             </form>
@@ -175,7 +175,7 @@ function BetHeader({bet, toggle}) {
     return (
         <div className="bet-header" onClick={()=>toggle()} style={isMobile?mobileStyle.entree:{}}>
             <div className="bet-title">{bet.title}</div>
-            <div className="status-icon"> {bet.open?<img src="mark.png" style={{height: '24px'}}/>:<img src="close.png" style={{height: '24px'}}/>} </div>
+            <div className="status-icon"> {bet.open?<img src="/mark.png" style={{height: '24px'}}/>:<img src="/close.png" style={{height: '24px'}}/>} </div>
         </div>
     );
 }

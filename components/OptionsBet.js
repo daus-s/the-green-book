@@ -69,10 +69,10 @@ const OptionsBet = ({ bet }) => {
         <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
       </div>
       {result === "Closed" ? (
-        <img id="status" src="close.png" />
+        <img id="status" src="/close.png" />
       ) : (
         <>
-          <img id="status" src="mark.png" />
+          <img id="status" src="/mark.png" />
           <OptionsPlaceBetForm onSubmit={handlePlaceBet} bet={bet} />
         </>
       )}

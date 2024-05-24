@@ -48,7 +48,7 @@ export default function CreateGroup() {
       for (let i = 0; i < length; ++i) {//does
         if (users[i]) {
           contains ||= (users[i].id===user.id && 
-                        users[i].email===user.email &&
+                        users[i].name===user.name &&
                         users[i].username===user.username //uniqeness contrainst only applies on these fields this is enough to verify the closeness of user
             );
         } 

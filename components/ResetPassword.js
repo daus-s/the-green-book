@@ -39,7 +39,7 @@ export default function ResetPassword() {
 
     return (
         <div className="reset-password page">
-            <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
+            <img src="/greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
             <form 
                 className="reset-password-form" 
                 onSubmit={(e)=>handleSubmit(e)}

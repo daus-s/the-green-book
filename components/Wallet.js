@@ -33,7 +33,7 @@ export default function Wallet() {
 
     return (
     <div className="wallet page" style={isMobile?{paddingBottom: 0, overflow: 'hidden'}:{}}>
-      <img src="money.png" alt="wallet" style={isMobile?{height: `${Math.min(height, width) - 181}px`, width: `${Math.min(height, width) - 181}px`, }:{}}/>
+      <img src="/money.png" alt="wallet" style={isMobile?{height: `${Math.min(height, width) - 181}px`, width: `${Math.min(height, width) - 181}px`, }:{}}/>
       <div>
         <div className="amount" style={isMobile?{fontSize:'48px', marginTop: 0}:{}}>${loading?<span className="null">&#8212;</span>:balance}</div>
       </div>

@@ -18,7 +18,7 @@ export default function Perhaps() {
                 <Logo />
                 <AccountControl />
             </header>
-            <img src="family-guy-peter-griffin.gif" alt="my-gif" style={styles} />
+            <img src="/family-guy-peter-griffin.gif" alt="my-gif" style={styles} />
         </div>
     );
 }

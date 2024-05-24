@@ -1,0 +1,49 @@
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+  }
+  
+  
+@keyframes loadingAnimation {
+    0%, 100% {
+        height: 10px;
+    }
+    50% {
+        height: 25px;
+    }
+}
+
+.live-icon {
+    display: flex;
+    height: 40px;
+    visibility: visible;
+    color: var(--danger);
+    font-weight: 400;
+    font-size: 20px;
+    user-select: none;
+    margin: auto 0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+}
+.live-icon .dot {
+    width: 10px;
+    height: 10px;
+    margin: 15px 5px 15px 10px;
+    border-radius: 5px;
+    background-color: var(--danger);
+    box-shadow: 0px 0px 15px 2px var(--danger);
+    animation: fadeBoxShadow 2.5s infinite;
+}
+
+@keyframes fadeBoxShadow {
+    0%, 100% {
+        box-shadow: 0px 0px 15px 2px var(--danger);
+    }
+    50% {
+        box-shadow: 0px 0px 10px 4px var(--danger-faded);
+    }
+}

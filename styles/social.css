@@ -1,3 +1,6 @@
+.social.page {
+    padding-right: 20px;
+}
 .social .search-bar {
     font-size: 30px;
     padding: 3px;
@@ -18,9 +21,6 @@
     padding: 1px;
 }
 
-.social-results {
-    margin-top: 64px;
-}
 
 .social .top-down {
     display: flex;

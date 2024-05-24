@@ -39,6 +39,8 @@ function Attributions() {
             <Attribution src='creategroup.png' href="https://www.flaticon.com/free-icons/members" desc='Members icons created by GOFOX - Flaticon' backgroundColor='var(--soft-highlight)'/>
             <Attribution src='newbet.png' href="https://www.flaticon.com/free-icons/exam"  desc='Exam icons created by RIkas Dzihab - Flaticon' backgroundColor='var(--soft-highlight)'/>
             <Attribution src='login.png' href="https://www.flaticon.com/free-icons/register" desc='Register icons created by See Icons - Flaticon'/>
+            <Attribution src='arrow.png' href="https://www.flaticon.com/free-icons/down-arrow" desc='Down arrow icons created by th studio - Flaticon'/>
+            <Attribution src='save.png' href="https://www.flaticon.com/free-icons/floppy-disk" desc='Floppy disk icons created by Rizki Ahmad Fauzi - Flaticon' />
         </div>
     );
 }
@@ -50,7 +52,7 @@ function Attribution({href, desc, src, backgroundColor}) {
         (   
             <div className="attribution mobile">
                 <Link href={href}>
-                    <img src={src} style={{height: '32px', backgroundColor:(backgroundColor?backgroundColor:'transparent')}}/>
+                    <img src={"/"+src} style={{height: '32px', backgroundColor:(backgroundColor?backgroundColor:'transparent')}}/>
                     <div className="title">{src}</div>
                 </Link>
             </div>

@@ -32,7 +32,7 @@ export default function Auth() {
   //supabase cnx
   return (
     <div className="auth-login page">
-      <img src="greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
+      <img src="/greenbook.jpg" alt={"The Green Book logo."} className="biglogo"/>
       <form onSubmit={handleLogin} style={isMobile?mobileStyle.form:{}}>
         <div
           style={{ margin: "10px", display: "flex", flexDirection: "column", ...isMobile?mobileStyle.input:{} }}
