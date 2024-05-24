@@ -49,7 +49,6 @@ function WagerStatusWidget() {
 }
 
 function TournamentWidget({ tournament }) {
-    console.log(tournament);
     if (tournament && tournament.tournament_name && tournament.cut_time && tournament.extension) {
         return (
             <div className="tournament-widget">
@@ -172,7 +171,6 @@ function Golfer({ data, onClick, selected, display, direction }) {
             </div>
         );
     } else if (!data.name || !data.strokes || parseable(data._id) || !(data?.total || data?.total === 0)) {
-        console.error(data);
         throw Error(
             "the golfer component requires data to be non-nullish and the parameters\n    • name: string\n    • strokes: number <int>\n    • index: number <uint_8>\n\n    • total: number\n{",
             JSON.stringify(data),
@@ -211,7 +209,6 @@ const errM = "Please pick a golfer";
 export default function MastersPlaceBetForm({ payload }) {
     if (payload) {
         if (!payload.bet || !payload.mode || !payload.players || (payload.mode === "Opponent" ? !payload.alternates : false) || (payload.mode === "Opponent" ? !payload.opp : !payload.league)) {
-            console.log(payload);
             throw Error("cannot insantiate a preloaded form without data");
         }
     }
@@ -328,7 +325,6 @@ export default function MastersPlaceBetForm({ payload }) {
                 }
             }
             case "Opponent": {
-                console.log("howdy");
                 if (!(p1 && p2 && p3 && p4 && alt1 && alt2 && alt3 && alt4)) {
                     setErrors([p1 ? false : true, p2 ? false : true, p3 ? false : true, p4 ? false : true, alt1 ? false : true, alt2 ? false : true, alt3 ? false : true, alt4 ? false : true]);
                     setOppErr(opp ? false : true);
@@ -336,11 +332,9 @@ export default function MastersPlaceBetForm({ payload }) {
                 }
 
                 if (!opp) {
-                    console.log("exiting no user");
                     setOppErr(true);
                     return;
                 }
-                console.log("howdy 2");
 
                 const players = coerce(p1.index, p2.index, p3.index, p4.index);
                 const alternates = coerce(alt1.index, alt2.index, alt3.index, alt4.index);
@@ -453,11 +447,8 @@ export default function MastersPlaceBetForm({ payload }) {
                             className="tab"
                             onClick={
                                 payload
-                                    ? () => {
-                                          console.log(payload ? true : false);
-                                      }
+                                    ? () => {}
                                     : () => {
-                                          console.log("huh");
                                           setMode("League");
                                           setViewing("Starters");
                                       }

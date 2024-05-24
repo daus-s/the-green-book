@@ -163,7 +163,7 @@ export default function PreloadedPGAForm({ payload }) {
                 {mode === "Opponent" ? (
                     <div className="alternates">
                         {[alt1, alt2, alt3, alt4].map((player, index) => {
-                            player ? console.log("rendering ", player?.name, "...") : console.log("failed to render a player: NO INPUT ");
+                            // player ? console.log("rendering ", player?.name, "...") : console.log("failed to render a player: NO INPUT ");
                             return (
                                 <GolferSelector
                                     player={player}

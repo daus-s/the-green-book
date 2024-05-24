@@ -7,7 +7,6 @@ export default function PGAAd() {
     const [tournament, setTournament] = useState(undefined);
     const getNextTournament = async () => {
         const { data, error } = await supabase.from("tournaments").select().gt("cut_time", new Date().toISOString()).order("cut_time").limit(1);
-        console.log("gettting tournaments: ", data ? data : error);
         if (!error && data.length) {
             setTournament(data[0]);
         }

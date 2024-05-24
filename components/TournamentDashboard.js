@@ -56,9 +56,11 @@ export default function TournamentDashboard() {
                 <PGA />
                 {tournament ? <TournamentWidget tournament={tournament} /> : <></>}
             </div>
-            <div className={"stats scrollbox" + (live ? " live" : "")}>
+            <div style={{ display: "flex", flexDirection: "column", height: "100%", margin: "0px 10px" }}>
                 {live ? <Live /> : <></>}
-                <TournamentTable tourney={golfers ? golfers : []} />
+                <div className={"stats scrollbox" + (live ? " live" : "")}>
+                    <TournamentTable tourney={golfers ? golfers : []} />
+                </div>
             </div>
             <div className="bar scrollbox">
                 <div className="your-league-bets scrollbox-content">

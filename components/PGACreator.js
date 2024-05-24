@@ -37,7 +37,6 @@ export default function PGAPortal() {
                     failed();
                 }
             } catch (e) {
-                console.log(e);
                 alert("Please enter a valid tournament name admin.");
             }
         } else {
