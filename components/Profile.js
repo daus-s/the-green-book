@@ -87,7 +87,7 @@ export default function Profile() {
           </div>
           <div className="edit-box">
             <div className="edit">
-              <img src="write.png" style={{height: "24px", alignSelf: "flex-end"}} onClick={toggleEditPic}/>
+              <img src="/write.png" style={{height: "24px", alignSelf: "flex-end"}} onClick={toggleEditPic}/>
             </div>
           </div>
         </div>
@@ -98,12 +98,12 @@ export default function Profile() {
             ?
             <form className="edit-name" onSubmit={(e)=>callUpdateName(e)}>
               <input value={name} onChange={(e)=>changeName(e)} required/>
-              <button className="submit-change" type="submit"><img src="submit.png" alt="Confirm change." style={{height: "24px", alignSelf: "flex-end"}}/></button>
+              <button className="submit-change" type="submit"><img src="/submit.png" alt="Confirm change." style={{height: "24px", alignSelf: "flex-end"}}/></button>
             </form>
           :
             <div className="name">
               {name} 
-              <div className="edit" onClick={()=>setEditName(true)}><img src="write.png" alt="Edit name." style={{height: "24px", alignSelf: "flex-end"}}/></div>
+              <div className="edit" onClick={()=>setEditName(true)}><img src="/write.png" alt="Edit name." style={{height: "24px", alignSelf: "flex-end"}}/></div>
             </div>
           }
           {
@@ -111,12 +111,12 @@ export default function Profile() {
             ?
             <form className="edit-username" onSubmit={(e)=>callUpdateUsername(e)}>
               <input value={username} onChange={(e)=>changeUsername(e)} required/>
-              <button className="submit-change" type="submit"><img src="submit.png" alt="Confirm change." style={{height: "24px", alignSelf: "flex-end"}}/></button>
+              <button className="submit-change" type="submit"><img src="/submit.png" alt="Confirm change." style={{height: "24px", alignSelf: "flex-end"}}/></button>
             </form>
             :
             <div className="username">
               {username} 
-              <div className="edit" onClick={()=>{setEditUsername(true)}}><img src="write.png" alt="Edit username." style={{height: "24px", alignSelf: "flex-end"}}/></div>
+              <div className="edit" onClick={()=>{setEditUsername(true)}}><img src="/write.png" alt="Edit username." style={{height: "24px", alignSelf: "flex-end"}}/></div>
             </div>
           }
           <div className="email">

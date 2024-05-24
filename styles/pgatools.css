@@ -1,0 +1,181 @@
+.new-golf-tournament {
+    flex: 1;
+    width: 405px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.deez {
+    width: 90%;
+    max-width: 1110px;
+    margin-top: calc(var(--component-height) / -2);
+    margin-bottom: 4em;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    font-size: 19px;
+}
+
+.name-entry {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+.new-golf-tournament .name-entry {
+    padding: 5px 20px 20px 20px;
+}
+
+ .new-golf-tournament .date-time-picker {
+    padding: 20px 20px 5px 20px;
+}
+
+
+.date-time-picker {
+    width: 300px;
+}
+
+.date-time-picker div label {
+    color: var(--big-O-color);
+}
+
+.date-time-picker div label.Mui-focused {
+    color: var(--link-hover);
+}
+
+
+.date-time-picker div div div button svg {
+    fill: var(--link-hover);
+}
+
+.date-time-picker > div > div {
+    color: var(--big-O-color);
+}
+
+.date-time-picker > div > div > fieldset {
+    border-color: var(--big-O-color);
+}
+
+.date-time-picker > div > div > fieldset.Mui-focused.MuiOutlinedInput-notchedOutline {
+    border-color: var(--link-hover);
+}
+
+.date-time-picker .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: var(--link-hover);
+}
+
+
+.date-time-picker .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: var(--link-hover);
+}
+
+.css-1e3wlyl-MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item.Mui-selected {
+    background-color: var(--link-hover) !important;
+}
+
+body > div.base-Popper-root.MuiPickersPopper-root.css-1anqmj6-MuiPopper-root-MuiPickersPopper-root > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPickersPopper-paper.css-z17wx0-MuiPaper-root-MuiPickersPopper-paper > div > div.MuiDialogActions-root.MuiDialogActions-spacing.MuiPickersLayout-actionBar.css-knqc4i-MuiDialogActions-root > button {
+    color: var(--link-hover);
+
+}
+
+.MuiPickersDay-root.Mui-selected {
+    background-color: var(--link-hover) !important;
+}
+
+
+.url {
+    border-radius: 4px;
+    background-color: var(--form-input);
+    font-size: 20px;
+    height: 26px;
+    padding: 2px 4px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-align: left;
+    margin: 0px 20px;
+}
+
+.name-entry input {
+    background-color: var(--input-background);
+    color: var(--input-text);
+    outline: none;
+    border: none;
+    padding: 3px;
+    border-radius: 6px;
+}
+
+span.link {
+    text-decoration: none;
+    z-index: 1;
+    margin-left: 25px
+}
+
+.tournament-link-list a {
+    text-decoration: none;
+    color: var(--bright-text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tournament-link-list {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    align-items: center;
+}
+
+.tournament-link {
+    border: 5px double var(--table-border);
+    border-radius: 35px;
+    height: 120px;
+    width: 100%;
+    min-width: 609px;
+    max-width: 1000px;
+    margin: 10px 0px;
+    font-size: 2em;
+    overflow: hidden;
+    position: relative;
+}
+
+.golf-preview {
+    filter: brightness(33%);
+}
+
+/*insert more styling here*/
+.golf-preview:hover { /*DEFAULT*/
+    filter: brightness(50%);
+}
+.golf-preview.augusta:hover {
+    filter: brightness(56%); 
+}
+.golf-preview.valhalla:hover {
+    filter: brightness(50%);
+}
+.tournament-link * {
+    pointer-events: none;
+}
+
+.tournament-link .golf-preview {
+    pointer-events: all;
+}
+
+.tournament-link:hover {
+    text-shadow: 0px 0px 13px var(--soft-highlight);
+}
+
+.return {
+    width: calc(100vw - 30px);
+    max-width: 1580px;
+    padding: 0px 16px;
+    text-align: left;
+    color: var(--big-O-color);
+}
+
+.return:hover {
+    color: var(--bet-text-color);
+}

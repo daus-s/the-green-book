@@ -1,0 +1,36 @@
+.search input.search-bar {
+    background-color: var(--input-background);
+    color: var(--bet-text-color);
+    width: 100%;
+    font-size: 24px;
+}
+
+.search .results-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 216px;
+    margin-left: 10px;
+    transform: translateX(18px) translateY(-28px); /*hack it together shift left 18px to match the search continaer idk how to override that*/
+}
+
+.results-container {
+    position: absolute;
+}
+
+.results-container .text-fields {
+    text-align: left;
+}
+
+.search .results-container {
+    z-index: 2;
+}
+
+.search-bar.error {
+    border: 1px solid var(--danger);
+    box-shadow: 0 0 12px var(--danger) !important;
+}
+
+
+.search-bar.error:hover, .search-bar.error:focus {
+    border: 2px solid var(--danger) !important;
+}

@@ -45,6 +45,7 @@ body {
   --grayed-out-text: #ddd;
   --bet-text-color: #ccc;
   --table-border: #C3C9CF;  /*inv(48, 54, 61)*/
+  --icon-color: #c3c3c3;
   --big-O-color: #aeaeae;
   --unimportant-text: #aaa;
   --deactive-gray: #aaa;
@@ -53,9 +54,10 @@ body {
   --button-hover: #45a049; /* Slightly darker green on hover */
   --link-color: #4caf50; /* Dark green link color */
   --link-hover: #45a049; /* Slightly darker green on hover */
-  --darker-text: #158469;
+  --darker-text: #158415;
   --nav-link-hover-color: #45a049;
   --cta-button-bg-color: #4caf50;
+  --dark-green: #117711;
   --cta-button-hover-bg-color: #45a049;
   --table-bg-green: #142814;
   --bet-option-button: #555d50;
@@ -78,6 +80,7 @@ body {
   --table-bg-red: #281414;
   --error-color: #8e1717;
   --danger: #ba1d24;
+  --danger-faded: var(186, 29, 36, .2);
   --delete-button: #cd0e31;
   --delete-button-hover: #dd1035;
   --dark-red-highlight: ;
@@ -86,6 +89,18 @@ body {
   --almost-opaque: rgba(51,51,51,.75);
   --rotation-time: 1s;
   --fancy: #c0de31;
+  --masters-gold: #f6e200;
+  --waiting: #ad9e13;
+  --golf-trash: #dd1010;
+  --golf-bad: #c05454;
+  --golf-mid: #8a8a8a;
+  --golf-good: #54c054;
+  --golf-great: #148b14;
+  --gold: #ffd700;
+  --silver: #c0c0c0;
+  --bronze: #cd7f32;
+  /* --table-bg-red1: #281414;
+  --table-bg-red2: #221a10; */
 }
 
 * {

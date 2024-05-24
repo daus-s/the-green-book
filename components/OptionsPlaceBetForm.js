@@ -175,7 +175,7 @@ export default function OptionsPlaceBetForm({ onSubmit, bet }) {
             }}
           >
             <img
-              src="star.png"
+              src="/star.png"
               alt="Place bet."
               style={{
                 height: "20px",

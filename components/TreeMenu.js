@@ -106,7 +106,7 @@ function UnloadedTree() {
 function Tree() {
     return (
         <div className="tree">
-            <img src="the-book.jpg"></img>
+            <img src="/the-book.jpg"></img>
         </div>
     );
 }

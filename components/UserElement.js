@@ -34,7 +34,7 @@ export default function UserElement({ public_uid, groupID, remove, commish }) {
             </div>
             {user?<span className="username">{user.username}</span>:<span className="grayed-out">User</span>}
             <button onClick={()=>setRemoveModalVisible(true)} disabled={commish}>
-                <img src="x.png"/>
+                <img src="/x.png"/>
             </button>
             <RemoveModal isOpen={removeModalVisible} onCancel={()=>setRemoveModalVisible(false)} onConfirm={()=>{rf(user)}} username={user?user.username:"-"}/>
         </div>

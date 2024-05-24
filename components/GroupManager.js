@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "./providers/AuthContext";
 import { supabase } from "../functions/SupabaseClient";
 import { useModal } from "./providers/ModalContext";
-import { trnslt } from "../functions/translateMode";
+import { trnslt } from "../functions/TranslateMode";
 import { useMobile } from "./providers/MobileContext";
 
 import FindUserList from "./FindUserList";
