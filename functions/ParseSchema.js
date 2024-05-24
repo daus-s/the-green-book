@@ -71,7 +71,6 @@ function validateUrlext(str) {
     }
 }
 function getTid(fullname) {
-    console.log('"', fullname, '"');
     const titles = ["masters", "pgachamps", "usopen", "theopen"];
     switch (fullname) {
         case "Masters":

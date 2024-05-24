@@ -3,7 +3,7 @@ import { validateFields } from "../../functions/ParseSchema";
 
 export default async function handler(req, res) {
     let query = {};
-    console.log("RESPONSE QUERY:", req.query);
+    // console.log("RESPONSE QUERY:", req.query);
     const ok = validateFields(req.query);
     if (!ok) {
         res.status(418).json({ error: "Malformed request." });
@@ -23,7 +23,6 @@ export default async function handler(req, res) {
         client = await clientPromise.connect();
         const db = client.db("golf");
         const golfers = await db.collection("masters").find(query).toArray();
-        console.log(golfers);
         golfers.sort((a, b) => a.total - b.total);
         res.status(200).json(golfers);
     } catch (mongoError) {
@@ -33,7 +32,7 @@ export default async function handler(req, res) {
         //     console.error(closeError);
         // }
         console.error(mongoError);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: "Internal Server Error", mongoError: mongoError });
     } //dont add a finally block here because it is executed before the try is finished even with await???
     /* 
     OLD FIX: https://stackoverflow.com/questions/59942238/mongoerror-topology-is-closed-please-connect-despite-established-database-conn

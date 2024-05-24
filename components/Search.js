@@ -17,7 +17,6 @@ async function doQuery(table, query, fields) {
     } else if (error) {
         return [];
     } else {
-        console.error("u didnt await correctly");
     }
 }
 // TODO: implement the USI cache in this area here

@@ -185,9 +185,7 @@ export const PlayerProvider = ({ children }) => {
         if (!mode) {
             return;
         }
-        console.log("getting bet");
         if (mode === "Opponent") {
-            console.log("mode: ", mode);
             if (!u?.id || !t?.id || !tour?.id) {
                 return;
             }
@@ -200,14 +198,10 @@ export const PlayerProvider = ({ children }) => {
                 }
             }
         } else if (mode === "League") {
-            console.log("mode: ", mode);
             if (!g?.groupID || !u?.id || !tour?.id) {
-                console.log("no resources");
-                console.log(g, "\n", u, "\n", tour);
                 return;
             }
             const { data: bet, error: err } = await supabase.from("masters_league").select().eq("public_id", u.id).eq("league_id", g.groupID).eq("tournament_id", tour.id);
-            console.log(bet ? bet : err);
             if (!err && bet.length) {
                 setBet(bet[0]);
                 if (bet[0].players && bet[0].alternates) {

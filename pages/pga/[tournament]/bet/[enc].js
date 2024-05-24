@@ -20,12 +20,10 @@ export default function MasterBet() {
     const getBarbenlighter = async (leagueID) => {
         if (meta?.publicID) {
             const { data, error } = await supabase.from("masters_league").select().eq("league_id", decode(leagueID)).eq("public_id", meta.publicID).single();
-            console.log(data ? data : error);
             if (!error) {
                 setBet(data);
             } else {
                 if (typeof window !== "undefined" && router) {
-                    console.log("new routing");
                     router.push(`/pga/${router.query.tournament}/place`);
                 }
             }

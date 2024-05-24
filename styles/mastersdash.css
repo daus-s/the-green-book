@@ -46,15 +46,14 @@
 }
 
 .live.stats {
-
     margin: 0px 40px 0px 0px;
-
 }
 
 
 .scrollbox {
   visibility: hidden;
 }
+
 
 a .opponent.link {
     font-size: 22px;
