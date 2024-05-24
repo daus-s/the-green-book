@@ -80,6 +80,7 @@ body {
   --table-bg-red: #281414;
   --error-color: #8e1717;
   --danger: #ba1d24;
+  --danger-faded: var(186, 29, 36, .2);
   --delete-button: #cd0e31;
   --delete-button-hover: #dd1035;
   --dark-red-highlight: ;

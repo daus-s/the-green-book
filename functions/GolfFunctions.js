@@ -110,7 +110,6 @@ function scoreFromGolfer(index, golfers) {
  * @returns
  */
 function getTeamScore(final, golfers, par) {
-    console.log(golfers);
     if (!final || !golfers) {
         throw Error("no data provided");
     }

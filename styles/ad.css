@@ -1,0 +1,58 @@
+a.pgaad.bet {
+    text-decoration: none;
+    display: grid;
+    align-items: flex-end;
+    color: var(--icon-color);
+    font-size: 20px;
+    grid-template-columns: 1fr 6fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 5px;
+    padding: 8px 12px 8px 12px;
+}
+
+a .tt {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--bright-text);
+    text-align: left;
+    grid-column: 2/3;
+    grid-row: 1/3;
+    margin-bottom: 0px !important;
+    margin-left: 0px !important;
+    transform: translateY(8px);
+}
+
+a.pgaad.bet * {
+    margin: 5px 10px;
+}
+
+
+a.pgaad.bet img {
+    margin: 0;
+    padding-left: 4px;
+}
+
+
+a.pgaad .pga {
+    grid-row: span 3;
+}
+
+a.pgaad .invite {
+    width: fit-content;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 2px;
+    margin: 0;
+    border-bottom: 1px solid var(--icon-color);
+    transform: translateY(-8px);
+
+}
+a.pgaad.bet:hover {
+    color: var(--grayed-out-text);
+    border: 2px solid var(--table-border);
+    padding: 6px 10px 6px 10px;
+}
+
+a.pgaad .tt.hover {
+    color: var(--text-color);
+}

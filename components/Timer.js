@@ -33,7 +33,6 @@ export default function Timer({ cutTime }) {
         );
     });
 
-    console.log(timerComponents);
     if (timeLeft?.open === false) {
         return (
             <div className="timer">

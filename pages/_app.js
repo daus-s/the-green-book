@@ -38,6 +38,7 @@ import "../styles/search.css";
 import "../styles/error.css";
 import "../styles/mastersdash.css";
 import "../styles/pgatools.css";
+import "../styles/ad.css";
 
 export default function App({ Component, pageProps }) {
     return (

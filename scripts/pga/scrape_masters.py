@@ -29,6 +29,7 @@ _TOURNAMENTS = {
     ("masters",     2023): "https://www.pgatour.com/tournaments/2023/masters-tournament/R2023014",
     ("masters",     2024): "https://www.pgatour.com/tournaments/2024/masters-tournament/R2024014",
     ("pgachamps",   2024): "https://www.pgatour.com/tournaments/2024/pga-championship/R2024033",
+    ("usopen",      2024): "https://www.pgatour.com/tournaments/2024/u.s-open/R2024026",
 }
 
 strkey = ""

@@ -15,6 +15,7 @@ import CreateNewGolfWager from "./CreateNewGolfWager";
 import PGA from "./PGAIcon";
 import { TournamentWidget } from "./MastersBetPlaceForm";
 import { splitnSort } from "../functions/AllButThisJSON";
+import Live from "./Live";
 
 export default function TournamentDashboard() {
     const [leagueBets, setLeagueBets] = useState(undefined);
@@ -48,13 +49,15 @@ export default function TournamentDashboard() {
         }
     }, [meta, tournament]);
 
+    const live = golfers?.length;
     return (
         <div className="masters dashboard">
             <div className="widgets">
                 <PGA />
                 {tournament ? <TournamentWidget tournament={tournament} /> : <></>}
             </div>
-            <div className="live stats scrollbox">
+            <div className={"stats scrollbox" + (live ? " live" : "")}>
+                {live ? <Live /> : <></>}
                 <TournamentTable tourney={golfers ? golfers : []} />
             </div>
             <div className="bar scrollbox">
