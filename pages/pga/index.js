@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "../../functions/SupabaseClient";
-import { options } from "marked";
 
 export default function MastersPage() {
     return (

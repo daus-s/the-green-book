@@ -415,3 +415,20 @@ a.pga-icon:hover {
     display: flex;
 }
 
+.sign-in button.sign-in {
+    width: 178px;
+    margin-top: 10px;
+    font-size: large;
+    background-color: var(--cta-button-bg-color);
+    color: var(--button-text);
+    padding: 5px 25px 5px 25px;
+    border-radius: 18px;
+}
+
+.sign-in a, .sign-in a:visited {
+    color: var(--link-color);
+}
+
+.sign-in a:hover {
+    color: var(--link-hover);
+}

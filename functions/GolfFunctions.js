@@ -224,7 +224,6 @@ function golferViaIndex(index, tourney) {
 }
 
 function parse(data, pos) {
-    console.log(data);
     if (data.bet?.alternates && data.bet?.players) {
         switch (pos) {
             case "p1":
@@ -263,7 +262,7 @@ function parse(data, pos) {
 }
 
 function golfer(data, pos, tournament) {
-    console.log(" *********************************\n * TOURNAMENT ********************\n *********************************\n", tournament);
+    //console.log(" *********************************\n * TOURNAMENT ********************\n *********************************\n", tournament);
     return golferViaIndex(parse(data, pos), tournament);
 }
 
