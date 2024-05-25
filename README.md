@@ -7,6 +7,9 @@ the-green-book is a web app that allows users to place bets with their friends l
 ### Abstract
 theGreenBook, a social betting app paying homage to its humble beginnings as a green notebook shared by some friends
 
+### Roadmap
+[Roadmap](https://docs.google.com/spreadsheets/d/1FkLNLL6TE3griz7laY9ZOvyikTCCjG0tEmEv5Vk-EUA/edit#gid=0)
+
 ### Developers
 #### Dependencies
 - `node` install via [brew install node](https://formulae.brew.sh/formula/node) on macOS
