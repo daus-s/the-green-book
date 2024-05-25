@@ -16,17 +16,17 @@ import PGA from "./PGAIcon";
 import { TournamentWidget } from "./MastersBetPlaceForm";
 import { splitnSort } from "../functions/AllButThisJSON";
 import Live from "./Live";
+import SignInToPlace from "./SigninToPlace";
 
 export default function TournamentDashboard() {
     const [leagueBets, setLeagueBets] = useState(undefined);
     const [gentlemanBets, setGentleBets] = useState(undefined);
 
-    const { meta } = useAuth();
+    const { meta, user, session } = useAuth();
     const { tournament, golfers } = useTournament();
 
     const getYourLeagueBets = async () => {
         const { data, error } = await supabase.from("masters_league").select().eq("public_id", meta.publicID).eq("tournament_id", tournament.id);
-        //console.log('league bets:', data?data:error);
         if (!error && data) {
             setLeagueBets(data);
         }
@@ -34,7 +34,6 @@ export default function TournamentDashboard() {
 
     const getYour1v1Bets = async () => {
         const { data, error } = await supabase.from("masters_opponents").select().eq("public_id", meta.publicID).eq("tournament_id", tournament.id);
-        //console.log('1v1 bets:', data?data:error);
         if (!error && data) {
             setGentleBets(data);
         }
@@ -66,39 +65,47 @@ export default function TournamentDashboard() {
                 <div className="your-league-bets scrollbox-content">
                     <div className="msb-header">League Bets</div>
                     <div className="league-bets">
-                        {golfers && leagueBets ? (
-                            <>
-                                {leagueBets.length ? (
-                                    leagueBets.map((bet) => {
-                                        const comp = <BetLink key={bet.league_id} bet={bet} tourney={golfers} />;
-                                        return comp;
-                                    })
-                                ) : (
-                                    <div className="no-results">No bets</div>
-                                )}
-                                <CreateNewGolfWager />
-                            </>
+                        {user && session ? (
+                            golfers && leagueBets ? (
+                                <>
+                                    {leagueBets.length ? (
+                                        leagueBets.map((bet) => {
+                                            const comp = <BetLink key={bet.league_id} bet={bet} tourney={golfers} />;
+                                            return comp;
+                                        })
+                                    ) : (
+                                        <div className="no-results">No bets</div>
+                                    )}
+                                    <CreateNewGolfWager />
+                                </>
+                            ) : (
+                                <Loading />
+                            )
                         ) : (
-                            <Loading />
+                            <SignInToPlace />
                         )}
                     </div>
                 </div>
                 <div className="your-1v1-bets scrollbox-content">
                     <div className="msb-header">Single bets</div>
                     <div className="m-1v1-bets">
-                        {golfers && gentlemanBets ? (
-                            <>
-                                {gentlemanBets.length ? (
-                                    gentlemanBets.map((bet, index) => {
-                                        return <BetLink key={index} bet={bet} tourney={golfers} />;
-                                    })
-                                ) : (
-                                    <div className="no-results">No bets</div>
-                                )}
-                                <CreateNewGolfWager />
-                            </>
+                        {user && session ? (
+                            golfers && gentlemanBets ? (
+                                <>
+                                    {gentlemanBets.length ? (
+                                        gentlemanBets.map((bet, index) => {
+                                            return <BetLink key={index} bet={bet} tourney={golfers} />;
+                                        })
+                                    ) : (
+                                        <div className="no-results">No bets</div>
+                                    )}
+                                    <CreateNewGolfWager />
+                                </>
+                            ) : (
+                                <Loading />
+                            )
                         ) : (
-                            <Loading />
+                            <SignInToPlace />
                         )}
                     </div>
                 </div>
