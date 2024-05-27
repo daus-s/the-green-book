@@ -39,6 +39,7 @@ import "../styles/error.css";
 import "../styles/mastersdash.css";
 import "../styles/pgatools.css";
 import "../styles/ad.css";
+import "../styles/notifications.css";
 
 export default function App({ Component, pageProps }) {
     return (

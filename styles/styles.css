@@ -99,6 +99,7 @@ body {
   --gold: #ffd700;
   --silver: #c0c0c0;
   --bronze: #cd7f32;
+  --clear: rgba(0,0,0,0);
   /* --table-bg-red1: #281414;
   --table-bg-red2: #221a10; */
 }
@@ -118,7 +119,7 @@ body {
 }
 
 .page {
-  margin-top: 96px;
+  margin-top: 106px;
   padding-bottom: 74px;
   display: flex;
   flex-direction: column;
@@ -131,7 +132,7 @@ body {
 
 .notification-box {
   position: relative;
-  z-index: 1;
+  z-index: 11;
   overflow-x: visible;
 }
 

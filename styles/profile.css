@@ -86,6 +86,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
+    padding-top: 16px;
 }
 
 .submit-change {

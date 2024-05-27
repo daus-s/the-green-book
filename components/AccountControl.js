@@ -3,30 +3,45 @@ import { useEffect, useState } from "react";
 import { useAuth } from "./providers/AuthContext";
 import { useMobile } from "./providers/MobileContext";
 import Image from "next/image";
+import NotificationIcon from "./notifications/NotificationIcon";
 
 export default function AccountControl() {
-    const {user, session, logout} = useAuth();
-    const [authenticated, setAuthenticated] = useState((user?user.role=='authenticated':false));
-    const {isMobile} = useMobile();
+    const { user, session, logout } = useAuth();
+    const [authenticated, setAuthenticated] = useState(user ? user.role == "authenticated" : false);
+    const { isMobile } = useMobile();
 
-    useEffect(()=>{
-        if (session&&user) {
+    useEffect(() => {
+        if (session && user) {
             setAuthenticated(true);
-        }
-        else {
+        } else {
             setAuthenticated(false);
         }
-    },[user,session]);
+    }, [user, session]);
 
     switch (authenticated) {
-        case true: 
+        case true:
             return (
-            <div className="profile-signout-div">
-                <ProfileNav/>
-                {!isMobile?<button className="cta-button" onClick={()=>logout()}>Sign Out</button>:<></>}
-            </div>)
+                <div className="profile-signout-div">
+                    <NotificationIcon />
+                    <ProfileNav />
+                    {!isMobile ? (
+                        <button className="cta-button" onClick={() => logout()}>
+                            Sign Out
+                        </button>
+                    ) : (
+                        <></>
+                    )}
+                </div>
+            );
         case false:
-            return (isMobile?<button className="login-as-button" onClick={()=>window.location.href='/login'}><img src='/login.png' style={{height: '40px', width: '40px'}}/></button>:<button className="cta-button" onClick={()=>window.location.href='/login'}>Sign In</button>);
+            return isMobile ? (
+                <button className="login-as-button" onClick={() => (window.location.href = "/login")}>
+                    <Image src="/login.png" style={{ height: "40px", width: "40px" }} />
+                </button>
+            ) : (
+                <button className="cta-button" onClick={() => (window.location.href = "/login")}>
+                    Sign In
+                </button>
+            );
     }
-
 }

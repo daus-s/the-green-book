@@ -1,0 +1,16 @@
+.notification-icon {
+    width: 79px;
+    cursor: pointer;
+}
+
+.notification-icon:hover {
+    filter: brightness(200%);
+}
+
+.notification-icon img {
+    margin: auto 0;
+}
+
+.notification-header {
+    border-bottom: 1px solid var(--bet-option-highlight);
+}

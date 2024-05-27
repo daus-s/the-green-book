@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "./providers/AuthContext";
 import CommissionerShield from "./CommissionerShield";
-import Notification from "./Notification";
+import NotificationCounter from "./notifications/NotificationCounter";
 import { supabase } from "../functions/SupabaseClient";
 
 function SidebarProfile({ meta, user }) {
@@ -114,7 +114,7 @@ function Sidebar({ close }) {
                                             <Link href="/your-groups" onClick={close} style={{ paddingLeft: "0" }}>
                                                 Group Manager
                                             </Link>
-                                            <Notification
+                                            <NotificationCounter
                                                 count={requests}
                                                 style={{ width: "18px", height: "18px", fontSize: "14px", fontWeight: 500, transform: "translateX(-6px) translateY(-4px)", padding: "0" }}
                                             />
