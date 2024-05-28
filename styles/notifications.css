@@ -27,6 +27,7 @@
 
 .notification {
     padding: 0px 10px 10px 10px;
+    transition: background-color 0.5s ease; 
 }
 
 .notification.new {
@@ -39,5 +40,6 @@
 }
 
 .notification:hover {
-    background-color: var(--bet-option-highlight);
+    background-color: var(--bring-forward-gray);
 }
+
