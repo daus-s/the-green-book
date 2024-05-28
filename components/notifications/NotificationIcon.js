@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import NotificationBox from "./NotificationBox";
+import NotificationCounter from "./NotificationCounter";
 import { useAuth } from "../providers/AuthContext";
 import { supabase } from "../../functions/SupabaseClient";
+import { count } from "../../functions/NotificationReader";
 
 export default function NotificationIcon() {
     const [balanar, setBalanar] = useState(false);
@@ -10,6 +12,7 @@ export default function NotificationIcon() {
     const { meta } = useAuth();
 
     useEffect(() => {
+        //this will become frankensteins monster
         const getNotifications = async () => {
             if (meta?.publicID) {
                 const { data, error } = await supabase.from("notifications").select().eq("dst", meta.publicID);
@@ -25,12 +28,13 @@ export default function NotificationIcon() {
     return (
         <>
             <div
-                className="notification-icon link"
+                className="notification-icon link notification-box"
                 onClick={(e) => {
                     e.stopPropagation();
                     setBalanar(true);
                 }}
             >
+                <NotificationCounter count={count(notifications)} style={{ transform: "translateX(-10.5px)" }} />
                 <img src="/notification.png" style={{ height: "50px" }} />
             </div>
             {balanar ? (
@@ -40,6 +44,7 @@ export default function NotificationIcon() {
                         setBalanar(false);
                     }}
                     notifications={notifications}
+                    meta={meta}
                 />
             ) : (
                 <></>

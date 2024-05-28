@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import Notification from "./NotificationTypes";
+import { select } from "../../functions/NotificationReader";
 
 Modal.setAppElement("#__next");
 
-const NotificationBox = ({ isOpen, onClose, notifications }) => {
+const NotificationBox = ({ isOpen, onClose, notifications, meta }) => {
     const ref = useRef(null);
 
     useEffect(() => {
@@ -51,8 +52,8 @@ const NotificationBox = ({ isOpen, onClose, notifications }) => {
                 },
             }}
         >
-            <div className="modal" style={{ padding: "10px" }} ref={ref}>
-                <div className="notification-header">
+            <div className="modal" ref={ref}>
+                <div className="notification-header" style={{ padding: "10px" }}>
                     <div className="notification-title">Notifications</div>
                     <span
                         onClick={(e) => {
@@ -65,9 +66,15 @@ const NotificationBox = ({ isOpen, onClose, notifications }) => {
                     </span>
                 </div>
                 <div className="notifications">
-                    {notifications.map((n, i) => {
-                        return <Notification notification={n} key={i} />;
-                    })}
+                    {notifications.length ? (
+                        select(notifications).map((n, i) => {
+                            return <Notification notification={n} key={i} meta={meta} />;
+                        })
+                    ) : (
+                        <div className="no-notifications" style={{ color: "var(--unimportant-text)", textAlign: "center", padding: "10px 5px", fontWeight: "600" }}>
+                            No notifications
+                        </div>
+                    )}
                 </div>
             </div>
         </Modal>

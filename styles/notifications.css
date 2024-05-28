@@ -14,3 +14,30 @@
 .notification-header {
     border-bottom: 1px solid var(--bet-option-highlight);
 }
+
+.notification-icon:hover .notification-counter {
+    filter: brightness(50%);
+    font-weight: 400;
+}
+
+.notification.friend-request {
+    width: 100%;
+    overflow: hidden;
+}
+
+.notification {
+    padding: 0px 10px 10px 10px;
+}
+
+.notification.new {
+    background-color: var(--soft-highlight);
+}
+
+.friend-request .accept, .friend-request .reject {
+    border: none;
+    outline: none;
+}
+
+.notification:hover {
+    background-color: var(--bet-option-highlight);
+}
