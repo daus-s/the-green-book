@@ -44,8 +44,12 @@ export const AuthProvider = ({ children }) => {
         const getPublicData = async () => {
             try {
                 const email = (await getSession()).data?.session.user.email;
+                const { data: id, error: idErr } = await supabase.from("users").select("publicID").eq("email", email).single();
 
-                const { data, error } = await supabase.from("public_users").select("*").eq("email", email).limit(1).single();
+                if (idErr) {
+                    throw new Error(idErr.message);
+                }
+                const { data, error } = await supabase.from("public_users").select().eq("id", id.publicID).single();
 
                 if (data) {
                     setMeta((prevMeta) => ({

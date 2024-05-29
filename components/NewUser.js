@@ -33,7 +33,7 @@ export default function NewUser() {
         if (usernameExists.data.length > 0) {
             //error do not proceed
             setUsernameError(true);
-            setPassword("");
+            //setPassword("");
             return;
         } else {
             setUsernameError(false);
@@ -41,7 +41,7 @@ export default function NewUser() {
         const emailExists = await supabase.rpc("email_from_username", { u: username.toLowerCase() });
         if (emailExists.data) {
             setEmailError(true);
-            setPassword("");
+            //setPassword("");
             return;
         } else {
             setEmailError(false);
@@ -56,7 +56,7 @@ export default function NewUser() {
                 return;
             } else if (signupResponse.error.code === "weak_password") {
                 setPasswordSyntaxError(true);
-                setPassword("");
+                //setPassword("");
                 return;
             }
         } else {
@@ -76,22 +76,34 @@ export default function NewUser() {
             }
             const newUser = {
                 userID: signupResponse.data.user.id,
-                name: name,
                 email: email.toLowerCase(),
-                username: username.toLowerCase(),
                 publicID: id,
             };
             const insertResponse = await supabase.from("users").insert(newUser);
+
             if (!insertResponse.error && signupResponse.data) {
-                const path = await login(username ? username : email ? email : undefined, pwd);
-                if (path) {
-                    router.push(`${path}`);
-                } else {
-                    router.push("/bets");
+                console.log({
+                    name: name,
+                    username: username.toLowerCase(),
+                });
+                const { error } = await supabase
+                    .from("public_users")
+                    .update({
+                        display: name,
+                        username: username.toLowerCase(),
+                    })
+                    .eq("id", id);
+                if (!error) {
+                    const path = await login(email, pwd);
+                    if (path) {
+                        router.push(`${path}`);
+                    } else {
+                        router.push("/bets");
+                    }
                 }
             }
         }
-        setPassword("");
+        //setPassword("");
     };
 
     const handleSubmit = async (e) => {
