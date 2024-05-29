@@ -26,21 +26,21 @@ export default function TournamentDashboard() {
     const { tournament, golfers } = useTournament();
 
     const getYourLeagueBets = async () => {
-        const { data, error } = await supabase.from("masters_league").select().eq("public_id", meta.publicID).eq("tournament_id", tournament.id);
+        const { data, error } = await supabase.from("masters_league").select().eq("public_id", meta.id).eq("tournament_id", tournament.id);
         if (!error && data) {
             setLeagueBets(data);
         }
     };
 
     const getYour1v1Bets = async () => {
-        const { data, error } = await supabase.from("masters_opponents").select().eq("public_id", meta.publicID).eq("tournament_id", tournament.id);
+        const { data, error } = await supabase.from("masters_opponents").select().eq("public_id", meta.id).eq("tournament_id", tournament.id);
         if (!error && data) {
             setGentleBets(data);
         }
     };
 
     useEffect(() => {
-        if (meta.publicID) {
+        if (meta.id) {
             if (tournament) {
                 getYourLeagueBets();
                 getYour1v1Bets();
@@ -214,7 +214,7 @@ function BetLink({ bet, tourney }) {
         );
     } else if (bet.league_id) {
         //we return a league bet link
-        const position = getPosition(meta.publicID, teams ? teams : [], tourney, tournament ? tournament.par : 72);
+        const position = getPosition(meta.id, teams ? teams : [], tourney, tournament ? tournament.par : 72);
         comp = (
             <Link href={link.replace("%s", tournament.extension).replace("%s", ext)}>
                 <div className="league-bet">

@@ -17,6 +17,7 @@ function NoSuchUser({ criteria }) {
 }
 
 function UserBalance({ user }) {
+    console.log(user);
     const [value, setValue] = useState(user.user_balances.balance);
     const [edit, setEdit] = useState(false);
 
@@ -45,7 +46,7 @@ function UserBalance({ user }) {
                 <img src={user.public_users.pfp_url} style={isMobile ? { ...mobileStyles.row.pfp.img } : {}} />
             </div>
             <div className="username" style={isMobile ? { ...mobileStyles.row.username } : {}}>
-                {user.username}
+                {user.public_users.username}
             </div>
             {edit ? (
                 <input
@@ -80,14 +81,14 @@ export default function BalanceTable() {
             page
                 ? await supabase
                       .from("users")
-                      .select("*, user_balances ( balance ), public_users!public_users_username_fkey ( * )")
+                      .select("*, user_balances ( balance ), public_users!public_users_id_fkey ( * )")
                       .ilike("username", `${query ? query : ""}*`)
                       .order("userID")
                       .limit(5)
                       .gt("userID", ids[ids.length - 1])
                 : await supabase
                       .from("users")
-                      .select("*, user_balances ( balance ), public_users!public_users_username_fkey ( * )")
+                      .select("*, user_balances ( balance ), public_users!public_users_id_fkey ( * )")
                       .ilike("username", `${query ? query : ""}*`)
                       .order("userID")
                       .limit(5);
@@ -119,13 +120,13 @@ export default function BalanceTable() {
                 pageCopy === 1
                     ? await supabase
                           .from("users")
-                          .select("*, user_balances ( balance ), public_users!public_users_username_fkey ( * )")
+                          .select("*, user_balances ( balance ), public_users!public_users_id_fkey ( * )")
                           .ilike("username", `${query ? query : ""}*`)
                           .order("userID")
                           .limit(5)
                     : await supabase
                           .from("users")
-                          .select("*, user_balances ( balance ), public_users!public_users_username_fkey ( * )")
+                          .select("*, user_balances ( balance ), public_users!public_users_id_fkey ( * )")
                           .ilike("username", `${query ? query : ""}*`)
                           .order("userID")
                           .limit(5)
@@ -157,7 +158,7 @@ export default function BalanceTable() {
         const getUsers = async () =>
             await supabase
                 .from("users")
-                .select("*, user_balances ( balance ), public_users!public_users_username_fkey ( * )")
+                .select("*, user_balances ( balance ), public_users!public_users_id_fkey ( * )")
                 .ilike("username", `${query ? query : ""}*`)
                 .order("userID")
                 .limit(5)

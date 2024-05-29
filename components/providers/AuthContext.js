@@ -44,20 +44,22 @@ export const AuthProvider = ({ children }) => {
         const getPublicData = async () => {
             try {
                 const email = (await getSession()).data?.session.user.email;
+                const { data: id, error: idErr } = await supabase.from("users").select("publicID").eq("email", email).single();
 
-                const { data, error } = await supabase.from("public_users").select("*").eq("email", email).limit(1).single();
+                if (idErr) {
+                    throw new Error(idErr.message);
+                }
+                const { data, error } = await supabase.from("public_users").select().eq("id", id.publicID).single();
 
                 if (data) {
                     setMeta((prevMeta) => ({
                         ...prevMeta,
-                        pfp: data.pfp_url,
-                        publicID: data.id,
-                        username: data.username,
+                        ...data,
                     }));
                 } else {
                     setMeta((prevMeta) => ({
                         ...prevMeta,
-                        pfp: "user.png",
+                        pfp_url: "/user.png",
                     }));
                 }
             } catch (error) {
@@ -115,14 +117,13 @@ export const AuthProvider = ({ children }) => {
             if (validEmail(usr)) {
                 email = usr;
             } else if (validUsername(usr)) {
-                const { data, error } = await supabase.from("public_users").select("email").eq("username", usr);
-                if (error) {
-                    throw new Error("Database error: " + error.message);
-                }
-
-                if (data && data.length === 1) {
-                    email = data[0].email;
+                const { data, error } = await supabase.rpc("email_from_username", { u: usr });
+                if (!error && data) {
+                    email = data;
                 } else {
+                    if (error) {
+                        throw new Error("Database error: " + error.message);
+                    }
                     throw new Error("User does not exist");
                 }
             } else {

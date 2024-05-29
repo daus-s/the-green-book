@@ -105,7 +105,7 @@ function GroupElement({ name, id }) {
             </div>
             <div className="group-info" style={isMobile ? { flexDirection: "column" } : {}}>
                 <div className="user-group-view">
-                    <FindUserList name={name} id={id} addUser={addUser} users={users} setUsers={setUsers} remove={removeUser} commish={meta.publicID} />
+                    <FindUserList name={name} id={id} addUser={addUser} users={users} setUsers={setUsers} remove={removeUser} commish={meta.id} />
                 </div>
                 <div className="bets-group-view">
                     <div className="bets-container-title">Open Bets</div>

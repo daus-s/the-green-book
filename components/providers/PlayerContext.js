@@ -97,8 +97,8 @@ export const PlayerProvider = ({ children }) => {
     }, [u, t, tour]);
 
     const getUsers = async () => {
-        if (meta?.publicID) {
-            const { data, error } = await supabase.from("public_users").select().eq("id", meta.publicID).single();
+        if (meta?.id) {
+            const { data, error } = await supabase.from("public_users").select().eq("id", meta.id).single();
             if (!error) {
                 setU(data);
             }
