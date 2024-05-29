@@ -10,11 +10,11 @@ function SidebarProfile({ meta, user }) {
         return (
             <div className="sidebar-profile">
                 <div className="pfp-box">
-                    <img className="pfp" src={meta.pfp} onClick={() => (window.location.href = "/profile")} />
+                    <img className="pfp" src={meta.pfp_url} onClick={() => (window.location.href = "/profile")} />
                     {meta.commish ? <CommissionerShield style={{ height: "30px", pointerEvents: "none" }} /> : <></>}
                 </div>
-                <div className="username">{meta.username}</div>
-                <div className="email">{user.email}</div>
+                <div className="display">{user.display}</div>
+                <div className="username">@{meta.username}</div>
             </div>
         );
     } else {

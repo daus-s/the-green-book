@@ -197,12 +197,20 @@ input.search-bar {
     margin: 2px;
 }
 
-.result .username {
+.result .display {
     font-size: 34px;
 }
-
-.result .email {
-    font-size: 12px;
+.text-fields .display {
+    font-size: 32px;
+    margin-bottom: 0;
+    color: var(--bright-text);
+    overflow: hidden;
+    white-space: nowrap;
+}
+.result .username, .user .username {
+    font-size: 20px;
+    font-style: italic;
+    color: var(--grayed-out-text);
 }
 
 .text-fields {
@@ -266,9 +274,9 @@ input.search-bar {
     font-weight: 300;
 }
 
-.scroll-container  {
+.usi .scroll-container  {
     z-index: 10;
-    position: absolute;
+    position: absolute !important;
     top: 154px;
     max-height: 360px;
     overflow-y: auto;

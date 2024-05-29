@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { useAuth } from "./providers/AuthContext.js";
 
-import ReactMarkdown from 'react-markdown';
-import DOMPurify from 'dompurify';
+import ReactMarkdown from "react-markdown";
+import DOMPurify from "dompurify";
 
 import ConfirmModal from "./modals/ConfirmModal.js";
 import DeleteModal from "./modals/DeleteModal.js";
@@ -11,37 +11,36 @@ import DeleteModal from "./modals/DeleteModal.js";
 import { useModal } from "./providers/ModalContext.js";
 import { useMobile } from "./providers/MobileContext.js";
 
-
-function OptionRadio({bet, setParentChoice}) {
-    const [choice, setChoice] = useState({name:undefined,value:null});
+function OptionRadio({ bet, setParentChoice }) {
+    const [choice, setChoice] = useState({ name: undefined, value: null });
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-    
+
     const { succeed, failed } = useModal();
 
     const options = Object.entries(bet.odds).map(([name, value]) => ({
         name,
         value,
     }));
-    const line = bet.mode==='ou'?bet.line:undefined;
+    const line = bet.mode === "ou" ? bet.line : undefined;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (choice&&choice.name&&choice.value) {
+        if (choice && choice.name && choice.value) {
             setConfirmModalVisible(true);
         } else {
-            alert("Pick a valid outcome.")
+            alert("Pick a valid outcome.");
         }
-    }
+    };
 
     const cashBet = async () => {
         const _bet = bet.betID;
         if (!choice) {
-            alert ("Please select a valid option");
+            alert("Please select a valid option");
             return;
         }
         const _outcome = choice.name;
-        const { data, error } = await supabase.rpc('cash_bet', { _bet, _outcome});
+        const { data, error } = await supabase.rpc("cash_bet", { _bet, _outcome });
 
         setDeleteModalVisible(false);
 
@@ -51,25 +50,23 @@ function OptionRadio({bet, setParentChoice}) {
             window.location.reload(false);
         } else if (data) {
             //failure in function
-            failed({code: 100_000+data}); //100_000 + code is the defined rpc error codes
-        }
-        else if (error) {
+            failed({ code: 100_000 + data }); //100_000 + code is the defined rpc error codes
+        } else if (error) {
             // set failure modal visible
             failed(error);
         } else {
-            failed({message: 'Something unexpected failed'});
+            failed({ message: "Something unexpected failed" });
         }
-
-    }
+    };
 
     const handleDelete = (e) => {
         e.preventDefault();
         setDeleteModalVisible(true);
-    }
+    };
 
     const closeBet = async () => {
         const _bet = bet.betID;
-        const { data, error } = await supabase.rpc('cancel_bet', { _bet});
+        const { data, error } = await supabase.rpc("cancel_bet", { _bet });
 
         setDeleteModalVisible(false);
 
@@ -79,16 +76,14 @@ function OptionRadio({bet, setParentChoice}) {
             window.location.reload(false);
         } else if (data) {
             //failure in function
-            failed({code: 100_000+data});
-        }
-        else if (error) {
+            failed({ code: 100_000 + data });
+        } else if (error) {
             // set failure modal visible
             failed(error);
         } else {
-            failed({message: 'Something unexpected failed'});
+            failed({ message: "Something unexpected failed" });
         }
-
-    }
+    };
 
     return (
         <div className="bet-options">
@@ -101,36 +96,53 @@ function OptionRadio({bet, setParentChoice}) {
                             type="radio"
                             name="options"
                             value={option.name}
-                            onChange={() => setChoice({name:option.name,value:option.value})}
+                            onChange={() => setChoice({ name: option.name, value: option.value })}
                             checked={choice.name === option.name}
                         />
                         <div className="custom-radio option">
-                            <div className="name">
-                            {line||line===0?option.name + " " + line:option.name}
-                            </div>
-                            <div className="value">
-                            ({option.value})
-                            </div>
+                            <div className="name">{line || line === 0 ? option.name + " " + line : option.name}</div>
+                            <div className="value">({option.value})</div>
                         </div>
                     </label>
                 ))}
                 <div className="button-container">
-                    <button onClick={handleDelete} className="delete-button"><img src="/trash.png" alt="Delete" style={{height: "24px"}}/></button>
-                    <button className="cash-out-button" type="submit">Confirm</button>
+                    <button onClick={handleDelete} className="delete-button">
+                        <img src="/trash.png" alt="Delete" style={{ height: "24px" }} />
+                    </button>
+                    <button className="cash-out-button" type="submit">
+                        Confirm
+                    </button>
                 </div>
             </form>
-            <ConfirmModal isOpen={confirmModalVisible} onCancel={()=>{setConfirmModalVisible(false)}} onConfirm={cashBet} title={bet.title} option={choice}/>
-            <DeleteModal isOpen={deleteModalVisible} onCancel={()=>{setDeleteModalVisible(false)}} onDelete={closeBet} betName={bet.title}/>
+            <ConfirmModal
+                isOpen={confirmModalVisible}
+                onCancel={() => {
+                    setConfirmModalVisible(false);
+                }}
+                onConfirm={cashBet}
+                title={bet.title}
+                option={choice}
+            />
+            <DeleteModal
+                isOpen={deleteModalVisible}
+                onCancel={() => {
+                    setDeleteModalVisible(false);
+                }}
+                onDelete={closeBet}
+                betName={bet.title}
+            />
         </div>
     );
 }
 //placed user bets
-function BetRow({userBet}) { 
+function BetRow({ userBet }) {
     return (
         <div className="user-bet-row">
             <div className="user-id">
                 <img className="user-picture" src={userBet.pfp_url} />
-                <div className="user-name" title={userBet.username}>{userBet.username}</div>
+                <div className="user-name" title={userBet.username}>
+                    @{userBet.username}
+                </div>
             </div>
             <div className="user-option">{userBet.outcome}</div>
             <div className="user-wager">{userBet.amount}</div>
@@ -138,49 +150,49 @@ function BetRow({userBet}) {
     );
 }
 
-function PlacedBets({placedBets}) {
+function PlacedBets({ placedBets }) {
     const { isMobile } = useMobile();
     return (
-        <div className="placed-bets" style={isMobile?mobileStyle.side:{}}>
+        <div className="placed-bets" style={isMobile ? mobileStyle.side : {}}>
             <div className="user-bets-header">
                 <div>User</div>
                 <div>Option</div>
                 <div>Wager</div>
             </div>
-            {placedBets?placedBets.map(bet=><BetRow userBet={bet}/>):""}
+            {placedBets ? placedBets.map((bet) => <BetRow userBet={bet} />) : ""}
         </div>
     );
 }
 
-function BetMenu({bets, bet}) {
-    const {isMobile} = useMobile();
+function BetMenu({ bets, bet }) {
+    const { isMobile } = useMobile();
     // TODO: highlght green and red when selecting option
     const sanitizedMarkdown = DOMPurify.sanitize(bet?.description);
 
     return (
-        <div className="bet-menu-div" style={isMobile?mobileStyle.entree:{}}>
-            <div className="description" style={isMobile?mobileStyle.side:{}}>
+        <div className="bet-menu-div" style={isMobile ? mobileStyle.entree : {}}>
+            <div className="description" style={isMobile ? mobileStyle.side : {}}>
                 <ReactMarkdown>{sanitizedMarkdown}</ReactMarkdown>
             </div>
-            <PlacedBets placedBets={bets}/>
-            <div className="bet-options" style={isMobile?mobileStyle.side:{}}>
-                {bet.open?<OptionRadio bet={bet} />:<></>}
+            <PlacedBets placedBets={bets} />
+            <div className="bet-options" style={isMobile ? mobileStyle.side : {}}>
+                {bet.open ? <OptionRadio bet={bet} /> : <></>}
             </div>
         </div>
     );
 }
 
-function BetHeader({bet, toggle}) {
-    const {isMobile} = useMobile();
+function BetHeader({ bet, toggle }) {
+    const { isMobile } = useMobile();
     return (
-        <div className="bet-header" onClick={()=>toggle()} style={isMobile?mobileStyle.entree:{}}>
+        <div className="bet-header" onClick={() => toggle()} style={isMobile ? mobileStyle.entree : {}}>
             <div className="bet-title">{bet.title}</div>
-            <div className="status-icon"> {bet.open?<img src="/mark.png" style={{height: '24px'}}/>:<img src="/close.png" style={{height: '24px'}}/>} </div>
+            <div className="status-icon"> {bet.open ? <img src="/mark.png" style={{ height: "24px" }} /> : <img src="/close.png" style={{ height: "24px" }} />} </div>
         </div>
     );
 }
 
-function BetTool ({ bet, id }) {
+function BetTool({ bet, id }) {
     const [expanded, setExpanded] = useState(bet.open);
     const [betsData, setBetsData] = useState(null);
 
@@ -189,48 +201,45 @@ function BetTool ({ bet, id }) {
 
     const close = () => {
         setExpanded(false);
-    }
+    };
 
     const open = () => {
         setExpanded(true);
-    }
+    };
 
-    useEffect(()=>{
+    useEffect(() => {
         const getPlacedBets = async () => {
             let joined = [];
             const { data: userBetsData, error: userBetsError } = await supabase.from("user_bets").select().eq("betID", bet.betID);
             if (userBetsData) {
                 for (const userBet of userBetsData) {
-                    const { data: userData, error: userError } = await supabase.from("public_users").select('pfp_url, username').eq("id", userBet.public_uid).limit(1).single();
+                    const { data: userData, error: userError } = await supabase.from("public_users").select("pfp_url, username").eq("id", userBet.public_uid).limit(1).single();
                     if (userData) {
-                        let concat = {...userData, ...userBet};
+                        let concat = { ...userData, ...userBet };
                         joined.push(concat);
                     }
                 }
                 setBetsData(joined);
-            }
-            else {
+            } else {
                 setBetsData([]); //maybe error row here?
             }
-        }
+        };
 
         getPlacedBets();
-    },[]);
+    }, []);
     /**
      * Structure
      * betheader or bedder
      * options on the bet
      */
-    return (
-        expanded
-        ? 
-        <div className="bet menu" style={isMobile?{width: elementWidth,...mobileStyle.menu}:{}}>
-            <BetHeader toggle={close} bet={bet}/>
-            <BetMenu bets={betsData} bet={bet}/>
-        </div> 
-        : 
-        <div className="bet menu" style={isMobile?{width: elementWidth,...mobileStyle.menu}:{}}>
-            <BetHeader toggle={open} bet={bet}/>
+    return expanded ? (
+        <div className="bet menu" style={isMobile ? { width: elementWidth, ...mobileStyle.menu } : {}}>
+            <BetHeader toggle={close} bet={bet} />
+            <BetMenu bets={betsData} bet={bet} />
+        </div>
+    ) : (
+        <div className="bet menu" style={isMobile ? { width: elementWidth, ...mobileStyle.menu } : {}}>
+            <BetHeader toggle={open} bet={bet} />
         </div>
     );
 }
@@ -241,35 +250,37 @@ export default function BetManager() {
     const { user, meta } = useAuth();
 
     //get bets that ur the owner (commish of)
-    useEffect(()=>{
+    useEffect(() => {
         const getYourBets = async () => {
-            const { data, error } = await supabase.from('bets').select().eq('commissionerID', meta.commish).order('open', {ascending: false});
+            const { data, error } = await supabase.from("bets").select().eq("commissionerID", meta.commish).order("open", { ascending: false });
             if (data) {
                 setBets(data);
             }
-        }
+        };
 
         getYourBets();
-    },[meta]);
+    }, [meta]);
 
     return (
         <div className="page">
-            {bets.map((bet)=>(<BetTool bet={bet} id={bet.betID}/>))}
+            {bets.map((bet) => (
+                <BetTool bet={bet} id={bet.betID} />
+            ))}
         </div>
-    )
+    );
 }
 
 const mobileStyle = {
     menu: {
-        padding: '10px 5px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
+        padding: "10px 5px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
     },
     entree: {
-        width: '100%'
+        width: "100%",
     },
     side: {
-        width: 'calc(100% - 20px)'
+        width: "calc(100% - 20px)",
     },
-}
+};

@@ -75,7 +75,7 @@ export default function DataDropDown({ list, JSX, set, data, preload }) {
                     direction={visible ? "down" : "left"}
                 />
                 {visible ? (
-                    <div className="scroll-container" style={{ top: `${height(width)}px` }}>
+                    <div className="scroll-container" style={{ top: `${height(width)}px`, maxHeight: `${5 * height(width) + 6}px`, overflowY: "auto" }}>
                         {list.map((item, index) => {
                             return (
                                 <JSX

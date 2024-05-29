@@ -6,7 +6,6 @@ import MastersPlaceBetForm from "../../../../components/MastersBetPlaceForm";
 import { useAuth } from "../../../../components/providers/AuthContext";
 import { usePlayer } from "../../../../components/providers/PlayerContext";
 import Loading from "../../../../components/Loading";
-import Timer from "../../../../components/Timer";
 
 export default function MasterBet() {
     //copypasta half the code from MastersPlaceBetForm.js
@@ -18,8 +17,8 @@ export default function MasterBet() {
     const router = useRouter();
 
     const getBarbenlighter = async (leagueID) => {
-        if (meta?.publicID) {
-            const { data, error } = await supabase.from("masters_league").select().eq("league_id", decode(leagueID)).eq("public_id", meta.publicID).single();
+        if (meta?.id) {
+            const { data, error } = await supabase.from("masters_league").select().eq("league_id", decode(leagueID)).eq("public_id", meta.id).single();
             if (!error) {
                 setBet(data);
             } else {
@@ -31,8 +30,9 @@ export default function MasterBet() {
     };
 
     const getOppenheimer = async (oppID) => {
-        if (meta?.publicID) {
-            const { data, error } = await supabase.from("masters_opponents").select().eq("oppie", decode(oppID)).eq("public_id", meta.publicID).single();
+        if (meta?.id) {
+            console.log(decode(oppID));
+            const { data, error } = await supabase.from("masters_opponents").select().eq("oppie", decode(oppID)).eq("public_id", meta.id).single();
             if (!error) {
                 setBet(data);
             } else {
@@ -48,6 +48,8 @@ export default function MasterBet() {
             getBarbenlighter(router.query.enc.substring(1, router.query.enc.length));
         }
         if (router.query.enc?.charAt(0) === "@") {
+            console.log("getting 1v1");
+            console.log(router.query.enc.substring(1, router.query.enc.length));
             getOppenheimer(router.query.enc.substring(1, router.query.enc.length));
         }
     }, [router, meta]);

@@ -156,7 +156,7 @@
 
 }
 
-.request .username {
+.request .display {
     font-size: 32px;
     margin-bottom: 0;
     color: var(--bright-text);
@@ -164,7 +164,7 @@
     white-space: nowrap;
 }
 
-.request .email {
+.request .username {
     font-size: 20px;
     color: var(--grayed-out-text);
     overflow: hidden;

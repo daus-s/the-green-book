@@ -64,7 +64,7 @@
     font-size: 20px;
     font-weight: 700;
 }
-.sidebar-profile .username, .sidebar-profile .email {
+.sidebar-profile .username, .sidebar-profile .display {
     text-overflow: ellipsis;
 }
 
