@@ -62,6 +62,9 @@ a .opponent.link {
     overflow-x: auto;
 }
 
+a .opponent.link .username {
+    font-size: 22px;
+}
 
 .container-for-league-or-oppie  a:visited, .container-for-league-or-oppie  a:active, .container-for-league-or-oppie  a:link, .container-for-league-or-oppie  a:hover, .container-for-league-or-oppie  a  {
     text-decoration: none;
