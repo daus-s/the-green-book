@@ -67,18 +67,21 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        if (user && session) {
-            const getUserData = async () => {
-                const { data, error } = await supabase.from("users").select().eq("userID", user.id);
-                if (!error) {
-                    setEmail(data[0].email);
-                    setUsername(data[0].username);
-                    setName(data[0].name);
-                }
-            };
+        const getUserData = async () => {
+            if (!meta.id) {
+                return;
+            }
+            const { data, error } = await supabase.from("public_users").select().eq("id", meta.id).single();
+            if (!error) {
+                setUsername(data.username);
+                setName(data.display);
+            }
+        };
+
+        if (meta) {
             getUserData();
         }
-    }, [user, session]);
+    }, [meta]);
 
     return (
         <div className="profile page">
@@ -131,7 +134,7 @@ export default function Profile() {
                             </div>
                         </div>
                     )}
-                    <div className="email">{email}</div>
+                    <div className="email">{user?.email}</div>
                     <ul className="tasks">
                         <li className="reset-password-link" style={isMobile ? mobileStyle.passwordReset : {}}>
                             <a href="/reset-password">Change your password</a>
