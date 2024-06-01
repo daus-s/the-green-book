@@ -31,3 +31,6 @@ If you run build, proceed and run
 ```
   serve -s build #this runs
 ```
+#### Wanna see how big the project is?
+`find . -path './node_modules' -prune -o -path './supabase' -prune -o -path './public' -prune -o -path './.git' -prune -o -path './scripts/.mypy_cache' -prune -o -path './scripts/pga/venv/*' -prune -o -path './.next/*' -prune -o -path './package-lock.json' -prune -o -path './.DS_Store-type' -prune -o -type f -print | xargs wc | awk 'END {print $1}'
+`

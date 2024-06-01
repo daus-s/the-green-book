@@ -14,9 +14,7 @@ export default function Profile() {
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
 
-    const [email, setEmail] = useState("");
-
-    const { user, meta, session } = useAuth();
+    const { user, meta } = useAuth();
     const { failed, succeed } = useModal();
     const { isMobile } = useMobile();
 
@@ -127,7 +125,7 @@ export default function Profile() {
                             </div>
                         </div>
                     )}
-                    <div className="email">{email}</div>
+                    <div className="email">{user?.email}</div>
                     <ul className="tasks">
                         <li className="reset-password-link" style={isMobile ? mobileStyle.passwordReset : {}}>
                             <a href="/reset-password">Change your password</a>

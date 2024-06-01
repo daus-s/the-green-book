@@ -26,6 +26,11 @@
     padding-left: 0px;
 }
 
+.golfer.drop-down-item {
+    margin: 0;
+}
+
+
 .alternates, .first-team {
     display: flex;
     flex-direction: row;
@@ -324,6 +329,7 @@
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    overflow-y: hidden;
 }
 .masters.page {
     padding-bottom: 0;
