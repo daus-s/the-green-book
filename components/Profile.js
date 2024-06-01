@@ -14,9 +14,7 @@ export default function Profile() {
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
 
-    const [email, setEmail] = useState("");
-
-    const { user, meta, session } = useAuth();
+    const { user, meta } = useAuth();
     const { failed, succeed } = useModal();
     const { isMobile } = useMobile();
 
@@ -67,18 +65,17 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        if (user && session) {
-            const getUserData = async () => {
-                const { data, error } = await supabase.from("users").select().eq("userID", user.id);
-                if (!error) {
-                    setEmail(data[0].email);
-                    setUsername(data[0].username);
-                    setName(data[0].name);
-                }
-            };
-            getUserData();
-        }
-    }, [user, session]);
+        const getUserData = async () => {
+            if (!meta.id) {
+                //not the worst check?
+                return;
+            }
+            setUsername(meta?.username);
+            setName(meta?.display);
+        };
+
+        getUserData();
+    }, [meta]);
 
     return (
         <div className="profile page">
@@ -131,7 +128,7 @@ export default function Profile() {
                             </div>
                         </div>
                     )}
-                    <div className="email">{email}</div>
+                    <div className="email">{user?.email}</div>
                     <ul className="tasks">
                         <li className="reset-password-link" style={isMobile ? mobileStyle.passwordReset : {}}>
                             <a href="/reset-password">Change your password</a>

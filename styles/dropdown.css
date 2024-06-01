@@ -17,6 +17,7 @@
 }
 
 .drop-down-selector .scroll-container {
+    z-index: 1;
     position: relative;
     /* width: 392px; */
 }
