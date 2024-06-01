@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { supabase } from "../functions/SupabaseClient";
 import { useEffect, useState } from "react";
+import { useMobile } from "./providers/MobileContext";
 
 export default function PGAAd() {
+    const { isMobile } = useMobile();
+    if (isMobile) {
+        return;
+    }
     const [hover, setHover] = useState(false);
     const [tournament, setTournament] = useState(undefined);
     const getNextTournament = async () => {
