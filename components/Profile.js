@@ -14,9 +14,7 @@ export default function Profile() {
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
 
-    const [email, setEmail] = useState("");
-
-    const { user, meta, session } = useAuth();
+    const { user, meta } = useAuth();
     const { failed, succeed } = useModal();
     const { isMobile } = useMobile();
 
@@ -69,18 +67,14 @@ export default function Profile() {
     useEffect(() => {
         const getUserData = async () => {
             if (!meta.id) {
+                //not the worst check?
                 return;
             }
-            const { data, error } = await supabase.from("public_users").select().eq("id", meta.id).single();
-            if (!error) {
-                setUsername(data.username);
-                setName(data.display);
-            }
+            setUsername(meta?.username);
+            setName(meta?.display);
         };
 
-        if (meta) {
-            getUserData();
-        }
+        getUserData();
     }, [meta]);
 
     return (
