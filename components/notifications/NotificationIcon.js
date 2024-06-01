@@ -14,8 +14,8 @@ export default function NotificationIcon() {
     useEffect(() => {
         //this will become frankensteins monster
         const getNotifications = async () => {
-            if (meta?.publicID) {
-                const { data, error } = await supabase.from("notifications").select().eq("dst", meta.publicID);
+            if (meta.id) {
+                const { data, error } = await supabase.from("notifications").select().eq("dst", meta.id);
                 if (!error) {
                     setNotifications(data);
                 }
@@ -34,7 +34,7 @@ export default function NotificationIcon() {
                     setBalanar(true);
                 }}
             >
-                <NotificationCounter count={count(notifications)} style={{ transform: "translateX(-10.5px)" }} />
+                {!balanar ? <NotificationCounter count={count(notifications)} style={{ transform: "translateX(-10.5px)" }} /> : <></>}
                 <img src="/notification.png" style={{ height: "50px" }} />
             </div>
             {balanar ? (

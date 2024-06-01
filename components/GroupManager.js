@@ -6,7 +6,7 @@ import { trnslt } from "../functions/TranslateMode";
 import { useMobile } from "./providers/MobileContext";
 
 import FindUserList from "./FindUserList";
-import NotificationCounter from "./NotificationCounter";
+import NotificationCounter from "./notifications/NotificationCounter";
 import USIModal from "./modals/USIModal";
 import Requests from "./Requests";
 

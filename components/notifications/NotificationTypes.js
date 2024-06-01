@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../functions/SupabaseClient";
+import Image from "next/image";
 
 export default function Notification({ notification, key, meta }) {
     console.log("choosing notification...");
@@ -17,12 +18,27 @@ export default function Notification({ notification, key, meta }) {
 }
 
 function FriendRequestNotification({ notification, locallyViewed, setLocallyViewed }) {
-    console.log("creating notification...");
+    const [candidate, setCandidate] = useState(undefined);
+    const getSrcAndDst = async () => {
+        const { data, error } = await supabase.from("public_users").select().eq("id", notification.src).single();
+        if (!error && data) {
+            setCandidate(data);
+        }
+    };
+
+    useEffect(() => {
+        getSrcAndDst();
+    }, []);
     return (
         <div className={"notification friend-request " + (notification.viewed || locallyViewed ? "" : "new")} onMouseEnter={() => setLocallyViewed(true)}>
-            {JSON.stringify(notification)}
-            <button className="accept">accept</button>
-            <button className="reject">reject</button>
+            <div className="message">
+                <Image src={candidate?.pfp_url ? candidate.pfp_url : "/user.png"} width={48} height={48} alt="user asking to be your friend" style={{ borderRadius: "24px" }} />
+                <span style={{ fontWeight: 600, marginRight: 3 }}>{candidate?.display}</span> wants to be friends.
+            </div>
+            <div className="buttons">
+                <button className="accept">accept</button>
+                <button className="reject">reject</button>
+            </div>
         </div>
     );
 }
@@ -34,7 +50,7 @@ function NotificationWrapper({ Component, notification, key, meta }) {
         const setRemoteViewed = async () => {
             let {} = await supabase.rpc("view_notification", {
                 n: notification.id,
-                u: meta.publicID,
+                u: meta.id,
             });
         };
 

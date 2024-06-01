@@ -36,7 +36,7 @@ export default function AccountControl() {
         case false:
             return isMobile ? (
                 <button className="login-as-button" onClick={() => (window.location.href = "/login")}>
-                    <Image src="/login.png" style={{ height: "40px", width: "40px" }} />
+                    <Image src="/login.png" width={40} height={40} alt="login" />
                 </button>
             ) : (
                 <button className="cta-button" onClick={() => (window.location.href = "/login")}>

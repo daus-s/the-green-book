@@ -3,6 +3,7 @@ import { useMobile } from "./providers/MobileContext";
 import { supabase } from "../functions/SupabaseClient";
 import { useModal } from "./providers/ModalContext";
 import ADModal from "./modals/ADModal";
+import User from "./User";
 
 export default function Requests({ groupID, groupName, setCount }) {
     // const [found, setFound] = useState({})
@@ -79,13 +80,7 @@ export default function Requests({ groupID, groupName, setCount }) {
                 </div>
                 <div className="request" style={isMobile ? { width: "235px" } : {}}>
                     {rs.length ? (
-                        <div className="user" style={isMobile ? { width: "100%" } : {}}>
-                            <div className="pfp">{face && face.pfp_url ? <img src={face.pfp_url} /> : <></>}</div>
-                            <div className="top-down">
-                                <div className="display">{face.display ? face.display : "-"}</div>
-                                <div className="username">@{face.username ? face.username : "-"}</div>
-                            </div>
-                        </div>
+                        <User user={face} />
                     ) : (
                         <div className="no-results" style={isMobile ? { width: "235px" } : {}}>
                             No Requests

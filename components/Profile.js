@@ -67,18 +67,14 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        if (user && session) {
-            const getUserData = async () => {
-                const { data, error } = await supabase.from("users").select().eq("userID", user.id);
-                if (!error) {
-                    setEmail(data[0].email);
-                    setUsername(data[0].username);
-                    setName(data[0].name);
-                }
-            };
-            getUserData();
+        if (user?.email) {
+            setEmail(user.email);
         }
-    }, [user, session]);
+        if (meta?.username && meta?.display) {
+            setUsername(meta.username);
+            setName(meta.display);
+        }
+    }, [meta, user]);
 
     return (
         <div className="profile page">

@@ -3,6 +3,7 @@ import { useMobile } from "./providers/MobileContext";
 import { supabase } from "../functions/SupabaseClient";
 import { useModal } from "./providers/ModalContext";
 import CommishModal from "./modals/CommishModal";
+import User from "./User";
 
 export default function CommishRequests({ setCount }) {
     const [rs, setRS] = useState([]);
@@ -103,13 +104,7 @@ export default function CommishRequests({ setCount }) {
                 </div>
                 <div className="request" style={isMobile ? { width: "235px" } : {}}>
                     {rs.length ? (
-                        <div className="user" style={isMobile ? { width: "100%" } : {}}>
-                            <div className="pfp">{face && face.pfp_url ? <img src={face.pfp_url} /> : <></>}</div>
-                            <div className="top-down">
-                                <div className="display">{face.display ? face.display : "Something went wrong..."}</div>
-                                <div className="username">@{face.username ? face.username : "Uh-oh :("}</div>
-                            </div>
-                        </div>
+                        <User user={face} />
                     ) : (
                         <div className="no-results" style={isMobile ? { width: "235px" } : {}}>
                             No Requests
