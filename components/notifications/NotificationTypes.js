@@ -3,8 +3,6 @@ import { supabase } from "../../functions/SupabaseClient";
 import Image from "next/image";
 
 export default function Notification({ notification, key, meta }) {
-    console.log("choosing notification...");
-    console.log(notification);
     switch (notification.code) {
         case 0: //err code all falsy values coerce to 0
             console.log("choosing err");

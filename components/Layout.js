@@ -38,7 +38,6 @@ export default function Layout({ children }) {
     const excludeHeader = noHeaders.includes(router.pathname);
     const main = ["/"].includes(router.pathname);
 
-    console.log(router.pathname.split("/")[1]);
     return (
         <div className="App">
             <TitleWrapper title={pageTitleList["/" + router.pathname.split("/")[1]]}>

@@ -65,14 +65,12 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        if (user?.email) {
-            setEmail(user.email);
+        if (!meta?.id) {
+            return;
         }
-        if (meta?.username && meta?.display) {
-            setUsername(meta.username);
-            setName(meta.display);
-        }
-    }, [meta, user]);
+        setUsername(meta.username);
+        setName(meta.display);
+    }, [meta]);
 
     return (
         <div className="profile page">
