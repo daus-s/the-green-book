@@ -4,11 +4,13 @@ import NotificationCounter from "./NotificationCounter";
 import { useAuth } from "../providers/AuthContext";
 import { supabase } from "../../functions/SupabaseClient";
 import { count } from "../../functions/NotificationReader";
+import { useMobile } from "../providers/MobileContext";
 
 export default function NotificationIcon() {
     const [balanar, setBalanar] = useState(false);
     const [notifications, setNotifications] = useState([]);
 
+    const { isMobile } = useMobile();
     const { meta } = useAuth();
 
     useEffect(() => {
@@ -35,7 +37,7 @@ export default function NotificationIcon() {
                 }}
             >
                 {!balanar ? <NotificationCounter count={count(notifications)} style={{ transform: "translateX(-10.5px)" }} /> : <></>}
-                <img src="/notification.png" style={{ height: "50px" }} />
+                <img src="/notification.png" style={{ height: isMobile ? "40px" : "50px" }} />
             </div>
             {balanar ? (
                 <NotificationBox

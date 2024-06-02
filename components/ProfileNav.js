@@ -38,8 +38,8 @@ export default function ProfileNav() {
     return (
         <div className="profile-nav" style={isMobile ? { paddingLeft: "0px" } : {}}>
             <div className="pfp-box">
-                <img src={meta.pfp_url} onClick={onClick} style={isMobile ? { cursor: "default", marginRight: "0", height: "50px", width: "50px", paddingLeft: "0px" } : {}} />
-                {meta.commish ? <CommissionerShield style={{ height: "25px", pointerEvents: "none", transform: `translateY(20%) translateX(${(isMobile ? 1 : -1) * 20}%)`, margin: "0" }} /> : <></>}
+                <img src={meta.pfp_url} onClick={onClick} style={isMobile ? { cursor: "default", marginRight: "0", height: "40px", width: "40px", paddingLeft: "0px" } : {}} />
+                {meta.commish ? <CommissionerShield style={{ height: "20px", pointerEvents: "none", transform: `translateY(20%) translateX(${(isMobile ? 1 : -1) * 16}%)`, margin: "0" }} /> : <></>}
             </div>
             {profileMenu ? (
                 <div className="profile-menu-mobile" ref={profileMenuRef}>

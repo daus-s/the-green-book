@@ -1,10 +1,14 @@
+import { useMobile } from "./providers/MobileContext";
+
 export default function Logo() {
+    const { isMobile } = useMobile();
+
     return (
         <div className="logo" onClick={() => (window.location.href = "/")} style={{ cursor: "pointer" }}>
-            <img src="/greenbook.jpg" alt="Logo" style={{ borderRadius: "50%" }} />
+            <img className={isMobile ? "mobile" : ""} src="/greenbook.jpg" alt="Logo" style={{ borderRadius: "50%" }} />
             <div id="wordtitles">
-                <h1>betties.app</h1>
-                <h6>Greenbook - digitized</h6>
+                <h1 className={isMobile ? "mobile" : ""}>betties.app</h1>
+                <h6 className={isMobile ? "mobile" : ""}>Greenbook - digitized</h6>
             </div>
         </div>
     );

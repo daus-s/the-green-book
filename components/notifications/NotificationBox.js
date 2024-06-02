@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import Notification from "./NotificationTypes";
 import { select } from "../../functions/NotificationReader";
+import { useMobile } from "../providers/MobileContext";
 
 Modal.setAppElement("#__next");
 
 const NotificationBox = ({ isOpen, onClose, notifications, meta }) => {
+    const { isMobile } = useMobile();
     const ref = useRef(null);
 
     useEffect(() => {
@@ -41,12 +43,12 @@ const NotificationBox = ({ isOpen, onClose, notifications, meta }) => {
                     backgroundColor: "var(--bet-background-color)",
                     borderColor: "var(--bet-option-highlight)",
                     position: "fixed",
-                    top: "81px",
-                    right: "213px",
+                    top: isMobile ? "64px" : "81px",
+                    right: isMobile ? "63px" : "213px",
                     marginLeft: "auto",
                     zIndex: "10000000",
                     height: "fit-content",
-                    width: "320px",
+                    width: isMobile ? "216px" : "320px",
                     padding: "0px",
                     pointerEvents: "auto",
                 },

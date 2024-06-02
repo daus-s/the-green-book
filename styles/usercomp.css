@@ -1,0 +1,22 @@
+.profile-popout.modal {
+    display: flex;
+}
+
+.friend-button {
+    margin-top: 10px;
+}
+
+
+button:hover {
+    background-color: #ddd;
+}
+
+.pfp {
+    height: 64px;
+    width: 64px;
+    margin-right: 6px;
+}
+
+.profile-popout.modal .display{
+    font-size: 30px;
+}

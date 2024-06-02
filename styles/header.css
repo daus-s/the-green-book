@@ -19,6 +19,19 @@
   text-align: left;
 }
 
+#wordtitles h1.mobile {
+  font-size: 28px;
+}
+
+#wordtitles h6.mobile {
+  font-size: 10px;
+}
+
+.logo img.mobile {
+  height: 50px;
+  width: 50px;
+}
+
 @font-face {
   font-family: "DigitizedMontserrat";
   src: url("../public/MontserratSubrayada-Regular.ttf") format("truetype"); 

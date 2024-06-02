@@ -1,6 +1,7 @@
 .notification-icon {
     width: 79px;
     cursor: pointer;
+    display: flex;
 }
 
 .notification-icon:hover {
@@ -8,7 +9,7 @@
 }
 
 .notification-icon img {
-    margin: auto 0;
+    margin: 0 2px 0 auto;
 }
 
 .notification-header {

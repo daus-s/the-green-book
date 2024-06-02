@@ -1,5 +1,6 @@
 // pages/_app.js
 import React from "react";
+import Modal from "react-modal";
 
 import Providers from "./_providers";
 import Layout from "../components/Layout";
@@ -40,6 +41,9 @@ import "../styles/mastersdash.css";
 import "../styles/pgatools.css";
 import "../styles/ad.css";
 import "../styles/notifications.css";
+import "../styles/usercomp.css";
+
+Modal.setAppElement("#__next");
 
 export default function App({ Component, pageProps }) {
     return (
