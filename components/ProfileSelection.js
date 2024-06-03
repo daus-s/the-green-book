@@ -10,6 +10,7 @@ function PictureSelector({ src, selected, setSelected }) {
         src.lastIndexOf(".") // Find the last dot in the file name
     );
     const checked = {
+        padding: "8px",
         border: "2px dashed var(--text-color)", //border 2px thick, dashed, borderRadius 8px slight curve
         borderRadius: "8px",
         backgroundColor: "var(--highlighted-dark)",
