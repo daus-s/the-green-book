@@ -1,15 +1,14 @@
 import useSessionStorage from "../hooks/SessionStorage";
 
 function isLoggedIn() {
-    const status = useSessionStorage('logged-in');
-    if (status==='true')
-    {
+    const status = useSessionStorage("logged-in");
+    if (status === "true") {
         return true;
     }
-    if (status==='false')
-    {
+    if (status === "false") {
         return false;
     }
+    return false;
 }
 
-module.exports = { isLoggedIn }
+module.exports = { isLoggedIn };

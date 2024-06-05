@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { alpha, validUsername } from "../functions/isEmail";
 import CommissionerShield from "./CommissionerShield";
+import Input from "./Input";
 
 export default function Profile() {
     const [editName, setEditName] = useState(false);
@@ -18,9 +19,9 @@ export default function Profile() {
     const { failed, succeed } = useModal();
     const { isMobile } = useMobile();
 
-    const changeName = (e) => {
-        if (alpha(e.target.value)) {
-            setName(e.target.value);
+    const changeName = (str) => {
+        if (alpha(str)) {
+            setName(str);
         }
     };
 
@@ -95,7 +96,7 @@ export default function Profile() {
                 <div className="user-data" style={isMobile ? mobileStyle.userData : {}}>
                     {editName ? (
                         <form className="edit-name" onSubmit={(e) => callUpdateName(e)}>
-                            <input value={name} onChange={(e) => changeName(e)} required />
+                            <Input value={name} setValue={changeName} placeholder="Display name" required />
                             <button className="submit-change" type="submit">
                                 <img src="/save.png" alt="Confirm change." style={{ height: "24px", alignSelf: "flex-end" }} />
                             </button>

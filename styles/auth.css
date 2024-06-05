@@ -37,7 +37,7 @@
 .auth-login form button.signin,
 .new-user form button.create {
   width: 178px;
-  margin-top: 10px;
+  margin-top: 25px;
   font-size: large;
   background-color: var(--cta-button-bg-color);
   color: var(--button-text);
@@ -45,9 +45,19 @@
   border-radius: 18px;
 }
 
-.auth-login form button:hover {
+.new-user form button.create:disabled {
+  background-color: var(--bet-option-highlight);
+}
+
+.auth-login form button:hover, .new-user form button.create:hover {
   background-color: var(--cta-button-hover-bg-color);
 }
+
+.new-user form button.create:hover:disabled {
+  background-color: var(--manifest);
+  cursor: not-allowed;
+}
+
 .auth-login a,
 .new-user a {
   color: var(--link-color);
@@ -60,26 +70,68 @@
   max-width: 768px;
 }
 
+.new-user span {
+  margin: 2px;
+  font-size: 12px;
+}
 .new-user form {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: large;
+  width: 372px;
+  background-color: var(--table-header-background);
+  padding: 5px 20px 20px 20px;
+  border-radius: 10px;
 }
 
 .new-user form label {
   text-align: left;
   padding-bottom: 3px;
   font-size: large;
+  font-weight: 400;
+  color: var(--unimportant-text);
 }
 
 .new-user form input {
-  background-color: var(--input-background);
+  background-color: var(--smooth-operator);
   color: var(--input-text);
-  border-color: var(--input-border);
-  width: 400px;
-  padding: 3px;
-  border-radius: 6px;
+  padding: 13px 3px 0px 3px;
+  border-radius: 3px;
+  border: 1px solid var(--icon-color);
+  font-size: 20px;
+  margin: 0px 0px 6px 0px;
+  width: calc(100% - 16px);
+  height: 36px;
+}
+
+.new-user form input[type="password"]  {
+  font-size: 24px;
+}
+
+.new-user h1 {
+  font-weight: 400;
+  color: var(--grayed-out-text);
+  text-align: left;
+  width: 372px;
+  padding-left: 36px;
+  margin-bottom: 14px;
+}
+
+.register-form .username {
+  margin-bottom: 0;
+}
+
+.register-form * {
+  width: calc(100% - 20px);
+}
+
+.new-user form input:focus {
+  outline: none;
+}
+
+.new-user form input::placeholder {
+  color: var(--big-O-color);
 }
 
 span.note-span {
@@ -115,4 +167,55 @@ span.note-span {
   margin-top: 0 !important;
   display: flex;
   justify-content: center;
+}
+
+.placeholder {
+  position: absolute;
+  top: 0px;
+  text-align: left;
+  font-size: 20px;
+  left: 11px;
+  height: calc(100% - 8px);
+  color: var(--placeholder);
+  vertical-align: middle;
+  line-height: 34px;
+  pointer-events: none;
+  transition: all .17s ease;
+}
+
+.register-form .email, .register-form .username, .register-form .password, .register-form .confirm {
+  position: relative;
+}
+
+.filled .placeholder {
+  top: -11px;
+  font-size: 11px;
+  transition: all .17s ease;
+}
+
+.check .length, .check .syntax, .check .exists {
+  display: flex;
+  font-size: 12px;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.new-user .check {
+  margin-bottom: 10px;
+}
+
+.new-user .display input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  color: var(--icon-color);
+  font-size: 32px;
+}
+
+.new-user .display input:focus {
+  border: none;
+  outline: none;
 }

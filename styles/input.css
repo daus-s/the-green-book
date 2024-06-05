@@ -1,0 +1,21 @@
+.viewpwd {
+    position: absolute;
+    right: 4px;
+    top: 45%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 60%;
+    width: auto;
+    aspect-ratio: initial;
+}
+
+.viewpwd:hover {
+    filter: brightness(125%);
+}
+
+.viewpwd.active:hover {
+    filter: brightness(100%);
+}
+
+.viewpwd.active {
+    filter: brightness(150%);
+}

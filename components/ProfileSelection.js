@@ -28,8 +28,8 @@ function PictureSelector({ src, selected, setSelected }) {
 }
 
 export default function ProfileSelection({ close }) {
-    const [selected, setSelected] = useState();
-    const urls = ["frog.jpg", "grasshopper.jpg", "ladybug.jpg", "lion.jpg", "penguin.jpg", "redpanda.jpg"];
+    const [selected, setSelected] = useState("penguin.jpg");
+    const urls = ["penguin.jpg", "frog.jpg", "grasshopper.jpg", "ladybug.jpg", "lion.jpg", "redpanda.jpg"];
     const prefix = "/users/"; //use this so it can be migrated to storage if need be
 
     const { user, meta } = useAuth();

@@ -46,7 +46,9 @@ body {
   --bet-text-color: #ccc;
   --table-border: #C3C9CF;  /*inv(48, 54, 61)*/
   --icon-color: #c3c3c3;
+  --title: #bbb;
   --big-O-color: #aeaeae;
+  --placeholder: #a9a9a9;
   --unimportant-text: #aaa;
   --deactive-gray: #aaa;
   --header-color: #4caf50; /* Dark green header text color */
@@ -60,11 +62,13 @@ body {
   --dark-green: #117711;
   --cta-button-hover-bg-color: #45a049;
   --table-bg-green: #142814;
+  --manifest: #777;
   --bet-option-button: #555d50;
   --bet-option-highlight: #737870;
   --form-input: #555; /* Border color */
   --satan-minus-one: #555;
   --highlighted-dark: #444;
+  --smooth-operator: #3a3a3a;
   --bet-background-color: #333;
   --list-item-background: #333; /* Dark background color for list items */
   --input-background: #333; /* Darker gray background color */
@@ -80,7 +84,7 @@ body {
   --table-bg-red: #281414;
   --error-color: #8e1717;
   --danger: #ba1d24;
-  --danger-faded: var(186, 29, 36, .2);
+  --danger-faded: rgb(186, 29, 36, .2);
   --delete-button: #cd0e31;
   --delete-button-hover: #dd1035;
   --dark-red-highlight: ;
