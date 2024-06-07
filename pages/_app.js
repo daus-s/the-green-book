@@ -42,6 +42,7 @@ import "../styles/pgatools.css";
 import "../styles/ad.css";
 import "../styles/notifications.css";
 import "../styles/usercomp.css";
+import "../styles/input.css";
 
 Modal.setAppElement("#__next");
 

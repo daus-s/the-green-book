@@ -19,7 +19,7 @@ const pageTitleList = {
     "/new-group": "New group",
     "/profile": "Profile",
     "/reset-password": "Reset password",
-    "/sign-up": "Register",
+    "/register": "Register",
     "/social": "Social",
     "/thankyou": "Thanks",
     "/wallet": "Wallet",
@@ -34,14 +34,17 @@ export default function Layout({ children }) {
     //this is turning into bullshit //haha edit 5/31/2024 5:26pm u have no idea
     const router = useRouter();
 
-    const noHeaders = ["/login", "/forgot-password", "/reset-password", "/sign-up", "/rotate"];
+    const noHeaders = ["/login", "/forgot-password", "/reset-password", "/register", "/rotate"];
     const excludeHeader = noHeaders.includes(router.pathname);
+
+    const noAuth = ["/register", "/login"];
+
     const main = ["/"].includes(router.pathname);
 
     return (
         <div className="App">
-            <TitleWrapper title={pageTitleList["/" + router.pathname.split("/")[1]]}>
-                {!excludeHeader ? <Header nav={!main} /> : <></>}
+            <TitleWrapper title={pageTitleList[router.pathname]}>
+                <Header nav={!main} excluded={excludeHeader} />
                 {children}
                 {isMobile ? <MobileFooter /> : <></>}
                 {main ? <Footer /> : <></>}

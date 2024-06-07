@@ -168,7 +168,26 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    return <AuthContext.Provider value={{ user, session, meta, login, logout, getSession, checkPassword, admin }}>{children}</AuthContext.Provider>;
+    const updateMeta = async () => {
+        if (!meta?.id) {
+            return;
+        }
+
+        const { data, error } = await supabase.from("public_users").select().eq("id", meta.id).single();
+
+        if (error) {
+            return;
+        }
+
+        if (data) {
+            setMeta((prevMeta) => ({
+                ...prevMeta,
+                ...data,
+            }));
+        }
+    };
+
+    return <AuthContext.Provider value={{ user, session, meta, login, logout, getSession, checkPassword, admin, updateMeta }}>{children}</AuthContext.Provider>;
 };
 /**
  *
