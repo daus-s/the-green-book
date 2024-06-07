@@ -3,7 +3,7 @@
 
 function doReload(path) {
     //could also be get ending /this-parrt-here -> this-part-here then check in some list
-    return !(path.endsWith("/") || path.endsWith("/login") || path.endsWith("/sign-up") || path.endsWith("/forgot-password") || path.endsWith("/reset-password"));
+    return !(path.endsWith("/") || path.endsWith("/login") || path.endsWith("/register") || path.endsWith("/forgot-password") || path.endsWith("/reset-password"));
 }
 
 function nthPageUp(str, n) {

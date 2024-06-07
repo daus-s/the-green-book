@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { isLoggedIn } from "../functions/LoginBool";
 
 const ProtectedRoute = ({ children }) => {
-    const [loggedIn, setLoggedIn] = useState(false);
     const router = useRouter();
 
     useEffect(() => {

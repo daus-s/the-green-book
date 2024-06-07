@@ -6,31 +6,49 @@ import { useRouter } from "next/router";
 import { useMobile } from "./providers/MobileContext";
 import ProfileSelection from "./ProfileSelection";
 import Input from "./Input";
+import Image from "next/image";
 
 export default function NewUser() {
     const [step, setStep] = useState("auth");
     const [path, setPath] = useState("/bets");
 
+    useEffect(() => {}, []);
+
     const { isMobile } = useMobile();
+    const router = useRouter();
+
+    const inc = () => {
+        switch (step) {
+            case "auth":
+                setStep("display");
+                break;
+            case "display":
+                setStep("pfp");
+                break;
+            case "pfp":
+                if (path) {
+                    router.push(`${path}`);
+                } else {
+                    router.push("/bets");
+                }
+                break;
+        }
+    };
 
     return (
         <div className="new-user page no-header" style={isMobile ? { paddingBottom: "0px", transform: "translateY(10px)" } : {}}>
-            <img src="/greenbook.jpg" alt="The Green Book logo." className="biglogo" />
+            {!isMobile ? <img src="/greenbook.jpg" alt="The Green Book logo." className="biglogo" /> : <></>}
+            {step === "auth" ? <Credentials inc={inc} setPath={setPath} /> : <></>}
+            {step === "display" ? <Display inc={inc} /> : <></>}
+            {step === "pfp" ? <Profile inc={inc} /> : <></>}
             {step === "auth" ? (
-                <Credentials
-                    inc={() => {
-                        setStep("display");
-                    }}
-                    setPath={setPath}
-                />
+                <span>
+                    Already have an account?
+                    <a href="/login">Sign In</a>
+                </span>
             ) : (
                 <></>
             )}
-            {step === "display" ? <DisplayNProfile /> : <></>}
-            <span>
-                Already have an account?
-                <a href="/login">Sign In</a>
-            </span>
         </div>
     );
 }
@@ -80,6 +98,7 @@ function Credentials({ inc, setPath }) {
     const checkUsernameExists = async () => {
         if (username) {
             const { data: exists, error } = await supabase.from("public_users").select().eq("username", username);
+            console.log(exists ? exists : error);
             if (!error && exists.length) {
                 setU3(true);
             } else {
@@ -168,10 +187,20 @@ function Credentials({ inc, setPath }) {
         if (insertResponse.error) {
             return;
         }
-        console.log({
-            name: name,
-            username: username.toLowerCase(),
-        });
+
+        const { data: ireq, error: ireqErr } = await supabase.from("users").select("publicID").eq("email", email).single();
+
+        if (ireqErr) {
+            return;
+        }
+
+        await supabase
+            .from("public_users")
+            .update({
+                username: username,
+            })
+            .eq("id", ireq);
+
         const path = await login(email, pwd);
         if (path) {
             setPath(path);
@@ -189,7 +218,7 @@ function Credentials({ inc, setPath }) {
             <UsernameCredentialCheck syntax={u1} exists={u3} />
             <Input className="email" value={email} setValue={setEmail} placeholder="Email" onBlur={checkEmail} />
             <EmailCredentialCheck syntax={e1} exists={e3} />
-            <Input className="confirm" value={password} setValue={setPassword} placeholder="Password" type="password" />
+            <Input className="password" value={password} setValue={setPassword} placeholder="Password" type="password" />
             <Input className="confirm" value={confirmPwd} setValue={setConfirmPwd} placeholder="Confirm password" type="password" />
             {password && confirmPwd ? <PasswordCredentialCheck password={password} confirm={confirmPwd} /> : <></>}
             <button className="create" type="submit" disabled={e1 || e3 || u1 || u3 || !(password.length >= 8 && password === confirmPwd)}>
@@ -209,7 +238,7 @@ function PasswordCredentialCheck({ password, confirm }) {
                     <img src={length ? "/mark.png" : "/close.png"} style={{ height: "16px", marginRight: "4px", width: "auto" }} />
                     The password must be at least 8 characters.
                 </div>
-                <div className={"length" + (password === confirm ? "good" : "bad")}>
+                <div className={"length " + (password === confirm ? "good" : "bad")}>
                     <img src={password === confirm ? "/mark.png" : "/close.png"} style={{ height: "16px", marginRight: "4px", width: "auto" }} />
                     Passwords must match.
                 </div>
@@ -220,43 +249,66 @@ function PasswordCredentialCheck({ password, confirm }) {
     }
 }
 
-function DisplayNProfile({ path }) {
-    const [dn, setDN] = useState("");
+function Profile({ inc }) {
     const [pfp, setPFP] = useState("");
+    const { meta, updateMeta } = useAuth();
 
-    const { meta } = useAuth();
-
-    const handleRegister = async () => {
+    const handleSnap = async () => {
+        if (!meta?.id) {
+            return;
+        }
         const { error: updatePFP } = await supabase
             .from("public_users")
             .update({
-                display: dn,
                 pfp_url: pfp,
             })
-            .eq("id", meta?.id);
-        const success = true;
+            .eq("id", meta.id);
+        const success = !updatePFP;
         if (success) {
-            if (path) {
-                router.push(`${path}`);
-            } else {
-                router.push("/bets");
-            }
+            await updateMeta();
+            inc();
+        }
+    };
+
+    return (
+        <div className="profile">
+            <span style={{ color: "var(--title)", fontSize: "28px", textAlign: "left" }}>Choose your profile picture</span>
+            <ProfileSelection close={() => {}} updateValue={setPFP} />
+            <button
+                onClick={handleSnap}
+                style={{ height: "fit-content", width: "fit-content", backgroundColor: "transparent", border: "none", outline: "none", marginLeft: "auto", marginRight: "14px" }}
+            >
+                <Image className="continue" width={100} height={100} src="/greenarrow.png" />
+            </button>
+        </div>
+    );
+}
+
+function Display({ inc }) {
+    const [dn, setDN] = useState("");
+    const { meta, updateMeta } = useAuth();
+
+    const handleDisplayUpdate = async () => {
+        if (!meta?.id) {
+            return;
+        }
+        const { error: updateDisplay } = await supabase.from("public_users").update({ display: dn }).eq("id", meta.id);
+        if (!updateDisplay) {
+            await updateMeta();
+            inc();
         }
     };
 
     return (
         <div className="display">
-            <span style={{ color: "var(--title)", fontSize: "28px" }}>
-                Display name <span style={{ fontSize: "18px" }}>(this is what other users will see)</span>
-            </span>
-            <input
-                value={dn}
-                onChange={(e) => {
-                    setDN(e.target.value);
-                }}
-                placeholder="display"
-            />
-            <ProfileSelection close={() => {}} />
+            <input value={dn} onChange={(e) => setDN(e.target.value)} placeholder="Display name" />
+            <span style={{ color: "var(--title)", fontSize: "16px", textAlign: "left" }}>(this is what other users will see)</span>
+            <button
+                onClick={handleDisplayUpdate}
+                style={{ height: "fit-content", width: "fit-content", backgroundColor: "transparent", border: "none", outline: "none", marginLeft: "auto", marginRight: "14px" }}
+            >
+                <Image className="continue" width={100} height={100} src="/greenarrow.png" />
+            </button>
         </div>
     );
 }

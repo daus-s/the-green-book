@@ -1,4 +1,3 @@
-import { Password } from "@mui/icons-material";
 import { useState } from "react";
 
 export default function Input({ value, setValue, className, type, placeholder, onBlur, required }) {
@@ -15,7 +14,7 @@ export default function Input({ value, setValue, className, type, placeholder, o
     }
 
     return (
-        <div className={(className ? className : "") + (value.length ? " filled" : "")} onBlur={onBlur}>
+        <div className={"input " + (className ? className : "") + (value.length ? " filled" : "")} onBlur={onBlur} style={{ position: "relative", width: "100%" }}>
             <input
                 value={value}
                 onChange={(e) => {

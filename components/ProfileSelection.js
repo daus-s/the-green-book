@@ -27,10 +27,12 @@ function PictureSelector({ src, selected, setSelected }) {
     );
 }
 
-export default function ProfileSelection({ close }) {
+export default function ProfileSelection({ close, updateValue }) {
     const [selected, setSelected] = useState("penguin.jpg");
     const urls = ["penguin.jpg", "frog.jpg", "grasshopper.jpg", "ladybug.jpg", "lion.jpg", "redpanda.jpg"];
     const prefix = "/users/"; //use this so it can be migrated to storage if need be
+
+    const standalone = typeof updateValue === "function";
 
     const { user, meta } = useAuth();
     const { failed, succeed } = useModal();
@@ -38,6 +40,13 @@ export default function ProfileSelection({ close }) {
     useEffect(() => {
         setSelected(meta.pfp_url);
     }, []);
+
+    //this is a bad idea
+    useEffect(() => {
+        if (standalone) {
+            updateValue(selected);
+        }
+    }, [selected]);
 
     const updateURL = async () => {
         const { error } = await supabase.from("public_users").update({ pfp_url: selected }).eq("display", user.display);
@@ -56,9 +65,13 @@ export default function ProfileSelection({ close }) {
                 <PictureSelector src={prefix + item} selected={selected} setSelected={setSelected} />
             ))}
             <div className="full-width-element">
-                <button className="confirm-button" onClick={updateURL}>
-                    Confirm
-                </button>
+                {standalone ? (
+                    <></>
+                ) : (
+                    <button className="confirm-button" onClick={updateURL}>
+                        Confirm
+                    </button>
+                )}
             </div>
         </div>
     );

@@ -93,7 +93,7 @@
   color: var(--unimportant-text);
 }
 
-.new-user form input {
+.new-user form input, .auth-login form input {
   background-color: var(--smooth-operator);
   color: var(--input-text);
   padding: 13px 3px 0px 3px;
@@ -218,4 +218,19 @@ span.note-span {
 .new-user .display input:focus {
   border: none;
   outline: none;
+}
+
+.new-user .display {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: calc(100% - 20px);
+}
+
+.new-user button:hover img.continue {
+  filter: brightness(135%);
+}
+
+.new-user .profile {
+  max-width: 100%;  
 }
