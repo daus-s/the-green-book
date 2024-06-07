@@ -1,19 +1,18 @@
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { isLoggedIn } from '../functions/LoginBool';
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { isLoggedIn } from "../functions/LoginBool";
 
 const ProtectedRoute = ({ children }) => {
-  const router = useRouter();
+    const router = useRouter();
 
-  useEffect(() => {
+    useEffect(() => {
+        if (!isLoggedIn()) {
+            sessionStorage.setItem("breadcrumb", window.location.href);
+            router.push("/login");
+        }
+    }, []);
 
-    if (!isLoggedIn()) {
-        sessionStorage.setItem('breadcrumb', window.location.href);
-        router.push('/login');
-    }
-  }, []);
-
-  return children;
+    return children;
 };
 
 export default ProtectedRoute;

@@ -10,6 +10,7 @@ function PictureSelector({ src, selected, setSelected }) {
         src.lastIndexOf(".") // Find the last dot in the file name
     );
     const checked = {
+        padding: "8px",
         border: "2px dashed var(--text-color)", //border 2px thick, dashed, borderRadius 8px slight curve
         borderRadius: "8px",
         backgroundColor: "var(--highlighted-dark)",
@@ -26,10 +27,12 @@ function PictureSelector({ src, selected, setSelected }) {
     );
 }
 
-export default function ProfileSelection({ close }) {
-    const [selected, setSelected] = useState();
-    const urls = ["frog.jpg", "grasshopper.jpg", "ladybug.jpg", "lion.jpg", "penguin.jpg", "redpanda.jpg"];
+export default function ProfileSelection({ close, updateValue }) {
+    const [selected, setSelected] = useState("penguin.jpg");
+    const urls = ["penguin.jpg", "frog.jpg", "grasshopper.jpg", "ladybug.jpg", "lion.jpg", "redpanda.jpg"];
     const prefix = "/users/"; //use this so it can be migrated to storage if need be
+
+    const standalone = typeof updateValue === "function";
 
     const { user, meta } = useAuth();
     const { failed, succeed } = useModal();
@@ -37,6 +40,13 @@ export default function ProfileSelection({ close }) {
     useEffect(() => {
         setSelected(meta.pfp_url);
     }, []);
+
+    //this is a bad idea
+    useEffect(() => {
+        if (standalone) {
+            updateValue(selected);
+        }
+    }, [selected]);
 
     const updateURL = async () => {
         const { error } = await supabase.from("public_users").update({ pfp_url: selected }).eq("display", user.display);
@@ -55,9 +65,13 @@ export default function ProfileSelection({ close }) {
                 <PictureSelector src={prefix + item} selected={selected} setSelected={setSelected} />
             ))}
             <div className="full-width-element">
-                <button className="confirm-button" onClick={updateURL}>
-                    Confirm
-                </button>
+                {standalone ? (
+                    <></>
+                ) : (
+                    <button className="confirm-button" onClick={updateURL}>
+                        Confirm
+                    </button>
+                )}
             </div>
         </div>
     );
