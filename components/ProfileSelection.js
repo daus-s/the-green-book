@@ -34,7 +34,7 @@ export default function ProfileSelection({ close, updateValue }) {
 
     const standalone = typeof updateValue === "function";
 
-    const { user, meta } = useAuth();
+    const { meta } = useAuth();
     const { failed, succeed } = useModal();
 
     useEffect(() => {
@@ -49,7 +49,10 @@ export default function ProfileSelection({ close, updateValue }) {
     }, [selected]);
 
     const updateURL = async () => {
-        const { error } = await supabase.from("public_users").update({ pfp_url: selected }).eq("display", user.display);
+        if (!meta.id) {
+            return;
+        }
+        const { error } = await supabase.from("public_users").update({ pfp_url: selected }).eq("id", meta.id);
         if (error) {
             failed(error);
         } else if (!error) {
