@@ -2,11 +2,14 @@ import Image from "next/image";
 import ProfilePopout from "../ProfilePopout";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../functions/SupabaseClient";
+import { useMobile } from "../providers/MobileContext";
 
 export default function FriendRequestNotification({ notification, locallyViewed, setLocallyViewed }) {
     const [candidate, setCandidate] = useState(undefined);
     const [hardscope, setHardscope] = useState(false);
     const [modalStyle, setModalStyle] = useState({});
+
+    const { width, height } = useMobile();
 
     const ref = useRef(null);
 
@@ -28,6 +31,17 @@ export default function FriendRequestNotification({ notification, locallyViewed,
         }
         setHardscope(true);
     };
+
+    useEffect(() => {
+        if (ref.current) {
+            const rect = ref.current.getBoundingClientRect();
+            setModalStyle({
+                top: `${rect.bottom + window.scrollY}px`,
+                left: `${rect.left + window.scrollX}px`,
+                position: "absolute",
+            });
+        }
+    }, [width, height]);
 
     useEffect(() => {
         getSrcAndDst();

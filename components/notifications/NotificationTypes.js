@@ -33,5 +33,5 @@ function NotificationWrapper({ Component, notification, key, meta }) {
         }
     }, [locallyViewed]);
 
-    return <Component notification={notification} setLocallyViewed={setLocallyViewed} locallyViewed={locallyViewed} />;
+    return <Component notification={notification} setLocallyViewed={setLocallyViewed} locallyViewed={locallyViewed} key={key} />;
 }

@@ -1,0 +1,50 @@
+.friend-button-action {
+    border: none;
+    outline: none;
+    width: fit-content;
+    padding: 10px;
+    background-color: var(--soft-highlight);
+    border-radius: 6px;
+}
+
+.friend-button-action:hover {
+    border: 1px solid var(--table-border);
+    padding: 9px;
+    outline: none;
+    background-color: var(--soft-highlight);
+    filter: brightness(120%);
+}
+
+.friend-button-action .image {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.friend-button.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-popout.modal {
+    display: flex;
+    height: fit-content;
+}
+
+
+.friend-button-action.accept:hover, .friend-button-action.reject:hover {
+    padding: 10px;
+    border:none;
+}
+
+.friend-button.container .friend-request {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+
+.friend-button.container .friend-request .friend-button-action {
+    padding: 0px;
+}

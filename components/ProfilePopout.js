@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import FriendsButton from "./FriendButton";
+import FriendButton from "./FriendButton";
 import User from "./User";
 
 export default function ProfilePopout({ user, style }) {
@@ -30,7 +30,7 @@ export default function ProfilePopout({ user, style }) {
                     borderColor: "var(--bet-option-highlight)",
                     position: "absolute",
                     width: "260px",
-                    height: "148px",
+                    height: "fit-content",
                     top: "50%",
                     left: "50%",
                     transform: "translate(calc(-100% + 60px), calc(-50% + 30px))",
@@ -43,7 +43,7 @@ export default function ProfilePopout({ user, style }) {
         >
             <div className="profile-popout modal" onClick={muffle}>
                 <User user={user} />
-                <FriendsButton id={user.id} />
+                <FriendButton id={user.id} />
             </div>
         </Modal>
     );

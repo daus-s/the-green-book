@@ -43,6 +43,7 @@ import "../styles/ad.css";
 import "../styles/notifications.css";
 import "../styles/usercomp.css";
 import "../styles/input.css";
+import "../styles/friends.css";
 
 Modal.setAppElement("#__next");
 

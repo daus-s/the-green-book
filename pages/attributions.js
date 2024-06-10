@@ -52,6 +52,13 @@ function Attributions() {
                 desc="Notification icons created by Freepik - Flaticon"
                 backgroundColor="var(--soft-highlight)"
             />
+            <Attribution src="/unfriend.png" href="https://www.flaticon.com/free-icons/heartbreak" desc="Heartbreak icons created by Freepik - Flaticon" />
+            <a href="https://www.flaticon.com/free-icons/heart" title="heart icons">
+                Heart icons created by Freepik - Flaticon
+            </a>
+            <Attribution src="/friends.png" href="https://www.flaticon.com/free-icons/heart" desc="Heart icons created by Freepik - Flaticon" />
+            <Attribution src="/addfriend.png" href="https://www.flaticon.com/free-icons/add-user" desc="Add user icons created by uicon - Flaticon" />
+            <Attribution src="/cancel.png" href="https://www.flaticon.com/free-icons/cancel" desc="Cancel icons created by Freepik - Flaticon" />
         </div>
     );
 }

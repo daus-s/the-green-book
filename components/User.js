@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useMobile } from "./providers/MobileContext";
 
 export default function User({ user }) {
     const { isMobile } = useMobile();
+    const [viewProfilePopout, setViewProfilePopout] = useState(false);
+
     return (
         <div className="user" style={isMobile ? { width: "100%" } : {}}>
             <div className="pfp">{user && user.pfp_url ? <img src={user.pfp_url} /> : <></>}</div>
