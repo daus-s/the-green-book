@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import FriendButton from "./FriendButton";
+import FriendStatus from "./FriendStatus";
 import User from "./User";
 
 export default function ProfilePopout({ user, style }) {
@@ -43,7 +43,7 @@ export default function ProfilePopout({ user, style }) {
         >
             <div className="profile-popout modal" onClick={muffle}>
                 <User user={user} />
-                <FriendButton id={user.id} />
+                <FriendStatus id={user.id} />
             </div>
         </Modal>
     );
