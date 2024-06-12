@@ -60,8 +60,6 @@ const Requested = ({ className, cancel, u, t }) => {
     const [hovered, setHovered] = useState(false);
 
     const cancelRequest = async () => {
-        console.log("what");
-        console.log(u, t);
         if (!(u && t)) {
             return;
         }
@@ -92,12 +90,10 @@ const Requested = ({ className, cancel, u, t }) => {
 
 const Pending = ({ className, newStatus, u, t }) => {
     const accept = async () => {
-        console.log("aaaaaaaaaaaaa");
         const { data, error } = await supabase.rpc("accept_fr", {
             d: u,
             s: t,
         });
-        console.log("data:", data, "error:", error);
         if (!error && !data) {
             //data is 0 if success
             newStatus("not_friends");
@@ -108,13 +104,10 @@ const Pending = ({ className, newStatus, u, t }) => {
     };
 
     const reject = async () => {
-        console.log("aaaaaaaaaaaaa");
-
         const { data, error } = await supabase.rpc("reject_fr", {
             d: u,
             s: t,
         });
-        console.log("data:", data, "error:", error);
 
         if (!error && !data) {
             //data is 0 if success
@@ -160,12 +153,9 @@ export default function FriendStatus({ id }) {
         const { data, error } = await supabase.from("friendships").select().or(commute(u, t));
         if (!error) {
             if (data.length) {
-                console.log("friends");
-
                 setFriends(true);
                 setFriendshipStatus("friends");
             } else {
-                console.log("not friends");
                 setFriends(false);
             }
         }

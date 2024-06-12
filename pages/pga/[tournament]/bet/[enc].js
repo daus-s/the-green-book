@@ -31,7 +31,6 @@ export default function MasterBet() {
 
     const getOppenheimer = async (oppID) => {
         if (meta?.id) {
-            console.log(decode(oppID));
             const { data, error } = await supabase.from("masters_opponents").select().eq("oppie", decode(oppID)).eq("public_id", meta.id).single();
             if (!error) {
                 setBet(data);
@@ -48,8 +47,6 @@ export default function MasterBet() {
             getBarbenlighter(router.query.enc.substring(1, router.query.enc.length));
         }
         if (router.query.enc?.charAt(0) === "@") {
-            console.log("getting 1v1");
-            console.log(router.query.enc.substring(1, router.query.enc.length));
             getOppenheimer(router.query.enc.substring(1, router.query.enc.length));
         }
     }, [router, meta]);

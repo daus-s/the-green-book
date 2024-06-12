@@ -5,13 +5,11 @@ import FriendRequestNotification from "./FriendRequest";
 export default function Notification({ notification, key, meta }) {
     switch (notification.code) {
         case 0: //err code all falsy values coerce to 0
-            console.log("choosing err");
             return <></>;
         case 1:
-            console.log("choosing friend_request");
             return <NotificationWrapper notification={notification} key={key} Component={FriendRequestNotification} meta={meta} />;
         default:
-            console.log("choosing WTF");
+            return <></>;
     }
 }
 

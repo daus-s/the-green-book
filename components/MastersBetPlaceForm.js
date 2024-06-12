@@ -289,7 +289,6 @@ export default function MastersPlaceBetForm({ payload }) {
                 const players = coerce(p1.index, p2.index, p3.index, p4.index);
 
                 if (!payload) {
-                    console.log(tournament);
                     const { error } = await supabase.from("masters_league").insert({ public_id: meta.id, players: players, league_id: league.groupID, tournament_id: tournament.id });
                     if (error) {
                         if (error.code == 23505) {
