@@ -2,17 +2,18 @@
     border: none;
     outline: none;
     width: fit-content;
-    padding: 10px 10px 6px 10px;
+    padding: 10px 10px 5px 10px;
     background-color: var(--soft-highlight);
     border-radius: 6px;
+    box-sizing: content-box;
 }
 
 .friend-button-action:hover {
-    border: 1px solid var(--table-border);
-    padding: 9px 9px 5px 9px;
+    /* border: 1px solid var(--table-border);
+    padding: 9px 9px 4px 9px; */
     outline: none;
     background-color: var(--soft-highlight);
-    filter: brightness(120%);
+    filter: brightness(150%);
 }
 
 .friend-button-action .image {
@@ -30,12 +31,15 @@
 .profile-popout.modal {
     display: flex;
     height: fit-content;
+    align-items: flex-start;
 }
 
 
 .friend-button-action.accept:hover, .friend-button-action.reject:hover {
     padding: 10px;
     border:none;
+    filter: brightness(120%);
+
 }
 
 .friend-button.container .friend-request {
@@ -52,5 +56,12 @@
 .friend-button-action.add:hover {
     filter: brightness(120%);
     border: none;
-    padding: 10px;
+    padding: 10px 10px 5px 10px;
+}
+.friend-button-action.friend-request {
+    background-color: transparent;
+}
+
+.fba.friend-request {
+    padding: 14px 0px;
 }

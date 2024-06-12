@@ -7,6 +7,8 @@ import { useMobile } from "../providers/MobileContext";
 Modal.setAppElement("#__next");
 
 const NotificationBox = ({ isOpen, onClose, notifications, meta }) => {
+    const [viewing, setViewing] = useState(select(notifications));
+
     const { isMobile } = useMobile();
     const ref = useRef(null);
 
@@ -27,6 +29,10 @@ const NotificationBox = ({ isOpen, onClose, notifications, meta }) => {
         document.addEventListener("click", handleClick);
         return () => document.removeEventListener("click", handleClick);
     }, [isOpen]);
+
+    useEffect(() => {
+        setViewing(select(notifications));
+    }, [notifications]);
 
     return (
         <Modal
@@ -68,8 +74,8 @@ const NotificationBox = ({ isOpen, onClose, notifications, meta }) => {
                     </span>
                 </div>
                 <div className="notifications">
-                    {notifications.length ? (
-                        select(notifications).map((n, i) => {
+                    {viewing.length ? (
+                        viewing.map((n, i) => {
                             return <Notification notification={n} key={i} meta={meta} />;
                         })
                     ) : (

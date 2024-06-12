@@ -18,7 +18,14 @@ function count(ls) {
  * @param {list} ls
  */
 function select(ls) {
-    return ls;
+    let filtered = [...ls];
+    const unrespondedFriendRequestCondition = (a) => !(a?.code === 1 && a?.value !== 0);
+
+    const combinedCondition = unrespondedFriendRequestCondition; //&& true;
+
+    filtered = filtered.filter(combinedCondition);
+
+    return filtered;
 }
 
 module.exports = { count, select };

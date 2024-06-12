@@ -2,11 +2,41 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { supabase } from "../functions/SupabaseClient";
+import { commute } from "../functions/SetTheory";
 
 import { useAuth } from "./providers/AuthContext";
 import { useModal } from "./providers/ModalContext";
 
-const AddFriendButton = ({ className, request, t, u }) => {
+const Friends = ({ className, remove, u, t }) => {
+    const [hovered, setHovered] = useState(false);
+
+    const unfriend = async () => {
+        const { data, error } = await supabase.from("friendships").delete().or(commute(u, t)).select();
+        if (!error && data.length) {
+            remove();
+        }
+    };
+
+    return (
+        <button
+            className={`${className ? className : ""} friend-button-action ${hovered ? "unfriend" : ""}`}
+            onClick={hovered ? () => unfriend() : null}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            <Image
+                className={`${className ? className : ""} image`}
+                src={hovered ? "/unfriend.png" : "/friend.png"}
+                width={40}
+                height={40}
+                title={hovered ? "Unfriend" : "Friends"}
+                style={hovered ? { transform: "translateY(1px)" } : {}}
+            />
+        </button>
+    );
+};
+
+const NotFriends = ({ className, request, t, u }) => {
     const { failed } = useModal();
     const makeFriendRequest = async () => {
         const { error } = await supabase.from("friend_requests").insert({
@@ -16,12 +46,12 @@ const AddFriendButton = ({ className, request, t, u }) => {
         if (!error) {
             request();
         } else {
-            failed("");
+            failed({ code: 11111 });
         }
     };
 
     return (
-        <button className={(className ? className : "") + " friend-button-action add"} onClick={makeFriendRequest} style={{ padding: "10px 10px 6px 10px" }}>
+        <button className={(className ? className : "") + " friend-button-action add"} onClick={makeFriendRequest} style={{ padding: "10px 10px 5px 10px" }}>
             <Image className={(className ? className : "") + " image"} src="/addfriend.png" width={40} height={40} />
         </button>
     );
@@ -30,6 +60,8 @@ const Requested = ({ className, cancel, u, t }) => {
     const [hovered, setHovered] = useState(false);
 
     const cancelRequest = async () => {
+        console.log("what");
+        console.log(u, t);
         if (!(u && t)) {
             return;
         }
@@ -42,30 +74,56 @@ const Requested = ({ className, cancel, u, t }) => {
     return (
         <button
             className={`${className ? className : ""} friend-button-action ${hovered ? "cancel" : ""}`}
-            onClick={hovered ? cancelRequest : null}
+            onClick={hovered ? () => cancelRequest() : null}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
+            style={{ padding: hovered ? "11px 11px 6px 11px" : "" }}
         >
-            <Image className={`${className ? className : ""} image`} src={hovered ? "/cancel.png" : "/clock.png"} width={40} height={40} title={hovered ? "Cancel Request" : "Requested"} />
+            <Image
+                className={`${className ? className : ""} image`}
+                src={hovered ? "/cancel.png" : "/clock.png"}
+                width={hovered ? 38 : 40}
+                height={hovered ? 38 : 40}
+                title={hovered ? "Cancel Request" : "Requested"}
+            />
         </button>
     );
 };
 
-const AcceptRejectButton = ({ className, newStatus }) => {
+const Pending = ({ className, newStatus, u, t }) => {
     const accept = async () => {
+        console.log("aaaaaaaaaaaaa");
+        const { data, error } = await supabase.rpc("accept_fr", {
+            d: u,
+            s: t,
+        });
+        console.log("data:", data, "error:", error);
+        if (!error && !data) {
+            //data is 0 if success
+            newStatus("not_friends");
+        }
         if (!error) {
             newStatus("friends");
         }
     };
 
     const reject = async () => {
-        if (!error) {
+        console.log("aaaaaaaaaaaaa");
+
+        const { data, error } = await supabase.rpc("reject_fr", {
+            d: u,
+            s: t,
+        });
+        console.log("data:", data, "error:", error);
+
+        if (!error && !data) {
+            //data is 0 if success
             newStatus("not_friends");
         }
     };
 
     return (
-        <div className="friend-request">
+        <div className="fba friend-request">
             <button className={(className ? className : "") + " friend-button-action" + " accept"} onClick={accept}>
                 Accept
             </button>
@@ -90,6 +148,28 @@ export default function FriendStatus({ id }) {
     const [btn, setBtn] = useState(<span style={{ height: "32px" }} />);
 
     const { meta } = useAuth();
+
+    const getFriendship = async () => {
+        if (!meta.id) {
+            return;
+        }
+
+        const u = meta.id;
+        const t = id;
+
+        const { data, error } = await supabase.from("friendships").select().or(commute(u, t));
+        if (!error) {
+            if (data.length) {
+                console.log("friends");
+
+                setFriends(true);
+                setFriendshipStatus("friends");
+            } else {
+                console.log("not friends");
+                setFriends(false);
+            }
+        }
+    };
 
     const getRequests = async () => {
         if (!meta.id) {
@@ -135,25 +215,6 @@ export default function FriendStatus({ id }) {
         }
     }, [pending, friends, requested]);
 
-    const getFriendship = async () => {
-        if (!meta.id) {
-            return;
-        }
-
-        const u = meta.id;
-        const t = id;
-
-        const { data, error } = await supabase.from("friendships").select().or(`and(a.eq.${t},b.eq.${u}), and(a.eq.${u},b.eq.${t})`);
-        if (!error) {
-            if (data.length) {
-                setFriends(true);
-                setFriendshipStatus("friends");
-            } else {
-                setFriends(false);
-            }
-        }
-    };
-
     useEffect(() => {
         if (meta) {
             getRequests();
@@ -164,22 +225,22 @@ export default function FriendStatus({ id }) {
     useEffect(() => {
         switch (friendshipStatus) {
             case "not_friends":
-                setBtn(<AddFriendButton className={"add-friend-button"} request={() => setRequested(true)} t={id} u={meta?.id} />);
+                setBtn(<NotFriends className={"add-friend-button"} request={() => setRequested(true)} t={id} u={meta?.id} />);
                 break;
             case "requested":
-                setBtn(<Requested className={"waiting-response-button"} />);
+                setBtn(<Requested className={"waiting-response-button"} t={id} u={meta?.id} cancel={() => setFriendshipStatus("not_friends")} />);
                 break;
             case "pending":
-                setBtn(<AcceptRejectButton newStatus={setFriendshipStatus} t={id} u={meta?.id} />);
+                setBtn(<Pending className={"waiting-user-action"} newStatus={setFriendshipStatus} t={id} u={meta?.id} />);
                 break;
             case "friends":
-                setBtn(<UnfriendButton t={id} u={meta?.id} />);
+                setBtn(<Friends className={"friends"} t={id} u={meta?.id} remove={() => setFriendshipStatus("not_friends")} />);
                 break;
             case undefined:
-                setBtn(<span style={{ height: "32px" }} />);
+                setBtn(<span style={{ height: "60px" }} />);
                 break;
             default:
-                setBtn(<span style={{ height: "32px" }} />);
+                setBtn(<span style={{ height: "60px" }} />);
                 break;
         }
     }, [friendshipStatus]);

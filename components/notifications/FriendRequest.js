@@ -1,6 +1,6 @@
 import Image from "next/image";
 import ProfilePopout from "../ProfilePopout";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { supabase } from "../../functions/SupabaseClient";
 import { useMobile } from "../providers/MobileContext";
 
@@ -11,7 +11,30 @@ export default function FriendRequestNotification({ notification, locallyViewed,
 
     const { width, height } = useMobile();
 
+    const [i, setI] = useState(false);
+
     const ref = useRef(null);
+    const innerRef = useRef(null);
+
+    const accept = async () => {
+        const { data, error } = await supabase.rpc("accept_fr", {
+            d: notification.dst,
+            s: notification.src,
+        });
+        if (!error && !data) {
+            notification.viewed = 1;
+        }
+    };
+
+    const reject = async () => {
+        const { data, error } = await supabase.rpc("reject_fr", {
+            d: notification.dst,
+            s: notification.src,
+        });
+        if (!error && !data) {
+            notification.viewed = -1;
+        }
+    };
 
     const getSrcAndDst = async () => {
         const { data, error } = await supabase.from("public_users").select().eq("id", notification.src).single();
@@ -30,6 +53,7 @@ export default function FriendRequestNotification({ notification, locallyViewed,
             });
         }
         setHardscope(true);
+        setI(true);
     };
 
     useEffect(() => {
@@ -46,6 +70,32 @@ export default function FriendRequestNotification({ notification, locallyViewed,
     useEffect(() => {
         getSrcAndDst();
     }, []);
+
+    useEffect(() => {
+        if (!i) {
+            setHardscope(false);
+        }
+    }, [i]);
+
+    useEffect(() => {
+        if (!hardscope) {
+            setI(false);
+        }
+    }, [hardscope]);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (hardscope && innerRef.current && !innerRef.current.contains(event.target)) {
+                setI(false);
+            }
+        }
+
+        window.addEventListener("click", handleClickOutside);
+        return () => {
+            window.removeEventListener("click", handleClickOutside);
+        };
+    }, [hardscope]);
+
     return (
         <>
             <div className={"notification friend-request " + (notification.viewed || locallyViewed ? "" : "new")} onMouseEnter={() => setLocallyViewed(true)} ref={ref}>
@@ -59,11 +109,15 @@ export default function FriendRequestNotification({ notification, locallyViewed,
                     </div>
                 </div>
                 <div className="buttons">
-                    <button className="accept">accept</button>
-                    <button className="reject">reject</button>
+                    <button className="accept" onClick={accept}>
+                        accept
+                    </button>
+                    <button className="reject" onClick={reject}>
+                        reject
+                    </button>
                 </div>
             </div>
-            {hardscope && candidate ? <ProfilePopout user={candidate} style={modalStyle} /> : <></>}
+            {i && hardscope && candidate ? <ProfilePopout user={candidate} style={modalStyle} ref={innerRef} /> : <></>}
         </>
     );
 }
