@@ -51,12 +51,6 @@ export default function MasterBet() {
         }
     }, [router, meta]);
 
-    // console.log("bet: ", bet);
-    // console.log("lenght: ", players?.length == 4, "\n", players);
-    // console.log("mode:", mode);
-    // console.log("length 2:", mode === "Opponent" ? alternates?.length == 4 : true);
-    // console.log("them or group:", t ? t : g ? g : false);
-
     return (
         <div className="golf-bet page">
             <a className="return" href={"/pga/" + router.query.tournament}>

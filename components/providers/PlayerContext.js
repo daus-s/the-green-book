@@ -45,12 +45,14 @@ export const PlayerProvider = ({ children }) => {
                 if (validateUrlext(sel)) {
                     const { data, error } = await supabase.from("tournaments").select().eq("extension", sel).single();
                     if (error) {
-                        //return new page
+                        router.push("/pga");
                     } else {
                         if (data) {
                             setTour(data);
                         }
                     }
+                } else {
+                    router.push("/pga");
                 }
             }
             const char = router?.query?.enc?.charAt(0);

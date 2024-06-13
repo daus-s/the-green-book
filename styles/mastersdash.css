@@ -109,7 +109,6 @@ a .opponent.link .username {
 
 .score-box {
     text-align: center;
-    width: 37px;
     position: absolute;
     left: calc(80% - 6px);
     margin-left: 6px;

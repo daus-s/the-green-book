@@ -42,7 +42,7 @@ const FailureModal = ({ isOpen, onClose, error }) => {
             style={{
                 overlay: {
                     backgroundColor: "var(--overlay)",
-                    zIndex: 1000, // Adjust the value based on your layout
+                    zIndex: 1000,
                 },
                 content: {
                     backgroundColor: "var(--bet-background-color)",

@@ -66,10 +66,13 @@ function validateUrlext(str) {
             return true;
         case "pga-championship-2024":
             return true;
+        case "open-us-2024":
+            return true;
         default:
             return false;
     }
 }
+
 function getTid(fullname) {
     const titles = ["masters", "pgachamps", "usopen", "theopen"];
     switch (fullname) {
