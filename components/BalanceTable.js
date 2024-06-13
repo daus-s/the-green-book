@@ -17,7 +17,6 @@ function NoSuchUser({ criteria }) {
 }
 
 function UserBalance({ user }) {
-    console.log(user);
     const [value, setValue] = useState(user.user_balances.balance);
     const [edit, setEdit] = useState(false);
 

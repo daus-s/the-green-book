@@ -98,7 +98,6 @@ function Credentials({ inc, setPath }) {
     const checkUsernameExists = async () => {
         if (username) {
             const { data: exists, error } = await supabase.from("public_users").select().eq("username", username);
-            console.log(exists ? exists : error);
             if (!error && exists.length) {
                 setU3(true);
             } else {
