@@ -170,7 +170,7 @@ function Golfer({ data, onClick, selected, display, direction }) {
                 {display ? <img className={"dda " + direction} src="/arrow.png" /> : <></>}
             </div>
         );
-    } else if (!data.name || !data.strokes || parseable(data._id) || !(data?.total || data?.total === 0)) {
+    } else if (!data.name || !(data.strokes || data?.strokes === 0) || parseable(data._id) || !(data?.total || data?.total === 0)) {
         throw Error(
             "the golfer component requires data to be non-nullish and the parameters\n    • name: string\n    • strokes: number <int>\n    • index: number <uint_8>\n\n    • total: number\n{",
             JSON.stringify(data),
