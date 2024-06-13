@@ -160,13 +160,11 @@ export const PlayerProvider = ({ children }) => {
     const getRosters = async () => {
         if (golfers && bet && bet.players && bet.alternates) {
             const ps = [];
-            console.log(bet.players);
             partition(bet.players).map((id) => {
                 ps.push(golferViaIndex(id, golfers));
             });
             setPlayers(ps);
             const as = [];
-            console.log(bet.alternates);
             partition(bet.alternates).map((id) => {
                 as.push(golferViaIndex(id, golfers));
             });
@@ -174,7 +172,6 @@ export const PlayerProvider = ({ children }) => {
         }
         if (golfers && bet && bet.players) {
             const ps = [];
-            console.log(bet.players);
             partition(bet.players).map((id) => {
                 ps.push(golferViaIndex(id, golfers));
             });

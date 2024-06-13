@@ -23,7 +23,7 @@ export default function TournamentDashboard() {
     const [gentlemanBets, setGentleBets] = useState(undefined);
 
     const { meta, user, session } = useAuth();
-    const { tournament, golfers } = useTournament();
+    const { tournament, golfers, downloading } = useTournament();
 
     const getYourLeagueBets = async () => {
         const { data, error } = await supabase.from("masters_league").select().eq("public_id", meta.id).eq("tournament_id", tournament.id);
@@ -56,7 +56,10 @@ export default function TournamentDashboard() {
                 {tournament ? <TournamentWidget tournament={tournament} /> : <></>}
             </div>
             <div style={{ display: "flex", flexDirection: "column", height: "100%", margin: "0px 10px" }}>
-                {live ? <Live /> : <></>}
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start" }}>
+                    {live ? <Live /> : <></>}
+                    {live && downloading ? <Loading style={{ margin: "0px 0px 10px 10px", height: "30px" }} /> : <></>}
+                </div>
                 <div className={"stats scrollbox" + (live ? " live" : "")}>
                     <TournamentTable tourney={golfers ? golfers : []} />
                 </div>

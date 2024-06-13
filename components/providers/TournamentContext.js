@@ -13,6 +13,7 @@ export const TourProvider = ({ children }) => {
     //provide 2 modals through this component
     const [tournament, setTournament] = useState(undefined);
     const [golfers, setGolfers] = useState(undefined);
+    const [downloading, setDownloading] = useState(false);
 
     const router = useRouter();
 
@@ -26,6 +27,7 @@ export const TourProvider = ({ children }) => {
     };
     //named ggs to not overrdie getGolfers imported
     const ggs = async () => {
+        setDownloading(true);
         if (tournament) {
             const { data, error } = await getGolfers(tournament);
             if (!error) {
@@ -34,6 +36,7 @@ export const TourProvider = ({ children }) => {
             } else {
             }
         }
+        setDownloading(false);
     };
 
     useEffect(() => {
@@ -42,7 +45,9 @@ export const TourProvider = ({ children }) => {
 
     useEffect(() => {
         ggs();
+        const intervalId = setInterval(ggs, 60000);
+        return () => clearInterval(intervalId);
     }, [tournament]);
 
-    return <TournamentContext.Provider value={{ tournament, golfers }}>{children}</TournamentContext.Provider>;
+    return <TournamentContext.Provider value={{ tournament, golfers, downloading }}>{children}</TournamentContext.Provider>;
 };
