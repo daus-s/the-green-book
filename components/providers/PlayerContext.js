@@ -14,7 +14,7 @@ export const usePlayer = () => useContext(PlayerContext);
 
 export const PlayerProvider = ({ children }) => {
     const { meta } = useAuth();
-    const { golfers, tournament } = useTournament();
+    const { golfers } = useTournament();
 
     // * * * * *  internal varaiables used to calculate stuff * * * * * //
     const [u, setU] = useState(undefined);
