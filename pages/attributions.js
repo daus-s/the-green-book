@@ -59,6 +59,7 @@ function Attributions() {
             <Attribution src="/friends.png" href="https://www.flaticon.com/free-icons/heart" desc="Heart icons created by Freepik - Flaticon" />
             <Attribution src="/addfriend.png" href="https://www.flaticon.com/free-icons/add-user" desc="Add user icons created by uicon - Flaticon" />
             <Attribution src="/cancel.png" href="https://www.flaticon.com/free-icons/cancel" desc="Cancel icons created by Freepik - Flaticon" />
+            <Attribution src="/settings.png" href="https://www.flaticon.com/free-icons/settings" desc="Settings icons created by logisstudio - Flaticon" />
         </div>
     );
 }
