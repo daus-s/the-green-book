@@ -173,11 +173,8 @@ function BetLink({ bet, tourney }) {
         getData();
     }, []);
     let comp = undefined;
-    // console.log('your team:', teams?.user);
-    // console.log('opponent team:', teams?.opp);
 
     if (bet.oppie) {
-        //console.log(tournament)
         comp = (
             <Link href={link.replace("%s", tournament.extension).replace("%s", ext)}>
                 <div className="one-on-one-bet">
