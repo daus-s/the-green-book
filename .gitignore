@@ -16,6 +16,7 @@ create\ tables
 # DO NO UPLOAD ENV FIILES
 *.env
 *.env*
+SYSTEMPWD
 .DS_STORE
 
 package-lock.json
