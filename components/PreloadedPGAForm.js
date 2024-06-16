@@ -12,8 +12,8 @@ import Opponent from "./Opponent";
 import Loading from "./Loading";
 import { usePlayer } from "./providers/PlayerContext";
 
-export default function PreloadedPGAForm({ payload }) {
-    const { golfers } = useTournament();
+export default function PreloadedPGAForm({}) {
+    const { golfers, tournament } = useTournament();
     const { succeed, failed } = useModal();
     const { meta } = useAuth();
     const { players, alternates } = usePlayer();
@@ -74,11 +74,7 @@ export default function PreloadedPGAForm({ payload }) {
             }
             const players = coerce(p1.index, p2.index, p3.index, p4.index);
 
-            // console.log('columns');
-            // console.log('userID', meta.id);
-            // console.log('players', players);
-            // console.log('leagueID', league.groupID);
-            const { error } = await supabase.from("masters_league").insert({ public_id: meta.id, players: players, league_id: league.groupID });
+            const { error } = await supabase.from("masters_league").insert({ public_id: meta.id, players: players, league_id: league.groupID, tournament_id: tournament.id });
             if (error) {
                 if (error.code == 23505) {
                     const { error: e } = await supabase
@@ -107,13 +103,7 @@ export default function PreloadedPGAForm({ payload }) {
             const players = coerce(p1.index, p2.index, p3.index, p4.index);
             const alternates = coerce(alt1.index, alt2.index, alt3.index, alt4.index);
 
-            // console.log('columns');
-            // console.log('userID:', meta.id);
-            // console.log('players:', players);
-            // console.log('alternates:', alternates);
-            // console.log('opponentID:', opp.id);
-
-            const { error } = await supabase.from("masters_opponents").insert({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id });
+            const { error } = await supabase.from("masters_opponents").insert({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id, tournament_id: tournament.id });
 
             if (error) {
                 if (error.code == 23505) {

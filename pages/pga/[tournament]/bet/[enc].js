@@ -17,8 +17,8 @@ export default function MasterBet() {
     const router = useRouter();
 
     const getBarbenlighter = async (leagueID) => {
-        if (meta?.id) {
-            const { data, error } = await supabase.from("masters_league").select().eq("league_id", decode(leagueID)).eq("public_id", meta.id).single();
+        if (meta?.id && tour.id) {
+            const { data, error } = await supabase.from("masters_league").select().eq("league_id", decode(leagueID)).eq("public_id", meta.id).eq("tournament_id", tour.id).single();
             if (!error) {
                 setBet(data);
             } else {
@@ -31,7 +31,7 @@ export default function MasterBet() {
 
     const getOppenheimer = async (oppID) => {
         if (meta?.id) {
-            const { data, error } = await supabase.from("masters_opponents").select().eq("oppie", decode(oppID)).eq("public_id", meta.id).single();
+            const { data, error } = await supabase.from("masters_opponents").select().eq("oppie", decode(oppID)).eq("public_id", meta.id).eq("tournament_id", tour.id).single();
             if (!error) {
                 setBet(data);
             } else {
