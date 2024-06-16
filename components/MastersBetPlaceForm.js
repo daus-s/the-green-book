@@ -341,28 +341,42 @@ export default function MastersPlaceBetForm({ payload }) {
 
                 const players = coerce(p1.index, p2.index, p3.index, p4.index);
                 const alternates = coerce(alt1.index, alt2.index, alt3.index, alt4.index);
+                if (payload) {
+                    const { error } = await supabase.from("masters_opponents").insert({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id, tournament_id: tournament.id });
 
-                const { error } = await supabase.from("masters_opponents").insert({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id, tournament_id: tournament.id });
-
-                if (error) {
-                    if (error.code == 23505) {
-                        const { error: e } = await supabase
-                            .from("masters_opponents")
-                            .update({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id })
-                            .eq("public_id", meta.id)
-                            .eq("oppie", opp.id)
-                            .eq("tournament_id", tournament.id);
-                        if (!e) {
-                            succeed();
-                            router.push(`/pga/${tournament.extension}/`);
+                    if (error) {
+                        if (error.code == 23505) {
+                            const { error: e } = await supabase
+                                .from("masters_opponents")
+                                .update({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id })
+                                .eq("public_id", meta.id)
+                                .eq("oppie", opp.id)
+                                .eq("tournament_id", tournament.id);
+                            if (!e) {
+                                succeed();
+                                router.push(`/pga/${tournament.extension}/`);
+                            } else {
+                                failed(error.message);
+                            }
                         } else {
                             failed(error.message);
                         }
                     } else {
+                        router.push(`/pga/${tournament.extension}/`);
+                    }
+                } else if (payload) {
+                    const { error: e } = await supabase
+                        .from("masters_opponents")
+                        .update({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id })
+                        .eq("public_id", meta.id)
+                        .eq("oppie", opp.id)
+                        .eq("tournament_id", tournament.id);
+                    if (!e) {
+                        succeed();
+                        router.push(`/pga/${tournament.extension}/`);
+                    } else {
                         failed(error.message);
                     }
-                } else {
-                    router.push(`/pga/${tournament.extension}/`);
                 }
             }
         }
