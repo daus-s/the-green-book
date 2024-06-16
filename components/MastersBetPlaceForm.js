@@ -296,7 +296,8 @@ export default function MastersPlaceBetForm({ payload }) {
                                 .from("masters_league")
                                 .update({ public_id: meta.id, players: players, league_id: league.groupID })
                                 .eq("public_id", meta.id)
-                                .eq("league_id", league.groupID);
+                                .eq("league_id", league.groupID)
+                                .eq("tournament_id", tournament.id);
                             if (e) {
                                 failed(e.message);
                             } else {
@@ -315,7 +316,9 @@ export default function MastersPlaceBetForm({ payload }) {
                         .from("masters_league")
                         .update({ public_id: meta.id, players: players, league_id: league.groupID })
                         .eq("public_id", meta.id)
-                        .eq("league_id", league.groupID);
+                        .eq("league_id", league.groupID)
+                        .eq("tournament_id", tournament.id);
+
                     if (e) {
                         failed(e.message);
                     } else {
@@ -338,31 +341,42 @@ export default function MastersPlaceBetForm({ payload }) {
 
                 const players = coerce(p1.index, p2.index, p3.index, p4.index);
                 const alternates = coerce(alt1.index, alt2.index, alt3.index, alt4.index);
-
-                const { error } = await supabase
-                    .from("masters_opponents")
-                    .insert({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id, tournament_id: tournament.tournament_id });
-
                 if (payload) {
-                }
-                if (error) {
-                    if (error.code == 23505) {
-                        const { error: e } = await supabase
-                            .from("masters_opponents")
-                            .update({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id })
-                            .eq("public_id", meta.id)
-                            .eq("oppie", opp.id);
-                        if (!e) {
-                            succeed();
-                            router.push(`/pga/${tournament.extension}/`);
+                    const { error } = await supabase.from("masters_opponents").insert({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id, tournament_id: tournament.id });
+
+                    if (error) {
+                        if (error.code == 23505) {
+                            const { error: e } = await supabase
+                                .from("masters_opponents")
+                                .update({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id })
+                                .eq("public_id", meta.id)
+                                .eq("oppie", opp.id)
+                                .eq("tournament_id", tournament.id);
+                            if (!e) {
+                                succeed();
+                                router.push(`/pga/${tournament.extension}/`);
+                            } else {
+                                failed(error.message);
+                            }
                         } else {
                             failed(error.message);
                         }
                     } else {
+                        router.push(`/pga/${tournament.extension}/`);
+                    }
+                } else if (payload) {
+                    const { error: e } = await supabase
+                        .from("masters_opponents")
+                        .update({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id })
+                        .eq("public_id", meta.id)
+                        .eq("oppie", opp.id)
+                        .eq("tournament_id", tournament.id);
+                    if (!e) {
+                        succeed();
+                        router.push(`/pga/${tournament.extension}/`);
+                    } else {
                         failed(error.message);
                     }
-                } else {
-                    router.push(`/pga/${tournament.extension}/`);
                 }
             }
         }

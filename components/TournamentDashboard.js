@@ -146,7 +146,16 @@ function BetLink({ bet, tourney }) {
                         // imean what am i gonna do throw an error to the user? nah we pretend it cant load
                         setAnti(data);
                     }
-                    const { data: opp, error: e1 } = await supabase.from("masters_opponents").select().eq("oppie", bet.public_id).eq("public_id", bet.oppie).single();
+                    if (error) {
+                        return;
+                    }
+                    const { data: opp, error: e1 } = await supabase
+                        .from("masters_opponents")
+                        .select()
+                        .eq("oppie", bet.public_id)
+                        .eq("public_id", bet.oppie)
+                        .eq("tournament_id", tournament.id)
+                        .single();
                     if (!e1) {
                         const data2 = bet?.oppie ? determineOrderAndEvaluate(bet, opp) : undefined;
                         // console.log('teams from src = ', data2);
@@ -162,7 +171,7 @@ function BetLink({ bet, tourney }) {
                     if (league) {
                         setAnti(league);
                     }
-                    const { data: brackets, error: bracketError } = await supabase.from("masters_league").select().eq("league_id", bet.league_id);
+                    const { data: brackets, error: bracketError } = await supabase.from("masters_league").select().eq("league_id", bet.league_id).eq("tournament_id", tournament.id);
                     // console.log(brackets?brackets:bracketError);
                     if (brackets) {
                         setTeams(brackets);
@@ -174,6 +183,7 @@ function BetLink({ bet, tourney }) {
     }, []);
     let comp = undefined;
 
+    console.log(teams);
     if (bet.oppie) {
         comp = (
             <Link href={link.replace("%s", tournament.extension).replace("%s", ext)}>
