@@ -33,15 +33,10 @@ export default function TournamentDashboard() {
     };
 
     const getYour1v1Bets = async () => {
-        const { data: exst, error: ee } = await supabase.from("masters_opponents_e").select("*, ").eq("public_id", meta.id).eq("tournament_id", tournament.id);
-        const { data: data, error: de } = await supabase.from("masters_opponents").select().eq("public_id", meta.id).eq("tournament_id", tournament.id);
-        const combination = [];
-        if (!ee && exst.length && !de && data) {
-            for (const m of exst) {
-            }
+        const { data, error } = await supabase.from("masters_opponents").select().eq("public_id", meta.id).eq("tournament_id", tournament.id);
+        if (!error && data) {
+            setGentleBets(data);
         }
-
-        setGentleBets(combination);
     };
 
     useEffect(() => {
