@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../functions/SupabaseClient";
 import FriendRequestNotification from "./FriendRequest";
+import PGATeamAnnouncement from "./PGATeamAnnoucement";
 
 export default function Notification({ notification, key, meta }) {
     switch (notification.code) {
@@ -8,6 +9,8 @@ export default function Notification({ notification, key, meta }) {
             return <></>;
         case 1:
             return <NotificationWrapper notification={notification} key={key} Component={FriendRequestNotification} meta={meta} />;
+        case 2:
+            return <NotificationWrapper notification={notification} key={key} Component={PGATeamAnnouncement} meta={meta} />;
         default:
             return <></>;
     }

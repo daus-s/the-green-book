@@ -17,7 +17,7 @@ export default function NotificationIcon() {
         //this will become frankensteins monster
         const getNotifications = async () => {
             if (meta.id) {
-                const { data, error } = await supabase.from("notifications").select().eq("dst", meta.id);
+                const { data, error } = await supabase.from("notifications").select().eq("dst", meta.id).order("id").limit(100);
                 if (!error) {
                     setNotifications(data);
                 }

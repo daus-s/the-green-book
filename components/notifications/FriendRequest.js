@@ -98,7 +98,7 @@ export default function FriendRequestNotification({ notification, locallyViewed,
 
     return (
         <>
-            <div className={"notification friend-request " + (notification.viewed || locallyViewed ? "" : "new")} onMouseEnter={() => setLocallyViewed(true)} ref={ref}>
+            <div className={"notification friend-request " + (notification.viewed || locallyViewed ? "" : " new")} onMouseEnter={() => setLocallyViewed(true)} ref={ref}>
                 <div className="message">
                     <Image src={candidate?.pfp_url ? candidate.pfp_url : "/user.png"} width={48} height={48} alt="user asking to be your friend" style={{ borderRadius: "24px", cursor: "pointer" }} />
                     <div>
