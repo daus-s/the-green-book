@@ -341,7 +341,7 @@ export default function MastersPlaceBetForm({ payload }) {
 
                 const players = coerce(p1.index, p2.index, p3.index, p4.index);
                 const alternates = coerce(alt1.index, alt2.index, alt3.index, alt4.index);
-                if (payload) {
+                if (!payload) {
                     const { error } = await supabase.from("masters_opponents").insert({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id, tournament_id: tournament.id });
 
                     if (error) {
@@ -375,7 +375,7 @@ export default function MastersPlaceBetForm({ payload }) {
                         succeed();
                         router.push(`/pga/${tournament.extension}/`);
                     } else {
-                        failed(error.message);
+                        failed(e.message);
                     }
                 }
             }
