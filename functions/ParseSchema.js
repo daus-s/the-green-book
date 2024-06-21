@@ -58,6 +58,18 @@ function validateFields(object) {
     return 0;
 }
 
+/**
+ * Validates a URL extension string to check if it matches expected formats.
+ *
+ * @param {string} str - The URL extension string to validate.
+ * @returns {boolean} True if the URL extension string is valid; otherwise, false.
+ *
+ * Valid URL extensions:
+ * - "masters-2024"
+ * - "masters-2023"
+ * - "pga-championship-2024"
+ * - "open-us-2024"
+ */
 function validateUrlext(str) {
     switch (str) {
         case "masters-2024":
@@ -73,6 +85,19 @@ function validateUrlext(str) {
     }
 }
 
+/**
+ * Retrieves the tournament ID based on the provided full tournament name.
+ *
+ * @param {string} fullname - The full name of the tournament.
+ * @returns {string} The corresponding tournament ID.
+ * @throws {Error} Throws an error if the provided tournament name is not recognized.
+ *
+ * Valid tournament names and their corresponding IDs:
+ * - "Masters" -> "masters"
+ * - "PGA Championship" -> "pgachamps"
+ * - "US Open" -> "usopen"
+ * - "The Open" -> "theopen"
+ */
 function getTid(fullname) {
     const titles = ["masters", "pgachamps", "usopen", "theopen"];
     switch (fullname) {
@@ -89,4 +114,49 @@ function getTid(fullname) {
     }
 }
 
-module.exports = { parseable, seperated, validateFields, validateUrlext, getTid };
+/**
+ * Validates a fantasy league bet object to ensure it meets expected criteria.
+ *
+ * @param {object} bet - The bet object to validate.
+ * @returns {boolean} True if the bet object is valid; otherwise, false.
+ *
+ * Expected fields in the bet object:
+ * - public_id: number (required) - The ID of the bet.
+ * - players: number or null (optional) - Number of players in the league, or null if unspecified.
+ * - league_id: number (required) - The ID of the fantasy league associated with the bet.
+ * - tournament_id: number (required) - The ID of the tournament associated with the bet.
+ */
+function goodFantasy(bet) {
+    if (!bet) {
+        return false;
+    }
+    return typeof bet.public_id === "number" && (typeof bet.players === "number" || bet.players === null) && typeof bet.league_id === "number" && typeof bet.tournament_id === "number";
+}
+
+/**
+ * Validates a head to head bet object to ensure it meets expected criteria.
+ *
+ * @param {object} bet - The bet object to validate.
+ * @returns {boolean} True if the bet object is valid; otherwise, false.
+ *
+ * Expected fields in the bet object:
+ * - public_id: number (required)
+ * - players: number or null (optional)
+ * - alternates: number or null (optional)
+ * - oppie: number (required)
+ * - tournament_id: number (required)
+ */
+function goodHead2Head(bet) {
+    if (!bet) {
+        return false;
+    }
+    return (
+        typeof bet.public_id === "number" &&
+        (typeof bet.players === "number" || bet.players === null) &&
+        (typeof bet.alternates === "number" || bet.alternates === null) &&
+        typeof bet.oppie === "number" &&
+        typeof bet.tournament_id === "number"
+    );
+}
+
+module.exports = { parseable, seperated, validateFields, validateUrlext, getTid, goodFantasy, goodHead2Head };

@@ -30,14 +30,32 @@ export default function MasterBet() {
     };
 
     const getOppenheimer = async (oppID) => {
-        if (meta?.id) {
-            const { data, error } = await supabase.from("masters_opponents").select().eq("oppie", decode(oppID)).eq("public_id", meta.id).eq("tournament_id", tour.id).single();
-            if (!error) {
-                setBet(data);
-            } else {
-                if (typeof window !== "undefined" && router) {
+        if (!oppID) {
+            router.push(`/pga/${router.query.tournament}/place`);
+            return;
+        }
+
+        if (!meta?.id) {
+            return;
+        }
+
+        const { data, error } = await supabase.from("masters_opponents").select().eq("oppie", decode(oppID)).eq("public_id", meta.id).eq("tournament_id", tour.id).single();
+        if (!error) {
+            setBet(data);
+        } else {
+            console.log(error.code, typeof error.code);
+            if (error.code === "PGRST116") {
+                const { error: insertError } = await supabase.from("masters_opponents").insert({
+                    oppie: decode(oppID),
+                    public_id: meta.id,
+                    tournament_id: tour.id,
+                });
+                if (insertError) {
                     router.push(`/pga/${router.query.tournament}/place`);
                 }
+            } else if (typeof window !== "undefined" && router) {
+                console.log(error);
+                router.push(`/pga/${router.query.tournament}/place`);
             }
         }
     };

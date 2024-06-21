@@ -21,10 +21,9 @@ import Search from "./Search";
 import Timer from "./Timer";
 
 function WagerStatusWidget() {
-    const { u, t, ubet, tbet } = usePlayer();
+    const { u, t, ubet, tbet, tour } = usePlayer();
 
-    // const status = ubet && tbet ? "ready" : tour.cut_time < new Date() ? "waiting" : "closed";
-    let status = "ready";
+    const status = ubet && tbet ? "ready" : tour.cut_time < new Date() ? (ubet ? "waiting" : "open") : "closed";
     return (
         <div className="status-widget">
             <div className="users">

@@ -40,11 +40,11 @@ export default function TournamentDashboard() {
         /* amalgomation  */
         const combined = [];
         const { data, error: e1 } = await supabase.from("masters_opponents").select().eq("public_id", meta.id).eq("tournament_id", tournament.id);
-        combined.concat(data);
-        console.log(data);
+        if (!e1) {
+            combined.push(...data);
+        }
 
         const { data: exists, error: e2 } = await supabase.from("masters_opponents_e").select().or(`a.eq.${meta.id}, b.eq.${meta.id}`).eq("tournament_id", tournament.id);
-        console.log(exists);
 
         if (!e2 && !e1) {
             let hasCorrespondingBet = false;
@@ -194,7 +194,6 @@ function BetLink({ bet, tourney }) {
                         .single();
                     if (!e1) {
                         const data2 = bet?.oppie ? determineOrderAndEvaluate(bet, opp) : undefined;
-                        console.log("teams from src = ", data2);
                         if (data2) {
                             setTeams(data2);
                         }
@@ -233,8 +232,8 @@ function BetLink({ bet, tourney }) {
                         {teams.user ? (
                             <></>
                         ) : (
-                            <div className="waiting-image" style={{ position: "absolute" }}>
-                                <Image src={"/.png"} height={30} width={30} alt="suck my nutz" />
+                            <div className="waiting-image" style={{ position: "absolute", top: "0px", right: "60px", filter: "brightness(62%)" }}>
+                                <Image src={"/clock.png"} height={30} width={30} alt="waiting" />
                             </div>
                         )}
                         <span
@@ -257,9 +256,6 @@ function BetLink({ bet, tourney }) {
                             <Loading style={{ filter: "brightness(200%)", margin: "0px 0px 0px 0px", transform: "scale(75%)", position: "relative", bottom: "15px" }} />
                         </div>
                     )}
-                    <div>
-                        {bet.oppie}@{bet.public_id} -- {bet.tournament_id}
-                    </div>
                 </div>
                 <div className="bh">
                     Playing

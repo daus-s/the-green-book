@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../../functions/SupabaseClient";
-import { validateFields, validateUrlext } from "../../functions/ParseSchema";
+import { validateUrlext, goodFantasy, goodHead2Head } from "../../functions/ParseSchema";
 import { decode } from "../../functions/Encode";
 import { useAuth } from "./AuthContext";
 import { useTournament } from "./TournamentContext";
@@ -158,24 +158,28 @@ export const PlayerProvider = ({ children }) => {
      */
 
     const getRosters = async () => {
-        if (golfers && bet && bet.players && bet.alternates) {
+        if (!bet || !golfers) {
+            return;
+        }
+        //starter loading
+        if (!bet.players) {
+            setPlayers([undefined, undefined, undefined, undefined]);
+        } else {
             const ps = [];
             partition(bet.players).map((id) => {
                 ps.push(golferViaIndex(id, golfers));
             });
             setPlayers(ps);
+        }
+        //alternate loading
+        if (!bet.alternates) {
+            setAlternates([undefined, undefined, undefined, undefined]);
+        } else {
             const as = [];
             partition(bet.alternates).map((id) => {
                 as.push(golferViaIndex(id, golfers));
             });
             setAlternates(as);
-        }
-        if (golfers && bet && bet.players) {
-            const ps = [];
-            partition(bet.players).map((id) => {
-                ps.push(golferViaIndex(id, golfers));
-            });
-            setPlayers(ps);
         }
     };
 
@@ -183,31 +187,22 @@ export const PlayerProvider = ({ children }) => {
         getRosters();
     }, [golfers, bet]);
 
-    const getBet = async () => {
-        if (!mode) {
-            return;
-        }
-        if (mode === "Opponent") {
-            if (!u?.id || !t?.id || !tour?.id) {
-                return;
-            }
-            const { data: bet, error: err } = await supabase.from("masters_opponents").select().eq("public_id", u.id).eq("oppie", t.id).eq("tournament_id", tour.id);
-            if (!err && bet.length) {
-                setBet(bet[0]);
-                if (bet[0].players && bet[0].alternates) {
-                    setPlayers(bet[0].players);
-                    setAlternates(bet[0].alternates);
+    const getBet = async (modeString, thirdPartyID, urID, tourID) => {
+        if (modeString === "Opponent") {
+            const { data: bet, error: err } = await supabase.from("masters_opponents").select().eq("public_id", urID).eq("oppie", thirdPartyID).eq("tournament_id", tourID).single();
+            if (!err) {
+                setBet(bet);
+                if (bet.players && bet.alternates) {
+                    setPlayers(bet.players);
+                    setAlternates(bet.alternates);
                 }
             }
-        } else if (mode === "League") {
-            if (!g?.groupID || !u?.id || !tour?.id) {
-                return;
-            }
-            const { data: bet, error: err } = await supabase.from("masters_league").select().eq("public_id", u.id).eq("league_id", g.groupID).eq("tournament_id", tour.id);
-            if (!err && bet.length) {
-                setBet(bet[0]);
-                if (bet[0].players && bet[0].alternates) {
-                    setPlayers(bet[0].players);
+        } else if (modeString === "League") {
+            const { data: bet, error: err } = await supabase.from("masters_league").select().eq("public_id", urID).eq("league_id", thirdPartyID).eq("tournament_id", tourID).single();
+            if (!err) {
+                setBet(bet);
+                if (bet.players) {
+                    setPlayers(bet.players);
                     setUbet(true);
                 }
             }
@@ -215,7 +210,12 @@ export const PlayerProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        getBet();
+        if (mode && (mode === "Opponent" ? t?.id : g?.groupID) && u?.id && tour?.id) {
+            let isPopulatedYet = mode === "League" ? Boolean(players && alternates) : Boolean(players);
+            if (!isPopulatedYet) {
+                getBet(mode, mode === "Opponent" ? t.id : g.groupID, u.id, tour.id);
+            }
+        }
     }, [u, t, tour, mode]);
 
     const getMode = (str) => {

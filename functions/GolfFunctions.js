@@ -138,7 +138,6 @@ function getTeamScore(final, golfers, par) {
  * @returns
  */
 function evaluateTeamAndAlternate(players1, alternates1, players2, alternates2) {
-    console.log(players1, alternates1, players2, alternates2);
     if (!players1 && !alternates1) {
         return [undefined, partition(players2)];
     }
@@ -183,8 +182,6 @@ function determineOrderAndEvaluate(fv, tb) {
     }
 
     let user, opp;
-    console.log("user", [fv.players, fv.alternates]);
-    console.log("opponent", [tb.players, tb.alternates]);
     if (fv.public_id < fv.oppie) {
         [user, opp] = evaluateTeamAndAlternate(...[fv.players, fv.alternates], ...[tb.players, tb.alternates]);
     } else if (fv.public_id > fv.oppie) {
