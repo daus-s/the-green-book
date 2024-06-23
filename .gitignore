@@ -17,6 +17,7 @@ create\ tables
 *.env
 *.env*
 SYSTEMPWD
+functions/f.js
 .DS_STORE
 
 package-lock.json
