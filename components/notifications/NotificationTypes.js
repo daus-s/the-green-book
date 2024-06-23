@@ -21,11 +21,12 @@ function NotificationWrapper({ Component, notification, key, meta }) {
 
     useEffect(() => {
         const setRemoteViewed = async () => {
-            if (!notification.viewed && !locallyViewed) {
+            if (!notification.viewed) {
                 let {} = await supabase.rpc("view_notification", {
                     n: notification.id,
                     u: meta.id,
                 });
+                notification.viewed = true;
             }
         };
 

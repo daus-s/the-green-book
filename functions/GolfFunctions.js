@@ -227,9 +227,9 @@ function golferViaIndex(index, tourney) {
             }
         }
     } else {
-        throw Error("tournament is extinct");
+        throw Error("golferViaIndex\n  • tournament is extinct");
     }
-    throw Error("golfer is extinct");
+    throw Error("golferViaIndex\n  • golfer is extinct");
 }
 
 function parse(data, pos) {

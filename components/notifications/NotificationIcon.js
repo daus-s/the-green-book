@@ -36,7 +36,7 @@ export default function NotificationIcon() {
                     setBalanar(true);
                 }}
             >
-                {!balanar ? <NotificationCounter count={count(notifications)} style={{ transform: "translateX(-10.5px)" }} /> : <></>}
+                {!balanar ? <NotificationCounter count={count(notifications)} style={{ transform: "translateX(0px) translateY(-4px)" }} /> : <></>}
                 <img src="/notification.png" style={{ height: isMobile ? "40px" : "50px" }} />
             </div>
             {balanar ? (

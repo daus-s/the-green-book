@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "./providers/AuthContext";
 import { useMobile } from "./providers/MobileContext";
 import Input from "./Input";
+import { f } from "../functions/f";
 
 export default function Auth() {
     const { login } = useAuth();
@@ -18,7 +19,7 @@ export default function Auth() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const path = await login(usr, password);
+            const path = await login(usr, f(password));
             if (path) {
                 router.push(`${path}`);
             } else {

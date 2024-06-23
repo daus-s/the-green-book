@@ -123,6 +123,7 @@ export const PlayerProvider = ({ children }) => {
 
     const getGroup = async () => {
         if (router?.query?.enc) {
+            console.log("getting group frfr with argument");
             const { data, error } = await supabase
                 .from("groups")
                 .select()
@@ -139,6 +140,7 @@ export const PlayerProvider = ({ children }) => {
     useEffect(() => {
         getUsers();
         if (mode === "League") {
+            console.log("getting group");
             getGroup();
         }
     }, [mode, meta, router]);
