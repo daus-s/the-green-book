@@ -232,7 +232,7 @@ export default function MastersPlaceBetForm({}) {
     const { meta } = useAuth();
     const { succeed, failed } = useModal();
     const { golfers, tournament } = useTournament();
-    const { t: head2headOpponent, l: fantasyLeague, mode: m1, players, alternates, preload } = usePlayer();
+    const { t: head2headOpponent, g: fantasyLeague, mode: m1, players, alternates, preload } = usePlayer();
 
     const router = useRouter();
 
