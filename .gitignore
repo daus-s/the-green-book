@@ -35,3 +35,6 @@ components/ErrorWrapper.js
 # ignore dev tools
 dev/
 template.js
+
+#ignore logging
+logs/

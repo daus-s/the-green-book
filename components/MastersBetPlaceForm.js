@@ -21,23 +21,22 @@ import Search from "./Search";
 import Timer from "./Timer";
 
 function WagerStatusWidget() {
-    const { u, t, ubet, tbet } = usePlayer();
+    const { u, t, ubet, tbet, tour } = usePlayer();
 
-    // const status = ubet && tbet ? "ready" : tour.cut_time < new Date() ? "waiting" : "closed";
-    let status = "ready";
+    const status = ubet && tbet ? "ready" : tour?.cut_time < new Date() ? (ubet ? "waiting" : "open") : "closed";
     return (
         <div className="status-widget">
             <div className="users">
                 <div className="us-container">
                     <img src={u?.pfp_url} />
                     {ubet ? <img className="status" src="/mark.png" /> : <img className="status" src="/close.png" />}
-                    {u.username}
+                    {u?.username}
                 </div>
                 <div className="versus">VS.</div>
                 <div className="us-container">
                     <img src={t?.pfp_url} />
                     {tbet ? <img className="status" src="/mark.png" /> : <img className="status" src="/close.png" />}
-                    {t.username}
+                    {t?.username}
                 </div>
             </div>
             <div className="readable">
@@ -206,39 +205,34 @@ function Golfer({ data, onClick, selected, display, direction }) {
 }
 
 const errM = "Please pick a golfer";
-export default function MastersPlaceBetForm({ payload }) {
-    if (payload) {
-        if (!payload.bet || !payload.mode || !payload.players || (payload.mode === "Opponent" ? !payload.alternates : false) || (payload.mode === "Opponent" ? !payload.opp : !payload.league)) {
-            throw Error("cannot insantiate a preloaded form without data");
-        }
-    }
-    const { players, alternates, bet, mode: m, opp: t, league: l } = payload ? payload : { players: undefined, alternates: undefined, bet: undefined };
-    const [p1, setP1] = useState(players ? players[0] : undefined);
-    const [p2, setP2] = useState(players ? players[1] : undefined);
-    const [p3, setP3] = useState(players ? players[2] : undefined);
-    const [p4, setP4] = useState(players ? players[3] : undefined);
-    const [alt1, setAlt1] = useState(alternates ? alternates[0] : undefined);
-    const [alt2, setAlt2] = useState(alternates ? alternates[1] : undefined);
-    const [alt3, setAlt3] = useState(alternates ? alternates[2] : undefined);
-    const [alt4, setAlt4] = useState(alternates ? alternates[3] : undefined);
+export default function MastersPlaceBetForm({}) {
+    const [p1, setP1] = useState(undefined);
+    const [p2, setP2] = useState(undefined);
+    const [p3, setP3] = useState(undefined);
+    const [p4, setP4] = useState(undefined);
+    const [alt1, setAlt1] = useState(undefined);
+    const [alt2, setAlt2] = useState(undefined);
+    const [alt3, setAlt3] = useState(undefined);
+    const [alt4, setAlt4] = useState(undefined);
 
     const [errors, setErrors] = useState([false, false, false, false, false, false, false, false]);
     const [seeInfo, setSeeInfo] = useState(false);
 
-    const [league, setLeague] = useState(l ? l : undefined);
+    const [league, setLeague] = useState(undefined);
     const [leagueErr, setLeagueErr] = useState(false);
 
-    const [opp, setOpp] = useState(t ? t : undefined);
+    const [opp, setOpp] = useState(undefined);
     const [oppErr, setOppErr] = useState(false);
 
     const [groups, setGroups] = useState([]);
-    const [mode, setMode] = useState(m ? m : "League");
+    const [mode, setMode] = useState("League");
     const [viewing, setViewing] = useState("Starters");
 
     const { width } = useMobile();
     const { meta } = useAuth();
     const { succeed, failed } = useModal();
     const { golfers, tournament } = useTournament();
+    const { t: head2headOpponent, l: fantasyLeague, mode: m1, players, alternates, preload } = usePlayer();
 
     const router = useRouter();
 
@@ -259,10 +253,101 @@ export default function MastersPlaceBetForm({ payload }) {
             }
         }
     };
-
     useEffect(() => {
         getYourGroups();
     }, [meta]);
+
+    //load from state in DB and router ******************************
+    useEffect(() => {
+        if (head2headOpponent) {
+            setOpp(head2headOpponent);
+        }
+        setOpp();
+    }, [head2headOpponent]);
+
+    useEffect(() => {
+        if (fantasyLeague) {
+            setLeague(fantasyLeague);
+        }
+    }, [fantasyLeague]);
+
+    useEffect(() => {
+        if (m1) {
+            setMode(m1);
+        }
+    }, [m1]);
+
+    useEffect(() => {
+        if (p1) {
+            return;
+        }
+        if (players && players[0] !== undefined) {
+            setP1(players[0]);
+        }
+    }, [players && players[0]]);
+
+    useEffect(() => {
+        if (p2) {
+            return;
+        }
+        if (players && players[1] !== undefined) {
+            setP2(players[1]);
+        }
+    }, [players && players[1]]);
+
+    useEffect(() => {
+        if (p3) {
+            return;
+        }
+        if (players && players[2] !== undefined) {
+            setP3(players[2]);
+        }
+    }, [players && players[2]]);
+
+    useEffect(() => {
+        if (p4) {
+            return;
+        }
+        if (players && players[3] !== undefined) {
+            setP4(players[3]);
+        }
+    }, [players && players[3]]);
+
+    useEffect(() => {
+        if (alt1) {
+            return;
+        }
+        if (alternates && alternates[0] !== undefined) {
+            setAlt1(alternates[0]);
+        }
+    }, [alternates && alternates[0]]);
+
+    useEffect(() => {
+        if (alt2) {
+            return;
+        }
+        if (alternates && alternates[1] !== undefined) {
+            setAlt2(alternates[1]);
+        }
+    }, [alternates && alternates[1]]);
+
+    useEffect(() => {
+        if (alt3) {
+            return;
+        }
+        if (alternates && alternates[2] !== undefined) {
+            setAlt3(alternates[2]);
+        }
+    }, [alternates && alternates[2]]);
+
+    useEffect(() => {
+        if (alt4) {
+            return;
+        }
+        if (alternates && alternates[3] !== undefined) {
+            setAlt4(alternates[3]);
+        }
+    }, [alternates && alternates[3]]);
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //must have this otherwise golfers deload
@@ -288,7 +373,7 @@ export default function MastersPlaceBetForm({ payload }) {
                 }
                 const players = coerce(p1.index, p2.index, p3.index, p4.index);
 
-                if (!payload) {
+                if (!preload) {
                     const { error } = await supabase.from("masters_league").insert({ public_id: meta.id, players: players, league_id: league.groupID, tournament_id: tournament.id });
                     if (error) {
                         if (error.code == 23505) {
@@ -311,7 +396,7 @@ export default function MastersPlaceBetForm({ payload }) {
                         succeed();
                         router.push(`/pga/${tournament.extension}/`);
                     }
-                } else if (payload) {
+                } else if (preload) {
                     const { error: e } = await supabase
                         .from("masters_league")
                         .update({ public_id: meta.id, players: players, league_id: league.groupID })
@@ -341,7 +426,7 @@ export default function MastersPlaceBetForm({ payload }) {
 
                 const players = coerce(p1.index, p2.index, p3.index, p4.index);
                 const alternates = coerce(alt1.index, alt2.index, alt3.index, alt4.index);
-                if (!payload) {
+                if (!preload) {
                     const { error } = await supabase.from("masters_opponents").insert({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id, tournament_id: tournament.id });
 
                     if (error) {
@@ -364,7 +449,7 @@ export default function MastersPlaceBetForm({ payload }) {
                     } else {
                         router.push(`/pga/${tournament.extension}/`);
                     }
-                } else if (payload) {
+                } else if (preload) {
                     const { error: e } = await supabase
                         .from("masters_opponents")
                         .update({ public_id: meta.id, players: players, alternates: alternates, oppie: opp.id })
@@ -387,82 +472,89 @@ export default function MastersPlaceBetForm({ payload }) {
         setOpp(data);
     };
 
-    return golfers ? ( //                               ${2*height(width)+80+96+55}px
+    //${2*height(width)+80+96+55}px
+    return (
         <div className="masters-place-bet-form">
-            <div className="pick-box" style={{ height: "100%", maxHeight: "373px" }}>
-                <div className="first-team">
-                    <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
-                        <PickNo num={1} />
-                        <div className={"player-selector one " + (errors[0] && !p1 ? "error-wrapper" : "")}>
-                            <DataDropDown data={p1} list={allButThese(golfers, [p2, p3, p4, alt1, alt2, alt3, alt4])} set={setP1} JSX={Golfer} />
-                        </div>
-                        {errors[0] && !p1 ? <div className="error-message">{errM}</div> : <></>}
-                    </div>
-                    <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
-                        <PickNo num={2} />
-                        <div className={"player-selector two " + (errors[1] && !p2 ? "error-wrapper" : "")}>
-                            <DataDropDown data={p2} list={allButThese(golfers, [p1, p3, p4, alt2, alt1, alt3, alt4])} set={setP2} JSX={Golfer} />
-                        </div>
-                        {errors[1] && !p2 ? <div className="error-message">{errM}</div> : <></>}
-                    </div>
-                    <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
-                        <PickNo num={3} />
-                        <div className={"player-selector thr " + (errors[2] && !p3 ? "error-wrapper" : "")}>
-                            <DataDropDown data={p3} list={allButThese(golfers, [p2, p1, p4, alt3, alt2, alt1, alt4])} set={setP3} JSX={Golfer} />
-                        </div>
-                        {errors[2] && !p3 ? <div className="error-message">{errM}</div> : <></>}
-                    </div>
-                    <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
-                        <PickNo num={4} />
-                        <div className={"player-selector for " + (errors[3] && !p4 ? "error-wrapper" : "")}>
-                            <DataDropDown data={p4} list={allButThese(golfers, [p2, p3, p1, alt1, alt2, alt3, alt1])} set={setP4} JSX={Golfer} />
-                        </div>
-                        {errors[3] && !p4 ? <div className="error-message">{errM}</div> : <></>}
-                    </div>
-                </div>
-                {mode === "Opponent" ? (
-                    <div className="alternates">
-                        <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
-                            <PickNo num={5} />
-                            <div className={"player-selector alt-one " + (errors[4] && !alt1 ? "error-wrapper" : "")}>
-                                <DataDropDown data={alt1} list={allButThese(golfers, [p2, p3, p4, p1, alt2, alt3, alt4])} set={setAlt1} JSX={Golfer} />
+            <div className="pick-box">
+                {golfers ? (
+                    <>
+                        <div className="first-team">
+                            <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
+                                <PickNo num={1} />
+                                <div className={"player-selector one " + (errors[0] && !p1 ? "error-wrapper" : "")}>
+                                    <DataDropDown data={p1} list={allButThese(golfers, [p2, p3, p4, alt1, alt2, alt3, alt4])} set={setP1} JSX={Golfer} />
+                                </div>
+                                {errors[0] && !p1 ? <div className="error-message">{errM}</div> : <></>}
                             </div>
-                            {errors[4] && !alt1 ? <div className="error-message">{errM}</div> : <></>}
-                        </div>
-                        <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
-                            <PickNo num={6} />
-                            <div className={"player-selector alt-two " + (errors[5] && !alt2 ? "error-wrapper" : "")}>
-                                <DataDropDown data={alt2} list={allButThese(golfers, [p2, p3, p4, p1, alt1, alt3, alt4])} set={setAlt2} JSX={Golfer} />
+                            <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
+                                <PickNo num={2} />
+                                <div className={"player-selector two " + (errors[1] && !p2 ? "error-wrapper" : "")}>
+                                    <DataDropDown data={p2} list={allButThese(golfers, [p1, p3, p4, alt2, alt1, alt3, alt4])} set={setP2} JSX={Golfer} />
+                                </div>
+                                {errors[1] && !p2 ? <div className="error-message">{errM}</div> : <></>}
                             </div>
-                            {errors[5] && !alt2 ? <div className="error-message">{errM}</div> : <></>}
-                        </div>
-                        <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
-                            <PickNo num={7} />
-                            <div className={"player-selector alt-thr " + (errors[6] && !alt3 ? "error-wrapper" : "")}>
-                                <DataDropDown data={alt3} list={allButThese(golfers, [p2, p3, p4, p1, alt2, alt1, alt4])} set={setAlt3} JSX={Golfer} />
+                            <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
+                                <PickNo num={3} />
+                                <div className={"player-selector thr " + (errors[2] && !p3 ? "error-wrapper" : "")}>
+                                    <DataDropDown data={p3} list={allButThese(golfers, [p2, p1, p4, alt3, alt2, alt1, alt4])} set={setP3} JSX={Golfer} />
+                                </div>
+                                {errors[2] && !p3 ? <div className="error-message">{errM}</div> : <></>}
                             </div>
-                            {errors[6] && !alt3 ? <div className="error-message">{errM}</div> : <></>}
-                        </div>
-                        <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
-                            <PickNo num={8} />
-                            <div className={"player-selector alt-for " + (errors[7] && !alt4 ? "error-wrapper" : "")}>
-                                <DataDropDown data={alt4} list={allButThese(golfers, [p2, p3, p4, p1, alt2, alt3, alt1])} set={setAlt4} JSX={Golfer} />
+                            <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
+                                <PickNo num={4} />
+                                <div className={"player-selector for " + (errors[3] && !p4 ? "error-wrapper" : "")}>
+                                    <DataDropDown data={p4} list={allButThese(golfers, [p2, p3, p1, alt1, alt2, alt3, alt1])} set={setP4} JSX={Golfer} />
+                                </div>
+                                {errors[3] && !p4 ? <div className="error-message">{errM}</div> : <></>}
                             </div>
-                            {errors[7] && !alt4 ? <div className="error-message">{errM}</div> : <></>}
                         </div>
-                    </div>
+                        {mode === "Opponent" ? (
+                            <div className="alternates">
+                                <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
+                                    <PickNo num={5} />
+                                    <div className={"player-selector alt-one " + (errors[4] && !alt1 ? "error-wrapper" : "")}>
+                                        <DataDropDown data={alt1} list={allButThese(golfers, [p2, p3, p4, p1, alt2, alt3, alt4])} set={setAlt1} JSX={Golfer} />
+                                    </div>
+                                    {errors[4] && !alt1 ? <div className="error-message">{errM}</div> : <></>}
+                                </div>
+                                <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
+                                    <PickNo num={6} />
+                                    <div className={"player-selector alt-two " + (errors[5] && !alt2 ? "error-wrapper" : "")}>
+                                        <DataDropDown data={alt2} list={allButThese(golfers, [p2, p3, p4, p1, alt1, alt3, alt4])} set={setAlt2} JSX={Golfer} />
+                                    </div>
+                                    {errors[5] && !alt2 ? <div className="error-message">{errM}</div> : <></>}
+                                </div>
+                                <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
+                                    <PickNo num={7} />
+                                    <div className={"player-selector alt-thr " + (errors[6] && !alt3 ? "error-wrapper" : "")}>
+                                        <DataDropDown data={alt3} list={allButThese(golfers, [p2, p3, p4, p1, alt2, alt1, alt4])} set={setAlt3} JSX={Golfer} />
+                                    </div>
+                                    {errors[6] && !alt3 ? <div className="error-message">{errM}</div> : <></>}
+                                </div>
+                                <div style={{ margin: `0px ${margin(width)}px`, width: "calc(25% - 20px)" }}>
+                                    <PickNo num={8} />
+                                    <div className={"player-selector alt-for " + (errors[7] && !alt4 ? "error-wrapper" : "")}>
+                                        <DataDropDown data={alt4} list={allButThese(golfers, [p2, p3, p4, p1, alt2, alt3, alt1])} set={setAlt4} JSX={Golfer} />
+                                    </div>
+                                    {errors[7] && !alt4 ? <div className="error-message">{errM}</div> : <></>}
+                                </div>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+                    </>
                 ) : (
-                    <></>
+                    <Loading style={{ margin: "0 auto" }} />
                 )}
             </div>
-            <Timer cutTime={tournament.cut_time} />
+            <Timer cutTime={tournament?.cut_time} />
             <form className="form" onSubmit={(e) => handleSubmit(e)}>
-                {!payload ? (
+                {!preload ? (
                     <div className="tab-radio">
                         <div
                             className="tab"
                             onClick={
-                                payload
+                                preload
                                     ? () => {}
                                     : () => {
                                           setMode("League");
@@ -473,7 +565,7 @@ export default function MastersPlaceBetForm({ payload }) {
                         >
                             League
                         </div>
-                        <div className="tab" onClick={() => (payload ? () => {} : setMode("Opponent"))} style={mode === "Opponent" ? { backgroundColor: "var(--nav-link-hover-color)" } : {}}>
+                        <div className="tab" onClick={() => (preload ? () => {} : setMode("Opponent"))} style={mode === "Opponent" ? { backgroundColor: "var(--nav-link-hover-color)" } : {}}>
                             Duo
                         </div>
                     </div>
@@ -515,7 +607,7 @@ export default function MastersPlaceBetForm({ payload }) {
                     </div>
                     <div className="actions-golf" style={mode === "League" ? { marginTop: "40px" } : {}}>
                         {mode == "Opponent" ? (
-                            payload ? (
+                            preload ? (
                                 <WagerStatusWidget />
                             ) : (
                                 <>
@@ -529,7 +621,7 @@ export default function MastersPlaceBetForm({ payload }) {
                             <></>
                         )}
                         {mode === "League" ? (
-                            payload ? (
+                            preload ? (
                                 <Group data={league} display={false} />
                             ) : (
                                 <>
@@ -542,11 +634,11 @@ export default function MastersPlaceBetForm({ payload }) {
                         ) : (
                             <></>
                         )}
-                        <div className="projection" style={payload ? { top: 0 } : { paddingTop: "10px", top: "0" }}>
+                        <div className="projection" style={preload ? { top: 0 } : { paddingTop: "10px", top: "0" }}>
                             Your team is projected to score <span className="number">{isNaN(getTeamProjection(p1, p2, p3, p4)) ? "-" : getTeamProjection(p1, p2, p3, p4)}.</span>
                         </div>
 
-                        {payload ? (
+                        {preload ? (
                             <button type="submit" className="cta-button" style={{ padding: "6px 24px" }}>
                                 <img src="/save.png" style={{ height: "24px" }} />
                             </button>
@@ -560,8 +652,6 @@ export default function MastersPlaceBetForm({ payload }) {
             </form>
             <MastersInfoModal isOpen={seeInfo} onClose={() => setSeeInfo(false)} />
         </div>
-    ) : (
-        <Loading />
     );
 }
 

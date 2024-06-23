@@ -33,7 +33,7 @@ export default function Auth() {
     return (
         <div className="auth-login page">
             <img src="/greenbook.jpg" alt={"The Green Book logo."} className="biglogo" />
-            <form onSubmit={handleLogin} style={isMobile ? mobileStyle.form : {}}>
+            <form onSubmit={handleLogin} style={isMobile ? mobileStyle.form : { width: "375px" }}>
                 <Input className="username" value={usr} setValue={setUser} placeholder="Username" />
 
                 <Input className="password" value={password} setValue={setPassword} placeholder="Password" type="password" />

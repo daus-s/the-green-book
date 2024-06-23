@@ -110,8 +110,11 @@ function scoreFromGolfer(index, golfers) {
  * @returns
  */
 function getTeamScore(final, golfers, par) {
-    if (!final || !golfers) {
-        throw Error("no data provided");
+    if (!final) {
+        return undefined;
+    }
+    if (!golfers || !par) {
+        throw Error("no data provided" + (!golfers ? "  • golfers array-like doesnt exist (probably undefined)" : "") + "\n" + (!par ? "  • no course data for par provided" : ""));
     }
     const gs = partition(final);
     //we have our indices
@@ -135,6 +138,12 @@ function getTeamScore(final, golfers, par) {
  * @returns
  */
 function evaluateTeamAndAlternate(players1, alternates1, players2, alternates2) {
+    if (!players1 && !alternates1) {
+        return [undefined, partition(players2)];
+    }
+    if (!players2 && !alternates2) {
+        return [partition(players1), undefined];
+    }
     let queue1 = [].concat(partition(players1).concat(partition(alternates1))).reverse(); //this is now a list i do this so it is easier to see functions
     let queue2 = [].concat(partition(players2).concat(partition(alternates2))).reverse(); //now the first players are on the back of the list
 
@@ -176,9 +185,9 @@ function determineOrderAndEvaluate(fv, tb) {
     if (fv.public_id < fv.oppie) {
         [user, opp] = evaluateTeamAndAlternate(...[fv.players, fv.alternates], ...[tb.players, tb.alternates]);
     } else if (fv.public_id > fv.oppie) {
-        [user, opp] = evaluateTeamAndAlternate(...[tb.players, tb.alternates], ...[fv.players, fv.alternates]);
+        [opp, user] = evaluateTeamAndAlternate(...[tb.players, tb.alternates], ...[fv.players, fv.alternates]);
     } else {
-        throw Error("the player is playing themselves?");
+        throw Error("the player is playing with themselves?");
     }
     return { user: user, opp: opp };
 }

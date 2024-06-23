@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../../functions/SupabaseClient";
-import { validateFields, validateUrlext } from "../../functions/ParseSchema";
+import { validateUrlext } from "../../functions/ParseSchema";
 import { decode } from "../../functions/Encode";
 import { useAuth } from "./AuthContext";
 import { useTournament } from "./TournamentContext";
@@ -14,7 +14,7 @@ export const usePlayer = () => useContext(PlayerContext);
 
 export const PlayerProvider = ({ children }) => {
     const { meta } = useAuth();
-    const { golfers, tournament } = useTournament();
+    const { golfers } = useTournament();
 
     // * * * * *  internal varaiables used to calculate stuff * * * * * //
     const [u, setU] = useState(undefined);
@@ -27,9 +27,11 @@ export const PlayerProvider = ({ children }) => {
 
     const [bet, setBet] = useState(undefined);
 
+    const [preload, setPreload] = useState(false);
+
     // * * * * * integers representing selections * * * * *  //
-    const [players, setPlayers] = useState(null);
-    const [alternates, setAlternates] = useState(null);
+    const [players, setPlayers] = useState(undefined);
+    const [alternates, setAlternates] = useState(undefined);
 
     // * * * * *  database objects  * * * * * //
     const [tour, setTour] = useState(undefined);
@@ -78,19 +80,19 @@ export const PlayerProvider = ({ children }) => {
             return;
         }
         //e for extant
-        const { data: x, error: xErr } = await supabase.from("masters_opponents_e").select().eq("a", u?.id).eq("b", t?.id).eq("tournament_id", tour?.id).limit(1);
+        const { data: x, error: xErr } = await supabase
+            .from("masters_opponents_e")
+            .select()
+            .or(`and(a.eq.${t.id}, b.eq.${u.id}), and(b.eq.${t.id}, a.eq.${u.id})`)
+            .eq("tournament_id", tour?.id)
+            .limit(1)
+            .single();
 
-        if (!xErr && x.length) {
-            setUbet(x[0].ac);
-            setTbet(x[0].bc);
+        if (!xErr && x) {
+            setUbet(u.id === x.a ? x.ac : x.bc);
+            setTbet(t.id === x.a ? x.ac : x.bc);
         } else if (xErr) {
             return;
-        } else if (!x.length) {
-            const { data: y, error: yErr } = await supabase.from("masters_opponents_e").select().eq("a", t?.id).eq("b", u?.id).eq("tournament_id", tour?.id).limit(1);
-            if (!yErr && y.length) {
-                setUbet(y[0].ac);
-                setTbet(y[0].bc);
-            }
         }
     };
 
@@ -158,24 +160,28 @@ export const PlayerProvider = ({ children }) => {
      */
 
     const getRosters = async () => {
-        if (golfers && bet && bet.players && bet.alternates) {
+        if (!bet || !golfers) {
+            return;
+        }
+        //starter loading
+        if (!bet.players) {
+            setPlayers([undefined, undefined, undefined, undefined]);
+        } else {
             const ps = [];
             partition(bet.players).map((id) => {
                 ps.push(golferViaIndex(id, golfers));
             });
             setPlayers(ps);
+        }
+        //alternate loading
+        if (!bet.alternates) {
+            setAlternates([undefined, undefined, undefined, undefined]);
+        } else {
             const as = [];
             partition(bet.alternates).map((id) => {
                 as.push(golferViaIndex(id, golfers));
             });
             setAlternates(as);
-        }
-        if (golfers && bet && bet.players) {
-            const ps = [];
-            partition(bet.players).map((id) => {
-                ps.push(golferViaIndex(id, golfers));
-            });
-            setPlayers(ps);
         }
     };
 
@@ -183,31 +189,33 @@ export const PlayerProvider = ({ children }) => {
         getRosters();
     }, [golfers, bet]);
 
-    const getBet = async () => {
-        if (!mode) {
-            return;
-        }
-        if (mode === "Opponent") {
-            if (!u?.id || !t?.id || !tour?.id) {
-                return;
-            }
-            const { data: bet, error: err } = await supabase.from("masters_opponents").select().eq("public_id", u.id).eq("oppie", t.id).eq("tournament_id", tour.id);
-            if (!err && bet.length) {
-                setBet(bet[0]);
-                if (bet[0].players && bet[0].alternates) {
-                    setPlayers(bet[0].players);
-                    setAlternates(bet[0].alternates);
+    const getBet = async (modeString, thirdPartyID, urID, tourID) => {
+        if (modeString === "Opponent") {
+            const { data: bet, error: err } = await supabase.from("masters_opponents").select().eq("public_id", urID).eq("oppie", thirdPartyID).eq("tournament_id", tourID).single();
+            if (!err) {
+                setBet(bet);
+                if (bet.players && bet.alternates) {
+                    setPlayers(bet.players);
+                    setAlternates(bet.alternates);
                 }
+            } else if (err.code === "PGRST116") {
+                const { error: insertError } = await supabase.from("masters_opponents").insert({
+                    oppie: decode(oppID),
+                    public_id: meta.id,
+                    tournament_id: tour.id,
+                });
+                if (insertError) {
+                    router.push(`/pga/${router.query.tournament}/place`);
+                }
+            } else if (typeof window !== "undefined" && router) {
+                router.push(`/pga/${router.query.tournament}/place`);
             }
-        } else if (mode === "League") {
-            if (!g?.groupID || !u?.id || !tour?.id) {
-                return;
-            }
-            const { data: bet, error: err } = await supabase.from("masters_league").select().eq("public_id", u.id).eq("league_id", g.groupID).eq("tournament_id", tour.id);
-            if (!err && bet.length) {
-                setBet(bet[0]);
-                if (bet[0].players && bet[0].alternates) {
-                    setPlayers(bet[0].players);
+        } else if (modeString === "League") {
+            const { data: bet, error: err } = await supabase.from("masters_league").select().eq("public_id", urID).eq("league_id", thirdPartyID).eq("tournament_id", tourID).single();
+            if (!err) {
+                setBet(bet);
+                if (bet.players) {
+                    setPlayers(bet.players);
                     setUbet(true);
                 }
             }
@@ -215,14 +223,19 @@ export const PlayerProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        getBet();
+        if (mode && (mode === "Opponent" ? t?.id : g?.groupID) && u?.id && tour?.id) {
+            let isPopulatedYet = mode === "League" ? Boolean(players && alternates) : Boolean(players);
+            if (!isPopulatedYet) {
+                getBet(mode, mode === "Opponent" ? t.id : g.groupID, u.id, tour.id);
+            }
+        }
     }, [u, t, tour, mode]);
 
     const getMode = (str) => {
-        if (str.charAt() === "@") {
+        if (str.charAt(0) === "@") {
             return "Opponent";
         }
-        if (str.charAt() === "$") {
+        if (str.charAt(0) === "$") {
             return "League";
         }
     };
@@ -230,7 +243,8 @@ export const PlayerProvider = ({ children }) => {
     useEffect(() => {
         if (router?.query?.enc) {
             setMode(getMode(router.query.enc));
+            setPreload(true);
         }
     }, [router]);
-    return <PlayerContext.Provider value={{ tour, u, t, g, tbet, ubet, bet, players, alternates, mode }}>{children}</PlayerContext.Provider>;
+    return <PlayerContext.Provider value={{ tour, u, t, g, tbet, ubet, bet, players, alternates, mode, preload }}>{children}</PlayerContext.Provider>;
 };

@@ -114,6 +114,7 @@ a .opponent.link .username {
     margin-left: 6px;
     border: 1px solid var(--table-border);
     color: var(--text-color);
+    min-width: 37px;
 }
 
 .one-on-one-bet {

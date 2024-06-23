@@ -31,7 +31,6 @@ export const TourProvider = ({ children }) => {
         if (tournament) {
             const { data, error } = await getGolfers(tournament);
             if (!error) {
-                //console.log('setting Golfers literally right now');
                 setGolfers(data);
             } else {
             }
