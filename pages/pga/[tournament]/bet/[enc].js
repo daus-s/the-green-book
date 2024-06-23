@@ -8,7 +8,7 @@ export default function MasterBet() {
 
     return (
         <div className="golf-bet page">
-            <a className="return" href={"/pga/" + tour?.extension} style={{ height: "18px" }}>
+            <a className="return" href={"/pga/" + tour?.extension}>
                 {"<"} Return to tournament dashboard
             </a>
             <MastersPlaceBetForm />
