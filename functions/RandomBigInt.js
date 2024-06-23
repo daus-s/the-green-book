@@ -29,6 +29,7 @@ function coerce(i1, i2, i3, i4) {
     let d = i4;
     return a | b | c | d;
 }
+
 /**
  * returns the partitioned number in 32 bits as 4 numbers between [0,255]
  *     bi ________|________|________|________
@@ -38,6 +39,9 @@ function coerce(i1, i2, i3, i4) {
  * @return {list[number]}
  */
 function partition(bi) {
+    if (bi === null) {
+        return [null, null, null, null];
+    }
     const a = (bi & 0xff000000) >>> 24;
     const b = (bi & 0x00ff0000) >>> 16;
     const c = (bi & 0x0000ff00) >>> 8;

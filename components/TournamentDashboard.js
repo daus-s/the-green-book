@@ -17,6 +17,7 @@ import { TournamentWidget } from "./MastersBetPlaceForm";
 import { splitnSort } from "../functions/AllButThisJSON";
 import Live from "./Live";
 import SignInToPlace from "./SigninToPlace";
+import Image from "next/image";
 
 export default function TournamentDashboard() {
     const [leagueBets, setLeagueBets] = useState(undefined);
@@ -33,9 +34,44 @@ export default function TournamentDashboard() {
     };
 
     const getYour1v1Bets = async () => {
-        const { data, error } = await supabase.from("masters_opponents").select().eq("public_id", meta.id).eq("tournament_id", tournament.id);
-        if (!error && data) {
-            setGentleBets(data);
+        if (!meta.id) {
+            return;
+        }
+        /* amalgomation  */
+        const combined = [];
+        const { data, error: e1 } = await supabase.from("masters_opponents").select().eq("public_id", meta.id).eq("tournament_id", tournament.id);
+        if (!e1) {
+            combined.push(...data);
+        }
+
+        const { data: exists, error: e2 } = await supabase.from("masters_opponents_e").select().or(`a.eq.${meta.id}, b.eq.${meta.id}`).eq("tournament_id", tournament.id);
+
+        if (!e2 && !e1) {
+            let hasCorrespondingBet = false;
+
+            //data ⊆ exists
+            for (const m of exists) {
+                hasCorrespondingBet = false;
+                //hand writing the 'in' operator
+                for (const bet of data) {
+                    if (((bet.public_id === m.a && bet.oppie === m.b) || (bet.public_id === m.b && bet.oppie === m.a)) && bet.tournament_id === m.tournament_id) {
+                        hasCorrespondingBet = true;
+                    }
+                    break;
+                }
+
+                let opp = m.a === meta.id ? m.b : m.a;
+                if (!hasCorrespondingBet) {
+                    combined.push({
+                        public_id: meta.id,
+                        oppie: opp,
+                        tournament_id: tournament.id,
+                        players: null,
+                        alternates: null,
+                    });
+                }
+            }
+            setGentleBets(combined);
         }
     };
 
@@ -146,10 +182,18 @@ function BetLink({ bet, tourney }) {
                         // imean what am i gonna do throw an error to the user? nah we pretend it cant load
                         setAnti(data);
                     }
-                    const { data: opp, error: e1 } = await supabase.from("masters_opponents").select().eq("oppie", bet.public_id).eq("public_id", bet.oppie).single();
+                    if (error) {
+                        return;
+                    }
+                    const { data: opp, error: e1 } = await supabase
+                        .from("masters_opponents")
+                        .select()
+                        .eq("oppie", bet.public_id)
+                        .eq("public_id", bet.oppie)
+                        .eq("tournament_id", tournament.id)
+                        .single();
                     if (!e1) {
                         const data2 = bet?.oppie ? determineOrderAndEvaluate(bet, opp) : undefined;
-                        // console.log('teams from src = ', data2);
                         if (data2) {
                             setTeams(data2);
                         }
@@ -162,8 +206,12 @@ function BetLink({ bet, tourney }) {
                     if (league) {
                         setAnti(league);
                     }
-                    const { data: brackets, error: bracketError } = await supabase.from("masters_league").select().eq("league_id", bet.league_id);
-                    // console.log(brackets?brackets:bracketError);
+                    const { data: brackets, error: bracketError } = await supabase
+                        .from("masters_league")
+                        .select()
+                        .eq("public_id", meta?.id)
+                        .eq("league_id", bet.league_id)
+                        .eq("tournament_id", tournament.id);
                     if (brackets) {
                         setTeams(brackets);
                     }
@@ -172,27 +220,34 @@ function BetLink({ bet, tourney }) {
         };
         getData();
     }, []);
-    let comp = undefined;
 
-    if (bet.oppie) {
+    let comp = undefined;
+    if (bet.oppie && teams) {
         comp = (
             <Link href={link.replace("%s", tournament.extension).replace("%s", ext)}>
                 <div className="one-on-one-bet">
                     <div className="score">
                         You: {teams?.opp ? <></> : <span className="asterisk">*</span>}
+                        {teams.user ? (
+                            <></>
+                        ) : (
+                            <div className="waiting-image" style={{ position: "absolute", top: "0px", right: "60px", filter: "brightness(62%)" }}>
+                                <Image src={"/clock.png"} height={30} width={30} alt="waiting" />
+                            </div>
+                        )}
                         <span
                             className="score-box"
                             title={teams?.opp ? "" : "Projected based on your first team selections"}
-                            style={{ backgroundColor: goodnessStr(teams ? getTeamScore(coerce(...teams.user), tourney, tournament.par ? tournament.par : 72) / 4 : 0) }}
+                            style={{ backgroundColor: goodnessStr(teams.user ? getTeamScore(coerce(...teams.user), tourney, tournament.par ? tournament.par : 72) / 4 : 0) }}
                         >
-                            {teams ? getTeamScore(coerce(...teams.user), tourney, tournament.par ? tournament.par : 72) : "-"}
+                            {teams.user ? getTeamScore(coerce(...teams.user), tourney, tournament.par ? tournament.par : 72) : "-"}
                         </span>
                     </div>
                     {teams?.opp ? (
                         <div className="score">
                             Opponent:{" "}
-                            <span className="score-box" style={{ backgroundColor: goodnessStr(teams ? getTeamScore(coerce(...teams.opp), tourney, tournament.par ? tournament.par : 72) / 4 : 0) }}>
-                                {teams ? getTeamScore(coerce(...teams.opp), tourney, tournament.par ? tournament.par : 72) : "-"}
+                            <span className="score-box" style={{ backgroundColor: goodnessStr(teams.opp ? getTeamScore(coerce(...teams.opp), tourney, tournament.par ? tournament.par : 72) / 4 : 0) }}>
+                                {teams.opp ? getTeamScore(coerce(...teams.opp), tourney, tournament.par ? tournament.par : 72) : "-"}
                             </span>
                         </div>
                     ) : (
@@ -212,7 +267,7 @@ function BetLink({ bet, tourney }) {
                 </div>
             </Link>
         );
-    } else if (bet.league_id) {
+    } else if (bet.league_id && teams) {
         //we return a league bet link
         const position = getPosition(meta.id, teams ? teams : [], tourney, tournament ? tournament.par : 72);
         comp = (
@@ -240,8 +295,6 @@ function BetLink({ bet, tourney }) {
     }
     if (comp) {
         return <div className="container-for-league-or-oppie">{comp}</div>;
-    } else {
-        throw Error("failed to create a component");
     }
 }
 

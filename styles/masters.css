@@ -67,6 +67,8 @@
     grid-template-rows: repeat(5, 1fr);
     margin: auto;
     width: fit-content;
+    height: 795px;
+    width: 1580px;
   }
 
   .masters-place-bet-form .pick-box {
