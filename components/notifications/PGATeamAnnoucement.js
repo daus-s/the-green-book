@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTournament } from "../providers/TournamentContext";
 
 import { golferViaIndex } from "../../functions/GolfFunctions";
@@ -9,7 +9,6 @@ import { encode } from "../../functions/Encode";
 import Link from "next/link";
 import Image from "next/image";
 import Loading from "../Loading";
-import { usePlayer } from "../providers/PlayerContext";
 
 //use notification.optional;
 
