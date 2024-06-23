@@ -248,7 +248,6 @@ export default function MastersPlaceBetForm({}) {
                     }
                 }
                 setGroups(stack);
-                console.log();
             } else {
                 setGroups([]);
             }
@@ -474,7 +473,6 @@ export default function MastersPlaceBetForm({}) {
     };
 
     //${2*height(width)+80+96+55}px
-    console.log("rendering a MPBF");
     return (
         <div className="masters-place-bet-form">
             <div className="pick-box">

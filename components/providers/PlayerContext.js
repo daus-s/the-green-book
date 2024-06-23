@@ -88,10 +88,6 @@ export const PlayerProvider = ({ children }) => {
             .limit(1)
             .single();
 
-        console.log(x);
-        console.log(u.id === x.a);
-        console.log(u.id === x.a ? x.ac : x.bc);
-        console.log(t.id === x.a ? x.ac : x.bc);
         if (!xErr && x) {
             setUbet(u.id === x.a ? x.ac : x.bc);
             setTbet(t.id === x.a ? x.ac : x.bc);

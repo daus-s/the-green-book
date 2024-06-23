@@ -212,7 +212,6 @@ function BetLink({ bet, tourney }) {
                         .eq("public_id", meta?.id)
                         .eq("league_id", bet.league_id)
                         .eq("tournament_id", tournament.id);
-                    // console.log(brackets?brackets:bracketError);
                     if (brackets) {
                         setTeams(brackets);
                     }
