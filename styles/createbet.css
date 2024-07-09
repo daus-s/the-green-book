@@ -323,3 +323,120 @@ input[type="radio"] {
 .redirect-to-new-group a:hover {
     color: var(--cta-button-hover-bg-color);
 }
+
+.create.bet button {
+    background-color: transparent;
+    border: none;
+}
+
+.create.bet .over-under {
+    font-family: Roboto,arial,sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 1px;
+    color: var(--icon-color);
+}
+
+.create.bet .button-nav {
+    border-top: 1px solid var(--table-border);
+    padding: 14px 00px 10px 0px;
+    width: calc(100% - 32px);
+    margin: 0 auto;
+}
+
+.create.bet .radio-type-container * {
+    margin-right: 0px;
+}
+
+
+.create.bet .radio-type-container {
+    height: fit-content;
+}
+
+
+.create.bet textarea {
+    background-color: transparent;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    color: var(--input-text);
+    width: calc(100% - 32px);
+    height: 3em;
+    font-family: "Arial", sans-serif;
+    max-width: calc(100% - 32px);
+    min-width: calc(100% - 32px);
+    min-height: 3em;
+
+
+}
+
+.highlightable label  {
+    padding: 6px;
+    border-radius: 20px;
+    height: 40px;
+    width: 40px;
+}
+
+.highlightable button:hover, .highlightable label:hover {
+    background-color: var(--soft-highlight);
+}
+
+.highlightable.submit img:hover {
+    background-color: var(--soft-highlight);
+}
+
+.highlightable.submit img {
+    padding: 4px;
+    border-radius: 20px;
+    height: 40px;
+    width: 40px;
+}
+
+input.line, label {
+    background-color: transparent;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    color: var(--unimportant-text);
+    margin-right: 5px;
+}
+
+input.line {
+    font-size: 28px;
+}
+
+input.option {
+    background-color: transparent;
+    border: none;
+    outline: 1px solid var(--manifest);
+    border-radius: 4px;
+}
+
+input.option:focus {
+    outline: 2px solid var(--button-hover);
+
+}
+
+.highlight-button:hover {
+    background-color: var(--green-lantern);
+    border-radius: 50%;
+}
+
+input.option {
+    padding: 13px 3px 0px 3px;
+    padding-left: 6px;
+    line-height: 34px;
+}
+
+.option .placeholder {
+    height: 100%; 
+    margin-left: 6px; 
+    color: var(--unimportant-text); 
+    left: 0; 
+    line-height: 34px;
+}
+
+.option .placeholder.filled { 
+    top: -11px;
+    font-size: 11px;
+} 

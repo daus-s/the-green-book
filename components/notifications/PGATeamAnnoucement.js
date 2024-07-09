@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useTournament } from "../providers/TournamentContext";
 
 import { golferViaIndex } from "../../functions/GolfFunctions";
 import { partition, warn } from "../../functions/RandomBigInt";
@@ -9,14 +8,17 @@ import { encode } from "../../functions/Encode";
 import Link from "next/link";
 import Image from "next/image";
 import Loading from "../Loading";
+import { getGolfers } from "../../functions/GetGolfers";
 
 //use notification.optional;
 
 export default function PGATeamAnnouncement({ notification, locallyViewed, setLocallyViewed }) {
-    const { golfers, tournament, setOptional } = useTournament();
     const [mode, setMode] = useState(undefined);
     const [tps, setTPS] = useState(undefined);
     const team = partition(notification.value);
+
+    const [golfers, setGolfers] = useState(undefined);
+    const [tournament, setTournament] = useState(undefined);
 
     const getOptions = async () => {
         const { data, error } = await supabase.from("notification_options").select("options").eq("id", notification.id).single(); // i think its fine, may need to be changed to rpc
@@ -25,24 +27,32 @@ export default function PGATeamAnnouncement({ notification, locallyViewed, setLo
             if (typeof value === "undefined") {
                 throw new Error("created an unbalanced notification. how and why?");
             }
-            warn(data.options);
-            const tid = Number((value & 0x0000ffff00000000n) >> 32n);
-            setOptional(tid);
-            console.log("tournament:", tid);
 
-            const mode = Number((value >> 48n) & 0xffffn);
-            setMode(mode);
-            console.log("mode:", mode);
+            const tournamentID = Number((value & 0x0000ffff00000000n) >> 32n);
+            const { data: tournament_h, error: tournament_e } = await supabase.from("tournaments").select().eq("id", tournamentID).single();
+            if (tournament_e) {
+                throw new Error("invalid tournament identifier");
+            }
+            setTournament(tournament_h);
+            const { data: golfers, error: failedToLoadGolfers } = await getGolfers(tournament_h);
+            if (failedToLoadGolfers) {
+                throw new Error(`golfers were unable to be loaded.\nperhaps your params were invalid\nError: ${failedToLoadGolfers}`);
+            }
+            setGolfers(golfers);
+
+            const temp = Number((value >> 48n) & 0xffffn);
+            setMode(temp);
 
             const id = Number(value & 0x00000000ffffffffn);
             const { data: thirdPartyData, error: thirdPartyError } = await supabase
-                .from(mode ? "groups" : "public_users")
+                .from(temp ? "groups" : "public_users")
                 .select()
-                .eq(mode ? "groupID" : "id", id)
+                .eq(temp ? "groupID" : "id", id)
                 .single();
             if (!thirdPartyError) {
                 setTPS(thirdPartyData);
-                console.log("group:", encode(id));
+            } else {
+                throw new Error("third party identifier failed");
             }
         }
         if (error) {
@@ -54,8 +64,7 @@ export default function PGATeamAnnouncement({ notification, locallyViewed, setLo
         getOptions();
     }, []);
 
-    if (golfers && tournament && team && team.length === 4 && tps && (mode === 1 || mode === 0)) {
-        console.log(tps);
+    if (golfers && tournament && team && team.length === 4 && tps && mode in [0, 1]) {
         if (mode) {
             //league
             return (

@@ -52,8 +52,10 @@ function partition(bi) {
 function warn(x) {
     if (Number.isSafeInteger(x)) {
         console.warn("Precision safe.");
+        return 1;
     }
     console.warn("Precision may be lost!");
+    return 0;
 }
 
 module.exports = { random, coerce, partition, warn };

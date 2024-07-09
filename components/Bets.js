@@ -8,6 +8,7 @@ import { supabase } from "../functions/SupabaseClient";
 import Link from "next/link";
 import Loading from "./Loading";
 import PGAAd from "./PGAAdBet";
+import CreateBetIcon from "./CreateBetIcon";
 
 function bet(b) {
     if (b.mode == "ou") return <OverUnderBet bet={b} key={b.betID} />;
@@ -57,6 +58,7 @@ export default function Bets() {
                 <Loading />
             ) : bets.length ? (
                 <>
+                    <CreateBetIcon />
                     <PGAAd />
                     {bets.map((b) => {
                         return bet(b);

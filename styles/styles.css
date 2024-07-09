@@ -85,13 +85,14 @@ body {
   --table-bg-red: #281414;
   --error-color: #8e1717;
   --danger: #ba1d24;
-  --danger-faded: rgb(186, 29, 36, .2);
+  --danger-faded: rgba(186, 29, 36, .2);
   --delete-button: #cd0e31;
   --delete-button-hover: #dd1035;
   --dark-red-highlight: ;
   --dark-green-highlight: ;
   --overlay: rgba(12,12,12,.5);
   --almost-opaque: rgba(51,51,51,.75);
+  --green-lantern: rgba(76, 175, 80, .22);
   --rotation-time: 1s;
   --fancy: #c0de31;
   --masters-gold: #f6e200;

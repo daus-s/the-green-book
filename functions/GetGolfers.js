@@ -13,7 +13,13 @@ async function getGolfers(tournament) {
     console.log('tournament:', d ); 
     */
     if (!tournament || !tournament?.mongodb_endpoint || !tournament.mongodb_endpoint?.year || !tournament.mongodb_endpoint?.tournament) {
-        return { data: undefined, error: "Malformed tournament object" };
+        return {
+            data: undefined,
+            error:
+                "Malformed tournament object:\n" +
+                JSON.stringify(tournament) +
+                `\nhighly_verbose:\n  • mongodb_endpoint: ${tournament?.mongodb_endpoint}\n  • tournament: ${tournament?.mongodb_endpoint?.year}\n  • tournament: ${tournament?.mongodb_endpoint?.tournament}`,
+        };
     }
     const query = `?year=${tournament.mongodb_endpoint.year}&tournament=${tournament.mongodb_endpoint.tournament}`;
     try {
