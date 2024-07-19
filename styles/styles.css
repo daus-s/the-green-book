@@ -93,6 +93,7 @@ body {
   --overlay: rgba(12,12,12,.5);
   --almost-opaque: rgba(51,51,51,.75);
   --green-lantern: rgba(76, 175, 80, .22);
+  --rose-tinted-glasses: rgba(205,14,49, .22);
   --rotation-time: 1s;
   --fancy: #c0de31;
   --masters-gold: #f6e200;

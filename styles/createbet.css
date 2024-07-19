@@ -371,14 +371,21 @@ input[type="radio"] {
 }
 
 .highlightable label  {
-    padding: 6px;
-    border-radius: 20px;
-    height: 40px;
-    width: 40px;
+    padding: 3px;
+    border-radius: 23px;
+    height: 46px;
+    width: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.highlightable input[type="radio"]:checked + label {
+    background-color: var(--soft-highlight);    
 }
 
 .highlightable button:hover, .highlightable label:hover {
-    background-color: var(--soft-highlight);
+    background-color: var(--manifest) !important;
 }
 
 .highlightable.submit img:hover {
@@ -422,6 +429,16 @@ input.option:focus {
     border-radius: 50%;
 }
 
+.highlight-button.delete {
+    filter: brightness(0);
+}
+
+.highlight-button.delete:hover {
+    border-radius: 50%;
+    filter: brightness(89%);
+    background-color: var(--rose-tinted-glasses);
+}
+
 input.option {
     padding: 13px 3px 0px 3px;
     padding-left: 6px;
@@ -440,3 +457,20 @@ input.option {
     top: -11px;
     font-size: 11px;
 } 
+
+.input.filled input.option {
+    padding-bottom: 0px;
+}
+
+.input input.option {
+    padding-bottom: 8px;
+}
+
+.option div button {
+    width: 24px;
+    height: 24px;
+}
+
+.line-box {
+    width: 280px;
+}

@@ -62,6 +62,7 @@ function Attributions() {
             <Attribution src="settings.png" href="https://www.flaticon.com/free-icons/settings" desc="Settings icons created by logisstudio - Flaticon" />
             <Attribution src="poll.png" href="https://www.flaticon.com/free-icons/poll" desc="Poll icons created by Md Tanvirul Haque - Flaticon" />
             <Attribution src="plus.png" href="https://www.flaticon.com/free-icons/plus-button" desc="Plus button icons created by Syahrul Hidayatullah - Flaticon" />
+            <Attribution src="delete.png" href="https://www.flaticon.com/free-icons/trash-can" desc="Trash can icons created by Anggara - Flaticon" />
         </div>
     );
 }

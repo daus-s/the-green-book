@@ -1,0 +1,12 @@
+select {
+    background-color: var(--input-background);
+    appearance: none;
+    padding: 0px 4px;
+    font-size: 24px;
+    color: var(--bright-text);
+
+}
+
+select option {
+    color: var(--bright-text);
+}

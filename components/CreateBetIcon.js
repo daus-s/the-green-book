@@ -1,38 +1,62 @@
 import Image from "next/image";
 import { useModal } from "./providers/ModalContext";
 import { useAuth } from "./providers/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
 
 export default function CreateBetIcon() {
     const [mode, setMode] = useState("options");
     const [line, setLine] = useState("");
+    const [group, setGroup] = useState(null);
     const [content, setContent] = useState("");
     const [options, setOptions] = useState(["", ""]);
 
     const { failed, succeed } = useModal();
     const { meta } = useAuth();
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         const isValidLine = (x) => {
             if (x % 1 === 0.5) {
                 setVal(f);
             }
         };
-
+        const gid = parseInt(group);
         const betJson = {
             creator: meta.id,
+            g: group ? gid : null,
+            public: group ? false : true,
+            open: true,
+            content: content,
+            line: mode === "over_under" ? line : null,
         };
+        console.log(betJson);
         const { error } = await supabase.from("bets2").insert(betJson);
-        error ? failed() : succeed();
+
+        error
+            ? failed()
+            : () => {
+                  succeed();
+                  clearForm();
+              };
+    };
+
+    const clearForm = () => {
+        setLine("");
+        setGroup(null);
+        setContent("");
+        setOptions(["", ""]);
     };
 
     return (
         <div className="create bet">
             <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Start a bet" />
             <form className="form" onSubmit={handleSubmit}>
-                <Line val={line} setVal={setLine} mode={mode} />
-                <Options options={options} setOptions={setOptions} mode={mode} />
+                <div style={{ display: "flex", justifyContent: "space-between", marginRight: "20px" }}>
+                    <Line val={line} setVal={setLine} mode={mode} />
+                    <Options options={options} setOptions={setOptions} mode={mode} />
+                    <GroupSelector setGroup={setGroup} />
+                </div>
                 <div className="button-nav" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <ModeRadio mode={mode} setMode={setMode} />
                     <button type="submit" className="submit highlightable">
@@ -44,26 +68,21 @@ export default function CreateBetIcon() {
     );
 }
 
-function Option({ final, addOption, removeOption, index }) {
+function Option({ final, addOption, removeOption, index, onChange, value }) {
     if (typeof addOption !== "function" || typeof removeOption !== "function") {
         throw new Error("cannot create a button without a function");
     }
-    const [data, setData] = useState("");
 
-    const filled = Boolean(data.length);
+    const filled = Boolean(value.length);
     return (
         <div className="option" style={{ width: "fit-content", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-            <div style={{ display: "flex", flexDirection: "row", height: "38px", alignItems: "center", width: "276px" }}>
+            <div style={{ display: "flex", flexDirection: "row", height: "38px", alignItems: "center", width: "280px" }}>
                 <div className={"input" + (filled ? " filled" : "")} style={{ position: "relative" }}>
-                    <input
-                        className="option"
-                        value={data}
-                        onChange={(e) => setData(e.target.value)}
-                        style={{ height: "34px", fontSize: "18px", color: "var(--input-text)", paddingBottom: "0px", verticalAlign: "bottom" }}
-                    />
+                    <input className="option" value={value} onChange={onChange} style={{ height: "34px", fontSize: "18px", color: "var(--input-text)", verticalAlign: "bottom" }} />
                     <div className="placeholder">Option {index + 1}</div>
                 </div>
-                {index ? (
+                <Spacer />
+                {(index && index - 1) || true ? (
                     <button
                         style={{ padding: 0 }}
                         onClick={(e) => {
@@ -71,7 +90,7 @@ function Option({ final, addOption, removeOption, index }) {
                             removeOption();
                         }}
                     >
-                        <Image className="highlight-button" src="/remove.png" alt="Add option." height={16} width={16} style={{ marginLeft: "4px" }} />
+                        <Image className="delete highlight-button" src="/delete.png" alt="Add option." height={24} width={24} style={{ padding: "2px" }} />
                     </button>
                 ) : (
                     <></>
@@ -84,7 +103,7 @@ function Option({ final, addOption, removeOption, index }) {
                             addOption();
                         }}
                     >
-                        <Image className="highlight-button" src="/plus.png" alt="Add option." height={20} width={20} style={{ marginLeft: "4px" }} />
+                        <Image className="highlight-button" src="/plus.png" alt="Add option." height={24} width={24} style={{ padding: "2px" }} />
                     </button>
                 ) : (
                     <div style={{ width: "20px", marginLeft: "4px" }} />
@@ -105,11 +124,17 @@ function Options({ options, setOptions, mode }) {
     };
 
     const removeViaIndex = (index) => {
-        const shallow = [...options];
-        shallow.remove(1);
-        if (shallow.length > 2 && index < remove.length - 1) {
-            setOptions(shallow);
+        const removed = [...options];
+        if (removed.length > 2 && index > 0 && index < removed.length) {
+            removed.splice(index, 1);
+            setOptions(removed);
         }
+    };
+
+    const alter = (value, index) => {
+        const updated = [...options];
+        updated[index] = value;
+        setOptions(updated);
     };
 
     if (mode === "options") {
@@ -117,7 +142,10 @@ function Options({ options, setOptions, mode }) {
             <div className="options-container" style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "fit-content", margin: "0px 0px 5px 20px" }}>
                 {options.map((val, index) => {
                     const removeOption = () => removeViaIndex(index);
-                    return <Option key={index} val={val} index={index} final={index === options.length - 1} addOption={addOption} removeOption={removeOption} />;
+                    const onChange = (e) => alter(e.target.value, index);
+                    return (
+                        <Option key={index} val={val} index={index} final={index === options.length - 1} addOption={addOption} removeOption={removeOption} value={options[index]} onChange={onChange} />
+                    );
                 })}
             </div>
         );
@@ -139,10 +167,10 @@ function Line({ val, setVal, mode }) {
 
     if (mode === "over_under")
         return (
-            <>
+            <div className="line-box" style={{ marginLeft: "20px", marginBottom: "5px", display: "flex", alignItems: "flex-end", justifyContent: "flex-start", height: "76px" }}>
                 <label className="line">Line</label>
                 <input className="line" value={val} onChange={(e) => handleChange(e.target.value)} placeholder="0.5" />
-            </>
+            </div>
         );
 
     return <></>;
@@ -150,32 +178,58 @@ function Line({ val, setVal, mode }) {
 //(e) => handleChange(e.target.value)
 
 function ModeRadio({ mode, setMode }) {
+    console.log(mode);
     return (
         <div className="radio-type-container highlightable" style={{ display: "flex", flexDirection: "row" }}>
-            <input
-                type="radio"
-                onChange={(e) => {
-                    e.preventDefault();
-                    setMode("options");
-                }}
-                checked={mode === "options"}
-                id="options-radio"
-            />
+            <input type="radio" onChange={() => setMode("options")} checked={mode === "options"} id="options-radio" />
             <label htmlFor="options-radio">
                 <Image src="/poll.png" alt="Poll radio." height={32} width={32} />
             </label>
 
-            <input
-                className="over-under"
-                type="radio"
-                onChange={(e) => {
-                    e.preventDefault();
-                    setMode("over_under");
-                }}
-                checked={mode === "over_under"}
-                id="over-under-radio"
-            />
+            <input className="over-under" type="radio" onChange={() => setMode("over_under")} checked={mode === "over_under"} id="over-under-radio" />
             <label htmlFor="over-under-radio">O/U</label>
         </div>
     );
+}
+
+//if group is null it should be a public bet
+function GroupSelector({ setGroup }) {
+    const { meta } = useAuth();
+    const [groups, setGroups] = useState(undefined);
+    const getGroups = async () => {
+        const { data, error } = await supabase.from("groups").select("*, user_groups (*)").eq("user_groups.userID", meta.id);
+        if (error) {
+            return;
+        }
+        setGroups(data);
+    };
+    useEffect(() => {
+        if (meta.id) getGroups();
+    }, [meta]);
+
+    const changeWrapper = (e) => {
+        e.preventDefault();
+        console.log(e.target.value);
+        setGroup(e.target.value);
+    };
+
+    return (
+        <div className="group-selector" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+            <select style={{ width: "180px", height: "1.5em" }} onChange={changeWrapper}>
+                <option key={-1} value={null}></option>
+                {groups?.map((group, index) => {
+                    return (
+                        <option key={index} value={group.groupID}>
+                            {group.groupName}
+                        </option>
+                    );
+                })}
+            </select>
+            <label style={{ fontWeight: "normal", fontSize: "16px" }}>Group</label>
+        </div>
+    );
+}
+
+function Spacer() {
+    return <div className="spacer" style={{ height: "100%", width: "4px" }} />;
 }
