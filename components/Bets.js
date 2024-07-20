@@ -9,8 +9,11 @@ import Link from "next/link";
 import Loading from "./Loading";
 import PGAAd from "./PGAAdBet";
 import CreateBetIcon from "./CreateBetIcon";
+import { useBets } from "./providers/BetProvider";
+import Bet from "./Bet2";
 
 function bet(b) {
+// sourcery skip: use-braces
     if (b.mode == "ou") return <OverUnderBet bet={b} key={b.betID} />;
     if (b.mode == "ml") return <MoneyLineBet bet={b} key={b.betID} />;
     if (b.mode == "op") return <OptionsBet bet={b} key={b.betID} />;
@@ -20,6 +23,8 @@ export default function Bets() {
     const [loading, setLoading] = useState(true);
     const { user, session } = useAuth();
     const { isMobile } = useMobile();
+
+    const { bets: bets2 } = useBets();
 
     const [bets, setBets] = useState([]);
 
@@ -56,12 +61,15 @@ export default function Bets() {
         <div className="bets page">
             {loading ? (
                 <Loading />
-            ) : bets.length ? (
+            ) : bets.length + bets2?.length ? (
                 <>
                     <CreateBetIcon />
                     <PGAAd />
                     {bets.map((b) => {
                         return bet(b);
+                    })}
+                    {bets2.map((b) => {
+                        return <Bet bet={b} />;
                     })}
                 </>
             ) : (

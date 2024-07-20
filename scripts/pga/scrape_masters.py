@@ -332,8 +332,8 @@ def delete_mongo(year: int, tournament: str):
     and thus it prints the same {1,3} prints as {1, 3}
     '''
     query: dict = {"year": {"$eq": year},
-                   "tournament": {"$eq": tournament}
-                   } 
+                    "tournament": {"$eq": tournament}
+                    } 
     table: Collection = connect_mongo()
     table.delete_many(query)
 
