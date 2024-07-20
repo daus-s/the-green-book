@@ -4,7 +4,7 @@ node_modules/
 build/
 # python enviroment
 scripts/.mypy_cache
-scripts/__pycache__
+scripts/*__pycache__
 myenv/
 venv/
 
