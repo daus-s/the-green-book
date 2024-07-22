@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useMobile } from "./providers/MobileContext.js";
 
 export default function Wallet() {
-    const { user, session } = useAuth();
+    const { user } = useAuth();
     const { width, height, isMobile } = useMobile();
 
     const [balance, setBalance] = useState(0);
@@ -14,11 +14,11 @@ export default function Wallet() {
 
     useEffect(() => {
         async function fetchWallet() {
-            if (user && session) {
+            if (user) {
                 try {
                     const { data, error } = await supabase.from("user_balances").select("balance").eq("userID", user.id).single();
                     if (data) {
-                        setBalance(data[0].balance);
+                        setBalance(data.balance);
                         setLoading(false);
                     }
                 } catch (error) {
@@ -28,7 +28,7 @@ export default function Wallet() {
         }
 
         fetchWallet();
-    }, [user, session]);
+    }, [user]);
 
     return (
         <div className="wallet page" style={isMobile ? { paddingBottom: 0, overflow: "hidden" } : {}}>
