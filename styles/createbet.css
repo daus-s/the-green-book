@@ -474,3 +474,29 @@ input.option {
 .line-box {
     width: 280px;
 }
+
+.bet .options-container .option.client {
+    width: 240px;
+    position: relative;
+    height: 32px;
+    margin: 5px 20px;
+    border-radius: 50vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.options-container {
+    height: fit-content;
+}
+
+.bet .options-container .option.client .info {
+    padding: 0px 20px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}

@@ -1,0 +1,13 @@
+.ackerman {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.ackerman+* {
+    z-index: 1;
+    position: absolute;
+}
