@@ -3,6 +3,7 @@ import { useModal } from "./providers/ModalContext";
 import { useAuth } from "./providers/AuthContext";
 import { useEffect, useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
+import { optToJson } from "../functions/Bet2Ops";
 
 export default function CreateBetIcon() {
     const [mode, setMode] = useState("options");
@@ -21,6 +22,12 @@ export default function CreateBetIcon() {
                 setVal(f);
             }
         };
+
+        if (mode === "over_under" && !isValidLine(line)) {
+            //setLineErr
+            return;
+        }
+
         const gid = parseInt(group);
         const betJson = {
             creator: meta.id,
@@ -31,8 +38,21 @@ export default function CreateBetIcon() {
             line: mode === "over_under" ? line : null,
         };
         console.log(betJson);
-        const { error } = await supabase.from("bets2").insert(betJson);
-
+        const { data: bet, error } = await supabase.from("bets2").insert(betJson).select().single();
+        console.log(bet);
+        if (error) {
+            failed();
+            return;
+        }
+        let i = 0;
+        console.log(options);
+        for (const option of options) {
+            const { error: insert } = await supabase.from("options").insert(optToJson(option, bet.id, i));
+            if (insert) {
+                console.log(`failed option ${i}`);
+            }
+            i++;
+        }
         error
             ? failed()
             : () => {
@@ -52,15 +72,15 @@ export default function CreateBetIcon() {
         <div className="create bet">
             <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Start a bet" />
             <form className="form" onSubmit={handleSubmit}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginRight: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-betwe, en", marginRight: "20px" }}>
                     <Line val={line} setVal={setLine} mode={mode} />
                     <Options options={options} setOptions={setOptions} mode={mode} />
                     <GroupSelector setGroup={setGroup} />
                 </div>
                 <div className="button-nav" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <ModeRadio mode={mode} setMode={setMode} />
-                    <button type="submit" className="submit highlightable">
-                        <Image src="/accept.png" height={32} width={32} />
+                    <button type="submit" className="submit highlightable" style={{ borderRadius: "50%", overflow: "hidden" }}>
+                        <Image src="/save.png" height={24} width={24} alt="submit bet" />
                     </button>
                 </div>
             </form>
@@ -68,7 +88,7 @@ export default function CreateBetIcon() {
     );
 }
 
-function Option({ final, addOption, removeOption, index, onChange, value }) {
+function Option({ final, addOption, removeOption, index, onChange, value, length }) {
     if (typeof addOption !== "function" || typeof removeOption !== "function") {
         throw new Error("cannot create a button without a function");
     }
@@ -90,7 +110,7 @@ function Option({ final, addOption, removeOption, index, onChange, value }) {
                             removeOption();
                         }}
                     >
-                        <Image className="delete highlight-button" src="/delete.png" alt="Add option." height={24} width={24} style={{ padding: "2px" }} />
+                        <Image className={"delete highlight-button" + (length === 2 ? " disabled" : "")} src="/delete.png" alt="Add option." height={24} width={24} style={{ padding: "2px" }} />
                     </button>
                 ) : (
                     <></>
@@ -144,7 +164,17 @@ function Options({ options, setOptions, mode }) {
                     const removeOption = () => removeViaIndex(index);
                     const onChange = (e) => alter(e.target.value, index);
                     return (
-                        <Option key={index} val={val} index={index} final={index === options.length - 1} addOption={addOption} removeOption={removeOption} value={options[index]} onChange={onChange} />
+                        <Option
+                            key={index}
+                            val={val}
+                            index={index}
+                            final={index === options.length - 1}
+                            addOption={addOption}
+                            removeOption={removeOption}
+                            value={options[index]}
+                            onChange={onChange}
+                            length={options.length}
+                        />
                     );
                 })}
             </div>
@@ -167,7 +197,7 @@ function Line({ val, setVal, mode }) {
 
     if (mode === "over_under")
         return (
-            <div className="line-box" style={{ marginLeft: "20px", marginBottom: "5px", display: "flex", alignItems: "flex-end", justifyContent: "flex-start", height: "76px" }}>
+            <div className="line-box" style={{ marginLeft: "20px", marginBottom: "5px", marginRight: "auto", display: "flex", alignItems: "flex-end", justifyContent: "flex-start", height: "76px" }}>
                 <label className="line">Line</label>
                 <input className="line" value={val} onChange={(e) => handleChange(e.target.value)} placeholder="0.5" />
             </div>
@@ -178,7 +208,6 @@ function Line({ val, setVal, mode }) {
 //(e) => handleChange(e.target.value)
 
 function ModeRadio({ mode, setMode }) {
-    console.log(mode);
     return (
         <div className="radio-type-container highlightable" style={{ display: "flex", flexDirection: "row" }}>
             <input type="radio" onChange={() => setMode("options")} checked={mode === "options"} id="options-radio" />

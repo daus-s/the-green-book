@@ -392,24 +392,33 @@ input[type="radio"] {
     background-color: var(--soft-highlight);
 }
 
+.highlightable.submit {
+    padding: 0;
+}
+
 .highlightable.submit img {
-    padding: 4px;
-    border-radius: 20px;
+    margin: 8px;
     height: 40px;
     width: 40px;
 }
 
-input.line, label {
+.create.bet input.line, label {
     background-color: transparent;
     font-size: 20px;
     border: none;
     outline: none;
     color: var(--unimportant-text);
     margin-right: 5px;
+    width: auto;
+}
+
+label.line {
+    color: var(--cta-button-hover-bg-color) !important;
+    font-size: 32px !important;
 }
 
 input.line {
-    font-size: 28px;
+    font-size: 28px !important;
 }
 
 input.option {
@@ -437,6 +446,13 @@ input.option:focus {
     border-radius: 50%;
     filter: brightness(89%);
     background-color: var(--rose-tinted-glasses);
+}
+
+.highlight-button.delete.disabled:hover {
+    border-radius: 50%;
+    filter: brightness(146%) grayscale(1);
+    background-color: var(--rose-tinted-glasses);
+    cursor: not-allowed;
 }
 
 input.option {
@@ -499,4 +515,32 @@ input.option {
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
+}
+
+
+.bet .options-container .option.client:hover .ackerman {
+    filter: brightness(120%);
+}
+
+.bet .options-container .option.client.selected:hover .ackerman, .bet .options-container .option.client.not-selected:hover .ackerman {
+    filter: brightness(100%);
+}
+
+
+.bet .options-container .option.client .info .stat {
+    width: 100%;
+    text-align: right;
+}
+
+.bet .options-container .option.client.not-selected {
+    cursor: not-allowed;
+}
+
+.bet .options-container .option.client.selected {
+    cursor: pointer;
+}
+
+
+.bet .options-container .option.client .info .stat {
+    width: fit-content;
 }

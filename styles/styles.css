@@ -51,6 +51,7 @@ body {
   --placeholder: #a9a9a9;
   --unimportant-text: #aaa;
   --deactive-gray: #aaa;
+  --not-your-pick: #809a80;
   --header-color: #4caf50; /* Dark green header text color */
   --button-background: #4caf50; /* Dark green button background color */
   --button-hover: #45a049; /* Slightly darker green on hover */
@@ -60,6 +61,7 @@ body {
   --nav-link-hover-color: #45a049;
   --cta-button-bg-color: #4caf50;
   --dark-green: #117711;
+  --your-pick: #15833a;
   --cta-button-hover-bg-color: #45a049;
   --table-bg-green: #142814;
   --manifest: #777;
