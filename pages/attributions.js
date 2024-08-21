@@ -63,6 +63,8 @@ function Attributions() {
             <Attribution src="poll.png" href="https://www.flaticon.com/free-icons/poll" desc="Poll icons created by Md Tanvirul Haque - Flaticon" />
             <Attribution src="plus.png" href="https://www.flaticon.com/free-icons/plus-button" desc="Plus button icons created by Syahrul Hidayatullah - Flaticon" />
             <Attribution src="delete.png" href="https://www.flaticon.com/free-icons/trash-can" desc="Trash can icons created by Anggara - Flaticon" />
+            <Attribution src="private.png" href="https://www.flaticon.com/free-icons/privacy-policy" desc="Privacy policy icons created by Anggara - Flaticon" />
+            <Attribution src="earth.png" href="https://www.flaticon.com/free-icons/globe" desc="Globe icons created by Hilmy Abiyyu A. - Flaticon" />
         </div>
     );
 }

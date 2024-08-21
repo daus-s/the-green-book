@@ -53,12 +53,12 @@ export default function CreateBetIcon() {
             }
             i++;
         }
-        error
-            ? failed()
-            : () => {
-                  succeed();
-                  clearForm();
-              };
+        if (error) {
+            failed();
+        } else {
+            succeed();
+            clearForm();
+        }
     };
 
     const clearForm = () => {
@@ -72,7 +72,7 @@ export default function CreateBetIcon() {
         <div className="create bet">
             <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Start a bet" />
             <form className="form" onSubmit={handleSubmit}>
-                <div style={{ display: "flex", justifyContent: "space-betwe, en", marginRight: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginRight: "20px" }}>
                     <Line val={line} setVal={setLine} mode={mode} />
                     <Options options={options} setOptions={setOptions} mode={mode} />
                     <GroupSelector setGroup={setGroup} />
@@ -80,13 +80,14 @@ export default function CreateBetIcon() {
                 <div className="button-nav" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <ModeRadio mode={mode} setMode={setMode} />
                     <button type="submit" className="submit highlightable" style={{ borderRadius: "50%", overflow: "hidden" }}>
-                        <Image src="/save.png" height={24} width={24} alt="submit bet" />
+                        Post
                     </button>
                 </div>
             </form>
         </div>
     );
 }
+//<Image src="/save2.png" height={24} width={24} alt="submit bet" />
 
 function Option({ final, addOption, removeOption, index, onChange, value, length }) {
     if (typeof addOption !== "function" || typeof removeOption !== "function") {
@@ -199,7 +200,7 @@ function Line({ val, setVal, mode }) {
         return (
             <div className="line-box" style={{ marginLeft: "20px", marginBottom: "5px", marginRight: "auto", display: "flex", alignItems: "flex-end", justifyContent: "flex-start", height: "76px" }}>
                 <label className="line">Line</label>
-                <input className="line" value={val} onChange={(e) => handleChange(e.target.value)} placeholder="0.5" />
+                <input className="line" value={val} onChange={(e) => handleChange(e.target.value)} placeholder="0.5" style={{ marginRight: "auto", width: "248px" }} />
             </div>
         );
 
@@ -245,7 +246,9 @@ function GroupSelector({ setGroup }) {
     return (
         <div className="group-selector" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
             <select style={{ width: "180px", height: "1.5em" }} onChange={changeWrapper}>
-                <option key={-1} value={null}></option>
+                <option key={-1} value={null} style={{ fontWeight: "100", color: "red" }}>
+                    (public)
+                </option>
                 {groups?.map((group, index) => {
                     return (
                         <option key={index} value={group.groupID}>

@@ -46,7 +46,7 @@
   },
   "scripts": {
     "start": "next start",
-    "dev": "next dev --port=32111",  
+    "dev": "next dev --port=32111",
     "open": "next dev -H 192.168.1.166",
     "build": "next build",
     "test": "react-scripts test --env=jsdom",

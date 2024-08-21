@@ -327,6 +327,7 @@ input[type="radio"] {
 .create.bet button {
     background-color: transparent;
     border: none;
+    padding: 8px;
 }
 
 .create.bet .over-under {
@@ -338,8 +339,9 @@ input[type="radio"] {
 }
 
 .create.bet .button-nav {
+    align-items: center;
     border-top: 1px solid var(--table-border);
-    padding: 14px 00px 10px 0px;
+    padding: 8px 00px 6px 0px;
     width: calc(100% - 32px);
     margin: 0 auto;
 }
@@ -388,18 +390,19 @@ input[type="radio"] {
     background-color: var(--manifest) !important;
 }
 
-.highlightable.submit img:hover {
+.highlightable.submit:hover {
     background-color: var(--soft-highlight);
 }
 
 .highlightable.submit {
+    height: 46px;
+    width: 46px;
     padding: 0;
 }
 
 .highlightable.submit img {
-    margin: 8px;
-    height: 40px;
-    width: 40px;
+    height: 32px;
+    width: 32px;
 }
 
 .create.bet input.line, label {
@@ -489,58 +492,4 @@ input.option {
 
 .line-box {
     width: 280px;
-}
-
-.bet .options-container .option.client {
-    width: 240px;
-    position: relative;
-    height: 32px;
-    margin: 5px 20px;
-    border-radius: 50vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-}
-
-.options-container {
-    height: fit-content;
-}
-
-.bet .options-container .option.client .info {
-    padding: 0px 20px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-}
-
-
-.bet .options-container .option.client:hover .ackerman {
-    filter: brightness(120%);
-}
-
-.bet .options-container .option.client.selected:hover .ackerman, .bet .options-container .option.client.not-selected:hover .ackerman {
-    filter: brightness(100%);
-}
-
-
-.bet .options-container .option.client .info .stat {
-    width: 100%;
-    text-align: right;
-}
-
-.bet .options-container .option.client.not-selected {
-    cursor: not-allowed;
-}
-
-.bet .options-container .option.client.selected {
-    cursor: pointer;
-}
-
-
-.bet .options-container .option.client .info .stat {
-    width: fit-content;
 }

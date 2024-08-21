@@ -1,3 +1,5 @@
+import isEqual from "lodash/isEqual";
+
 function allButThis(list, element) {
     if (typeof element === "bigint") {
         throw Error("not yet implemented");
@@ -12,7 +14,7 @@ function allButThis(list, element) {
         return list.filter((item) => element !== item);
     }
     if (typeof element === "object") {
-        return list.filter((item) => JSON.stringify(item) !== JSON.stringify(element));
+        return list.filter((item) => !isEqual(item, element));
     }
     if (typeof element === "string") {
         throw Error("not yet implemented");
@@ -46,7 +48,7 @@ function has(list, element) {
             }
         }
         if (typeof element === "object") {
-            if (JSON.stringify(item) !== JSON.stringify(element)) {
+            if (isEqual(item, element)) {
                 return true;
             }
         }
@@ -57,6 +59,7 @@ function has(list, element) {
             return true;
         }
     }
+    return false;
 }
 
 function splitnSort(l, e) {
@@ -73,4 +76,16 @@ function splitnSort(l, e) {
     return d;
 }
 
-module.exports = { allButThis, allButThese, has, splitnSort };
+function partialEqual(json1, json2, fieldName) {
+    const deep1 = { ...json1 };
+    const deep2 = { ...json2 };
+    if (deep1.hasOwnProperty(fieldName)) {
+        delete deep1[fieldName];
+    }
+    if (deep2.hasOwnProperty(fieldName)) {
+        delete deep2[fieldName];
+    }
+    return isEqual(deep1, deep2);
+}
+
+module.exports = { allButThis, allButThese, has, splitnSort, partialEqual };

@@ -81,7 +81,7 @@ function percentForOpt(oid, wagers) {
  * named for what ...???
  *
  */
-function sfo(options, wagers, user) {
+function sfo(options, wagers) {
     const kvps = [];
     for (const option of options) {
         const kvp = {
@@ -93,9 +93,6 @@ function sfo(options, wagers, user) {
             if (option.oid === wager.oid) {
                 val.push(wager);
                 sum += wager.amount;
-            }
-            if (user && wager.uid === user.id) {
-                kvp.pick = wager.oid;
             }
         }
         //a little meta data
@@ -109,12 +106,12 @@ function sfo(options, wagers, user) {
 
 function asFunctionOfShare(probability) {
     if (probability === 1 || probability === 0 || isNaN(probability)) {
-        return "( - )";
+        return " - ";
     }
     let american = String(imp2american(probability));
     const si = american.lastIndexOf(".");
     american = american.substring(0, si !== -1 ? si : american.length);
-    const message = "(" + (american > 0 ? "+" : "") + american + ")";
+    const message = (american > 0 ? "+" : "") + american;
     //console.log(probability, "->", message);
     return message;
 }
@@ -171,4 +168,75 @@ function optToJson(data, betId, optionalIndex) {
     return json;
 }
 
-module.exports = { validate, mode, percentForOpt, sfo, asFunctionOfShare, tokenSum, optToJson };
+function userPick(bet, id) {
+    if ((!bet && bet.wagers) || (typeof id !== "number" && !isNaN(id))) {
+        return null;
+    }
+
+    for (const w of bet.wagers) {
+        if (w.uid === id) {
+            return w;
+        }
+    }
+
+    return null;
+}
+
+/** this is a cool function */
+function firstOpenOId(options) {
+    options.sort((a, b) => a.oid - b.oid);
+    let prev = -1;
+    let curr;
+
+    for (const option of options) {
+        curr = option.oid;
+        if (curr - prev !== 1) {
+            return prev + 1;
+        }
+        prev = curr;
+    }
+
+    return prev + 1;
+}
+
+function predictedWinning(bet, id) {
+    if (!validate(bet) || !id) {
+        throw new Error("Error: predictedWinning" + (!validate(bet) ? "\n  • bet must be a bet like object" : "") + (!id ? "\n  • id must be an integer" : ""));
+    }
+    const wager = userPick(bet, id);
+    console.log("wager: ", wager);
+    if (!wager) {
+        //not placed yet
+        return 0;
+    }
+    console.log("wager:", wager);
+    const amount = wager.amount;
+    const optSum = specificOptionSum(bet, wager.oid);
+    const betSum = totalBetSum(bet);
+    return Math.floor((amount / optSum) * betSum); /** as a share of the winning selections  */
+}
+
+function totalBetSum(bet) {
+    if (!validate(bet)) {
+        throw new Error("bet must be a bet like object");
+    }
+    let sum = 0;
+    for (const wager of bet.wagers) {
+        sum += wager.amount;
+    }
+    return sum;
+}
+
+function specificOptionSum(bet, oid) {
+    if (!validate(bet)) {
+        throw new Error("bet must be a bet like object");
+    }
+    let sum = 0;
+    for (const wager of bet.wagers) {
+        if (wager.oid === oid) {
+            sum += wager.amount;
+        }
+    }
+    return sum;
+}
+module.exports = { validate, mode, percentForOpt, sfo, asFunctionOfShare, tokenSum, optToJson, userPick, firstOpenOId, predictedWinning };

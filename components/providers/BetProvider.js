@@ -14,7 +14,7 @@ export const BetProvider = ({ children }) => {
         if (!meta.id) {
             return;
         }
-        const { data, error } = await supabase.from("bets2").select("*, options(*), wagers(*), beta(*)").order("id"); // do i rely on RLS to show me what i can access or do i specify here
+        const { data, error } = await supabase.from("bets2").select("*, options(*), wagers(*), beta(*)").order("id", { ascending: false }); // do i rely on RLS to show me what i can access or do i specify here
         if (error) {
             setBets([]);
             return;

@@ -13,7 +13,7 @@ import { useBets } from "./providers/BetProvider";
 import Bet from "./Bet2";
 
 function bet(b) {
-// sourcery skip: use-braces
+    // sourcery skip: use-braces
     if (b.mode == "ou") return <OverUnderBet bet={b} key={b.betID} />;
     if (b.mode == "ml") return <MoneyLineBet bet={b} key={b.betID} />;
     if (b.mode == "op") return <OptionsBet bet={b} key={b.betID} />;
@@ -57,6 +57,7 @@ export default function Bets() {
 
         getBets();
     }, [user, session]);
+
     return (
         <div className="bets page">
             {loading ? (
@@ -65,9 +66,9 @@ export default function Bets() {
                 <>
                     <CreateBetIcon />
                     <PGAAd />
-                    {bets.map((b) => {
+                    {/* {bets.map((b) => {
                         return bet(b);
-                    })}
+                    })} */}
                     {bets2.map((b) => {
                         return <Bet bet={b} />;
                     })}

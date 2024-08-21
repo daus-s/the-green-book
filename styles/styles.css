@@ -76,6 +76,7 @@ body {
   --list-item-background: #333; /* Dark background color for list items */
   --input-background: #333; /* Darker gray background color */
   --background-color: #121212; /* Dark background color */
+  --bg-pop: #040404;
   --soft-highlight:#666;
   --table-header-background: #222;
   --alt1-table-rows-bg: #525252;
