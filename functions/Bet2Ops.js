@@ -85,7 +85,7 @@ function sfo(options, wagers) {
     const kvps = [];
     for (const option of options) {
         const kvp = {
-            option: option,
+            option: option
         };
         const val = [];
         let sum = 0;
@@ -150,20 +150,34 @@ function tokenSum(sum) {
 
 function optToJson(data, betId, optionalIndex) {
     console.log(data, betId, optionalIndex);
-    if (!(typeof data === "string" && typeof betId === "number" && typeof optionalIndex === "number" && optionalIndex >= 0 && optionalIndex < 65536)) {
+    if (
+        !(
+            typeof data === "string" &&
+            typeof betId === "number" &&
+            typeof optionalIndex === "number" &&
+            optionalIndex >= 0 &&
+            optionalIndex < 65536
+        )
+    ) {
         const message =
             "called optToJson poorly\n" +
             (typeof data === "string" ? "" : "  • content is not a string\n") +
-            (typeof betId === "number" ? "" : "  • betId is not a number (int8)\n") +
-            (typeof betId === "number" ? "" : "  • optionalIndex (oid) is not a number (int2)\n") +
-            (optionalIndex >= 0 && optionalIndex < 65536 ? "" : "  • oid is not properly bounded [0, 65536)");
+            (typeof betId === "number"
+                ? ""
+                : "  • betId is not a number (int8)\n") +
+            (typeof betId === "number"
+                ? ""
+                : "  • optionalIndex (oid) is not a number (int2)\n") +
+            (optionalIndex >= 0 && optionalIndex < 65536
+                ? ""
+                : "  • oid is not properly bounded [0, 65536)");
         throw new Error(message);
     }
     const json = {
         winner: false,
         bid: betId,
         oid: optionalIndex,
-        content: data,
+        content: data
     };
     return json;
 }
@@ -201,19 +215,23 @@ function firstOpenOId(options) {
 
 function predictedWinning(bet, id) {
     if (!validate(bet) || !id) {
-        throw new Error("Error: predictedWinning" + (!validate(bet) ? "\n  • bet must be a bet like object" : "") + (!id ? "\n  • id must be an integer" : ""));
+        throw new Error(
+            "Error: predictedWinning" +
+                (!validate(bet) ? "\n  • bet must be a bet like object" : "") +
+                (!id ? "\n  • id must be an integer" : "")
+        );
     }
     const wager = userPick(bet, id);
-    console.log("wager: ", wager);
     if (!wager) {
         //not placed yet
         return 0;
     }
-    console.log("wager:", wager);
-    const amount = wager.amount;
+    const { amount } = wager;
     const optSum = specificOptionSum(bet, wager.oid);
     const betSum = totalBetSum(bet);
-    return Math.floor((amount / optSum) * betSum); /** as a share of the winning selections  */
+    return Math.floor(
+        (amount / optSum) * betSum
+    ); /** as a share of the winning selections  */
 }
 
 function totalBetSum(bet) {
@@ -239,4 +257,15 @@ function specificOptionSum(bet, oid) {
     }
     return sum;
 }
-module.exports = { validate, mode, percentForOpt, sfo, asFunctionOfShare, tokenSum, optToJson, userPick, firstOpenOId, predictedWinning };
+module.exports = {
+    validate,
+    mode,
+    percentForOpt,
+    sfo,
+    asFunctionOfShare,
+    tokenSum,
+    optToJson,
+    userPick,
+    firstOpenOId,
+    predictedWinning
+};

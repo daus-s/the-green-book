@@ -40,3 +40,7 @@ template.js
 
 #ignore logging
 logs/
+
+
+#VSCode
+.vscode/

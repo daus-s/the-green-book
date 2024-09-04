@@ -350,26 +350,22 @@ input[type="radio"] {
     margin-right: 0px;
 }
 
-
 .create.bet .radio-type-container {
     height: fit-content;
 }
 
-
 .create.bet textarea {
     background-color: transparent;
-    font-size: 20px;
+    font-size: 28px;
     border: none;
     outline: none;
     color: var(--input-text);
     width: calc(100% - 32px);
-    height: 3em;
+    height: 2em;
     font-family: "Arial", sans-serif;
     max-width: calc(100% - 32px);
     min-width: calc(100% - 32px);
-    min-height: 3em;
-
-
+    min-height: 2em;
 }
 
 .highlightable label  {
@@ -382,8 +378,12 @@ input[type="radio"] {
     justify-content: center;
 }
 
+.highlightable input[type="radio"] + label {
+    filter: brightness(55%);
+}
+
 .highlightable input[type="radio"]:checked + label {
-    background-color: var(--soft-highlight);    
+    filter: brightness(110%);
 }
 
 .highlightable button:hover, .highlightable label:hover {
@@ -391,13 +391,7 @@ input[type="radio"] {
 }
 
 .highlightable.submit:hover {
-    background-color: var(--soft-highlight);
-}
-
-.highlightable.submit {
-    height: 46px;
-    width: 46px;
-    padding: 0;
+    background-color: var(--button-background) !important;
 }
 
 .highlightable.submit img {
@@ -418,6 +412,7 @@ input[type="radio"] {
 label.line {
     color: var(--cta-button-hover-bg-color) !important;
     font-size: 32px !important;
+    font-weight: normal;
 }
 
 input.line {
@@ -492,4 +487,14 @@ input.option {
 
 .line-box {
     width: 280px;
+}
+
+.over-info, .under-info {
+    display: flex;
+    align-content: flex-start;
+    color: var(--deactive-gray);
+}
+
+.over-info span, .under-info span {
+    padding: 0 2px;
 }

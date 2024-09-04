@@ -32,3 +32,10 @@ const tourney = {
 		  tournament_metadata: { tournament supabase object },
 		  golfers: [/*golfers via getGolfers function with new params*/],
 		}
+
+
+### 8/18/2024
+
+- BetProvider also needs to provide a filter element for filtering 
+  - then cache all bets so only 2 request 
+- wagers needs realtime
