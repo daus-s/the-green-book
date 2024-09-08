@@ -111,7 +111,7 @@ export default function CreateBetIcon() {
                     style={{
                         display: "flex",
                         justifyContent: "space-between",
-                        marginRight: "20px"
+                        marginRight: "18px"
                     }}
                 >
                     <Line val={line} setVal={setLine} mode={mode} />
@@ -507,7 +507,14 @@ function GroupSelector({ setGroup, group }) {
                     );
                 })}
             </select>
-            <label style={{ fontWeight: "normal", fontSize: "16px" }}>
+            <label
+                style={{
+                    fontWeight: "normal",
+                    fontSize: "16px",
+                    marginTop: "5px",
+                    marginRight: "0px"
+                }}
+            >
                 Group
             </label>
         </div>

@@ -52,7 +52,7 @@ body {
   --placeholder: #a9a9a9;
   --unimportant-text: #aaa;
   --deactive-gray: #aaa;
-  --not-your-pick: #809a80;
+  --not-your-pick: #737870;
   --header-color: #4caf50; /* Dark green header text color */
   --button-background: #4caf50; /* Dark green button background color */
   --button-hover: #45a049; /* Slightly darker green on hover */
@@ -77,6 +77,7 @@ body {
   --list-item-background: #333; /* Dark background color for list items */
   --input-background: #333; /* Darker gray background color */
   --background-color: #121212; /* Dark background color */
+  --sub-pop: #222;
   --bg-pop: #040404;
   --soft-highlight:#666;
   --table-header-background: #222;

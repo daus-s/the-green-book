@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "./providers/AuthContext";
 import { useMobile } from "./providers/MobileContext";
 import Input from "./Input";
-import { f } from "../functions/f";
+import { f } from "../functions/f.js";
 
 export default function Auth() {
     const { login } = useAuth();
@@ -33,11 +33,29 @@ export default function Auth() {
     //supabase cnx
     return (
         <div className="auth-login page">
-            <img src="/greenbook.jpg" alt={"The Green Book logo."} className="biglogo" />
-            <form onSubmit={handleLogin} style={isMobile ? mobileStyle.form : { width: "375px" }}>
-                <Input className="username" value={usr} setValue={setUser} placeholder="Username" />
+            <img
+                src="/greenbook.jpg"
+                alt={"The Green Book logo."}
+                className="biglogo"
+            />
+            <form
+                onSubmit={handleLogin}
+                style={isMobile ? mobileStyle.form : { width: "375px" }}
+            >
+                <Input
+                    className="username"
+                    value={usr}
+                    setValue={setUser}
+                    placeholder="Username"
+                />
 
-                <Input className="password" value={password} setValue={setPassword} placeholder="Password" type="password" />
+                <Input
+                    className="password"
+                    value={password}
+                    setValue={setPassword}
+                    placeholder="Password"
+                    type="password"
+                />
                 {invalid ? (
                     <span className="error">
                         <b>Error: </b>Incorrect username or password
@@ -61,10 +79,10 @@ export default function Auth() {
 
 const mobileStyle = {
     form: {
-        width: "calc(100% - 16px)",
+        width: "calc(100% - 16px)"
     },
     input: {
         maxWidth: "100%",
-        width: "calc(100% - 16px)",
-    },
+        width: "calc(100% - 16px)"
+    }
 };

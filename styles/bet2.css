@@ -2,7 +2,7 @@
     width: 240px;
     position: relative;
     height: 32px;
-    margin: 5px 20px;
+    margin: 5px 16px;
     border-radius: 50vh;
     overflow: hidden;
     display: flex;
@@ -53,7 +53,7 @@
 
 .bet .title {
     text-align: left;
-    margin-left: 20px;
+    margin-left: 16px;
     margin-right: 20px;
     margin-bottom: 4px;
     padding-bottom: 4px;
@@ -64,12 +64,12 @@
 .bet2-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 4fr;
+    grid-template-rows: 1fr auto;
 }
 
 .bet2-layout .icon-box {
     grid-area: 1 / 2 / span 1 / span 1;
-    padding-right: 20%;
+    padding-right: 18px;
 }
 
 .bet2-layout .options-container {
@@ -78,9 +78,8 @@
 
 .bet2-layout.bet .title { 
     grid-area: 1 / 1 / span 1 / span 2;
-    text-wrap: nowrap;
-    overflow: hidden; 
-    position: absolute; 
+    text-wrap: wrap;
+    position: relative; 
     top: 0;
     left: 0;
     max-width: calc(80% - 40px);
@@ -89,15 +88,16 @@
     overflow: hidden;
     overflow-wrap: normal;
     word-wrap: normal;
+    min-height: 2em;
 }
 
 .bet2-layout .wager-manager {
     grid-area: 2 / 2 / span 1 / span 1;
     width: fit-content;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-right: 20%;
+    display: grid;
+    grid-template-rows: 73fr 59fr;
+    grid-template-columns: 1fr 1fr;
+    padding-right: 18px;
 }
 
 .bet2-layout .bet-status-widget {
@@ -159,68 +159,134 @@ input.option-title {
     font-size: 16px;
 }
 
-.display.betd * {
+.wager-manager * {
     padding: 0;
     text-align: left;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
+}
+
+.wager-manager .to-win {
+    grid-area: 1 / 1 / 1 / 2;
+}
+
+.wager-manager .wagered {
+    grid-area: 2 / 1 / 2 / 2;
 }
 
 
-.display.betd .wagered, .display.betd .to-win {
-    flex-direction: column-reverse;    
+.wager-manager .wagered, .wager-manager .to-win {
+    flex-direction: column;    
 }
 
-.display.betd .wagered .potential {
+.wager-manager .to-win .descriptor {
+    font-size: 17px;
+}
+
+.wager-manager .wagered .potential {
     color: var(--unimportant-text);
-    font-size: 25px;
+    font-size: 28px;
     padding-bottom: 4px;
 
 }
 
-.display.betd .descriptor {
+.wager-manager .descriptor {
     color: var(--unimportant-text);
-    font-size: 10px;
+    font-size: 13px;
     padding-bottom: 8px;
+    margin-left: 2px;
 }
 
-.display.betd  .potential {
-    color: var(--button-hover);
+.wager-manager  .potential {
+    color: var(--cta-button-bg-color);
     font-weight: bolder;
     font-size: 40px;
     transform: translateY(5px);
 }
 
+/* General styling improvements */
 form.wager-control-panel {
     display: flex;
-    width: fit-content;
-    padding: 5px;
-    align-items: flex-end;
-    margin-right: auto;
-    margin-right: auto;
-    flex-direction: row;
-    justify-content: flex-end;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* width: fit-content; */
+    margin: 0 auto;
+    grid-area: 1 / 2 / 3 / 3;
+    border: 1px solid var(--input-background);
+    /* box-shadow: ; */
+    background-color: var(--form-input);
+    border-radius: 16px;
+    margin: 0 20px 0px 0px;
+    box-shadow: 0 0 3px var(--sub-pop);
+
 }
 
-.bet2-layout .wager-control-panel input,
-.bet2-layout .wager-control-panel label {
-    width: 100%; /* Ensures the input and label fit within the form */
-    box-sizing: border-box;
+/* Grouping label and input together */
+.wager-control-panel .input-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+}
+
+/* Input and label styling */
+.wager-control-panel .wager-label {
+    color: var(--bright-text);
+    font-size: 14px;
+    margin-bottom: 3px;
+    padding-left: 5px;
+    text-align: center;
+    width: 100%;
+    display: block;
+    height: 31.25px;
+}
+
+.wager-control-panel .wager-input {
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 16px;
     text-align: right;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-.bet2-layout .wager-control-panel label {
-    padding-left: 3px;
+/* Submit button styling */
+.wager-control-panel .submit-button {
+    padding: 8px 16px;
+    background-color: var(--button-hover);
+    color: var(--bright-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-.display.betd {
+
+.wager-control-panel .submit-button:disabled {
+    background-color: var(--bet-option-highlight);
+    cursor: not-allowed;
+}
+
+.wager-control-panel .submit-button:not(:disabled):hover {
+    background-color: var(--button-background);
+}
+
+.wager-manager {
     display: flex;
 }
 
 
-.display.betd {
+.wager-manager {
     width: fit-content;
     font-size: 40px;
     color: var(--unimportant-text);
 
 }
 
+
+
+.bet2-layout .popped {
+    box-shadow: 0 0 5px var(--sub-pop);
+}

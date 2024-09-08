@@ -20,7 +20,9 @@ function random() {
 function coerce(i1, i2, i3, i4) {
     const bounded = (i) => i < 256 && i > -1;
     if (!(bounded(i1) && bounded(i2) && bounded(i3) && bounded(i4))) {
-        throw Error(`integers for coersion must be between 0 and 255 inclusive inclusive\ni:=[0, 255]\n • i1=${i1}\n • i2=${i2}\n • i3=${i3}\n • i4=${i4}`);
+        throw Error(
+            `integers for coersion must be between 0 and 255 inclusive inclusive\ni:=[0, 255]\n • i1=${i1}\n • i2=${i2}\n • i3=${i3}\n • i4=${i4}`
+        );
     }
     //return single number
     let a = i1 << 24;
@@ -58,4 +60,8 @@ function warn(x) {
     return 0;
 }
 
-module.exports = { random, coerce, partition, warn };
+function numLength(n) {
+    return String(n).length;
+}
+
+module.exports = { random, coerce, partition, warn, numLength };

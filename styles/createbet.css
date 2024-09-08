@@ -498,3 +498,8 @@ input.option {
 .over-info span, .under-info span {
     padding: 0 2px;
 }
+
+.create.bet button.highlightable.submit:hover {
+    background-color: var(--manifest) !important;
+    cursor: not-allowed;
+}
