@@ -1,4 +1,4 @@
-import Bet from "./Bet2";
+import Bet2 from "./Bet2";
 import { useBets } from "./providers/BetProvider";
 
 export default function Bets() {
@@ -7,8 +7,8 @@ export default function Bets() {
     if (bets) {
         return (
             <div className="bet page">
-                {bets.map((bet, index)=> {
-                    return <Bet bet={bet} key={index} />
+                {bets.map((bet, index) => {
+                    return <Bet2 bet={bet} key={index} />;
                 })}
             </div>
         );
