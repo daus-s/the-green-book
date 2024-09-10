@@ -11,7 +11,11 @@ export default function Bet() {
 
     const router = useRouter();
     const bets = useBets();
+<<<<<<< HEAD
     const { meta } = useAuth();
+=======
+    const meta = useAuth();
+>>>>>>> b06d4ac (WIP: new bet page for indivudal bets)
 
     useEffect(() => {
         if (!router) {
@@ -25,6 +29,10 @@ export default function Bet() {
             return;
         } else if (meta && router) {
             const queryId = router.query.id;
+<<<<<<< HEAD
+=======
+            console.log(bets);
+>>>>>>> b06d4ac (WIP: new bet page for indivudal bets)
             for (const bet of bets.bets) {
                 if (parseInt(queryId) === bet.id) {
                     setBet(bet);
@@ -36,6 +44,7 @@ export default function Bet() {
     }, [router, meta, bets]);
 
     const isOwner = bet?.creator === meta?.id;
+<<<<<<< HEAD
     console.log(isOwner);
     console.log(meta);
 
@@ -43,6 +52,13 @@ export default function Bet() {
         <div className="bet-page-layout" style={{ marginTop: "121px" }}>
             <Bet2 bet={bet} />
             <WagerList bet={bet} uid={meta.id} />
+=======
+
+    return bet ? (
+        <div className="bet-layout" style={{ marginTop: "108px" }}>
+            <Bet2 bet={bet} />
+            <WagerList bet={bet} />
+>>>>>>> b06d4ac (WIP: new bet page for indivudal bets)
             {isOwner ? <BetManager bet={bet} /> : null}
         </div>
     ) : null;
