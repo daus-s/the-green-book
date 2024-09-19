@@ -19,6 +19,8 @@ import Ackerman from "./Ackerman";
 import Loading from "./Loading";
 import Image from "next/image";
 import { numLength } from "../functions/RandomBigInt";
+import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 export default function Bet({ bet }) {
     if (!bet) {
@@ -44,7 +46,10 @@ function BetD({ bet, key }) {
 
     const options = bet.options;
     const wagers = bet.wagers;
+
     const { meta } = useAuth();
+    const router = useRouter();
+    const pathname = usePathname();
 
     const optKVPs = sfo(options, wagers, meta);
     const pick = userPick(bet, meta?.id);
@@ -60,13 +65,26 @@ function BetD({ bet, key }) {
         setClicked(pick1);
     }, [meta]);
 
+    console.log(pathname);
     return (
         <div
-            className="over-under bet bet2-layout"
+            className="over-under bet bet2-layout popped"
             key={String(bet.id).concat(String(key))}
         >
             <IconBox bet={bet} />
-            <div className="title">{bet.content}</div>
+            {pathname.includes("/bets") ? (
+                <div
+                    className="title"
+                    onClick={() => {
+                        router.push("/bet/" + String(bet.id));
+                    }}
+                    style={{ cursor: "pointer" }}
+                >
+                    {bet.content}
+                </div>
+            ) : (
+                <div className="title">{bet.content}</div>
+            )}
             <div className="options-container">
                 {Array.isArray(optKVPs)
                     ? optKVPs
@@ -100,7 +118,7 @@ function BetD({ bet, key }) {
 }
 
 function Option({ option, wagers, sum, pick, line, clicked, setClicked }) {
-    const linestr = String(line ? line : "");
+    const lineString = String(line ? line : "");
     let percent = percentForOpt(option.oid, wagers); //we need to make a decision of how to handle this result here...
     if (isNaN(percent)) {
         percent = 0;
@@ -121,23 +139,24 @@ function Option({ option, wagers, sum, pick, line, clicked, setClicked }) {
     }
 
     const imps = asFunctionOfShare(percent);
-    const tkns = tokenSum(sum);
+    const tokenNumber = tokenSum(sum);
+
     return (
         <div
-            className={"option client popped " + status}
+            className={"option client popped angled " + status}
             onClick={() => setClicked(option)}
         >
             <Ackerman percent={percent} oColor={oppColor} />
             <div className="info">
                 <div className="option-name">
-                    {option.content + " " + linestr}
+                    {option.content + " " + lineString}
                 </div>
                 <div
                     className="stat"
                     onMouseEnter={() => setHover(true)}
                     onMouseLeave={() => setHover(false)}
                 >
-                    {hover ? tkns : imps}
+                    {hover ? tokenNumber : imps}
                 </div>
             </div>
         </div>
@@ -295,7 +314,7 @@ function AddWager({ bet, pick }) {
         const num = parseInt(e.target.value);
         if (!isNaN(num)) {
             //bound by this on the upper +2,147,483,647
-            if (!(num > 2_147_483 + 647 || num <= 0)) {
+            if (!(num > 2_147_483_647 || num <= 0)) {
                 setWager(num);
             }
         }
@@ -335,7 +354,10 @@ function AddWager({ bet, pick }) {
     ];
 
     return (
-        <form className="wager-control-panel" onSubmit={handleSubmit}>
+        <form
+            className="wager-control-panel popped angled"
+            onSubmit={handleSubmit}
+        >
             <div className="input-group">
                 <label htmlFor={`add-${bet.id}`} className="wager-label">
                     {userPick(bet, meta?.id) ? "Increase Wager" : "Place Bet"}
@@ -358,7 +380,7 @@ function AddWager({ bet, pick }) {
                 />
             </div>
             <button
-                className="submit-button"
+                className="submit-button popped"
                 disabled={!pick || !wager}
                 style={{ marginLeft: "5px" }}
             >

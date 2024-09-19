@@ -257,6 +257,36 @@ function specificOptionSum(bet, oid) {
     }
     return sum;
 }
+
+function validateOptions(oid, optionList) {
+    const errors = [];
+
+    if (typeof oid !== "number") {
+        errors.push(`'oid' must be a number, received ${typeof oid}`);
+    }
+
+    if (!Array.isArray(optionList)) {
+        errors.push(
+            `'optionList' must be an array, received ${typeof optionList}`
+        );
+    }
+
+    if (errors.length > 0) {
+        throw new Error(`Invalid input: \n• ${errors.join("\n• ")}`);
+    }
+
+    return true; // Passed validation
+}
+
+function contentFromOId(oid, optionList) {
+    validateOptions(oid, optionList);
+
+    for (const option of optionList) {
+        if (option.oid === oid) {
+            return option.content;
+        }
+    }
+}
 module.exports = {
     validate,
     mode,
@@ -267,5 +297,6 @@ module.exports = {
     optToJson,
     userPick,
     firstOpenOId,
-    predictedWinning
+    predictedWinning,
+    contentFromOId
 };

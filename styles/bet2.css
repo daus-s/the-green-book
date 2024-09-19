@@ -69,7 +69,7 @@
 
 .bet2-layout .icon-box {
     grid-area: 1 / 2 / span 1 / span 1;
-    padding-right: 18px;
+    padding-right: 16px;
 }
 
 .bet2-layout .options-container {
@@ -83,7 +83,7 @@
     top: 0;
     left: 0;
     max-width: calc(80% - 40px);
-    width: max-content; 
+    width: 100%;
     font-size: 22px;
     overflow: hidden;
     overflow-wrap: normal;
@@ -97,7 +97,7 @@
     display: grid;
     grid-template-rows: 73fr 59fr;
     grid-template-columns: 1fr 1fr;
-    padding-right: 18px;
+    padding-right: 16px;
 }
 
 .bet2-layout .bet-status-widget {
@@ -177,6 +177,8 @@ input.option-title {
 
 .wager-manager .wagered, .wager-manager .to-win {
     flex-direction: column;    
+    margin: 0 0 0 auto;
+    align-items: flex-end;
 }
 
 .wager-manager .to-win .descriptor {
@@ -186,6 +188,8 @@ input.option-title {
 .wager-manager .wagered .potential {
     color: var(--unimportant-text);
     font-size: 28px;
+    line-height: 28px;
+    height: 28px;
     padding-bottom: 4px;
 
 }
@@ -195,13 +199,17 @@ input.option-title {
     font-size: 13px;
     padding-bottom: 8px;
     margin-left: 2px;
+    text-align: right;
 }
 
 .wager-manager  .potential {
     color: var(--cta-button-bg-color);
     font-weight: bolder;
     font-size: 40px;
-    transform: translateY(5px);
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    vertical-align: middle; 
 }
 
 /* General styling improvements */
@@ -211,16 +219,10 @@ form.wager-control-panel {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    /* width: fit-content; */
-    margin: 0 auto;
     grid-area: 1 / 2 / 3 / 3;
-    border: 1px solid var(--input-background);
-    /* box-shadow: ; */
-    background-color: var(--form-input);
     border-radius: 16px;
-    margin: 0 20px 0px 0px;
-    box-shadow: 0 0 3px var(--sub-pop);
-
+    background-color: var(--highlighted-dark);
+    margin: 0 0px 0px 20px;
 }
 
 /* Grouping label and input together */
@@ -282,11 +284,15 @@ form.wager-control-panel {
     width: fit-content;
     font-size: 40px;
     color: var(--unimportant-text);
-
 }
 
 
 
-.bet2-layout .popped {
+.popped {
     box-shadow: 0 0 5px var(--sub-pop);
+}
+
+.angled {
+    border-top: 1px solid var(--table-border);
+    border-bottom: 1px solid var(--background-color);
 }
