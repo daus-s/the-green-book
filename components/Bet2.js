@@ -22,7 +22,7 @@ import { numLength } from "../functions/RandomBigInt";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 
-export default function Bet({ bet }) {
+export default function Bet2({ bet }) {
     if (!bet) {
         return <Loading />;
     }

@@ -3,6 +3,7 @@ import Image from "next/image";
 export default function BetManager({ bet }) {
     return (
         <div className="bet-manager bet">
+            <div className="options-container"></div>
             <button
                 className="cancel"
                 style={{

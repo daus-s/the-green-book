@@ -39,3 +39,6 @@ const tourney = {
 - BetProvider also needs to provide a filter element for filtering 
   - then cache all bets so only 2 request 
 - wagers needs realtime
+
+
+git commit -m "Repairing: adding current change files"
