@@ -1,6 +1,7 @@
 //functions and operatoprs for the Bet2 DataStructure
 
-const { imp2american } = require("./CalculateProbabilities");
+import { isHalal, isOption } from "./AllahValidation";
+import { imp2american } from "./CalculateProbabilities";
 
 /* SCHEMA
  *
@@ -85,7 +86,7 @@ function sfo(options, wagers) {
     const kvps = [];
     for (const option of options) {
         const kvp = {
-            option: option
+            option: option,
         };
         const val = [];
         let sum = 0;
@@ -102,6 +103,14 @@ function sfo(options, wagers) {
         kvps.push(kvp);
     }
     return kvps;
+}
+
+function bettingSheet(bet) {
+    if (!isHalal(bet)) {
+        return null;
+    } else {
+        return sfo(bet.options, bet.wagers);
+    }
 }
 
 function asFunctionOfShare(probability) {
@@ -150,34 +159,20 @@ function tokenSum(sum) {
 
 function optToJson(data, betId, optionalIndex) {
     console.log(data, betId, optionalIndex);
-    if (
-        !(
-            typeof data === "string" &&
-            typeof betId === "number" &&
-            typeof optionalIndex === "number" &&
-            optionalIndex >= 0 &&
-            optionalIndex < 65536
-        )
-    ) {
+    if (!(typeof data === "string" && typeof betId === "number" && typeof optionalIndex === "number" && optionalIndex >= 0 && optionalIndex < 65536)) {
         const message =
             "called optToJson poorly\n" +
             (typeof data === "string" ? "" : "  • content is not a string\n") +
-            (typeof betId === "number"
-                ? ""
-                : "  • betId is not a number (int8)\n") +
-            (typeof betId === "number"
-                ? ""
-                : "  • optionalIndex (oid) is not a number (int2)\n") +
-            (optionalIndex >= 0 && optionalIndex < 65536
-                ? ""
-                : "  • oid is not properly bounded [0, 65536)");
+            (typeof betId === "number" ? "" : "  • betId is not a number (int8)\n") +
+            (typeof betId === "number" ? "" : "  • optionalIndex (oid) is not a number (int2)\n") +
+            (optionalIndex >= 0 && optionalIndex < 65536 ? "" : "  • oid is not properly bounded [0, 65536)");
         throw new Error(message);
     }
     const json = {
         winner: false,
         bid: betId,
         oid: optionalIndex,
-        content: data
+        content: data,
     };
     return json;
 }
@@ -215,11 +210,7 @@ function firstOpenOId(options) {
 
 function predictedWinning(bet, id) {
     if (!validate(bet) || !id) {
-        throw new Error(
-            "Error: predictedWinning" +
-                (!validate(bet) ? "\n  • bet must be a bet like object" : "") +
-                (!id ? "\n  • id must be an integer" : "")
-        );
+        throw new Error("Error: predictedWinning" + (!validate(bet) ? "\n  • bet must be a bet like object" : "") + (!id ? "\n  • id must be an integer" : ""));
     }
     const wager = userPick(bet, id);
     if (!wager) {
@@ -229,9 +220,7 @@ function predictedWinning(bet, id) {
     const { amount } = wager;
     const optSum = specificOptionSum(bet, wager.oid);
     const betSum = totalBetSum(bet);
-    return Math.floor(
-        (amount / optSum) * betSum
-    ); /** as a share of the winning selections  */
+    return Math.floor((amount / optSum) * betSum); /** as a share of the winning selections  */
 }
 
 function totalBetSum(bet) {
@@ -266,9 +255,7 @@ function validateOptions(oid, optionList) {
     }
 
     if (!Array.isArray(optionList)) {
-        errors.push(
-            `'optionList' must be an array, received ${typeof optionList}`
-        );
+        errors.push(`'optionList' must be an array, received ${typeof optionList}`);
     }
 
     if (errors.length > 0) {
@@ -287,16 +274,12 @@ function contentFromOId(oid, optionList) {
         }
     }
 }
-module.exports = {
-    validate,
-    mode,
-    percentForOpt,
-    sfo,
-    asFunctionOfShare,
-    tokenSum,
-    optToJson,
-    userPick,
-    firstOpenOId,
-    predictedWinning,
-    contentFromOId
-};
+
+function isWinner(option) {
+    if (!isOption(option)) {
+        return undefined;
+    }
+    return option.winner;
+}
+
+export { validate, mode, percentForOpt, sfo, asFunctionOfShare, tokenSum, optToJson, userPick, firstOpenOId, predictedWinning, contentFromOId, bettingSheet, isWinner };

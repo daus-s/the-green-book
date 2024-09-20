@@ -1,13 +1,4 @@
-import {
-    sfo,
-    asFunctionOfShare,
-    percentForOpt,
-    validate,
-    tokenSum,
-    userPick,
-    firstOpenOId,
-    predictedWinning
-} from "../functions/Bet2Ops";
+import { sfo, asFunctionOfShare, percentForOpt, validate, tokenSum, userPick, firstOpenOId, predictedWinning } from "../functions/Bet2Ops";
 import { useEffect, useState } from "react";
 import { partialEqual } from "../functions/AllButThisJSON";
 import { supabase } from "../functions/SupabaseClient";
@@ -67,10 +58,7 @@ function BetD({ bet, key }) {
 
     console.log(pathname);
     return (
-        <div
-            className="over-under bet bet2-layout popped"
-            key={String(bet.id).concat(String(key))}
-        >
+        <div className="over-under bet bet2-layout popped" key={String(bet.id).concat(String(key))}>
             <IconBox bet={bet} />
             {pathname.includes("/bets") ? (
                 <div
@@ -102,15 +90,7 @@ function BetD({ bet, key }) {
                               />
                           ))
                     : () => {}}
-                {pick === null ? (
-                    <NewOption
-                        bet={bet}
-                        clicked={clicked}
-                        setClicked={setClickedWrapper}
-                    />
-                ) : (
-                    <></>
-                )}
+                {pick === null ? <NewOption bet={bet} clicked={clicked} setClicked={setClickedWrapper} /> : <></>}
             </div>
             <WagerMenu bet={bet} pick={pick ? pick.oid : clicked} />
         </div>
@@ -128,8 +108,7 @@ function Option({ option, wagers, sum, pick, line, clicked, setClicked }) {
 
     let oppColor;
 
-    const status =
-        pick === null ? "" : pick === option.oid ? "selected" : "not-selected";
+    const status = pick === null ? "" : pick === option.oid ? "selected" : "not-selected";
     if (isEqual(option, clicked) || status === "selected") {
         oppColor = "var(--cta-button-bg-color)";
     } else if (status === "not-selected") {
@@ -142,20 +121,11 @@ function Option({ option, wagers, sum, pick, line, clicked, setClicked }) {
     const tokenNumber = tokenSum(sum);
 
     return (
-        <div
-            className={"option client popped angled " + status}
-            onClick={() => setClicked(option)}
-        >
+        <div className={"option client popped angled " + status} onClick={() => setClicked(option)}>
             <Ackerman percent={percent} oColor={oppColor} />
             <div className="info">
-                <div className="option-name">
-                    {option.content + " " + lineString}
-                </div>
-                <div
-                    className="stat"
-                    onMouseEnter={() => setHover(true)}
-                    onMouseLeave={() => setHover(false)}
-                >
+                <div className="option-name">{option.content + " " + lineString}</div>
+                <div className="stat" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     {hover ? tokenNumber : imps}
                 </div>
             </div>
@@ -175,7 +145,7 @@ function NewOption({ bet, clicked, setClicked }) {
             bid: bet.id,
             oid: firstOpenOId(bet.options),
             winner: false,
-            content: option
+            content: option,
         });
     };
 
@@ -188,7 +158,7 @@ function NewOption({ bet, clicked, setClicked }) {
                     bid: bet.id,
                     oid: firstOpenOId(bet.options),
                     winner: false,
-                    content: option
+                    content: option,
                 },
                 "content"
             )
@@ -208,7 +178,7 @@ function NewOption({ bet, clicked, setClicked }) {
                         bid: bet.id,
                         oid: firstOpenOId(bet.options),
                         winner: false,
-                        content: option
+                        content: option,
                     },
                     "content"
                 )
@@ -218,22 +188,11 @@ function NewOption({ bet, clicked, setClicked }) {
         >
             {active ? (
                 <>
-                    <input
-                        className="option-title"
-                        value={option}
-                        onChange={(e) => setOption(e.target.value)}
-                        placeholder="Option"
-                    />
+                    <input className="option-title" value={option} onChange={(e) => setOption(e.target.value)} placeholder="Option" />
                 </>
             ) : (
                 <>
-                    Create new option{" "}
-                    <Image
-                        src="/addbet.png"
-                        height={20}
-                        width={20}
-                        alt="Add new option."
-                    />
+                    Create new option <Image src="/addbet.png" height={20} width={20} alt="Add new option." />
                 </>
             )}
         </div>
@@ -246,15 +205,11 @@ function WagerMenu({ bet, pick }) {
     return (
         <div className="wager-manager">
             <div className="to-win">
-                <div className="potential">
-                    {tokenSum(predictedWinning(bet, meta?.id ?? null))}
-                </div>
+                <div className="potential">{tokenSum(predictedWinning(bet, meta?.id ?? null))}</div>
                 <div className="descriptor">To Win</div>
             </div>
             <div className="wagered">
-                <div className="potential">
-                    {tokenSum(userPick(bet, meta?.id)?.amount ?? 0)}
-                </div>
+                <div className="potential">{tokenSum(userPick(bet, meta?.id)?.amount ?? 0)}</div>
                 <div className="descriptor">Wagered</div>
             </div>
             <AddWager bet={bet} pick={pick} />
@@ -267,11 +222,7 @@ function IconBox({ bet }) {
 
     useEffect(() => {
         const getGroup = async () => {
-            const { data: group, error } = await supabase
-                .from("groups")
-                .select()
-                .eq("groupID", bet.g)
-                .single();
+            const { data: group, error } = await supabase.from("groups").select().eq("groupID", bet.g).single();
             if (!error) {
                 setGroup(group);
             }
@@ -285,18 +236,13 @@ function IconBox({ bet }) {
             style={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "flex-end"
+                justifyContent: "flex-end",
             }}
         >
             {bet.public ? (
                 <Image src="/earth.png" title="Public" width={30} height={30} />
             ) : (
-                <Image
-                    src="/private.png"
-                    title={group ? `Group: ${group.groupName}` : "Private"}
-                    width={30}
-                    height={30}
-                />
+                <Image src="/private.png" title={group ? `Group: ${group.groupName}` : "Private"} width={30} height={30} />
             )}
         </div>
     );
@@ -326,7 +272,7 @@ function AddWager({ bet, pick }) {
         const { data, error } = await supabase.rpc("place_wager2", {
             _amount: wager,
             _bid: bet.id,
-            _oid: pick?.oid // Add optional chaining to prevent errors
+            _oid: pick?.oid, // Add optional chaining to prevent errors
         });
 
         if (error || data) {
@@ -339,25 +285,10 @@ function AddWager({ bet, pick }) {
         // Additional logic for updating the user's wager here
     };
 
-    const size = [
-        "32px",
-        "32px",
-        "32px",
-        "32px",
-        "30px",
-        "26px",
-        "22px",
-        "19px",
-        "17px",
-        "15px",
-        "13px"
-    ];
+    const size = ["32px", "32px", "32px", "32px", "30px", "26px", "22px", "19px", "17px", "15px", "13px"];
 
     return (
-        <form
-            className="wager-control-panel popped angled"
-            onSubmit={handleSubmit}
-        >
+        <form className="wager-control-panel popped angled" onSubmit={handleSubmit}>
             <div className="input-group">
                 <label htmlFor={`add-${bet.id}`} className="wager-label">
                     {userPick(bet, meta?.id) ? "Increase Wager" : "Place Bet"}
@@ -370,20 +301,13 @@ function AddWager({ bet, pick }) {
                     placeholder="0"
                     style={{
                         height: "44px",
-                        fontSize:
-                            size[
-                                Math.min(numLength(wager) - 1, size.length - 1)
-                            ],
+                        fontSize: size[Math.min(numLength(wager) - 1, size.length - 1)],
                         overflowX: "hidden",
-                        textAlign: "center"
+                        textAlign: "center",
                     }}
                 />
             </div>
-            <button
-                className="submit-button popped"
-                disabled={!pick || !wager}
-                style={{ marginLeft: "5px" }}
-            >
+            <button className="submit-button popped" disabled={!pick || !wager} style={{ marginLeft: "5px" }}>
                 {userPick(bet, meta?.id) ? "Add" : "Place"}
             </button>
         </form>

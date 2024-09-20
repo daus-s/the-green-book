@@ -88,4 +88,24 @@ function partialEqual(json1, json2, fieldName) {
     return isEqual(deep1, deep2);
 }
 
-module.exports = { allButThis, allButThese, has, splitnSort, partialEqual };
+function isLike(obj, kvps) {
+    const types = ["number", "string", "boolean", "undefined", "object", "function", "symbol", "bigint"];
+
+    for (const [key, expectedType] of Object.entries(kvps)) {
+        if (!types.includes(expectedType)) {
+            throw new Error(`Invalid type "${expectedType}" for key "${key}"`);
+        }
+
+        if (!(key in obj)) {
+            return false;
+        }
+
+        if (typeof obj[key] !== expectedType) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+module.exports = { allButThis, allButThese, has, splitnSort, partialEqual, isLike };
