@@ -21,7 +21,7 @@ export default function WagerList({ bet, uid }) {
             className="wager-list popped"
             style={{ backgroundColor: "var(--bet-background-color)" }}
         >
-            <div className="wager-title title">Wagers</div>
+            <div className="wager-title title">Bets placed</div>
             {bet.wagers ? (
                 bet.wagers
                     .sort((a, b) => complexWagerSorter(a, b, uid))

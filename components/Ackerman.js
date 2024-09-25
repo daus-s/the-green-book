@@ -1,3 +1,10 @@
+/**
+ * This is named after 2 characters. One is Rami Malek's hackerman (fuck the show tho highkey), the other is Levi Ackerman from AOT.
+ * I wanted to call it hackerman or something to begin but then realized im slicing a div in half and choosing where that slice is in the
+ * invocation so it felt more fitting to name it after Levi.
+ * @param {*} param0
+ * @returns
+ */
 export default function Ackerman({ percent, pColor, oColor }) {
     const optColor = "#4caf50";
     const pesColor = "#555d50";
@@ -13,7 +20,7 @@ export default function Ackerman({ percent, pColor, oColor }) {
         bottom: "0px",
         width: 100 * left + "%",
         left: "0px",
-        backgroundColor: oColor ? oColor : optColor,
+        backgroundColor: oColor || optColor
     };
 
     const pessimist = {
@@ -23,7 +30,7 @@ export default function Ackerman({ percent, pColor, oColor }) {
         height: "100%",
         width: 100 * (1 - left) + "%",
         right: "0px",
-        backgroundColor: pColor ? pColor : pesColor,
+        backgroundColor: pColor || pesColor
     };
 
     return (
@@ -34,7 +41,7 @@ export default function Ackerman({ percent, pColor, oColor }) {
     );
 }
 /* 
-this could be removed idk how it will look like with more complext bets existing */
+this could be removed idk how it will look like with more complex bets existing */
 function fullness(percent) {
     return logistic(percent, 0.95);
 }
