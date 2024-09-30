@@ -36,10 +36,32 @@
     grid-area: 1 / 1 / span 1 / span 1;
 }
 
-.bet-manager.bet .cancel:hover {
+.cancel:hover, .cash-out:hover {
     background-color: var(--soft-highlight);
 }
 
-.bet-manager.bet .cancel {
+.cash-out, .cancel {
+    color: var(--icon-color);
     background-color: transparent;
+    background-color: transparent;
+    height: 32px;
+    border-radius: 16px;
+    padding: 0px 10px 0px 5px;
+    border: none;
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: space-between;
+    line-height: 32px;
 }
+
+
+.cancel img, .cash-out img {
+    margin-right: 5px;
+}
+
+.bet-manager.bet {
+    display: flex;
+    flex-direction: row;
+}
+

@@ -1,4 +1,4 @@
-.bet .options-container .option.client {
+.option.client {
     width: 240px;
     position: relative;
     height: 32px;
@@ -76,7 +76,7 @@
     grid-area: 2 / 1 / span 1 / span 1;
 }
 
-.bet2-layout.bet .title { 
+.bet2-layout.bet .title, .options-title { 
     grid-area: 1 / 1 / span 1 / span 2;
     text-wrap: wrap;
     position: relative; 

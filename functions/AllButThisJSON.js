@@ -1,5 +1,3 @@
-import isEqual from "lodash/isEqual";
-
 function allButThis(list, element) {
     if (typeof element === "bigint") {
         throw Error("not yet implemented");
@@ -14,7 +12,7 @@ function allButThis(list, element) {
         return list.filter((item) => element !== item);
     }
     if (typeof element === "object") {
-        return list.filter((item) => !isEqual(item, element));
+        return list.filter((item) => !jsql(item, element));
     }
     if (typeof element === "string") {
         throw Error("not yet implemented");
@@ -42,7 +40,12 @@ function allButThese(list, elements) {
 
 function has(list, element) {
     for (const item of list) {
-        if (typeof element === "bigint" || typeof element === "boolean" || typeof element === "number" || typeof element === "string") {
+        if (
+            typeof element === "bigint" ||
+            typeof element === "boolean" ||
+            typeof element === "number" ||
+            typeof element === "string"
+        ) {
             if (element === item) {
                 return true;
             }
@@ -85,11 +88,20 @@ function partialEqual(json1, json2, fieldName) {
     if (deep2.hasOwnProperty(fieldName)) {
         delete deep2[fieldName];
     }
-    return isEqual(deep1, deep2);
+    return jsql(deep1, deep2);
 }
 
 function isLike(obj, kvps) {
-    const types = ["number", "string", "boolean", "undefined", "object", "function", "symbol", "bigint"];
+    const types = [
+        "number",
+        "string",
+        "boolean",
+        "undefined",
+        "object",
+        "function",
+        "symbol",
+        "bigint"
+    ];
 
     for (const [key, expectedType] of Object.entries(kvps)) {
         if (!types.includes(expectedType)) {
@@ -108,4 +120,29 @@ function isLike(obj, kvps) {
     return true;
 }
 
-module.exports = { allButThis, allButThese, has, splitnSort, partialEqual, isLike };
+/*json equal*/
+function jsql(a, b) {
+    const aCopy = { ...a };
+    const bCopy = { ...b };
+
+    const aEntries = Object.entries(aCopy);
+
+    for (const [aKey, aVal] of aEntries) {
+        if (bCopy.hasOwnProperty(aKey) && bCopy[aKey] === aVal) {
+            delete aCopy[aKey];
+            delete bCopy[aKey];
+        }
+    }
+
+    return Object.keys(aCopy).length + Object.keys(bCopy).length === 0;
+}
+
+module.exports = {
+    allButThis,
+    allButThese,
+    has,
+    splitnSort,
+    partialEqual,
+    isLike,
+    jsql
+};

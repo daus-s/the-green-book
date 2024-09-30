@@ -1,6 +1,6 @@
-import { isLike } from "./AllButThisJSON";
+const { isLike } = require("./AllButThisJSON");
 
-const VERBOSE = true;
+const VERBOSE = false;
 
 function isValidLine(x) {
     if (typeof x !== "number") {
@@ -41,7 +41,7 @@ function isOption(option) {
         bid: "number",
         oid: "number",
         winner: "boolean",
-        content: "string",
+        content: "string"
     };
 
     return isLike(option, optionSchema);
@@ -65,7 +65,7 @@ function isHaram({ line, g, content, options }) {
     return !isHalal({ line, g, content, options });
 }
 
-function isHalal({ line, g, content, options }) {
+function isHalal({ line, g, content, options }, create = false) {
     if (VERBOSE) {
         console.log({ line, g, content, options });
     }
@@ -79,17 +79,30 @@ function isHalal({ line, g, content, options }) {
         errors.push("  • Content cannot be empty");
     }
 
-    if (!Array.isArray(options) || options.length < 2 || options.some((opt) => opt.content.trim() === "")) {
-        errors.push("  • Options must be a non-empty array with at least 2 valid entries");
+    if (
+        !Array.isArray(options) ||
+        options.length < 2 ||
+        options.some((opt) => typeof opt.content !== "string") ||
+        options.some((opt) => create && opt.content.trim() === "")
+    ) {
+        errors.push(
+            "  • Options must be a non-empty array with at least 2 valid entries"
+        );
     }
 
     if (g !== null && typeof g !== "number" && g >= 0) {
-        errors.push("  • Group must be null or a valid unsigned integer identifier");
+        errors.push(
+            "  • Group must be null or a valid unsigned integer identifier"
+        );
     }
 
     if (VERBOSE) {
         if (errors.length) {
-            console.error("Error: function validateBet args { mode, line, g, content, options }\n".concat(errors.join("\n")));
+            console.error(
+                "Error: function isHalal args { mode, line, g, content, options }\n".concat(
+                    errors.join("\n")
+                )
+            );
         }
     }
     return !errors.length;
@@ -119,4 +132,11 @@ function isntWhole(line, options) {
     }
 }
 
-module.exports = { isValidLine, goodOps, goodWords, isHalal, isHaram, isOption };
+module.exports = {
+    isValidLine,
+    goodOps,
+    goodWords,
+    isHalal,
+    isHaram,
+    isOption
+};
