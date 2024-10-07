@@ -16,7 +16,7 @@ function isValidLine(x) {
 }
 
 function goodOps(opsAsList) {
-    if (!Array.isArray(opsAsList) || opsAsList.length < 2 || opsAsList.some()) {
+    if (!Array.isArray(opsAsList) || opsAsList.length < 2 || opsAsList.some((e) => isOption(e))) {
         let message = "Error: function: goodOps args: list<string> ";
 
         if (!Array.isArray(opsAsList)) {
@@ -28,6 +28,7 @@ function goodOps(opsAsList) {
         }
 
         if (opsAsList.some((e) => isOption(e))) {
+            message += `  • some of opsAsList are not options, X(\n`;
         }
 
         throw new Error(message);
@@ -41,7 +42,7 @@ function isOption(option) {
         bid: "number",
         oid: "number",
         winner: "boolean",
-        content: "string"
+        content: "string",
     };
 
     return isLike(option, optionSchema);
@@ -61,10 +62,29 @@ function goodWords(words) {
     return true;
 }
 
+/**
+ * returns whether a bet object is valid or not.
+ *
+ * naturally isHaram tells you that the bet is valid. but because betting is haram,
+ * a valid bet is haram. thus u ask !isHaram(bet) to determine
+ * @param {*} param0
+ * @returns
+ */
 function isHaram({ line, g, content, options }) {
-    return !isHalal({ line, g, content, options });
+    return isHalal({ line, g, content, options });
 }
 
+/**
+ * isHalal returns a boolean value describing a bet object passed as an argument.
+ *
+ * An optional parameter can be supplied, the create boolean. this indicates
+ * whether the function is being passed a object yet to be created in the
+ * database (aka createbeticon).
+ *
+ * @param {{bet}} param0
+ * @param {boolean} create
+ * @returns
+ */
 function isHalal({ line, g, content, options }, create = false) {
     if (VERBOSE) {
         console.log({ line, g, content, options });
@@ -79,30 +99,17 @@ function isHalal({ line, g, content, options }, create = false) {
         errors.push("  • Content cannot be empty");
     }
 
-    if (
-        !Array.isArray(options) ||
-        options.length < 2 ||
-        options.some((opt) => typeof opt.content !== "string") ||
-        options.some((opt) => create && opt.content.trim() === "")
-    ) {
-        errors.push(
-            "  • Options must be a non-empty array with at least 2 valid entries"
-        );
+    if (!Array.isArray(options) || options.length < 2 || options.some((opt) => typeof opt.content !== "string") || options.some((opt) => create && opt.content.trim() === "")) {
+        errors.push("  • Options must be a non-empty array with at least 2 valid entries");
     }
 
     if (g !== null && typeof g !== "number" && g >= 0) {
-        errors.push(
-            "  • Group must be null or a valid unsigned integer identifier"
-        );
+        errors.push("  • Group must be null or a valid unsigned integer identifier");
     }
 
     if (VERBOSE) {
         if (errors.length) {
-            console.error(
-                "Error: function isHalal args { mode, line, g, content, options }\n".concat(
-                    errors.join("\n")
-                )
-            );
+            console.error("Error: function isHalal args { mode, line, g, content, options }\n".concat(errors.join("\n")));
         }
     }
     return !errors.length;
@@ -136,7 +143,6 @@ module.exports = {
     isValidLine,
     goodOps,
     goodWords,
-    isHalal,
     isHaram,
-    isOption
+    isOption,
 };

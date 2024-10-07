@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { isValidLine, isHalal } from "../functions/AllahValidation";
+import { isValidLine, isHaram } from "../functions/AllahValidation";
 import { useModal } from "./providers/ModalContext";
 import { useAuth } from "./providers/AuthContext";
 import { useEffect, useState } from "react";
@@ -35,14 +35,10 @@ export default function CreateBetIcon() {
             public: group ? false : true,
             open: true,
             content: content,
-            line: mode === "over_under" ? line : null
+            line: mode === "over_under" ? line : null,
         };
         console.log(betJson);
-        const { data: bet, error } = await supabase
-            .from("bets2")
-            .insert(betJson)
-            .select()
-            .single();
+        const { data: bet, error } = await supabase.from("bets2").insert(betJson).select().single();
         console.log(bet);
         if (error) {
             failed();
@@ -52,21 +48,15 @@ export default function CreateBetIcon() {
         if (mode === OPTIONS) {
             console.log(options);
             for (const option of options) {
-                const { error: insert } = await supabase
-                    .from("options")
-                    .insert(optToJson(option, bet.id, i));
+                const { error: insert } = await supabase.from("options").insert(optToJson(option, bet.id, i));
                 if (insert) {
                     console.log(`failed option ${i}`);
                 }
                 i++;
             }
         } else if (mode === OVER_UNDER) {
-            const { error: insertOver } = await supabase
-                .from("options")
-                .insert(optToJson("Over", bet.id, 0));
-            const { error: insertUnder } = await supabase
-                .from("options")
-                .insert(optToJson("Under", bet.id, 1));
+            const { error: insertOver } = await supabase.from("options").insert(optToJson("Over", bet.id, 0));
+            const { error: insertUnder } = await supabase.from("options").insert(optToJson("Under", bet.id, 1));
             if (insertOver) {
                 console.log("failed option over");
             }
@@ -88,37 +78,29 @@ export default function CreateBetIcon() {
         setOptions(["", ""]);
     };
 
-    const submittable = isHalal(
+    const submittable = isHaram(
         {
             mode,
             line: parseFloat(line),
             group,
             content: content,
-            options
+            options,
         },
         true
     );
     return (
         <div className="create bet">
-            <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="Start a bet"
-            />
+            <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Start a bet" />
             <form className="form" onSubmit={handleSubmit}>
                 <div
                     style={{
                         display: "flex",
                         justifyContent: "space-between",
-                        marginRight: "18px"
+                        marginRight: "18px",
                     }}
                 >
                     <Line val={line} setVal={setLine} mode={mode} />
-                    <Options
-                        options={options}
-                        setOptions={setOptions}
-                        mode={mode}
-                    />
+                    <Options options={options} setOptions={setOptions} mode={mode} />
                     <GroupSelector group={group} setGroup={setGroup} />
                 </div>
                 <div
@@ -126,16 +108,13 @@ export default function CreateBetIcon() {
                     style={{
                         display: "flex",
                         flexDirection: "row",
-                        justifyContent: "space-between"
+                        justifyContent: "space-between",
                     }}
                 >
                     <ModeRadio mode={mode} setMode={setMode} />
                     <button
                         type="submit"
-                        className={
-                            "submit highlightable" +
-                            (submittable ? " valid" : "")
-                        }
+                        className={"submit highlightable" + (submittable ? " valid" : "")}
                         style={{
                             borderRadius: "50vh",
                             width: "92px",
@@ -143,10 +122,8 @@ export default function CreateBetIcon() {
                             color: "var(--bright-text)",
                             fontSize: "20px",
                             fontWeight: "600",
-                            backgroundColor: submittable
-                                ? "var(--button-hover)"
-                                : "var(--soft-highlight)",
-                            margin: "5px 0 5px 0"
+                            backgroundColor: submittable ? "var(--button-hover)" : "var(--soft-highlight)",
+                            margin: "5px 0 5px 0",
                         }}
                     >
                         Post
@@ -158,15 +135,7 @@ export default function CreateBetIcon() {
 }
 //<Image src="/save2.png" height={24} width={24} alt="submit bet" />
 
-function Option({
-    final,
-    addOption,
-    removeOption,
-    index,
-    onChange,
-    value,
-    length
-}) {
+function Option({ final, addOption, removeOption, index, onChange, value, length }) {
     if (typeof addOption !== "function" || typeof removeOption !== "function") {
         throw new Error("cannot create a button without a function");
     }
@@ -179,7 +148,7 @@ function Option({
                 width: "fit-content",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "flex-start"
+                alignItems: "flex-start",
             }}
         >
             <div
@@ -188,13 +157,10 @@ function Option({
                     flexDirection: "row",
                     height: "38px",
                     alignItems: "center",
-                    width: "280px"
+                    width: "280px",
                 }}
             >
-                <div
-                    className={"input" + (filled ? " filled" : "")}
-                    style={{ position: "relative" }}
-                >
+                <div className={"input" + (filled ? " filled" : "")} style={{ position: "relative" }}>
                     <input
                         className="option"
                         value={value}
@@ -203,7 +169,7 @@ function Option({
                             height: "34px",
                             fontSize: "18px",
                             color: "var(--input-text)",
-                            verticalAlign: "bottom"
+                            verticalAlign: "bottom",
                         }}
                     />
                     <div className="placeholder">Option {index + 1}</div>
@@ -217,17 +183,7 @@ function Option({
                             removeOption();
                         }}
                     >
-                        <Image
-                            className={
-                                "delete highlight-button" +
-                                (length === 2 ? " disabled" : "")
-                            }
-                            src="/delete.png"
-                            alt="Add option."
-                            height={24}
-                            width={24}
-                            style={{ padding: "2px" }}
-                        />
+                        <Image className={"delete highlight-button" + (length === 2 ? " disabled" : "")} src="/delete.png" alt="Add option." height={24} width={24} style={{ padding: "2px" }} />
                     </button>
                 ) : (
                     <></>
@@ -240,14 +196,7 @@ function Option({
                             addOption();
                         }}
                     >
-                        <Image
-                            className="highlight-button"
-                            src="/plus.png"
-                            alt="Add option."
-                            height={24}
-                            width={24}
-                            style={{ padding: "2px" }}
-                        />
+                        <Image className="highlight-button" src="/plus.png" alt="Add option." height={24} width={24} style={{ padding: "2px" }} />
                     </button>
                 ) : (
                     <div style={{ width: "20px", marginLeft: "4px" }} />
@@ -290,7 +239,7 @@ function Options({ options, setOptions, mode }) {
                     flexDirection: "column",
                     alignItems: "center",
                     width: "fit-content",
-                    margin: "0px 0px 5px 20px"
+                    margin: "0px 0px 5px 20px",
                 }}
             >
                 {options.map((val, index) => {
@@ -340,7 +289,7 @@ function Line({ val, setVal, mode }) {
                         display: "flex",
                         alignItems: "flex-start",
                         justifyContent: "flex-start",
-                        height: "36px"
+                        height: "36px",
                     }}
                 >
                     <label className="line">Line</label>
@@ -352,38 +301,26 @@ function Line({ val, setVal, mode }) {
                         style={{
                             marginRight: "auto",
                             width: "248px",
-                            marginTop: "2px"
+                            marginTop: "2px",
                         }}
                     />
                 </div>
-                <div
-                    className="tell-u-what-a-line-is"
-                    style={{ height: "40px", marginLeft: "20px" }}
-                >
+                <div className="tell-u-what-a-line-is" style={{ height: "40px", marginLeft: "20px" }}>
                     {isValidLine(parseFloat(val)) ? (
                         <>
-                            <div
-                                className="over-info"
-                                style={{ height: "20px" }}
-                            >
+                            <div className="over-info" style={{ height: "20px" }}>
                                 If the result is over {val} the
                                 <span
                                     style={{
-                                        fontWeight: "bold"
+                                        fontWeight: "bold",
                                     }}
                                 >
                                     over
                                 </span>
                                 wins.
                             </div>
-                            <div
-                                className="under-info"
-                                style={{ height: "20px" }}
-                            >
-                                If the result is under {val} the{" "}
-                                <span style={{ fontWeight: "bold" }}>
-                                    under
-                                </span>
+                            <div className="under-info" style={{ height: "20px" }}>
+                                If the result is under {val} the <span style={{ fontWeight: "bold" }}>under</span>
                                 wins.
                             </div>
                         </>
@@ -401,32 +338,13 @@ function Line({ val, setVal, mode }) {
 
 function ModeRadio({ mode, setMode }) {
     return (
-        <div
-            className="radio-type-container highlightable"
-            style={{ display: "flex", flexDirection: "row" }}
-        >
-            <input
-                type="radio"
-                onChange={() => setMode("options")}
-                checked={mode === "options"}
-                id="options-radio"
-            />
+        <div className="radio-type-container highlightable" style={{ display: "flex", flexDirection: "row" }}>
+            <input type="radio" onChange={() => setMode("options")} checked={mode === "options"} id="options-radio" />
             <label htmlFor="options-radio">
-                <Image
-                    src="/poll.png"
-                    alt="Poll radio."
-                    height={32}
-                    width={32}
-                />
+                <Image src="/poll.png" alt="Poll radio." height={32} width={32} />
             </label>
 
-            <input
-                className="over-under"
-                type="radio"
-                onChange={() => setMode("over_under")}
-                checked={mode === "over_under"}
-                id="over-under-radio"
-            />
+            <input className="over-under" type="radio" onChange={() => setMode("over_under")} checked={mode === "over_under"} id="over-under-radio" />
             <label htmlFor="over-under-radio">O/U</label>
         </div>
     );
@@ -437,10 +355,7 @@ function GroupSelector({ setGroup, group }) {
     const { meta } = useAuth();
     const [groups, setGroups] = useState(undefined);
     const getGroups = async () => {
-        const { data, error } = await supabase
-            .from("groups")
-            .select("*, user_groups (*)")
-            .eq("user_groups.userID", meta.id);
+        const { data, error } = await supabase.from("groups").select("*, user_groups (*)").eq("user_groups.userID", meta.id);
         if (error) {
             return;
         }
@@ -468,7 +383,7 @@ function GroupSelector({ setGroup, group }) {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-end",
-                position: "relative"
+                position: "relative",
             }}
         >
             {group ? (
@@ -483,21 +398,14 @@ function GroupSelector({ setGroup, group }) {
                         marginRight: "2px",
                         fontSize: "24px",
                         color: "var(--infomercial)",
-                        pointerEvents: "none"
+                        pointerEvents: "none",
                     }}
                 >
                     (public)
                 </div>
             )}
-            <select
-                style={{ width: "180px", height: "1.5em" }}
-                onChange={changeWrapper}
-            >
-                <option
-                    key={-1}
-                    value={null}
-                    style={{ fontWeight: "100", color: "red" }}
-                ></option>
+            <select style={{ width: "180px", height: "1.5em" }} onChange={changeWrapper}>
+                <option key={-1} value={null} style={{ fontWeight: "100", color: "red" }}></option>
                 {groups?.map((group, index) => {
                     return (
                         <option key={index} value={group.groupID}>
@@ -511,7 +419,7 @@ function GroupSelector({ setGroup, group }) {
                     fontWeight: "normal",
                     fontSize: "16px",
                     marginTop: "5px",
-                    marginRight: "0px"
+                    marginRight: "0px",
                 }}
             >
                 Group

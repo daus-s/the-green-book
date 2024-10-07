@@ -1,0 +1,30 @@
+.bet-manager.modal {
+    display: grid;
+    grid-template-areas:
+      ". . . . icons"
+      ". options options options ."
+      ".  . . cancel cash";
+    grid-template-rows: 50px 1fr 40px;
+    grid-template-columns: repeat(5, 145px);
+}
+
+.bet-manager.modal .icons {
+    background-color: pink;
+    grid-area: icons;
+}
+
+.bet-manager.modal .options {
+    grid-area: options;
+    display: flex;
+    flex-direction: column;
+}
+
+.bet-manager.modal .cancel {
+    background-color: palegreen;
+    grid-area: cancel;
+}
+
+.bet-manager.modal .cash {
+    background-color: palegoldenrod;
+    grid-area: cash;
+}
