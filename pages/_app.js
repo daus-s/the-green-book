@@ -49,6 +49,7 @@ import "../styles/ackerman.css";
 import "../styles/bet2.css";
 import "../styles/betpage.css";
 import "../styles/betmgm.css";
+import "../styles/customradio.css";
 
 Modal.setAppElement("#__next");
 

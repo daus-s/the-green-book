@@ -2,6 +2,8 @@ import { useMobile } from "../providers/MobileContext";
 import { useState } from "react";
 import Modal from "react-modal";
 import Image from "next/image";
+import CustomRadio from "../CustomRadio";
+import { jsql } from "../../functions/AllButThisJSON";
 
 const BetMGModal = ({ isOpen, onCancel, bet }) => {
     if (!bet) {
@@ -41,7 +43,7 @@ const BetMGModal = ({ isOpen, onCancel, bet }) => {
     );
 };
 
-function Options({ bet, selectedWinner, setSelectedWinner }) {
+function Options({ bet, setSelectedWinner }) {
     if (!bet) {
         throw new Error("cannot operate on a bet");
     }
@@ -51,23 +53,18 @@ function Options({ bet, selectedWinner, setSelectedWinner }) {
     return (
         <form className="options">
             {options.map((option) => (
-                <OptionRadio option={option} isSelected={selectedWinner === option} setSelectedWinner={() => setSelectedWinner(option)} />
+                <OptionRadio option={option} setSelectedWinner={() => setSelectedWinner(option)} />
             ))}
         </form>
     );
 }
 
-function OptionRadio({ option, isSelected, setSelectedWinner }) {
+function OptionRadio({ option, setSelectedWinner }) {
     if (!option.content) {
         throw new Error("No content found in option.");
     }
 
-    return (
-        <label>
-            <input type="radio" name="bet-option" value={option.content} checked={isSelected} onChange={setSelectedWinner} />
-            {option.content}
-        </label>
-    );
+    return <CustomRadio value={option.content} className="bet-option" label={option.content} state={option.content} setState={setSelectedWinner} />;
 }
 
 function Icons({ bet }) {
