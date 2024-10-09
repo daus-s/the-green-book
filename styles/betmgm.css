@@ -9,7 +9,6 @@
 }
 
 .bet-manager.modal .icons {
-    background-color: pink;
     grid-area: icons;
 }
 
@@ -20,11 +19,50 @@
 }
 
 .bet-manager.modal .cancel {
-    background-color: palegreen;
     grid-area: cancel;
 }
 
-.bet-manager.modal .cash {
-    background-color: palegoldenrod;
+.bet-manager.modal .cash-out {
     grid-area: cash;
+}
+
+.bet-manager.modal input[type="radio"] {
+    height: 20px;
+    width: 20px;
+    margin: 0;
+    padding: 0;
+    border: 2px solid var(--light-green); /* Use a light green border */
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 0 5px var(--light-green); /* Add a soft glow */
+}
+
+.bet-manager.modal input[type="radio"]:checked {
+    background-color: var(--green); /* Fill with green when checked */
+    border-color: var(--dark-green); /* Darken border when checked */
+    box-shadow: 0 0 8px var(--green); /* Increase glow on checked state */
+}
+
+.bet-manager.modal input[type="radio"]:hover {
+    border-color: var(--green); /* Border changes to green on hover */
+    box-shadow: 0 0 8px var(--green); /* Stronger glow on hover */
+}
+
+.bet-manager.modal label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--soft-highlight); /* Text color using dark green */
+}
+
+.bet-manager.modal label:hover {
+    color: var(--green); /* Change label text color on hover */
+}
+
+.bet-manager.modal label input[type="radio"] {
+    margin-right: 10px; /* Add space between radio and label text */
 }
