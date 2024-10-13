@@ -11,11 +11,11 @@ import { jsql } from "../functions/AllButThisJSON";
  * @param { style, value, label, state, setState }
  * @returns
  */
-export default function CustomRadio({ style, className, value, label, state, setState }) {
+export default function Croc({ style, className, value, label, state, setState }) {
     const checked = value && state && jsql(state, value);
 
     return (
-        <label className="container" style={style?.label}>
+        <label className={"croc " + className} style={style?.label}>
             <input
                 type="radio"
                 className={className}
@@ -25,8 +25,8 @@ export default function CustomRadio({ style, className, value, label, state, set
                 onChange={(e) => setState(e.target.value)}
                 style={style?.input} // Inline styles for the radio button
             />
-            {checked && <span className="checkmark"></span>}
-            {label}
+            <span className="checkmark" />
+            <span className="label">{label}</span>
         </label>
     );
 }
