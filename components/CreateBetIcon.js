@@ -5,6 +5,7 @@ import { useAuth } from "./providers/AuthContext";
 import { useEffect, useState } from "react";
 import { supabase } from "../functions/SupabaseClient";
 import { optToJson } from "../functions/Bet2Ops";
+import DateTimePicker from "./timing/TimeSelector";
 
 const OPTIONS = "options";
 const OVER_UNDER = "over_under";
@@ -15,6 +16,8 @@ export default function CreateBetIcon() {
     const [group, setGroup] = useState(null);
     const [content, setContent] = useState("");
     const [options, setOptions] = useState(["", ""]);
+    const [submittable, setSubmittable] = useState(null);
+    const [dueAt, setDueAt] = useState(new Date(Date.now() + 86_400_000)); // 24 hr/d * 60 min/hr * 60 60s/ms * 1000 ms/s
 
     const { failed, succeed } = useModal();
     const { meta } = useAuth();
@@ -28,48 +31,57 @@ export default function CreateBetIcon() {
         }
 
         const gid = parseInt(group);
+
         const betJson = {
             creator: meta.id,
             g: group ? gid : null,
-            // sourcery skip: simplify-ternary
-            public: group ? false : true,
+            public: !group,
             open: true,
             content: content,
             line: mode === "over_under" ? line : null,
         };
+
         console.log(betJson);
-        const { data: bet, error } = await supabase.from("bets2").insert(betJson).select().single();
-        console.log(bet);
-        if (error) {
-            failed();
+
+        const { data: retrievedBet, error: sendError } = await supabase.from("bets2").insert(betJson).select("*").single();
+
+        if (sendError) {
+            failed("Couldn't create your bet.");
             return;
         }
+
         let i = 0;
         if (mode === OPTIONS) {
             console.log(options);
+
             for (const option of options) {
-                const { error: insert } = await supabase.from("options").insert(optToJson(option, bet.id, i));
+                const { error: insert } = await supabase.from("options").insert(optToJson(option, retrievedBet.id, i));
+
                 if (insert) {
-                    console.log(`failed option ${i}`);
+                    console.error(`failed option ${i}`);
                 }
                 i++;
             }
         } else if (mode === OVER_UNDER) {
             const { error: insertOver } = await supabase.from("options").insert(optToJson("Over", bet.id, 0));
+
             const { error: insertUnder } = await supabase.from("options").insert(optToJson("Under", bet.id, 1));
+
+            const { error: insertLine } = isWhole(line) && (await supabase.from("options").insert(optToJson("Line", bet.id, 2)));
+
             if (insertOver) {
-                console.log("failed option over");
+                console.error("failed to create option: over");
             }
             if (insertUnder) {
-                console.log("failed option under");
+                console.error("failed to create option: under");
+            }
+            if (insertLine) {
+                console.error("failed to create option: line");
             }
         }
-        if (error) {
-            failed();
-        } else {
-            succeed();
-            clearForm();
-        }
+
+        succeed();
+        clearForm();
     };
 
     const clearForm = () => {
@@ -78,57 +90,43 @@ export default function CreateBetIcon() {
         setOptions(["", ""]);
     };
 
-    const submittable = isHaram(
-        {
-            mode,
-            line: parseFloat(line),
-            group,
-            content: content,
-            options,
-        },
-        true
-    );
+    const checkSubmittable = () => {
+        const submittable = isHaram(
+            {
+                mode,
+                line: parseFloat(line) || null,
+                group,
+                content: content,
+                options,
+            },
+            true
+        );
+
+        if (submittable) {
+            setSubmittable(true);
+        } else {
+            setSubmittable(false);
+        }
+    };
+
     return (
         <div className="create bet">
-            <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Start a bet" />
+            <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Start a bet" onBlur={checkSubmittable} />
             <form className="form" onSubmit={handleSubmit}>
                 <div
                     style={{
-                        display: "flex",
-                        justifyContent: "space-between",
                         marginRight: "18px",
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        gridTemplateRows: "1fr 1fr",
                     }}
                 >
-                    <Line val={line} setVal={setLine} mode={mode} />
-                    <Options options={options} setOptions={setOptions} mode={mode} />
+                    <Line val={line} setVal={setLine} mode={mode} checkSubmittable={checkSubmittable} />
+                    <Options options={options} setOptions={setOptions} mode={mode} checkSubmittable={checkSubmittable} />
                     <GroupSelector group={group} setGroup={setGroup} />
+                    <DateTimePicker time={dueAt} setTime={setDueAt} />
                 </div>
-                <div
-                    className="button-nav"
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                    }}
-                >
-                    <ModeRadio mode={mode} setMode={setMode} />
-                    <button
-                        type="submit"
-                        className={"submit highlightable" + (submittable ? " valid" : "")}
-                        style={{
-                            borderRadius: "50vh",
-                            width: "92px",
-                            overflow: "hidden",
-                            color: "var(--bright-text)",
-                            fontSize: "20px",
-                            fontWeight: "600",
-                            backgroundColor: submittable ? "var(--button-hover)" : "var(--soft-highlight)",
-                            margin: "5px 0 5px 0",
-                        }}
-                    >
-                        Post
-                    </button>
-                </div>
+                <Buttons mode={mode} setMode={setMode} submittable={submittable} />
             </form>
         </div>
     );
@@ -206,7 +204,7 @@ function Option({ final, addOption, removeOption, index, onChange, value, length
     );
 }
 
-function Options({ options, setOptions, mode }) {
+function Options({ options, setOptions, mode, checkSubmittable }) {
     const addOption = () => {
         const shallow = [...options];
         shallow.push("");
@@ -214,6 +212,7 @@ function Options({ options, setOptions, mode }) {
             //this is bc the int2 restriction on optionID (oid) in the options2 table
             setOptions(shallow);
         }
+        checkSubmittable();
     };
 
     const removeViaIndex = (index) => {
@@ -221,19 +220,23 @@ function Options({ options, setOptions, mode }) {
         if (removed.length > 2 && index > 0 && index < removed.length) {
             removed.splice(index, 1);
             setOptions(removed);
+            checkSubmittable();
         }
+        checkSubmittable();
     };
 
     const alter = (value, index) => {
         const updated = [...options];
         updated[index] = value;
         setOptions(updated);
+
+        checkSubmittable();
     };
 
     if (mode === "options") {
         return (
             <div
-                className="options-container"
+                className="options-container options-column"
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -264,7 +267,7 @@ function Options({ options, setOptions, mode }) {
     }
 }
 
-function Line({ val, setVal, mode }) {
+function Line({ val, setVal, mode, checkSubmittable }) {
     const handleChange = (f) => {
         if (f.length === 0) {
             setVal("");
@@ -303,6 +306,7 @@ function Line({ val, setVal, mode }) {
                             width: "248px",
                             marginTop: "2px",
                         }}
+                        onBlur={checkSubmittable}
                     />
                 </div>
                 <div className="tell-u-what-a-line-is" style={{ height: "40px", marginLeft: "20px" }}>
@@ -384,6 +388,7 @@ function GroupSelector({ setGroup, group }) {
                 flexDirection: "column",
                 alignItems: "flex-end",
                 position: "relative",
+                gridArea: "1 / 2 / 2 / 3",
             }}
         >
             {group ? (
@@ -396,12 +401,13 @@ function GroupSelector({ setGroup, group }) {
                         left: "2px",
                         marginTop: "4px",
                         marginRight: "2px",
+                        marginLeft: "47px",
                         fontSize: "24px",
                         color: "var(--infomercial)",
                         pointerEvents: "none",
                     }}
                 >
-                    (public)
+                    Group
                 </div>
             )}
             <select style={{ width: "180px", height: "1.5em" }} onChange={changeWrapper}>
@@ -414,20 +420,48 @@ function GroupSelector({ setGroup, group }) {
                     );
                 })}
             </select>
-            <label
-                style={{
-                    fontWeight: "normal",
-                    fontSize: "16px",
-                    marginTop: "5px",
-                    marginRight: "0px",
-                }}
-            >
-                Group
-            </label>
         </div>
     );
 }
 
 function Spacer() {
     return <div className="spacer" style={{ height: "100%", width: "4px" }} />;
+}
+
+function Submit({ submittable }) {
+    return (
+        <button
+            type="submit"
+            disabled={!submittable}
+            className={"submit highlightable" + (submittable ? " valid" : "")}
+            style={{
+                borderRadius: "50vh",
+                width: "92px",
+                overflow: "hidden",
+                color: "var(--bright-text)",
+                fontSize: "20px",
+                fontWeight: "600",
+                backgroundColor: submittable ? "var(--button-hover)" : "var(--soft-highlight)",
+                margin: "5px 0 5px 0",
+            }}
+        >
+            Post
+        </button>
+    );
+}
+
+function Buttons({ mode, setMode, submittable }) {
+    return (
+        <div
+            className="button-nav"
+            style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+            }}
+        >
+            <ModeRadio mode={mode} setMode={setMode} />
+            <Submit submittable={submittable} />
+        </div>
+    );
 }

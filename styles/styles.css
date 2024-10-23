@@ -42,6 +42,7 @@ body {
   --text-color: #ffffff; /* Light text color */
   --button-text: #ffffff; /* Light text color for buttons */
   --bright-text: #e0e0ea;
+  --unhighlight: #dedede;
   --grayed-out-text: #ddd;
   --bet-text-color: #ccc;
   --table-border: #C3C9CF;  /*inv(48, 54, 61)*/

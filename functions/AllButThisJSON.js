@@ -40,12 +40,7 @@ function allButThese(list, elements) {
 
 function has(list, element) {
     for (const item of list) {
-        if (
-            typeof element === "bigint" ||
-            typeof element === "boolean" ||
-            typeof element === "number" ||
-            typeof element === "string"
-        ) {
+        if (typeof element === "bigint" || typeof element === "boolean" || typeof element === "number" || typeof element === "string") {
             if (element === item) {
                 return true;
             }
@@ -90,24 +85,51 @@ function partialEqual(json1, json2, fieldName) {
     }
     return jsql(deep1, deep2);
 }
-
+/**
+ *
+ * Example Usage:
+ *
+ *  function isOption(option) {
+ *    const optionSchema = {
+ *      bid: "number",
+ *      oid: "number",
+ *      winner: "boolean",
+ *      content: "string",
+ *     };
+ *
+ *   return isLike(option, optionSchema);
+ * }
+ *
+ *
+ * @param {*} obj
+ * @param {*} kvps
+ * @returns
+ */
 function isLike(obj, kvps) {
-    const types = [
-        "number",
-        "string",
-        "boolean",
-        "undefined",
-        "object",
-        "function",
-        "symbol",
-        "bigint"
-    ];
+    if (typeof obj !== "object" || typeof kvps !== "object") {
+        throw new Error(
+            "isLike can only compare objects: " +
+                (typeof obj === "object"
+                    ? typeof kvps === "object"
+                        ? "\nHow is this thrown?\n"
+                        : "\n  • kvps [ERROR]\n"
+                    : typeof kvps === "object"
+                    ? "\n  • obj [ERROR]\n"
+                    : "  • kvps [ERROR]\n  • kvps [ERROR]\n")
+        );
+    }
+    const types = ["number", "string", "boolean", "undefined", "object", "function", "symbol", "bigint"];
 
     for (const [key, expectedType] of Object.entries(kvps)) {
         if (!types.includes(expectedType)) {
+            /*
+             * we throw here because isLike cannot control the input object were comparing to this maybe used to validate user input,
+             * but what we should only allow certain type comparisons
+             */
             throw new Error(`Invalid type "${expectedType}" for key "${key}"`);
         }
 
+        console.log({ key, obj });
         if (!(key in obj)) {
             return false;
         }
@@ -144,5 +166,5 @@ module.exports = {
     splitnSort,
     partialEqual,
     isLike,
-    jsql
+    jsql,
 };

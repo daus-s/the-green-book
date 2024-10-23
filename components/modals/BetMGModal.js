@@ -2,8 +2,8 @@ import { useMobile } from "../providers/MobileContext";
 import { useState } from "react";
 import Modal from "react-modal";
 import Image from "next/image";
-import CustomRadio from "../CustomRadio";
-import { jsql } from "../../functions/AllButThisJSON";
+import Croc from "../Croc";
+import { goodOps } from "../../functions/AllahValidation";
 
 const BetMGModal = ({ isOpen, onCancel, bet }) => {
     if (!bet) {
@@ -15,7 +15,7 @@ const BetMGModal = ({ isOpen, onCancel, bet }) => {
     const { isMobile } = useMobile();
     return (
         <Modal
-            isOpen={true}
+            isOpen={isOpen || true}
             onRequestClose={onCancel}
             style={{
                 overlay: {
@@ -43,28 +43,28 @@ const BetMGModal = ({ isOpen, onCancel, bet }) => {
     );
 };
 
-function Options({ bet, setSelectedWinner }) {
-    if (!bet) {
-        throw new Error("cannot operate on a bet");
+function Options({ bet, selectedWinner, setSelectedWinner }) {
+    const { options } = bet;
+    if (isHalal(bet) || !goodOps(options)) {
+        throw new Error("Malformed bet + options \n" + (isHalal(bet) ? "" : "  • No bet object supplied") + (goodOps(options) ? "" : "  • Options not strcutured correctly"));
     }
 
-    const { options } = bet;
-
     return (
-        <form className="options">
+        <fieldset className="options">
+            <legend>Select winning option</legend>
             {options.map((option) => (
-                <OptionRadio option={option} setSelectedWinner={() => setSelectedWinner(option)} />
+                <OptionRadio option={option} selectedWinner={selectedWinner} setSelectedWinner={() => setSelectedWinner(option)} />
             ))}
-        </form>
+        </fieldset>
     );
 }
 
-function OptionRadio({ option, setSelectedWinner }) {
+function OptionRadio({ option, selectedWinner, setSelectedWinner }) {
     if (!option.content) {
         throw new Error("No content found in option.");
     }
 
-    return <CustomRadio value={option.content} className="bet-option" label={option.content} state={option.content} setState={setSelectedWinner} />;
+    return <Croc value={option} className="bet-option" label={option.content} state={selectedWinner} setState={setSelectedWinner} />;
 }
 
 function Icons({ bet }) {

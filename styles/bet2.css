@@ -10,6 +10,12 @@
     align-items: center;
 }
 
+
+.option.client:hover {
+    color: var(--unhighlight);
+    filter: brightness(115%);
+}
+
 .options-container {
     height: fit-content;
     width: fit-content;

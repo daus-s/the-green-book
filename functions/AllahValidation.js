@@ -3,7 +3,7 @@ const { isLike } = require("./AllButThisJSON");
 const VERBOSE = false;
 
 function isValidLine(x) {
-    if (typeof x !== "number") {
+    if (isNumber(x)) {
         if (VERBOSE) {
             console.log("Line must be a valid number.");
         }
@@ -15,29 +15,44 @@ function isValidLine(x) {
     return false;
 }
 
-function goodOps(opsAsList) {
-    if (!Array.isArray(opsAsList) || opsAsList.length < 2 || opsAsList.some((e) => isOption(e))) {
+function goodOps(opsAsList, create = false) {
+    const notList = !Array.isArray(opsAsList);
+    const enoughOptions = opsAsList.length < 2;
+    const optionValidity = opsAsList.some((e) => !isOption(e, create));
+    if (notList || enoughOptions || optionValidity) {
         let message = "Error: function: goodOps args: list<string> ";
 
-        if (!Array.isArray(opsAsList)) {
+        if (notList) {
             message += `  • opsAsList requires list, received ${typeof opsAsList}\n`;
         }
 
-        if (Array.isArray(opsAsList) && opsAsList.length < 2) {
+        if (enoughOptions) {
             message += `  • opsAsList requires length ≥ 2, received length ${opsAsList.length}\n`;
         }
 
-        if (opsAsList.some((e) => isOption(e))) {
-            message += `  • some of opsAsList are not options, X(\n`;
+        if (optionValidity) {
+            message += `  • some of opsAsList are not options, X(\n    Options:\n`;
+            for (const option of opsAsList) {
+                if (create) {
+                    message += `    • expected string, got ${typeof option}\n`;
+                }
+            }
         }
 
         throw new Error(message);
     }
 
-    return opsAsList.every((c) => Boolean(c));
+    return opsAsList.every((c) => create || Boolean(c));
 }
 
-function isOption(option) {
+function isOption(option, create = false) {
+    // console.log("CREATE BET option type:", typeof option);
+    // console.log(`  isOption: isCreate=${create}`);
+    if (create) {
+        // console.log("  considering as a string. \n  • option type: " + typeof option);
+        return typeof option === "string";
+    }
+
     const optionSchema = {
         bid: "number",
         oid: "number",
@@ -70,8 +85,8 @@ function goodWords(words) {
  * @param {*} param0
  * @returns
  */
-function isHaram({ line, g, content, options }) {
-    return isHalal({ line, g, content, options });
+function isHaram({ line, g, content, options }, create = false) {
+    return isHalal({ line, g, content, options }, create);
 }
 
 /**
@@ -81,17 +96,26 @@ function isHaram({ line, g, content, options }) {
  * whether the function is being passed a object yet to be created in the
  * database (aka createbeticon).
  *
+ *
  * @param {{bet}} param0
  * @param {boolean} create
  * @returns
  */
-function isHalal({ line, g, content, options }, create = false) {
+function isHalal({ line, g, content, options }, create) {
     if (VERBOSE) {
-        console.log({ line, g, content, options });
+        console.log(line, g, content, options);
     }
     let errors = [];
-
-    if (line !== null && !(isValidLine(line) || isntWhole(line, options))) {
+    const lineStatus = !((create && line === "") || line === null || (isValidLine(line) && optionsOverUnder(options)) || isntWhole(line, options));
+    if (lineStatus) {
+        if (VERBOSE) {
+            console.log(
+                JSON.stringify({
+                    line: line,
+                    type: typeof line,
+                })
+            );
+        }
         errors.push("  • Line must be a valid number");
     }
 
@@ -99,7 +123,7 @@ function isHalal({ line, g, content, options }, create = false) {
         errors.push("  • Content cannot be empty");
     }
 
-    if (!Array.isArray(options) || options.length < 2 || options.some((opt) => typeof opt.content !== "string") || options.some((opt) => create && opt.content.trim() === "")) {
+    if (!goodOps(options, create)) {
         errors.push("  • Options must be a non-empty array with at least 2 valid entries");
     }
 
@@ -135,9 +159,24 @@ function isntWhole(line, options) {
                 truths[2] = true;
             }
         }
-        return truths.length === 3 && truths.every((x) => x);
+        return truths.every((x) => x);
     }
 }
+
+function optionsOverUnder(options) {
+    const truths = [false, false];
+    for (const option of options) {
+        if (insensitiveEqual(option.content, "over")) {
+            truths[0] = true;
+        }
+        if (insensitiveEqual(option.content, "under")) {
+            truths[1] = true;
+        }
+    }
+    return truths.length === 3 && truths.every((x) => x);
+}
+
+const isNumber = (value) => typeof value === "number" && value === value && value !== Infinity && value !== -Infinity;
 
 module.exports = {
     isValidLine,
@@ -145,4 +184,5 @@ module.exports = {
     goodWords,
     isHaram,
     isOption,
+    isNumber,
 };

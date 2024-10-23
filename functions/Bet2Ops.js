@@ -1,6 +1,6 @@
 //functions and operatoprs for the Bet2 DataStructure
 
-const { isHaram, isOption } = require("./AllahValidation");
+const { isHaram, isOption, isNumber } = require("./AllahValidation");
 const { imp2american } = require("./CalculateProbabilities");
 
 /* SCHEMA
@@ -157,14 +157,14 @@ function tokenSum(sum) {
     return numstr + unit;
 }
 
-function optToJson(data, betId, optionalIndex) {
-    console.log(data, betId, optionalIndex);
-    if (!(typeof data === "string" && typeof betId === "number" && typeof optionalIndex === "number" && optionalIndex >= 0 && optionalIndex < 65536)) {
+function optToJson(content, betId, optionalIndex) {
+    console.log(content, betId, optionalIndex);
+    if (!(typeof content === "string" && isNumber(betId) && isNumber(optionalIndex) && optionalIndex >= 0 && optionalIndex < 65536)) {
         const message =
             "called optToJson poorly\n" +
-            (typeof data === "string" ? "" : "  • content is not a string\n") +
-            (typeof betId === "number" ? "" : "  • betId is not a number (int8)\n") +
-            (typeof betId === "number" ? "" : "  • optionalIndex (oid) is not a number (int2)\n") +
+            (typeof content === "string" ? "" : "  • content is not a string\n") +
+            (isNumber(betId) ? "" : "  • betId is not a number, expected int8, receieved " + typeof betId + "\n") +
+            (isNumber(optionalIndex) ? "" : "  • optionalIndex (oid) is not a number expected int2, receieved " + typeof optionalIndex + "\n") +
             (optionalIndex >= 0 && optionalIndex < 65536 ? "" : "  • oid is not properly bounded [0, 65536)");
         throw new Error(message);
     }
@@ -172,7 +172,7 @@ function optToJson(data, betId, optionalIndex) {
         winner: false,
         bid: betId,
         oid: optionalIndex,
-        content: data,
+        content: content,
     };
     return json;
 }

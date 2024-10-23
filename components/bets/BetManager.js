@@ -76,6 +76,8 @@ function AnonOption({ option, isSelected, setSelected }) {
 }
 
 function ControlPanel({ bet }) {
+    const [isOpen, setIsModalOpen] = useState(false);
+
     return (
         <div className="ctrl-panel">
             <button className="cancel">
@@ -86,7 +88,7 @@ function ControlPanel({ bet }) {
                 <Image src="/money.png" width={24} height={24} style={{ marginTop: "4px" }} />
                 Cash Winner
             </button>
-            <BetMGModal bet={bet} />
+            <BetMGModal bet={bet} isOpen={isOpen} />
         </div>
     );
 }

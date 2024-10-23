@@ -9,9 +9,6 @@
 }
 
 .create-bet form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     font-size: 16px;
 }
 
@@ -171,6 +168,10 @@ input[type="radio"] {
     font-size: 20px;
 }
 
+.create.bet select {
+    border-radius: 4px;
+}
+
 .create-bet select {
     padding: 3px;
 }
@@ -199,6 +200,10 @@ input[type="radio"] {
 }
 .moneyline-input input{
     margin-left: 10px;
+}
+
+.options-column {
+    grid-area: 1 / 1 / 3 / 2;
 }
 
 .options-input {
@@ -324,6 +329,11 @@ input[type="radio"] {
     color: var(--cta-button-hover-bg-color);
 }
 
+.create.bet {
+    display: flex;
+    flex-direction: column;
+}
+
 .create.bet button {
     background-color: transparent;
     border: none;
@@ -363,9 +373,14 @@ input[type="radio"] {
     width: calc(100% - 32px);
     height: 2em;
     font-family: "Arial", sans-serif;
-    max-width: calc(100% - 32px);
-    min-width: calc(100% - 32px);
+    max-width: calc(100% - 80px);
+    min-width: calc(100% - 80px);
+    height: fit-content;
     min-height: 2em;
+    resize: none;
+    margin-right: auto;
+    margin-left: 20px;
+    position: relative;
 }
 
 .highlightable label  {
@@ -502,4 +517,8 @@ input.option {
 .create.bet button.highlightable.submit:hover {
     background-color: var(--manifest) !important;
     cursor: not-allowed;
+}
+
+.line-box-container {
+    grid-area: 1 / 1 / 3 / 2;
 }

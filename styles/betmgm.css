@@ -2,20 +2,31 @@
     display: grid;
     grid-template-areas:
       ". . . . icons"
-      ". options options options ."
+      ". . . . ."
+      ". options options . ."
       ".  . . cancel cash";
-    grid-template-rows: 50px 1fr 40px;
+    grid-template-rows: 50px 1fr 1fr 40px;
     grid-template-columns: repeat(5, 145px);
 }
 
 .bet-manager.modal .icons {
     grid-area: icons;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
-.bet-manager.modal .options {
+.bet-manager.modal fieldset.options {
     grid-area: options;
     display: flex;
+    border-radius: 16px;
     flex-direction: column;
+    border: 1px solid var(--unimportant-text);
+    margin: auto 0;
+}
+
+.bet-manager.modal fieldset.options legend {
+    font-size: 14px;
+    color: var(--unimportant-text);
 }
 
 .bet-manager.modal .cancel {
@@ -56,7 +67,7 @@
     margin-bottom: 10px;
     font-size: 16px;
     font-weight: bold;
-    color: var(--soft-highlight); /* Text color using dark green */
+    color: var(--unimportant-text);
 }
 
 .bet-manager.modal label:hover {
@@ -65,4 +76,9 @@
 
 .bet-manager.modal label input[type="radio"] {
     margin-right: 10px; /* Add space between radio and label text */
+
+}
+
+.bet-option {
+    width: 100%;
 }

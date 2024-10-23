@@ -50,6 +50,7 @@ import "../styles/bet2.css";
 import "../styles/betpage.css";
 import "../styles/betmgm.css";
 import "../styles/customradio.css";
+import "../styles/datetime.css";
 
 Modal.setAppElement("#__next");
 

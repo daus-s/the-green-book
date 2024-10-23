@@ -1,36 +1,49 @@
-//helper file for all things circle, trig and geometry
-
+/**  _____     _________        _____       _____          _____  _________    ____________   _______    _____     ____
+ *  /  _  \    | _______)    ./       \    |     \        /    |  | _______) (____.  .____) |   _   \   \    \   /   /
+ * |  / \_/    | |          .|   ___   \   |      \      /     |  | |             |  |      |  | \   )   \    \_/  /
+ * | |         | |______   |    /   \   |  |   |\  \    /  /|  |  | |______       |  |      |  |_/   /    \       /
+ * | |   ____  |  ______)  |   |     |  |  |   | \  \  /  / |  |  |  ______)      |  |      |    __/       \     /
+ * | |  (__ /  | |         |    \   /   |  |   |  \  \/  /  |  |  | |             |  |      |     \         /   /
+ * | |   / /   | |         '|    '-'    /  |   |   \____/   |  |  | |             |  |      |  |\  \       /   /
+ * | \__/ /    | |______     \.       ./   |   |            |  |  | |______       |  |      |  | \  \     /   /
+ *  \____/     |________)      \_____/     |___|            |__|  |________)      |__|      |__|  \__\   /___/
+ *
+ *
+ * # Daus Carmichael
+ *
+ * ## A helper file for all things circle, trig and geometry
+ */
 
 /**
- * return the distance from the inscribed 
+ * return the distance from the inscribed
  * circle to the vertex of the bounding squarre
  * used to generate padding for "orbiting" elements
- * @param {number} width 
+ * @param {number} width
  * @returns {number}
  */
 function padding(width) {
-    return .414 * width;
+    return 0.414 * width;
 }
 
 /**
- * 
- * @param {set} gradians 
- * @param {number | string} radius 
+ *
+ * @param {set} gradians
+ * @param {number | string} radius
  */
 function carteFromAngle(gradians, radius) {
     let r = radius;
-    let θ = Math.PI*(1/2 - 2 * gradians.num/gradians.den); //θ=(π/2)-arctan(α: gradient)
-    if (typeof radius === 'number') {
+    let θ = Math.PI * (1 / 2 - (2 * gradians.num) / gradians.den); //θ=(π/2)-arctan(α: gradient)
+    if (typeof radius === "number") {
         return {
-            x: r*Math.cos(θ),
-            y: r*Math.sin(θ)
+            x: r * Math.cos(θ),
+            y: r * Math.sin(θ),
         };
     }
 }
 
 /**
- * 
- * @param {number} deg 
+ *
+ * @param {number} deg
  * @returns {number}
  */
 function antiRotation(deg) {
@@ -41,4 +54,4 @@ function antiRotation(deg) {
     return `${degrees}deg`;
 }
 
-module.exports = { antiRotation, padding, carteFromAngle}
+module.exports = { antiRotation, padding, carteFromAngle };
