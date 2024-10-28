@@ -30,6 +30,10 @@ supabase.env
 drawings/
 public/golfergif/
 public/xddlogo.png
+public/hourglass.gif
+public/.mockups/
+
+dmvscuffed.md 
 
 #
 components/ErrorWrapper.js

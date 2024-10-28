@@ -30,77 +30,36 @@
     border-radius: 50%;
 }
 
-.cldnr {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); 
-    grid-auto-rows: 1fr;
+.create.bet .react-calendar button {
+    padding: 0;
 }
 
-.cldnr .su {
-    grid-column: 1 / span 1;
+.react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
 }
 
-.cldnr .mo {
-    grid-column: 2 / span 1;
+.react-calendar__navigation * {
+    width: fit-content;
+    flex-grow: 0 !important;
 }
 
-.cldnr .tu {
-    grid-column: 3 / span 1;
+.react-calendar__navigation__arrow {
+    color: var(--unimportant-text);
 }
 
-.cldnr .we {
-    grid-column: 4 / span 1;
+.react-calendar__navigation__arrow:hover {
+    color: var(--bet-text-color);
 }
 
-.cldnr .th {
-    grid-column: 5 / span 1;
+.react-calendar__navigation__label__labelText {
+    color: var(--unimportant-text);
 }
 
-.cldnr .fr {
-    grid-column: 6 / span 1;
+.react-calendar__month-view__days__day {
+    color: var(--bright-text);
+} 
+
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: var(--manifest);
 }
-
-.cldnr .sa {
-    grid-column: 7 / span 1;
-}
-
-.cldnr .hd {
-    grid-area: 1 / 1 / 2 / 8;
-    background-color: var(--soft-highlight);
-    width: 100%;
-    height: 20px;
-}
-
-.cldnr .a {
-    grid-row: 1 / span 1;
-}
-
-.cldnr .b {
-    grid-row: 2 / span 1;
-}
-
-.cldnr .c {
-    grid-row: 3 / span 1;
-}
-
-.cldnr .d {
-    grid-row: 4 / span 1;
-}
-
-.cldnr .e {
-    grid-row: 5 / span 1;
-}
-
-.cldnr .f {
-    grid-row: 6 / span 1;
-}
-
-
-.cldrn .cb {
-
-}
-
-.cldrn .cb:hover {
-    background-color: var(--soft-highlight);
-}
-
