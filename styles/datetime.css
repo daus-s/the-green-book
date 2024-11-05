@@ -1,6 +1,6 @@
 .date-time-modal {
     background-color: var(--bet-background-color);
-    height: 160px;
+    height: 164px;
     width: 182px;
     border: 1px solid var(--manifest);
     z-index: 100;
@@ -28,6 +28,31 @@
     height: 34px;
     padding: 5px;
     border-radius: 50%;
+}
+
+.img-hover-wrapper:hover {
+    background-color: var(--soft-highlight);
+}
+
+button.react-calendar__tile:hover{
+    background-color: var(--infomercial);
+}
+
+.react-calendar__tile {
+    aspect-ratio: 1;
+    width: 24px;
+    border-radius: 3px;
+}
+
+
+.create.bet .react-calendar__tile.react-calendar__tile--active {
+    background-color: var(--your-pick);
+    border: 1px solid var(--table-border);
+}
+
+abbr[title] {
+    text-decoration: underline;
+    color: var(--unimportant-text);
 }
 
 .create.bet .react-calendar button {
