@@ -1,6 +1,6 @@
 .date-time-modal {
     background-color: var(--bet-background-color);
-    height: 160px;
+    height: 164px;
     width: 182px;
     border: 1px solid var(--manifest);
     z-index: 100;
@@ -30,77 +30,61 @@
     border-radius: 50%;
 }
 
-.cldnr {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); 
-    grid-auto-rows: 1fr;
-}
-
-.cldnr .su {
-    grid-column: 1 / span 1;
-}
-
-.cldnr .mo {
-    grid-column: 2 / span 1;
-}
-
-.cldnr .tu {
-    grid-column: 3 / span 1;
-}
-
-.cldnr .we {
-    grid-column: 4 / span 1;
-}
-
-.cldnr .th {
-    grid-column: 5 / span 1;
-}
-
-.cldnr .fr {
-    grid-column: 6 / span 1;
-}
-
-.cldnr .sa {
-    grid-column: 7 / span 1;
-}
-
-.cldnr .hd {
-    grid-area: 1 / 1 / 2 / 8;
-    background-color: var(--soft-highlight);
-    width: 100%;
-    height: 20px;
-}
-
-.cldnr .a {
-    grid-row: 1 / span 1;
-}
-
-.cldnr .b {
-    grid-row: 2 / span 1;
-}
-
-.cldnr .c {
-    grid-row: 3 / span 1;
-}
-
-.cldnr .d {
-    grid-row: 4 / span 1;
-}
-
-.cldnr .e {
-    grid-row: 5 / span 1;
-}
-
-.cldnr .f {
-    grid-row: 6 / span 1;
-}
-
-
-.cldrn .cb {
-
-}
-
-.cldrn .cb:hover {
+.img-hover-wrapper:hover {
     background-color: var(--soft-highlight);
 }
 
+button.react-calendar__tile:hover{
+    background-color: var(--infomercial);
+}
+
+.react-calendar__tile {
+    aspect-ratio: 1;
+    width: 24px;
+    border-radius: 3px;
+}
+
+
+.create.bet .react-calendar__tile.react-calendar__tile--active {
+    background-color: var(--your-pick);
+    border: 1px solid var(--table-border);
+}
+
+abbr[title] {
+    text-decoration: underline;
+    color: var(--unimportant-text);
+}
+
+.create.bet .react-calendar button {
+    padding: 0;
+}
+
+.react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+}
+
+.react-calendar__navigation * {
+    width: fit-content;
+    flex-grow: 0 !important;
+}
+
+.react-calendar__navigation__arrow {
+    color: var(--unimportant-text);
+}
+
+.react-calendar__navigation__arrow:hover {
+    color: var(--bet-text-color);
+}
+
+.react-calendar__navigation__label__labelText {
+    color: var(--unimportant-text);
+}
+
+.react-calendar__month-view__days__day {
+    color: var(--bright-text);
+} 
+
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: var(--manifest);
+}
