@@ -53,9 +53,7 @@ function Attributions() {
                 backgroundColor="var(--soft-highlight)"
             />
             <Attribution src="unfriend.png" href="https://www.flaticon.com/free-icons/heartbreak" desc="Heartbreak icons created by Freepik - Flaticon" />
-            <a href="https://www.flaticon.com/free-icons/heart" title="heart icons">
-                Heart icons created by Freepik - Flaticon
-            </a>
+
             <Attribution src="friends.png" href="https://www.flaticon.com/free-icons/heart" desc="Heart icons created by Freepik - Flaticon" />
             <Attribution src="addfriend.png" href="https://www.flaticon.com/free-icons/add-user" desc="Add user icons created by uicon - Flaticon" />
             <Attribution src="cancel.png" href="https://www.flaticon.com/free-icons/cancel" desc="Cancel icons created by Freepik - Flaticon" />
@@ -65,8 +63,10 @@ function Attributions() {
             <Attribution src="delete.png" href="https://www.flaticon.com/free-icons/trash-can" desc="Trash can icons created by Anggara - Flaticon" />
             <Attribution src="private.png" href="https://www.flaticon.com/free-icons/privacy-policy" desc="Privacy policy icons created by Anggara - Flaticon" />
             <Attribution src="earth.png" href="https://www.flaticon.com/free-icons/globe" desc="Globe icons created by Hilmy Abiyyu A. - Flaticon" />
-            <Attribution src="/crown.png" href="https://www.flaticon.com/free-icons/crown" desc="Crown icons created by feen - Flaticon" />
-            <Attribution src="/calendar.png" href="https://www.flaticon.com/free-icons/calendar" desc="Calendar icons created by Freepik - Flaticon" />
+            <Attribution src="crown.png" href="https://www.flaticon.com/free-icons/crown" desc="Crown icons created by feen - Flaticon" />
+            <Attribution src="calendar.png" href="https://www.flaticon.com/free-icons/calendar" desc="Calendar icons created by Freepik - Flaticon" />
+            <Attribution src="clock.png" href="https://www.flaticon.com/free-icons/clock" desc="Clock icons created by dmitri13 - Flaticon" />
+            <Attribution src="waiting.png" href="https://www.flaticon.com/free-icons/clock" desc="Clock icons created by CreativeCons - Flaticon" />
         </div>
     );
 }
