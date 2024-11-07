@@ -16,17 +16,17 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    color: var(--unimportant-text);
+    color: var(--icon-color);
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     padding-left: 47px;
     border-radius: 4px;
 }
 
 .img-hover-wrapper {
-    width: 34px;
-    height: 34px;
-    padding: 5px;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
     border-radius: 50%;
 }
 
