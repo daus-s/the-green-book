@@ -2,7 +2,7 @@
 ## theGreenBook
 ##### Daus Carmichael
 
-betties.app, formerly known as "The Green Book", is a web app that allows users to place bets with their friends. It was inspired by a tradition my roommates and teammates had: placing bets on any given event in a green scientific notebook. 
+[betties.app](betties.app), formerly known as "The Green Book", is a web app that allows users to place bets with their friends. It was inspired by a tradition my roommates and teammates had: placing bets on any given event in a green scientific notebook. 
 
 ### Abstract
 [betties.app](betties.app), a social betting app paying homage to its humble beginnings as a green notebook shared by some friends. Betties provides an intuitive UI wrapped around a Supabase backend with a complete security suite to ensure bets are only accessible to users who should be able to access them. Another advantage of betties.app is its ability to be asynchronous, allowing for bets to come in from across the world. It's certainly a step up from a notebook. 
